@@ -1,0 +1,352 @@
+package frame.login;
+//202145022 전우진
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+
+import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
+import javax.swing.WindowConstants;
+
+import frame.db.dbOpen;
+import frame.main.MainFrame;
+
+public class Login extends JFrame implements ActionListener, MouseListener, WindowListener{
+	
+	
+	private JPanel panelLeft;
+	private JPanel panelRight;
+	private JPanel panel1;
+	private JPanel panel2;
+	private JPanel panel3;
+	private JPanel panelWord;
+	private JTextField tfId;
+	private JPasswordField tfpw;
+	private JButton btnLogin;
+	private JButton btnCall;
+	private JButton btnJoin;
+	private JButton btnSearch;
+	private JLabel welcome;
+	private JLabel gym;
+	private PsCheckFrame ps;
+	private Font mainFont;
+	private Font subFont;
+	private Font southFont;
+	private AgreeFrame af;
+	private MainFrame mainFrame;
+	private JoinFrame joinFrame;
+	private JTextField joinId;
+	private JTextField joinPw;
+
+	private String result;
+	private String loginID; //로그인한 ID 확인용 변수
+	private dbOpen temp;
+	
+	public Login(String title) {
+		setTitle(title);
+		
+		setLocation(300, 300);
+		setSize(780, 480);
+		setLayout(new BorderLayout());
+		addWindowListener(this);
+		
+		
+		temp = new dbOpen();
+		
+		
+		mainFont = new Font("210 맨발의청춘 L", Font.BOLD, 22); // 메인 제목
+	    subFont = new Font("210 맨발의청춘 L", Font.PLAIN, 13); 
+	    southFont = new Font("210 맨발의청춘 L", Font.PLAIN, 14); // 오른쪽 하단
+		
+	    PanelLeft();
+		PanelRight();
+		
+		setVisible(true);
+	}
+
+	private void PanelLeft() {
+		JPanel panelLeft= new JPanel();
+		panelLeft.setLayout(null);
+		panelLeft.setPreferredSize(new Dimension(300, 50));
+		panelLeft.setBackground(Color.WHITE);
+		
+		// 로그인 화면 메인 이미지 출력
+		ImageIcon loginImg = new ImageIcon("imges/loginimg.png");
+		JLabel lblLogin = new JLabel(loginImg);
+		lblLogin.setBounds(28, 100, 240, 240);
+		panelLeft.add(lblLogin);
+		
+		add(panelLeft, BorderLayout.WEST);
+	}
+
+	private void PanelRight() {
+		panelRight = new JPanel();
+	
+		panelRight.setLayout(new GridLayout(3,1));
+		
+		Login();
+		
+		add(panelRight, BorderLayout.CENTER);
+		
+	}
+
+	private void Login() {
+		
+		Color skyblue = new Color(189, 215, 238);
+		// 로그인 화면 오른쪽 패널 첫번째 부분
+		panel1 = new JPanel();
+		panel1.setBackground(skyblue);
+		panel1.setLayout(new BorderLayout());
+		
+		// 로그인 화면 글씨
+		panelWord = new JPanel();
+		panelWord.setBackground(skyblue);
+		welcome = new JLabel("Welcome");
+		gym = new JLabel(" to 건강해GYM!");
+		      
+		welcome.setBackground(skyblue);
+		welcome.setForeground(Color.BLACK);
+		gym.setBackground(skyblue);
+		gym.setForeground(Color.WHITE);
+		welcome.setFont(mainFont);
+		gym.setFont(mainFont);
+		
+		panelWord.add(welcome);
+		panelWord.add(gym);
+		
+		panel1.add(panelWord,BorderLayout.SOUTH);
+		panelRight.add(panel1);
+		
+		// 로그인 화면 오른쪽 패널 두번째 부분
+		panel2 = new JPanel();
+		panel2.setBackground(skyblue);
+		panel2.setLayout(null);
+		panel2.setPreferredSize(new Dimension(100, 50));
+		
+		// 로그인 화면 텍스트 필드(아이디) 출력
+		tfId = new JTextField("아이디", 20);
+		tfId.setFont(subFont);
+		tfId.setBounds(98, 24, 180, 22);
+		tfId.setBorder(BorderFactory.createEmptyBorder()); // 텍스트 필드 테두리 없애기
+		
+		tfId.addMouseListener(this);
+		
+		panel2.add(tfId);
+		
+		// 로그인 화면 텍스트 필드 배경이미지 출력
+		ImageIcon imgId = new ImageIcon("imges/background_loginid.png");
+		JLabel lblId = new JLabel(imgId);
+		lblId.setBounds(88, 19, 200, 30);
+		panel2.add(lblId);
+		
+		// 로그인 화면 텍스트 필드(비밀번호) 출력
+		tfpw = new JPasswordField("비밀번호", 20);
+		tfpw.setFont(new Font("바탕체", 0, 13));
+		tfpw.setBounds(98, 64, 180, 22);
+		tfpw.setBorder(BorderFactory.createEmptyBorder());
+		
+		tfpw.addMouseListener(this);
+		
+		panel2.add(tfpw);
+		
+		// 로그인 화면 텍스트 필드 배경이미지 출력
+		ImageIcon imgPw = new ImageIcon("imges/background_loginid.png");
+		JLabel lblPw = new JLabel(imgPw);
+		lblPw.setBounds(88, 59, 200, 30);
+		panel2.add(lblPw);
+		
+		// 로그인 화면 로그인 잠금 버튼 이미지 출력
+		ImageIcon loginimg2 = new ImageIcon("imges/lock.png");
+		btnLogin = new JButton(loginimg2);
+		btnLogin.setBounds(300, 15, 80, 80);
+		btnLogin.setBorderPainted(false);
+		btnLogin.setContentAreaFilled(false);
+		
+		btnLogin.addActionListener(this);
+		
+		panel2.add(btnLogin);
+		
+		// 로그인 화면 직원 호출 출력
+		btnCall = new JButton("고객센터");
+		btnCall.setBounds(43, 80, 150, 80);
+		Color a = new Color(130, 130, 130);
+		btnCall.setForeground(a);
+		btnCall.setFont(southFont);
+		btnCall.setBorderPainted(false);
+		btnCall.setContentAreaFilled(false);
+		
+		btnCall.addActionListener(this);
+		
+		panel2.add(btnCall);
+		
+		// 로그인 화면 회원 가입 출력
+		btnJoin = new JButton("회원 가입");
+		btnJoin.setBounds(160, 80, 150, 80);
+		btnJoin.setForeground(Color.BLACK);
+		btnJoin.setFont(southFont);
+		btnJoin.setBorderPainted(false);
+		btnJoin.setContentAreaFilled(false);
+		
+		btnJoin.addActionListener(this);
+		
+		panel2.add(btnJoin);
+		
+		// 로그인 화면 비밀번호 찾기 출력
+		btnSearch = new JButton("비밀번호 찾기");
+		btnSearch.setBounds(265, 80, 150, 80);
+		btnSearch.setForeground(Color.BLACK);
+		btnSearch.setFont(southFont);
+		btnSearch.setBorderPainted(false);
+		btnSearch.setContentAreaFilled(false);
+		
+		btnSearch.addActionListener(this);
+		
+		panel2.add(btnSearch);
+		
+		panelRight.add(panel2);
+		
+		// 로그인 화면 그리드 세번째 패널(공백)
+		panel3 = new JPanel();
+		panel3.setBackground(skyblue);
+		panelRight.add(panel3);
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		Object obj = e.getSource();
+	
+		if(obj == btnCall) {
+			JOptionPane.showMessageDialog(this, "고객센터 전화번호는 032-256-3652 입니다.", "고객센터 안내", JOptionPane.INFORMATION_MESSAGE);
+		} else if(obj == btnJoin) {
+		//	af = new AgreeFrame("이용약관", jf);
+			joinFrame = new JoinFrame("회원가입");
+			
+		} else if(obj == btnSearch) {
+			ps = new PsCheckFrame("비밀번호 찾기", joinFrame);
+		} else if(obj == btnLogin) {
+			try {
+				JTextField joinId = joinFrame.getTfId();
+				JTextField joinPw = joinFrame.getTfPassword();
+				
+				String loginId = tfId.getText();
+				String loginpw = tfpw.getText();
+				
+				
+				// DB 연결
+				char[] tempPw = tfpw.getPassword();
+				result = "";
+				
+				for(char ch	: tempPw) {
+					Character.toString(ch);
+					result += ""+ch+"";
+				}	
+				
+				loginID = temp.loginSelect(this,tfId.getText(), result);
+				System.out.println(loginID); //로그인한 ID를 긁어옴
+				 
+				if(loginId.equals(joinId.getText())) {
+					if(loginpw.equals(joinPw.getText())) {
+						//btnLogin.setIcon(new ImageIcon("imges/unlock.png"));
+						mainFrame = new MainFrame("마이페이지");
+						this.dispose();
+					}else {
+						JOptionPane.showMessageDialog(this, "정보를 다시 확인해주세요.", "정보 오류", JOptionPane.ERROR_MESSAGE);
+					}
+				}
+			} catch (Exception e2) {
+				JOptionPane.showMessageDialog(this, "회원가입을 먼저 해주세요", "회원가입 오류", JOptionPane.ERROR_MESSAGE);
+			}
+			}
+			
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+
+	}
+	
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		Object obj = e.getSource();	
+		if(obj == tfId) {
+			tfId.setText("");
+		} else if(obj == tfpw) {
+			tfpw.setText("");
+		}
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowOpened(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowClosing(WindowEvent e) {
+		this.dispose();
+	}
+
+	@Override
+	public void windowClosed(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowIconified(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowDeiconified(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowActivated(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowDeactivated(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+}
