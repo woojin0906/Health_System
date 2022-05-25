@@ -1,7 +1,6 @@
-package frame.db;
-
 //작성자: 김지웅
 //DB 연결 및 기타 메소드
+package frame.db;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -14,6 +13,7 @@ import javax.swing.JTextField;
 
 import frame.login.JoinFrame;
 import frame.login.Login;
+import frame.login.PsCheckFrame;
 import frame.main.MainFrame;
 
 public class dbOpen {
@@ -106,7 +106,7 @@ public class dbOpen {
 	}
 	
 	//패스워드 초기화하는 힌트값 DB에서 긁어와서 검증하기
-	public void resetPW(String id, String inputHint) {
+	public void resetPW(PsCheckFrame pf, String id, String inputHint) {
 		try {
 			result = statement.executeQuery("select passwordhint from memberinfo where id = '" + id + "'" );
 		
@@ -117,12 +117,19 @@ public class dbOpen {
 			if(inputHint.equals(hint)) {
 				String sqlUpdate = "update memberinfo set password = '0000' where id = '" + id + "'";
 				statement.executeUpdate(sqlUpdate);
-				System.out.println("교체된 비밀번호는 '0000' 입니다. 로그인 후 비밀번호를 변경해 주세요.");
+				JOptionPane.showMessageDialog(pf, "힌트가 일치합니다. 비밀번호는 0000으로 초기화 됩니다.", "비밀번호 변경", JOptionPane.INFORMATION_MESSAGE);
+				pf.dispose();
 			}
 			else {
-				System.out.println("입력한 아이디 또는 힌트가 일치하지 않습니다.");
+				JOptionPane.showMessageDialog(pf, "아이디 또는 힌트가 일치하지 않습니다. ", "오류", JOptionPane.ERROR_MESSAGE);
+				if(JOptionPane.showConfirmDialog(pf, 
+						"힌트를 모르는 경우 고객센터로 전화하시겠습니까?",
+						"힌트 오류",
+						JOptionPane.YES_NO_OPTION
+						) == JOptionPane.YES_OPTION) {
+					JOptionPane.showMessageDialog(pf, "고객센터 전화번호는 032-256-3652 입니다.", "고객센테 안내", JOptionPane.INFORMATION_MESSAGE);
+					}
 			}
-			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -241,12 +248,13 @@ public class dbOpen {
 		return db_pw;
 	}
 	
-	public void checkID(JoinFrame jf, String idInput) {
+	public void checkID(JoinFrame jf, String idInput, JTextField tf) {
 		try {
 			result = statement.executeQuery("select id from memberinfo where id = '" + idInput + "'");
 			
 			if(result.next()) {
 				JOptionPane.showMessageDialog(jf, "이미 사용중인 아이디 입니다.");
+				tf.setText("");
 			}else {
 				JOptionPane.showMessageDialog(jf, "사용 가능한 아이디 입니다.");
 			}

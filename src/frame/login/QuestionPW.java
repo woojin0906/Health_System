@@ -17,25 +17,29 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 
+import frame.db.dbOpen;
 import frame.main.Bill;
 import frame.main.Ticket;
 
 public class QuestionPW extends JFrame implements ActionListener{
 	
 	private JButton submit;
-	private final String password = "java";
+	private String ID = "gomwoong";
 	private JPasswordField InputPW;
 	private Ticket TK;
 	private ChangeInfo CI;
 	private Font mainFont;
-	private Color def;
 	private Font pwFont;
+	private Color def;
 	private int ctrIndex;
+	private int period; // 이용권 증가시킬 기간 저장
+	private String dp_pw;
 	
 	//이용권 구매 프레임의 주소와 구분자를 받아오는 생성자
-	public QuestionPW(Ticket TK, int ctrIndex) {
+	public QuestionPW(Ticket TK, int ctrIndex, int period) {
 		this.TK = TK; //이용권 구매 프레임 주소 저장
 		this.ctrIndex = ctrIndex; //구분자 값 저장
+		this.period = period;
 		
 		setPanel(); //메인 패널 설정 생성자 호출
 		setVisible(true);
@@ -117,9 +121,14 @@ public class QuestionPW extends JFrame implements ActionListener{
 				result += ""+ch+"";
 			} //문자를 문자열로 변환
 			
-			if(result.equals(password)){ //비밀번호와 입력받은 비밀번호가 일치한다면 
+			dbOpen db = new dbOpen();
+			dp_pw = db.checkPW(ID);
+			
+			if(result.equals(dp_pw)){ //비밀번호와 입력받은 비밀번호가 일치한다면 
 				this.dispose(); //해당 서브프레임만 닫기
 				if(ctrIndex == 1) { 
+					dbOpen db2 = new dbOpen();
+					db2.plusPeriod(ID, period);
 					Bill bill = new Bill(TK); 
 					//생성자 매개변수로부터 전해받은 구분자를 통해 각기 다른 프로세스 실행
 					//구분자가 1일 경우, 영수증 프레임을 출력해야 하기 때문에 영수증 프레임 생성자 호출
@@ -127,6 +136,9 @@ public class QuestionPW extends JFrame implements ActionListener{
 				}else if(ctrIndex == 2){
 					JOptionPane.showMessageDialog(this, "정보를 수정합니다.", "알림",
 							JOptionPane.INFORMATION_MESSAGE);
+					dbOpen db2 = new dbOpen();
+					db2.chMemberInfo(ID, CI.getPwField(), CI.getPhoneField(), CI.getAddressField());
+					CI.dispose();
 				}
 			}else {
 				JOptionPane.showMessageDialog(this, "비밀번호가 틀립니다.",

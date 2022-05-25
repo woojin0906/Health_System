@@ -65,18 +65,38 @@ public class Login extends JFrame implements ActionListener, MouseListener, Wind
 		setLocation(300, 300);
 		setSize(780, 480);
 		setLayout(new BorderLayout());
+		setResizable(false);
 		addWindowListener(this);
 		
-		
 		temp = new dbOpen();
-		
 		
 		mainFont = new Font("210 맨발의청춘 L", Font.BOLD, 22); // 메인 제목
 	    subFont = new Font("210 맨발의청춘 L", Font.PLAIN, 13); 
 	    southFont = new Font("210 맨발의청춘 L", Font.PLAIN, 14); // 오른쪽 하단
 		
 	    PanelLeft();
-		PanelRight();
+	    PanelRight();
+	    
+		setVisible(true);
+	}
+	
+	public Login() { //DB 기능 붙이는거 끝나면 이 생성자 지우고 원래 생성자 다시 살리면 됨. (김지웅, 05. 26)
+		setTitle("로그인 화면");
+		
+		setLocation(300, 300);
+		setSize(780, 480);
+		setLayout(new BorderLayout());
+		setResizable(false);
+		addWindowListener(this);
+		
+		temp = new dbOpen();
+		
+		mainFont = new Font("210 맨발의청춘 L", Font.BOLD, 22); // 메인 제목
+	    subFont = new Font("210 맨발의청춘 L", Font.PLAIN, 13); 
+	    southFont = new Font("210 맨발의청춘 L", Font.PLAIN, 14); // 오른쪽 하단
+		
+	    PanelLeft();
+	    PanelRight();
 		
 		setVisible(true);
 	}
@@ -147,7 +167,7 @@ public class Login extends JFrame implements ActionListener, MouseListener, Wind
 		tfId.setFont(subFont);
 		tfId.setBounds(98, 24, 180, 22);
 		tfId.setBorder(BorderFactory.createEmptyBorder()); // 텍스트 필드 테두리 없애기
-		
+		tfId.addActionListener(this);
 		tfId.addMouseListener(this);
 		
 		panel2.add(tfId);
@@ -163,7 +183,7 @@ public class Login extends JFrame implements ActionListener, MouseListener, Wind
 		tfpw.setFont(new Font("바탕체", 0, 13));
 		tfpw.setBounds(98, 64, 180, 22);
 		tfpw.setBorder(BorderFactory.createEmptyBorder());
-		
+		tfpw.addActionListener(this);
 		tfpw.addMouseListener(this);
 		
 		panel2.add(tfpw);
@@ -242,38 +262,55 @@ public class Login extends JFrame implements ActionListener, MouseListener, Wind
 			
 		} else if(obj == btnSearch) {
 			ps = new PsCheckFrame("비밀번호 찾기", joinFrame);
-		} else if(obj == btnLogin) {
+		} else if(obj == btnLogin || obj == tfId || obj == tfpw) {
 			try {
-				JTextField joinId = joinFrame.getTfId();
-				JTextField joinPw = joinFrame.getTfPassword();
-				
-				String loginId = tfId.getText();
-				String loginpw = tfpw.getText();
-				
-				
-				// DB 연결
 				char[] tempPw = tfpw.getPassword();
 				result = "";
 				
 				for(char ch	: tempPw) {
 					Character.toString(ch);
 					result += ""+ch+"";
-				}	
-				
-				loginID = temp.loginSelect(this,tfId.getText(), result);
-				System.out.println(loginID); //로그인한 ID를 긁어옴
-				 
-				if(loginId.equals(joinId.getText())) {
-					if(loginpw.equals(joinPw.getText())) {
-						//btnLogin.setIcon(new ImageIcon("imges/unlock.png"));
-						mainFrame = new MainFrame(this);
-						this.dispose();
-					}else {
-						JOptionPane.showMessageDialog(this, "정보를 다시 확인해주세요.", "정보 오류", JOptionPane.ERROR_MESSAGE);
-					}
 				}
+				
+				dbOpen temp = new dbOpen();
+				temp.loginSelect(this, tfId.getText(), result);
+				//아래 주석처리한 코드 부분은 원래 기존 코드인데 정리가 필요할 것 같아 남깁니다.
+				//일단 제가 위에 코드로만 돌려도 동작은 되는데 의도한 별도로 의도한 기능이 있으실 수도 있어서
+				//남겨요.. 정리 부탁드릴게요 (김지웅, 0526 AM 04:26)
+//				JTextField joinId = joinFrame.getTfId();
+//				JTextField joinPw = joinFrame.getTfPassword();
+//				
+//				String loginId = tfId.getText();
+//				String loginpw = tfpw.getText();
+//				
+//				
+//				// DB 연결
+//				char[] tempPw = tfpw.getPassword();
+//				result = "";
+//				
+//				for(char ch	: tempPw) {
+//					Character.toString(ch);
+//					result += ""+ch+"";
+//				}	
+//				
+//				loginID = temp.loginSelect(this,tfId.getText(), result);
+//				System.out.println(loginID); //로그인한 ID를 긁어옴
+//				 
+//				if(loginId.equals(joinId.getText())) {
+//					if(loginpw.equals(joinPw.getText())) {
+//						//btnLogin.setIcon(new ImageIcon("imges/unlock.png"));
+//						mainFrame = new MainFrame(this);
+//						this.dispose();
+//					}else {
+//						JOptionPane.showMessageDialog(this, "정보를 다시 확인해주세요.", "정보 오류", JOptionPane.ERROR_MESSAGE);
+//					}
+//				}
 			} catch (Exception e2) {
-				JOptionPane.showMessageDialog(this, "회원가입을 먼저 해주세요", "회원가입 오류", JOptionPane.ERROR_MESSAGE);
+				if(tfId.getText().equals("") || result.equals(""))
+					JOptionPane.showMessageDialog(this, "아이디/비밀번호를 입력해주세요.", "로그인 오류", JOptionPane.ERROR_MESSAGE);
+				else {
+					JOptionPane.showMessageDialog(this, "아이디/비밀번호를 확인해주세요.", "로그인 오류", JOptionPane.ERROR_MESSAGE);
+				}
 			}
 			}
 			
@@ -321,7 +358,7 @@ public class Login extends JFrame implements ActionListener, MouseListener, Wind
 
 	@Override
 	public void windowClosing(WindowEvent e) {
-		this.dispose();
+		System.exit(0);
 	}
 
 	@Override

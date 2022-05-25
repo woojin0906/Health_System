@@ -1,11 +1,9 @@
 // 작성자: 김지웅
 // 개인정보 수정 프레임
-// 비밀번호랑 비밀번호 확인창의 값이 같은지를 비교하는 기능 추가하기(05.19)
 package frame.login;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -13,31 +11,46 @@ import java.awt.event.ActionListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
-import javax.swing.text.NumberFormatter;
 
+import frame.db.dbOpen;
 import frame.main.MainFrame;
 
 public class ChangeInfo extends JFrame implements ActionListener{
 	private Font mainFont;
 	private Font subFont;
 	//DB연결 전 임시 데이터 저장
-	private final String ID = "temp123";
-	private final String NAME = "홍길동";
-	private final String password = "javajava";
-	private final String phNum = "010-1234-5678";
-	private final String address = "제주 서귀포시 칠십리로 76길 68, 102호";
+	private final String ID = "gomwoong";
 	private JButton profile;
 	private Color def;
 	private JButton edit;
 	private Object obj;
 	private MainFrame mf;
+	private dbOpen db;
+	private JTextField nameField;
+	private JPasswordField pwField;
+	private JPasswordField pwCheckField;
+	private JTextField phoneField;
+	private JTextField addressField;
+	private JButton pwEdit;
 
+	public JPasswordField getPwField() {
+		return pwField;
+	}
+
+	public JTextField getPhoneField() {
+		return phoneField;
+	}
+
+	public JTextField getAddressField() {
+		return addressField;
+	}
+	
 	//201945012 MainFrame 연결
 	public ChangeInfo(MainFrame mf) {
 		this.mf = mf;
@@ -53,10 +66,31 @@ public class ChangeInfo extends JFrame implements ActionListener{
 		
 		setNorth(); //상단 패널 설정하는 생성자 호출
 		setCenter(); //중앙 패널 설정하는 생성자 호출
+		db = new dbOpen();
+		db.pullInfo(ID, nameField, phoneField, addressField, pwField, pwCheckField);
 		
 		setVisible(true);
 	}
+	
+	public ChangeInfo() {
+		setTitle("Change Info");
+		setBounds(100, 100, 360, 450);
+		setResizable(false); //창 크기 조절 불가능하게 만들기
+		setLocationRelativeTo(null); //정가운데 출력
+		setLayout(new BorderLayout());
 
+		mainFont = new Font("210 맨발의청춘 L", Font.BOLD, 20); // 메인 및 서브 컬러 RGB값 담는 객체 생성
+		subFont = new Font("210 맨발의청춘 L", 0, 13);
+		def = new Color(189, 215, 238); //별도로 사용할 글꼴의 세부사항 설정
+		
+		setNorth(); //상단 패널 설정하는 생성자 호출
+		setCenter(); //중앙 패널 설정하는 생성자 호출
+		db = new dbOpen();
+		db.pullInfo(ID, nameField, phoneField, addressField, pwField, pwCheckField);
+		
+		setVisible(true);
+	}
+	
 	private void setNorth() {
 		JPanel NorthPanel = new JPanel();
 		NorthPanel.setBackground(def);
@@ -135,7 +169,7 @@ public class ChangeInfo extends JFrame implements ActionListener{
 		CenterPanel.add(idField);
 		
 		//이름 텍스트 필드 붙이기
-		JTextField nameField = new JTextField(NAME, 11);
+		nameField = new JTextField(11);
 		nameField.setBorder(null);
 		nameField.setEditable(false);
 		nameField.setFont(subFont);
@@ -144,26 +178,39 @@ public class ChangeInfo extends JFrame implements ActionListener{
 		CenterPanel.add(nameField);
 		
 		//비밀번호 패스워드필드 붙이기
-		JPasswordField pwField = new JPasswordField();
+		pwField = new JPasswordField();
 		pwField.setBorder(null);
 		pwField.setBounds(80, 92, 115, 27);
+		pwField.setEditable(false);
+		pwField.setBackground(Color.WHITE);
 		CenterPanel.add(pwField);
 		
 		//비밀번호 확인 패스워드필드 붙이기
-		JPasswordField pwCheckField = new JPasswordField();
+		pwCheckField = new JPasswordField();
 		pwCheckField.setBorder(null);
 		pwCheckField.setBounds(210, 92, 115, 27);
+		pwCheckField.setEditable(false);
+		pwCheckField.setBackground(Color.WHITE);
 		CenterPanel.add(pwCheckField);
 		
 		//전화번호 텍스트필드 붙이기
-		JTextField phoneField = new JTextField(phNum, 11);
+		phoneField = new JTextField(11);
 		phoneField.setBorder(null);
 		phoneField.setFont(subFont);
 		phoneField.setBounds(80, 132, 115, 27);
 		CenterPanel.add(phoneField);
 		
+		//비밀번호 수정 버튼 붙이기
+		pwEdit = new JButton("비밀번호 수정");
+		pwEdit.setFont(subFont); 
+		pwEdit.setBounds(215, 122, 150, 27);
+		pwEdit.setBorderPainted(false);
+		pwEdit.setContentAreaFilled(false);
+		CenterPanel.add(pwEdit);
+		pwEdit.addActionListener(this);
+		
 		//주소 텍스트필드 붙이기
-		JTextField addressField = new JTextField(address, 20);
+		addressField = new JTextField(20);
 		addressField.setBorder(null);
 		addressField.setFont(subFont);
 		addressField.setBounds(80, 172, 245,  27);
@@ -185,8 +232,34 @@ public class ChangeInfo extends JFrame implements ActionListener{
 		
 		if(obj == profile) {
 			//파일입출력 부분
+		}else if(obj == pwEdit) {
+			pwField.setEditable(true);
+			pwField.setText("");
+			pwCheckField.setEditable(true);
+			pwCheckField.setText("");
 		}else if(obj == edit){
-			QuestionPW pw = new QuestionPW(this, 2); //수정 버튼 클릭시 비밀번호 확인 프레임 호출
+			char[] temp = pwField.getPassword();
+			String result = "";
+			String result2 = "";
+			
+			for(char ch	: temp) {
+				Character.toString(ch);
+				result += ""+ch+"";
+			}
+			
+			temp = pwCheckField.getPassword();
+			
+			for(char ch	: temp) {
+				Character.toString(ch);
+				result2 += ""+ch+"";
+			}
+			
+			if(result.equals(result2)) {
+				QuestionPW pw = new QuestionPW(this, 2); //수정 버튼 클릭시 비밀번호 확인 프레임 호출
+			}
+			else
+				JOptionPane.showMessageDialog(this, "입력한 비밀번호가 일치하지 않습니다.", "알림",
+						JOptionPane.INFORMATION_MESSAGE);
 		}
 	}
 }

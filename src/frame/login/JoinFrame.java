@@ -34,6 +34,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
@@ -52,8 +53,8 @@ public class JoinFrame extends JFrame implements MouseListener, ActionListener, 
 	private JLabel lblLoginInfo;
 	private JLabel lblAdmin;
 	private JTextField tfId;
-	private JTextField tfPassword;
-	private JTextField tfPsCheck;
+	private JPasswordField tfPassword;
+	private JPasswordField tfPsCheck;
 	private JTextField tfHint;
 	private JTextField tfName;
 	private JTextField tfPhone;
@@ -70,9 +71,8 @@ public class JoinFrame extends JFrame implements MouseListener, ActionListener, 
 	private ImageIcon profileImg;
 	private Login login;
 	private JButton btnOver;
-
 	private String joinImg;
-	private dbOpen temp;
+	private dbOpen db;
 
 	public JoinFrame(String title) {
 		setTitle(title);
@@ -81,10 +81,6 @@ public class JoinFrame extends JFrame implements MouseListener, ActionListener, 
 		setSize(340, 550);
 		setLayout(new BorderLayout());
 		addWindowListener(this);
-		
-		
-		temp = new dbOpen();
-		
 		
 		mainFont = new Font("210 맨발의청춘 L", Font.BOLD, 15); // 서브 정보
 	    subFont = new Font("210 맨발의청춘 L", Font.PLAIN, 13); 
@@ -178,10 +174,10 @@ public class JoinFrame extends JFrame implements MouseListener, ActionListener, 
 		panel2.add(lblover);
 	
 		// 회원가입 화면 텍스트 필드(비밀번호) 출력
-		tfPassword = new JTextField("비밀번호");
+		tfPassword = new JPasswordField("1111");
 		tfPassword.setBounds(20, 78, 130, 29);
 		tfPassword.setBorder(BorderFactory.createEmptyBorder());
-		tfPassword.setFont(subFont);
+		tfPassword.setFont(new Font("바탕체", 0, 14));
 
 		tfPassword.addMouseListener(this);
 		
@@ -194,10 +190,10 @@ public class JoinFrame extends JFrame implements MouseListener, ActionListener, 
 		panel2.add(lblPw);
 		
 		// 회원가입 화면 텍스트 필드(비밀번호 확인) 출력
-		tfPsCheck = new JTextField("비밀번호 확인");
+		tfPsCheck = new JPasswordField("1111");
 		tfPsCheck.setBounds(170, 78, 130, 29);
 		tfPsCheck.setBorder(BorderFactory.createEmptyBorder());
-		tfPsCheck.setFont(subFont);
+		tfPsCheck.setFont(new Font("바탕체", 0, 14));
 
 		tfPsCheck.addMouseListener(this);
 		
@@ -352,8 +348,8 @@ public class JoinFrame extends JFrame implements MouseListener, ActionListener, 
 			}
 		} else if(obj == btnNext) {
 			String id = tfId.getText();
-			String pw = tfPassword.getText();
-			String pwch = tfPsCheck.getText();
+			char[] pw = tfPassword.getPassword();
+			char[] pwch = tfPsCheck.getPassword();
 			String hint = tfHint.getText();
 			String name = tfName.getText();
 			String phone = tfPhone.getText();
@@ -368,15 +364,30 @@ public class JoinFrame extends JFrame implements MouseListener, ActionListener, 
 						|| pwch.equals("") || hint.equals("") 
 						|| name.equals("") || phone.equals("")
 						|| address.equals("")) {
-				 JOptionPane.showMessageDialog(this, "정보를 다시 확인해주세요.");
+				 JOptionPane.showMessageDialog(this, "입력 정보를 다시 확인해주세요.");
 				} else {
-					if(pw.equals(pwch)) {
-						if(pw.length() <= 8 && pw.length() >= 6 && pwch.length() <= 8 && pwch.length() >= 6) {
+					char[] temp = pw;
+					String resultpw = "";
+					String resultpwch = "";
+					
+					for(char ch	: temp) {
+						Character.toString(ch);
+						resultpw += ""+ch+"";
+					}
+					
+					temp = pwch;
+					
+					for(char ch	: temp) {
+						Character.toString(ch);
+						resultpwch += ""+ch+"";
+					}
+					
+					if(resultpw.equals(resultpwch)) {
+						if(resultpw.length() <= 8 && resultpw.length() >= 6 && resultpwch.length() <= 8 && resultpwch.length() >= 6) {
 							
 							// DB 연결
-							temp.infoInsert(tfId.getText(), tfName.getText(), tfPhone.getText(), tfAddress.getText(), tfPassword.getText(), tfHint.getText());
-							System.out.println("insert 완료");
-							
+							db = new dbOpen();
+							db.infoInsert(tfId.getText(), tfName.getText(), tfPhone.getText(), tfAddress.getText(), tfPassword.getText(), tfHint.getText());
 							JOptionPane.showMessageDialog(this, "회원가입이 완료 되었습니다");
 					this.dispose();
 					} else {
@@ -425,7 +436,9 @@ public class JoinFrame extends JFrame implements MouseListener, ActionListener, 
 		} else if(obj == btnOver) {
 			String id = tfId.getText();
 			if(id.length() >= 4) {
-				JOptionPane.showMessageDialog(this, "사용 가능한 아이디 입니다.");
+				db = new dbOpen();
+				db.checkID(this, id, tfId);
+//				JOptionPane.showMessageDialog(this, "사용 가능한 아이디 입니다.");
 			} else {
 				JOptionPane.showMessageDialog(this, "아이디는 4자리 이상으로 작성해주세요.");
 			} 

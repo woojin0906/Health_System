@@ -20,8 +20,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.UIManager;
-import javax.swing.plaf.FontUIResource;
 
 import frame.login.QuestionPW;
 
@@ -41,6 +39,7 @@ public class Ticket extends JFrame implements ActionListener, ItemListener {
 	private JComboBox<String> priceList;
 	private DecimalFormat priceFormat;
 	private MainFrame mf;
+	private int period;
 
 	public int getTotal() {
 		return total;
@@ -180,7 +179,7 @@ public class Ticket extends JFrame implements ActionListener, ItemListener {
 	
 		else if(obj == payment) {
 				if(total > 0) {
-					QuestionPW password = new QuestionPW(this, 1);
+					QuestionPW password = new QuestionPW(this, 1, period);
 					//이용권을 선택하고 결제버튼 누르면 비밀번호 확인 프레임 호출
 //					this.setEnabled(false); 모달창 대신 비활성화로 처리
 				}else {
@@ -212,26 +211,32 @@ public class Ticket extends JFrame implements ActionListener, ItemListener {
 		else if(obj.equals("1일 이용권")) {
 			Select.setText("1일 이용권");
 			total = 10000;
+			period = 1;
 		}
 		else if(obj.equals("7일 이용권")) {
 			Select.setText("7일 이용권");
 			total = 50000;
+			period = 7;
 		}
 		else if(obj.equals("1달 이용권")) {
 			Select.setText("1달 이용권");
 			total = 80000;
+			period = 30;
 		}
 		else if(obj.equals("3달 이용권")) {
 			Select.setText("3달 이용권");
 			total = 200000;
+			period = 90;
 		}
 		else if(obj.equals("6달 이용권")) {
 			Select.setText("6달 이용권");
 			total = 340000;
+			period = 180;
 		}
 		else if(obj.equals("1년 이용권")) {
 			Select.setText("1년 이용권");
 			total = 400000;
+			period = 365;
 		}
 		PriceMonitor.setText(priceFormat.format(total)); //설정한 데이터 포맷대로 라벨에 출력
 	}

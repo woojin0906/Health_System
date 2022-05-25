@@ -52,6 +52,7 @@ public class PsCheckFrame extends JFrame implements MouseListener, ActionListene
 		setLocation(250, 150);
 		setSize(362, 252);
 		setLayout(new BorderLayout());
+		setResizable(false);
 		addWindowListener(this);
 		
 		mainFont = new Font("210 맨발의청춘 L", Font.PLAIN, 15); 
@@ -126,7 +127,7 @@ public class PsCheckFrame extends JFrame implements MouseListener, ActionListene
 		tfHint.setFont(mainFont);
 		tfHint.setBorder(BorderFactory.createEmptyBorder());
 		tfHint.setBounds(134, 139, 185, 30);
-		
+		tfHint.addActionListener(this);
 		tfHint.addMouseListener(this);
 		
 		panelCenter.add(tfHint);
@@ -172,38 +173,38 @@ public class PsCheckFrame extends JFrame implements MouseListener, ActionListene
 					) == JOptionPane.YES_OPTION) {
 				JOptionPane.showMessageDialog(this, "032-258-2365");
 			}		
-		} else if(obj == btnCheck) { 
+		} else if(obj == btnCheck || obj == tfHint) { 
 			try {
+				dbOpen temp = new dbOpen();
+				temp.resetPW(this, tfId.getText(), tfHint.getText());
 				//joinFrame = new JoinFrame("회원가입");
-				JTextField joinId = joinFrame.getTfId();
-				JTextField joinHint = joinFrame.getTfHint();
-				JTextField joinPw = joinFrame.getTfPassword();
-				
-				String pwchId = tfId.getText();
-				String pwchHint = tfHint.getText();
-				
-				if(pwchId.equals(joinId.getText())) {
-					if(pwchHint.equals(joinHint.getText())) {
-						JOptionPane.showMessageDialog(this, "힌트가 일치합니다. 비밀번호는 0000으로 초기화 됩니다.", "비밀번호 변경", JOptionPane.INFORMATION_MESSAGE);
-						
-						// DB 연결
-						temp.resetPW(tfId.getText(), tfHint.getText());
-						
-						joinPw.setText("0000");
-						this.dispose();
-					} else {
-						JOptionPane.showMessageDialog(this, "힌트를 다시 작성해주세요. ", "힌트 오류", JOptionPane.ERROR_MESSAGE);
-						if(JOptionPane.showConfirmDialog(this, 
-								"힌트를 모르 경우 고객센터로 전화하시겠습니까?",
-								"힌트 오류",
-								JOptionPane.YES_NO_OPTION
-								) == JOptionPane.YES_OPTION) {
-							JOptionPane.showMessageDialog(this, "고객센터 전화번호는 032-256-3652 입니다.", "고객센테 안내", JOptionPane.INFORMATION_MESSAGE);
-						}
-					}
-				} else {
-					JOptionPane.showMessageDialog(this, "아이디를 다시 확인해주세요.", "아이디 오류", JOptionPane.ERROR_MESSAGE);
-				}
+//				JTextField joinId = joinFrame.getTfId();
+//				JTextField joinHint = joinFrame.getTfHint();
+//				JTextField joinPw = joinFrame.getTfPassword();
+//				
+//				String pwchId = tfId.getText();
+//				String pwchHint = tfHint.getText();
+//				
+//				if(pwchId.equals(joinId.getText())) {
+//					if(pwchHint.equals(joinHint.getText())) {
+//						JOptionPane.showMessageDialog(this, "힌트가 일치합니다. 비밀번호는 0000으로 초기화 됩니다.", "비밀번호 변경", JOptionPane.INFORMATION_MESSAGE);
+//						// DB 연결
+//						temp.resetPW(tfId.getText(), tfHint.getText());
+//						joinPw.setText("0000");
+//						this.dispose();
+//					} else {
+//						JOptionPane.showMessageDialog(this, "힌트를 다시 작성해주세요. ", "힌트 오류", JOptionPane.ERROR_MESSAGE);
+//						if(JOptionPane.showConfirmDialog(this, 
+//								"힌트를 모르 경우 고객센터로 전화하시겠습니까?",
+//								"힌트 오류",
+//								JOptionPane.YES_NO_OPTION
+//								) == JOptionPane.YES_OPTION) {
+//							JOptionPane.showMessageDialog(this, "고객센터 전화번호는 032-256-3652 입니다.", "고객센테 안내", JOptionPane.INFORMATION_MESSAGE);
+//						}
+//					}
+//				} else {
+//					JOptionPane.showMessageDialog(this, "아이디를 다시 확인해주세요.", "아이디 오류", JOptionPane.ERROR_MESSAGE);
+//				}
 			} catch (Exception e2) {
 				if(JOptionPane.showConfirmDialog(this, 
 						"일치하는 정보가 없습니다. 회원가입을 하시겠습니까?",
