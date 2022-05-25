@@ -82,7 +82,7 @@ public class dbOpen {
 			//입력한 비밀번호와 DB에 저장된 비밀번호가 일치하는지 검증
 			
 			if(pw.equals(inputPw)) {
-				mainFrame = new MainFrame("마이페이지");
+				mainFrame = new MainFrame(null);
 				frame.dispose();
 			} else {
 				JOptionPane.showMessageDialog(frame, "정보를 다시 확인해주세요.", "정보 오류", JOptionPane.ERROR_MESSAGE);

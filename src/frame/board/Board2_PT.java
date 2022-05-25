@@ -18,6 +18,8 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.plaf.DimensionUIResource;
 
+import frame.main.MainFrame;
+
 public class Board2_PT extends JFrame implements ActionListener{
 	
 	
@@ -31,10 +33,12 @@ public class Board2_PT extends JFrame implements ActionListener{
 	private JButton btnWrite;
 	private JScrollPane sp;
 	private Color skyblue;
+	private MainFrame mf;
 
-	public Board2_PT(String title) {
+	public Board2_PT(MainFrame mf) {
+		this.mf = mf;
 		skyblue = new Color(189, 215, 238);
-		setTitle(title);
+		setTitle("PT 게시판");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocation(300, 300);
 		setSize(420, 600);

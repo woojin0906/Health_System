@@ -7,6 +7,8 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
@@ -26,7 +28,7 @@ import javax.swing.WindowConstants;
 import frame.db.dbOpen;
 import frame.main.MainFrame;
 
-public class Login extends JFrame implements ActionListener, MouseListener, WindowListener{
+public class Login extends JFrame implements ActionListener, MouseListener, WindowListener, KeyListener{
 	
 	
 	private JPanel panelLeft;
@@ -57,8 +59,8 @@ public class Login extends JFrame implements ActionListener, MouseListener, Wind
 	private String loginID; //로그인한 ID 확인용 변수
 	private dbOpen temp;
 	
-	public Login(String title) {
-		setTitle(title);
+	public Login(MainFrame mf) {
+		setTitle("로그인 화면");
 		
 		setLocation(300, 300);
 		setSize(780, 480);
@@ -140,6 +142,8 @@ public class Login extends JFrame implements ActionListener, MouseListener, Wind
 		
 		// 로그인 화면 텍스트 필드(아이디) 출력
 		tfId = new JTextField("아이디", 20);
+		tfId.setFocusTraversalKeysEnabled(false);
+		tfId.addKeyListener(this);
 		tfId.setFont(subFont);
 		tfId.setBounds(98, 24, 180, 22);
 		tfId.setBorder(BorderFactory.createEmptyBorder()); // 텍스트 필드 테두리 없애기
@@ -262,7 +266,7 @@ public class Login extends JFrame implements ActionListener, MouseListener, Wind
 				if(loginId.equals(joinId.getText())) {
 					if(loginpw.equals(joinPw.getText())) {
 						//btnLogin.setIcon(new ImageIcon("imges/unlock.png"));
-						mainFrame = new MainFrame("마이페이지");
+						mainFrame = new MainFrame(this);
 						this.dispose();
 					}else {
 						JOptionPane.showMessageDialog(this, "정보를 다시 확인해주세요.", "정보 오류", JOptionPane.ERROR_MESSAGE);
@@ -346,6 +350,28 @@ public class Login extends JFrame implements ActionListener, MouseListener, Wind
 
 	@Override
 	public void windowDeactivated(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	//202945012 윤선호
+	//아이디 입력 후 TAB키 입력하면 비밀번호 입력 칸으로 이동
+	public void keyPressed(KeyEvent e) {
+		if(e.getKeyCode() == KeyEvent.VK_TAB) {
+			tfpw.requestFocus();
+			tfpw.setText("");
+		}
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
 		// TODO Auto-generated method stub
 		
 	}

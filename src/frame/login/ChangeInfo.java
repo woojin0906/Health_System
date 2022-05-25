@@ -21,6 +21,8 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.text.NumberFormatter;
 
+import frame.main.MainFrame;
+
 public class ChangeInfo extends JFrame implements ActionListener{
 	private Font mainFont;
 	private Font subFont;
@@ -34,8 +36,11 @@ public class ChangeInfo extends JFrame implements ActionListener{
 	private Color def;
 	private JButton edit;
 	private Object obj;
+	private MainFrame mf;
 
-	public ChangeInfo() {
+	//201945012 MainFrame 연결
+	public ChangeInfo(MainFrame mf) {
+		this.mf = mf;
 		setTitle("Change Info");
 		setBounds(100, 100, 360, 450);
 		setResizable(false); //창 크기 조절 불가능하게 만들기

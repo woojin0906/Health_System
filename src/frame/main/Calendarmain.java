@@ -8,6 +8,10 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
 import java.util.Calendar;
@@ -18,8 +22,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-//2022-05-18 201945012 윤선호 달력
-class Calendarmain extends JFrame implements ActionListener{
+//2022-05-20 201945012 윤선호 WindowListener 추가
+class Calendarmain extends JFrame implements ActionListener, MouseListener, WindowListener{
 	
 	Container container = getContentPane();
 	JPanel panel1 = new JPanel();
@@ -37,14 +41,20 @@ class Calendarmain extends JFrame implements ActionListener{
 	CalendarFunction cf = new CalendarFunction();
 	private Date nowtoday;
 	private JLabel lblToday;
+	private JButton check_button;
+	private MemoFrame mf;
+	private MainFrame Mf;
 	
-	public Calendarmain(String title) {
-		setTitle(title);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	public Calendarmain(MainFrame Mf) {
+		this.Mf = Mf;
+		setTitle("달력");
+		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(800, 600);
 		setLocation(250, 150);
 		init();
-		
+		this.addWindowListener(this);
+		setLocationRelativeTo(null);
+		setResizable(false);
 		setVisible(true);
 	}
 	
@@ -76,6 +86,7 @@ class Calendarmain extends JFrame implements ActionListener{
 		 
 		 label.setFont(font);
 		 label.setText(cf.getCalText());
+		 System.out.println(cf.getCalText()); 
 		 
 		 panel2.setLayout(new GridLayout(7, 7));
 		 
@@ -85,10 +96,11 @@ class Calendarmain extends JFrame implements ActionListener{
 		 
 		 for(int i = 0; i < buttons.length; i++) {
 			 buttons[i] = new JButton();
-			 //buttons[i].addActionListener(this);
 			 buttons[i].setBackground(Color.white);
 			 panel2.add(buttons[i]);
 			 buttons[i].setFont(new Font("210 맨발의 청춘 L", Font.BOLD, 16));
+			 buttons[i].addMouseListener(this);
+			 //buttons[i].addActionListener(this);
 			 
 			 //오늘 날짜 버튼 글자색 변경
 			 //if(i == date) buttons[i].setForeground(Color.green);
@@ -114,6 +126,88 @@ class Calendarmain extends JFrame implements ActionListener{
 		}
 		cf.allInit(gap);
 		label.setText(cf.getCalText());		// 년 월 글자 갱신		
+	}
+	
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		
+		//2022-05-19 윤선호 날짜 버튼 한번 클릭하면 메모창이 켜진다.
+		if(e.getClickCount() == 1) {
+			check_button = (JButton)e.getSource();
+			String btn_num = String.valueOf(check_button.getText());
+			mf = new MemoFrame("메모프레임", this);
+			System.out.println(btn_num);
+		}
+		//날짜 버튼을 두번 클릭하면 배경색이 초록색으로 바뀐다.
+		//이렇게 해서 헬스장 출석을 했는지 확인
+		else if(e.getClickCount() == 2) {
+			check_button.setBackground(Color.green);
+		}
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowOpened(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowClosing(WindowEvent e) {
+		this.dispose();
+	}
+
+	@Override
+	public void windowClosed(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowIconified(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowDeiconified(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowActivated(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowDeactivated(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
 	}	
 }
 

@@ -40,12 +40,14 @@ public class Ticket extends JFrame implements ActionListener, ItemListener {
 	private JButton cancle;
 	private JComboBox<String> priceList;
 	private DecimalFormat priceFormat;
+	private MainFrame mf;
 
 	public int getTotal() {
 		return total;
 	}
-
-	public Ticket() {
+//201945012 윤선호 MainFrame 연결
+	public Ticket(MainFrame mf) {
+		this.mf = mf;
 		setTitle("이용권 구매하기");
 		setBounds(95, 100, 350, 350);
 		setResizable(false); //창 크기 조절 불가능하게 만들기
