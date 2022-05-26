@@ -70,7 +70,7 @@ public class dbOpen {
 	}
 	
 	//로그인 검증, id값 돌려쓰기 위해서 String으로 id 리턴
-	public String loginSelect(Login frame, String inputId, String inputPw) {
+	public void loginSelect(Login frame, String inputId, String inputPw) {
 		String id = inputId;
 		
 		try {
@@ -82,7 +82,7 @@ public class dbOpen {
 			//입력한 비밀번호와 DB에 저장된 비밀번호가 일치하는지 검증
 			
 			if(pw.equals(inputPw)) {
-				mainFrame = new MainFrame(null);
+				mainFrame = new MainFrame(frame, id);
 				frame.dispose();
 			} else {
 				JOptionPane.showMessageDialog(frame, "정보를 다시 확인해주세요.", "정보 오류", JOptionPane.ERROR_MESSAGE);
@@ -102,7 +102,6 @@ public class dbOpen {
 				e.printStackTrace();
 			}
 		}
-		return id;
 	}
 	
 	//패스워드 초기화하는 힌트값 DB에서 긁어와서 검증하기

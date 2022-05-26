@@ -50,8 +50,10 @@ public class MainFrame extends JFrame implements Runnable, ActionListener, Windo
 	private JButton btn_cal;
 	private JLabel lbl_day;
 	private JLabel lbl_coment;
+	private String id; //로그인 한 계정의 id값을 받아옴.
 
-	public MainFrame(Login login) {
+	public MainFrame(Login login, String id) {
+		this.id = id;
 		setTitle("메인 화면");
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setLocation(300,200);
@@ -172,7 +174,7 @@ public class MainFrame extends JFrame implements Runnable, ActionListener, Windo
 		//달력 화면 이동 이미지버튼
 		ImageIcon cal_icon = new ImageIcon("imges/calender.png");
 		JLabel cal_label = new JLabel(cal_icon);
-		cal_label.setBounds(70, 4, 140, 80);
+		cal_label.setBounds(70, 0, 140, 80);
 		btn_cal = new JButton();
 		btn_cal.setContentAreaFilled(false);
 		btn_cal.setBorderPainted(false);
@@ -183,7 +185,7 @@ public class MainFrame extends JFrame implements Runnable, ActionListener, Windo
 		//이용권 구매 이미지버튼
 		ImageIcon ticket_icon = new ImageIcon("imges/buy_ticket.png");
 		JLabel buy_label = new JLabel(ticket_icon);
-		buy_label.setBounds(160, 8, 200, 80);
+		buy_label.setBounds(170, 9, 200, 80);
 		btn_buy = new JButton();
 		btn_buy.setContentAreaFilled(false);
 		btn_buy.setBorderPainted(false);
@@ -194,7 +196,7 @@ public class MainFrame extends JFrame implements Runnable, ActionListener, Windo
 		//자유게시판 이동 이미지버튼
 		ImageIcon frcm_icon = new ImageIcon("imges/comm_community.png");
 		JLabel comm_label = new JLabel(frcm_icon);
-		comm_label.setBounds(340, 6, 100, 80);
+		comm_label.setBounds(360, 15, 100, 80);
 		btn_board1 = new JButton();
 		btn_board1.setContentAreaFilled(false);
 		btn_board1.setBorderPainted(false);
@@ -205,18 +207,18 @@ public class MainFrame extends JFrame implements Runnable, ActionListener, Windo
 		//PT 게시판 이동 이미지버튼
 		ImageIcon PT_icon = new ImageIcon("imges/health_community.png");
 		JLabel pt_label = new JLabel(PT_icon);
-		pt_label.setBounds(460, 6, 100, 80);
+		pt_label.setBounds(500, 8, 100, 80);
 		btn_board2 = new JButton();
 		btn_board2.setContentAreaFilled(false);
 		btn_board2.setBorderPainted(false);
-		btn_board2.setBounds(480, 6, 140, 100);
+		btn_board2.setBounds(480, 5, 140, 100);
 		btn_board2.setPreferredSize(new Dimension(140, 40)); // 버튼 크기 설정
 		btn_board2.addActionListener(this);
 		
 		//회원정보 수정 이미지 버튼
 		ImageIcon my_icon = new ImageIcon("imges/edit_info.png");
 		JLabel edit_label = new JLabel(my_icon);
-		edit_label.setBounds(570, 4, 120, 80);
+		edit_label.setBounds(615, -6, 120, 80);
 		btn_modify = new JButton();
 		btn_modify.setContentAreaFilled(false);
 		btn_modify.setBorderPainted(false);
