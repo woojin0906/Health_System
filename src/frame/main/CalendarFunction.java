@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.util.Calendar;
 
 import javax.swing.JButton;
-//2022-05-16 201945012 윤선호 달력
+//2022-05-26 201945012 윤선호 달력
 public class CalendarFunction {
 	JButton[] buttons;
 	Calendar cal = Calendar.getInstance();
@@ -18,8 +18,11 @@ public class CalendarFunction {
 		this.buttons = buttons;
 	}
 	
-	public String getCalText() {
-		return "    " + year + "년 " + month + "월" + "    ";
+	public String getCalYearText() {
+		return "    " + year + "년 ";
+	}
+	public String getCalMonthText() {
+		return "  " + month + "월" + "    ";
 	}
 	// 버튼에 날짜 출력
 	public void calSet() {
@@ -35,6 +38,7 @@ public class CalendarFunction {
 			// buttons[0] ~ [6] : 일 ~ 토
 			// buttons[7] ~     : 날짜 출력
 			buttons[6 + firstDay + i].setText(String.valueOf(i));
+			//System.out.println(String.valueOf(i));
 		}		
 		buttons[0].setBackground(new Color(230, 50, 50));
 		buttons[6].setBackground(new Color(50, 80, 230));

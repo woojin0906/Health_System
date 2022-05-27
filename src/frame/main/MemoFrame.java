@@ -13,7 +13,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 // 메모창 전우진
-//2022-05-19 윤선호 추가
+//2022-05-26 윤선호 메모장에 선택한 달력 날짜 출력
 public class MemoFrame extends JFrame implements ActionListener {
 
 	private JPanel panelNorth;
@@ -36,10 +36,15 @@ public class MemoFrame extends JFrame implements ActionListener {
 	private JLabel todayLab;
 	private Calendarmain cm;
 	private String btn_num;
+	private String str;
+	private Calendarmain calendarmain;
 	
-	public MemoFrame(String title, Calendarmain cm) {
+	public MemoFrame(String title, Calendarmain calendarmain) {
+		this.calendarmain = calendarmain;
+		
+		//calendarmain.getStr()
 		setTitle(title);
-		this.cm = cm;
+		//this.cm = cm;
 		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocation(250, 150);
 		setSize(300, 300);
@@ -55,8 +60,8 @@ public class MemoFrame extends JFrame implements ActionListener {
 		panelNorth = new JPanel();
 		//lblDate = new JLabel("2022/5/15 (Today)");
 		//panelNorth.add(lblDate);
-		String num_day = btn_num;
-		todayLab = new JLabel(today.get(Calendar.MONTH)+1+"/" + num_day + "/" + today.get(Calendar.YEAR));
+		//각 날짜별로 메모장에 날짜 출력 2022-05-26 윤선호
+		todayLab = new JLabel(calendarmain.getLabel_year().getText() + calendarmain.getLabel_month().getText() + calendarmain.getStr() +"일");
 		
 		//today.get(Calendar.DAY_OF_MONTH) 
 		
@@ -102,7 +107,7 @@ public class MemoFrame extends JFrame implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object obj =  e.getSource();
-		
+		//윤선호 저장 버튼 누르면 DB에 추가되게 해야함 0528 시작 예정
 		if(obj == btnClear) {
 			taMemo.setText("");
 		} 

@@ -8,6 +8,9 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -20,8 +23,10 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.plaf.DimensionUIResource;
 
+import frame.db.DB;
 
-public class BoardEdit extends JFrame implements ActionListener{
+
+public class BoardEdit extends JFrame implements ActionListener, WindowListener{
 	private Font mainFont;
 	private JTextArea ta;
 	private JScrollPane sp;
@@ -40,17 +45,23 @@ public class BoardEdit extends JFrame implements ActionListener{
 	private JButton btn3;
 	private JTextField tfcomment;
 	private Color skyblue2;
-
+	private ArrayList<String> al;
+	private int bdi;
+	private Board bd;
 	
-	public BoardEdit(String title) {
-		setTitle(title);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	public BoardEdit(ArrayList<String> al) {
+
+		this.al = al;
+		setTitle("게시물 댓글 및 삭제");
+		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocation(200, 200);
 		setSize(450, 643);
 		setLayout(new BorderLayout());
 		skyblue = new Color(189, 215, 238);
 		mainFont = new Font("210 맨발의청춘 L", 0, 16);
 		
+		//System.out.println(al.get(0));
+		addWindowListener(this);
 		setNorth();
 		setCenter();
 		
@@ -67,7 +78,7 @@ public class BoardEdit extends JFrame implements ActionListener{
 	      NorthPanel.setPreferredSize(new DimensionUIResource(100,160));
 	      NorthPanel.setBackground(skyblue);
 	      
-	      String[] name = {"제목", "작성일자", "작성자", "카테고리"}; 
+	      String[] name = {"제목", "작성자", "작성일자", "카테고리"}; 
 	      
 	      JLabel[] TxValue = new JLabel[4];
 	   
@@ -91,6 +102,7 @@ public class BoardEdit extends JFrame implements ActionListener{
 	         TxField[i] =  new JTextField(15);
 	         TxField[i].setBounds(x, y, 310, 20);
 	         TxField[i].setBorder(BorderFactory.createEmptyBorder());
+	         TxField[i].setText(al.get(i+1));
 	         TxField[i].setFont(new Font("210 맨발의청춘 L", Font.PLAIN, 12));
 	         NorthPanel.add(TxField[i]);
 	      }
@@ -111,7 +123,6 @@ public class BoardEdit extends JFrame implements ActionListener{
 	    	  NorthPanel.add(lblimg[i]);
 	      }
 	      
-	          
 	      add(NorthPanel, BorderLayout.NORTH);
 		
 	}
@@ -126,6 +137,7 @@ public class BoardEdit extends JFrame implements ActionListener{
 		ta =new  JTextArea(8,30);
 		ta.setFont(new Font("210 맨발의청춘 L", Font.PLAIN, 13));
 		ta.setLineWrap(true);
+		ta.setText(al.get(5));
 		sp = new JScrollPane(ta, 
 				JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, 
 				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
@@ -153,7 +165,7 @@ public class BoardEdit extends JFrame implements ActionListener{
 		panel2.add(btn2);
 		TextPanel.add(panel2, BorderLayout.NORTH);
 		
-	      add(TextPanel, BorderLayout.CENTER);
+	    add(TextPanel, BorderLayout.CENTER);
 		
 	}
 	
@@ -169,6 +181,7 @@ public class BoardEdit extends JFrame implements ActionListener{
 		panelS1.add(lblcomment);
 		SouthPanel.add(panelS1, BorderLayout.NORTH);
 		
+		//댓글 목록 TextArea
 		panelS2 = new JPanel();
 		panelS2.setBackground(skyblue);
 		ta2 =new  JTextArea(8,30);
@@ -187,10 +200,13 @@ public class BoardEdit extends JFrame implements ActionListener{
 		panelS3.setPreferredSize(new DimensionUIResource(100, 70));
 		panelS3.setBackground(skyblue);
 		
+		//댓글 입력 TextField
 		tfcomment = new JTextField(20);
 		tfcomment.setBounds(15, 20, 300, 20);
 		tfcomment.setBorder(BorderFactory.createEmptyBorder());
 		tfcomment.setFont(new Font("210 맨발의청춘 L", Font.PLAIN, 14));
+		//엔터 입력하면 댓글이 추가된다.
+		tfcomment.addActionListener(this);
 		panelS3.add(tfcomment);
 		
 		//답글 이미지
@@ -199,10 +215,12 @@ public class BoardEdit extends JFrame implements ActionListener{
 		lblcomment.setBounds(8, 3, 330, 50);
 		panelS3.add(lblcomment);
 		
+		//댓글 버튼
 		btn3 = new JButton(new ImageIcon("imges/comment2_3.png"));	
 		btn3.setBounds(330, 8, 100, 40);
 		btn3.setBorderPainted(false);
 		btn3.setContentAreaFilled(false);
+		btn3.addActionListener(this);
 		
 		panelS3.add(btn3);
 		SouthPanel.add(panelS3, BorderLayout.SOUTH);
@@ -212,11 +230,76 @@ public class BoardEdit extends JFrame implements ActionListener{
 		add(SouthPanel, BorderLayout.SOUTH);
 	}
 
-
+	//2022-05-27 윤선호 선택한 게시물에 대한 댓글 불러오기
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		Boardwrite2 bw2 = new Boardwrite2(null);
+		Object obj = e.getSource();
+		//Boardwrite2 bw2 = new Boardwrite2(null);
+		if(obj == tfcomment || obj == btn3) {
+			ta2.append(tfcomment.getText() + "\n");
+			//tfcomment.setText("");
+			
+			//현재 선택한 게시물의 글번호를 가져옴
+			bdi = Integer.parseInt(al.get(0).toString());
+			System.out.println(bdi);
 		
+			DB db = new DB(this);
+			//int in = Integer.parseInt(bd.getAl().get(0));
+			System.out.println(al.get(1));
+			db.BDCMT(al.get(0), tfcomment.getText());
+			tfcomment.setText("");
+			db.DisplayCMT(al.get(0));
+			
+		}
+		
+	}
+
+	@Override
+	public void windowOpened(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowClosing(WindowEvent e) {
+		this.dispose();
+		Board bd = new Board(null);
+		bd.dispose();
+	}
+
+	@Override
+	public void windowClosed(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowIconified(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowDeiconified(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowActivated(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowDeactivated(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	public JTextArea getTa2() {
+		return ta2;
 	}
 	
 }

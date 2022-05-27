@@ -7,6 +7,8 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.lang.reflect.Member;
 import java.sql.DriverManager;
 import java.sql.Connection;
@@ -28,6 +30,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.border.Border;
 import javax.swing.event.CellEditorListener;
 import javax.swing.plaf.DimensionUIResource;
@@ -36,10 +39,12 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableModel;
+
+import frame.db.DB;
 import frame.main.MainFrame;
 
 
-public class Board extends JFrame implements ActionListener{
+public class Board extends JFrame implements ActionListener, MouseListener{
 	private JButton btn_Insert, btn_Delete, btn_Exit;
 	private String[][]datas = new String[0][7];
 	private String[] title = {"글번호", "제목", "작성자", "작성날짜", "내용", "분류","비고"};
@@ -63,6 +68,10 @@ public class Board extends JFrame implements ActionListener{
 	private JScrollPane sp;
 	private MainFrame mf;
 	private JPanel bdpanel;
+	private ArrayList<String> al;
+	private TableModel data;
+	private BoardEdit be;
+	private String pre_i;
 
 	public Board(MainFrame mf) {
 		skyblue = new Color(189, 215, 238);
@@ -87,6 +96,8 @@ public class Board extends JFrame implements ActionListener{
 	public class TableCell extends AbstractCellEditor implements TableCellEditor, TableCellRenderer, ActionListener {
 		JButton btn_modify;
 		private ArrayList<String> al;
+		private TableModel data;
+		private String pre_i;
 		
 		public TableCell() {
 			btn_modify = new JButton("수정");
@@ -114,14 +125,14 @@ public class Board extends JFrame implements ActionListener{
 				int col = table.getSelectedColumn();
 				
 				//테이블의 모델 객체 받아온다
-				TableModel data = table.getModel();
-				//제목, 작성자, 작성날짜, 내용, 분류
-				String pre_i = (String)data.getValueAt(row, 0);
+				data = table.getModel();
+				//글번호, 제목, 작성자, 작성날짜, 내용, 분류
+				pre_i = (String)data.getValueAt(row, 0);
 				String pre_title = (String)data.getValueAt(row, 1);
 				String pre_writer = (String)data.getValueAt(row, 2);
 				String pre_writeday = (String)data.getValueAt(row, 3);
 				String pre_content = (String)data.getValueAt(row, 4);
-				
+				String pre_category = (String)data.getValueAt(row, 5);
 				
 				System.out.println(pre_i);
 				System.out.println(Integer.parseInt((pre_i).toString()) + 2);
@@ -129,6 +140,7 @@ public class Board extends JFrame implements ActionListener{
 				System.out.println(pre_writer);
 				System.out.println(pre_writeday);
 				System.out.println(pre_content);
+				System.out.println(pre_category);
 				
 				al = new ArrayList<>();
 				al.add(pre_i);
@@ -136,8 +148,10 @@ public class Board extends JFrame implements ActionListener{
 				al.add(pre_writer);
 				al.add(pre_writeday);
 				al.add(pre_content);
+				al.add(pre_category);
 				
 				Boardwrite2 bd2 = new Boardwrite2(al);
+				//BoardEdit be = new BoardEdit(al);
 			}
 		}
 
@@ -226,10 +240,16 @@ public class Board extends JFrame implements ActionListener{
 		//테이블 크기 조절
 		table.getColumnModel().getColumn(0).setPreferredWidth(30);
 		table.getColumnModel().getColumn(1).setPreferredWidth(150);
-		JScrollPane ScrollPane = new JScrollPane(table);
+		JScrollPane ScrollPane = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+												JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		//DefaultTableCellRenderer render = new MyDefaultTableCellRender();
+		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); // 단일 선택
 		table.getColumnModel().getColumn(6).setCellRenderer(new TableCell());
 		table.getColumnModel().getColumn(6).setCellEditor(new TableCell());
+		table.addMouseListener(this);
+		//if(table.getSelectedRow() < 5) {
+			//table.addMouseListener(this);
+		//}
 		add(ScrollPane, BorderLayout.SOUTH);
 		//add(lbl_Count, BorderLayout.SOUTH);
 		
@@ -246,6 +266,7 @@ public class Board extends JFrame implements ActionListener{
 		}
 	}
 	
+	//JTable에 모든 값 보여줌
 	public void displayData() {
 		model.setNumRows(0);
 		try {
@@ -287,5 +308,67 @@ public class Board extends JFrame implements ActionListener{
 				e.printStackTrace();
 			}
 		}
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	//2022-05-26 201945012 윤선호 게시물 클릭시 게시물 내용 보여줌
+	@Override
+	public void mousePressed(MouseEvent e) {
+		//게시물 누르면 이거 다 긁어옴
+		//BoardEdit를 실행
+		int row = table.getSelectedRow();
+		int col = table.getSelectedColumn();
+		
+		data = table.getModel();
+		
+		pre_i = (String)data.getValueAt(row, 0);
+		//System.out.println(pre_i);
+		String pre_title = (String)data.getValueAt(row, 1);
+		String pre_writer = (String)data.getValueAt(row, 2);
+		String pre_writeday = (String)data.getValueAt(row, 3);
+		String pre_category = (String)data.getValueAt(row, 5);
+		String pre_content = (String)data.getValueAt(row, 4);
+		
+		al = new ArrayList<>();
+		al.add(pre_i);
+		al.add(pre_title);
+		al.add(pre_writer);
+		al.add(pre_writeday);
+		al.add(pre_category);
+		al.add(pre_content);
+		BoardEdit be = new BoardEdit(al);
+		DB db = new DB(be);
+		db.DisplayCMT(pre_i);
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public String getPre_i() {
+		return pre_i;
+	}
+
+	public ArrayList<String> getAl() {
+		return al;
 	}
 }

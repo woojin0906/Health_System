@@ -22,7 +22,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-//2022-05-20 201945012 윤선호 WindowListener 추가
+//2022-05-26 201945012 윤선호 달력에 날짜 누르면 메모장에 그 날짜 출력
 class Calendarmain extends JFrame implements ActionListener, MouseListener, WindowListener{
 	
 	Container container = getContentPane();
@@ -33,7 +33,11 @@ class Calendarmain extends JFrame implements ActionListener, MouseListener, Wind
 	JButton buttonBefore = new JButton(" << ");
 	JButton buttonAfter = new JButton(" >> ");
 	
-	JLabel label = new JLabel("0000년 00월");
+	//JLabel label = new JLabel("0000년 00월");
+	JLabel label_year = new JLabel("0000");
+	JLabel label1 = new JLabel();
+	JLabel label_month = new JLabel("00");
+	JLabel label2 = new JLabel();
 	
 	JButton[] buttons = new JButton[49];
 	String[] dayNames = {"일요일", "월요일", "화요일", "수요일", "목요일", "금요일", "토요일"};
@@ -42,8 +46,9 @@ class Calendarmain extends JFrame implements ActionListener, MouseListener, Wind
 	private Date nowtoday;
 	private JLabel lblToday;
 	private JButton check_button;
-	private MemoFrame mf;
+	private MemoFrame memo;
 	private MainFrame Mf;
+	private String str;
 	
 	public Calendarmain(MainFrame Mf) {
 		this.Mf = Mf;
@@ -69,8 +74,15 @@ class Calendarmain extends JFrame implements ActionListener, MouseListener, Wind
 		 lblToday = new JLabel(nowDate);
 		 
 		 panel1.setLayout(new FlowLayout());
+		 
 		 panel1.add(buttonBefore);
-		 panel1.add(label);
+		 
+		 panel1.add(label_year);
+		 panel1.add(label1);
+		 
+		 panel1.add(label_month);
+		 panel1.add(label2);
+		 
 		 panel1.add(buttonAfter);
 		 panel1.setBackground(new Color(189, 215, 238));
 		 //panel1.add(lblToday, RIGHT_ALIGNMENT);
@@ -84,9 +96,15 @@ class Calendarmain extends JFrame implements ActionListener, MouseListener, Wind
 		 buttonAfter.setBackground(Color.LIGHT_GRAY);
 		 //buttonAfter.setFont(font);
 		 
-		 label.setFont(font);
-		 label.setText(cf.getCalText());
-		 System.out.println(cf.getCalText()); 
+		 label_year.setFont(font);
+		 label_month.setFont(font);
+		 label1.setFont(font);
+		 label2.setFont(font);
+		 
+		 label_year.setText(cf.getCalYearText());
+		 label_month.setText(cf.getCalMonthText());
+		 System.out.println(cf.getCalYearText());
+		 System.out.println(cf.getCalMonthText());
 		 
 		 panel2.setLayout(new GridLayout(7, 7));
 		 
@@ -99,6 +117,7 @@ class Calendarmain extends JFrame implements ActionListener, MouseListener, Wind
 			 buttons[i].setBackground(Color.white);
 			 panel2.add(buttons[i]);
 			 buttons[i].setFont(new Font("210 맨발의 청춘 L", Font.BOLD, 16));
+			 buttons[i].addActionListener(this);
 			 buttons[i].addMouseListener(this);
 			 //buttons[i].addActionListener(this);
 			 
@@ -119,35 +138,32 @@ class Calendarmain extends JFrame implements ActionListener, MouseListener, Wind
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		int gap = 0;
+		str = e.getActionCommand();
+		System.out.println(str);
 		if(e.getSource() == buttonAfter) {				// 1달 후
 			gap = 1;
 		} else if(e.getSource() == buttonBefore ) {		// 1달 전
 			gap = -1;
+		} else if(str != null) {
+			memo = new MemoFrame("메모 프레임", this);
 		}
 		cf.allInit(gap);
-		label.setText(cf.getCalText());		// 년 월 글자 갱신		
+		label_year.setText(cf.getCalYearText()); //년 갱신
+		label_month.setText(cf.getCalMonthText()); // 월 갱신		
 	}
 	
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		
-		//2022-05-19 윤선호 날짜 버튼 한번 클릭하면 메모창이 켜진다.
-		if(e.getClickCount() == 1) {
-			check_button = (JButton)e.getSource();
-			String btn_num = String.valueOf(check_button.getText());
-			mf = new MemoFrame("메모프레임", this);
-			System.out.println(btn_num);
-		}
 		//날짜 버튼을 두번 클릭하면 배경색이 초록색으로 바뀐다.
 		//이렇게 해서 헬스장 출석을 했는지 확인
-		else if(e.getClickCount() == 2) {
+		if(e.getClickCount() == 2) {
 			check_button.setBackground(Color.green);
 		}
 	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
 		
 	}
 
@@ -208,6 +224,18 @@ class Calendarmain extends JFrame implements ActionListener, MouseListener, Wind
 	public void windowDeactivated(WindowEvent e) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	public JLabel getLabel_year() {
+		return label_year;
+	}
+
+	public JLabel getLabel_month() {
+		return label_month;
+	}
+
+	public String getStr() {
+		return str;
 	}	
 }
 

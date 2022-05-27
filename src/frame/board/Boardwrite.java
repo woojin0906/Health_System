@@ -165,12 +165,12 @@ public class Boardwrite extends JFrame implements ActionListener, WindowListener
 		panel2.add(lblselection);
 		
 		vecCombo = new Vector<String>();
-	      vecCombo.add("운동");
-	      vecCombo.add("나눔");
+	    vecCombo.add("운동");
+	    vecCombo.add("나눔");
 	      
-	      comboselection = new JComboBox<String>(vecCombo);
-	      comboselection.setPreferredSize(new Dimension(100, 35));
-	      comboselection.setBackground(Color.white);
+	    comboselection = new JComboBox<String>(vecCombo);
+	    comboselection.setPreferredSize(new Dimension(100, 35));
+	    comboselection.setBackground(Color.white);
 	      
 		panel2.add(comboselection);//콤보박스
 		panel1.add(panel2);
@@ -211,13 +211,11 @@ public class Boardwrite extends JFrame implements ActionListener, WindowListener
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object obj = e.getSource();
-		
+		//2022-05-26 윤선호 게시글 추가
 		if(obj == btnSend) {
-			DB db = new DB();
-			i = db.GetBDID();
-			System.out.println("리턴 받은 값 : " + i);
-			i = i + 1;
-			db.BDInsert(i, tftitle.getText(), tfWriteday.getText(), tfWriter.getText(), comboselection.getSelectedItem().toString(), ta.getText());
+			DB db = new DB(null);
+			//게시물 하나씩 추가할때 마다 글 하나씩 추가
+			db.BDInsert(tftitle.getText(), tfWriteday.getText(), tfWriter.getText(), comboselection.getSelectedItem().toString(), ta.getText());
 			dispose();
 		}
 		

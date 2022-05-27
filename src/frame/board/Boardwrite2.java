@@ -31,8 +31,6 @@ import javax.swing.plaf.DimensionUIResource;
 import frame.db.DB;
 //허유진 글쓰기 변형해서 수정하는 폼
 public class Boardwrite2 extends JFrame implements ActionListener, WindowListener{
-	
-	
 
 	private JPanel PanelUp;
 	private JPanel PanelDown;
@@ -57,14 +55,13 @@ public class Boardwrite2 extends JFrame implements ActionListener, WindowListene
 	private JPanel panelUpp;
 	private Color skyblue;
 	private JScrollPane sp;
-	private String[] arr;
 	private Board user;
 	private ArrayList<String> al;
 
 	public Boardwrite2(ArrayList<String> al) {
 		this.al = al;
 		setTitle("자유게시판 글 수정");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocation(300, 300);
 		setSize(390, 500);
 		
@@ -227,10 +224,10 @@ public class Boardwrite2 extends JFrame implements ActionListener, WindowListene
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object obj = e.getSource();
-		//수정 버튼 이벤트
+		//2022-05-27 윤선호 수정 버튼 이벤트
 		if(obj == btnSend) {
-			DB db = new DB();
-			db.BDUpdate(Integer.parseInt(al.get(0).toString()), tftitle.getText(), tfWriteday.getText(), tfWriter.getText(), comboselection.getSelectedItem().toString(), ta.getText());
+			DB db = new DB(null);
+			db.BDUpdate(al.get(0),tftitle.getText(), tfWriteday.getText(), tfWriter.getText(), comboselection.getSelectedItem().toString(), ta.getText());
 			dispose();
 		}
 	}
