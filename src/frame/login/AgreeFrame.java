@@ -1,5 +1,6 @@
 package frame.login;
-//202145022 전우진
+// 202145022 전우진
+// 이용약관 프레임
 import java.awt.BorderLayout;
 import java.awt.Checkbox;
 import java.awt.Color;
@@ -16,6 +17,7 @@ import java.awt.event.ItemListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -53,10 +55,10 @@ public class AgreeFrame extends JFrame implements ActionListener, WindowListener
 	private Font mLabelFont;
 	private JoinFrame joinFrame;
 
-	public AgreeFrame(String title, JoinFrame joinFrame) {
-		this.joinFrame = joinFrame;
+
+	public AgreeFrame(String title) {
+
 		setTitle(title);
-		setLocation(250, 150);
 		setSize(350, 500);
 		setResizable(false);
 		setLayout(new BorderLayout());
@@ -79,14 +81,14 @@ public class AgreeFrame extends JFrame implements ActionListener, WindowListener
 		panelNorth.setLayout(null);
 		panelNorth.setPreferredSize(new Dimension(100, 50));
 		
-//		// 이용약관 화면 취소 버튼
-//		btnCancel = new JButton("취소");
-//		btnCancel.setFont(subFont);
-//		btnCancel.setContentAreaFilled(false);
-//		btnCancel.setBorderPainted(false);
-//		btnCancel.setBounds(0, 10, 70, 30);
-//		
-//		btnCancel.addActionListener(this);
+		// 이용약관 화면 취소 버튼
+		btnCancel = new JButton("취소");
+		btnCancel.setFont(subFont);
+		btnCancel.setContentAreaFilled(false);
+		btnCancel.setBorderPainted(false);
+		btnCancel.setBounds(0, 10, 70, 30);
+		
+		btnCancel.addActionListener(this);
 		
 		// 이용약관 화면 라벨(이용약관) 출력
 		lblAgree = new JLabel("이용약관");
@@ -98,11 +100,12 @@ public class AgreeFrame extends JFrame implements ActionListener, WindowListener
 		btnAgree.setFont(subFont);
 		btnAgree.setContentAreaFilled(false);
 		btnAgree.setBorderPainted(false);
-		btnAgree.setBounds(270, 10, 70, 30);
+		btnAgree.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
+		btnAgree.setBounds(280, 10, 40, 30);
 		
 		btnAgree.addActionListener(this);
 				
-	//	panelNorth.add(btnCancel);
+		panelNorth.add(btnCancel);
 		panelNorth.add(lblAgree);
 		panelNorth.add(btnAgree);
 
@@ -233,6 +236,8 @@ public class AgreeFrame extends JFrame implements ActionListener, WindowListener
 					JOptionPane.YES_NO_OPTION
 					) == JOptionPane.YES_OPTION) {
 				JOptionPane.showMessageDialog(this, "동의 되었습니다.", "이용약관 동의 안내", JOptionPane.INFORMATION_MESSAGE);
+				joinFrame = new JoinFrame("회원가입");
+				joinFrame.setLocationRelativeTo(null);
 				JCheckBox ch = joinFrame.getAgreeCheck();
 				ch.setSelected(true);
 				this.dispose();

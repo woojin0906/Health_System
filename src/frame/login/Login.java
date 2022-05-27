@@ -59,36 +59,15 @@ public class Login extends JFrame implements ActionListener, MouseListener, Wind
 	private String loginID; //로그인한 ID 확인용 변수
 	private dbOpen temp;
 	
-	public Login(MainFrame mf) {
+
+	public Login(MainFrame mainFrame) {
 		setTitle("로그인 화면");
 		
-		setLocation(300, 300);
 		setSize(780, 480);
 		setLayout(new BorderLayout());
 		setResizable(false);
 		addWindowListener(this);
-		
-		temp = new dbOpen();
-		
-		mainFont = new Font("210 맨발의청춘 L", Font.BOLD, 22); // 메인 제목
-	    subFont = new Font("210 맨발의청춘 L", Font.PLAIN, 13); 
-	    southFont = new Font("210 맨발의청춘 L", Font.PLAIN, 14); // 오른쪽 하단
-		
-	    PanelLeft();
-	    PanelRight();
-	    
-		setVisible(true);
-	}
-	
-	public Login() { //DB 기능 붙이는거 끝나면 이 생성자 지우고 원래 생성자 다시 살리면 됨. (김지웅, 05. 26)
-		setTitle("로그인 화면");
-		
-		setLocation(300, 300);
-		setSize(780, 480);
-		setLayout(new BorderLayout());
-		setResizable(false);
-		addWindowListener(this);
-		
+		setLocationRelativeTo(null);
 		temp = new dbOpen();
 		
 		mainFont = new Font("210 맨발의청춘 L", Font.BOLD, 22); // 메인 제목
@@ -207,7 +186,7 @@ public class Login extends JFrame implements ActionListener, MouseListener, Wind
 		
 		// 로그인 화면 직원 호출 출력
 		btnCall = new JButton("고객센터");
-		btnCall.setBounds(43, 80, 150, 80);
+		btnCall.setBounds(70, 105, 90, 30);
 		Color a = new Color(130, 130, 130);
 		btnCall.setForeground(a);
 		btnCall.setFont(southFont);
@@ -220,7 +199,7 @@ public class Login extends JFrame implements ActionListener, MouseListener, Wind
 		
 		// 로그인 화면 회원 가입 출력
 		btnJoin = new JButton("회원 가입");
-		btnJoin.setBounds(160, 80, 150, 80);
+		btnJoin.setBounds(170, 105, 90, 30);
 		btnJoin.setForeground(Color.BLACK);
 		btnJoin.setFont(southFont);
 		btnJoin.setBorderPainted(false);
@@ -232,7 +211,7 @@ public class Login extends JFrame implements ActionListener, MouseListener, Wind
 		
 		// 로그인 화면 비밀번호 찾기 출력
 		btnSearch = new JButton("비밀번호 찾기");
-		btnSearch.setBounds(265, 80, 150, 80);
+		btnSearch.setBounds(270, 105, 120, 30);
 		btnSearch.setForeground(Color.BLACK);
 		btnSearch.setFont(southFont);
 		btnSearch.setBorderPainted(false);
@@ -257,11 +236,13 @@ public class Login extends JFrame implements ActionListener, MouseListener, Wind
 		if(obj == btnCall) {
 			JOptionPane.showMessageDialog(this, "고객센터 전화번호는 032-256-3652 입니다.", "고객센터 안내", JOptionPane.INFORMATION_MESSAGE);
 		} else if(obj == btnJoin) {
-		//	af = new AgreeFrame("이용약관", jf);
-			joinFrame = new JoinFrame("회원가입");
+			af = new AgreeFrame("이용약관");
+			af.setLocationRelativeTo(null);
+		//	joinFrame = new JoinFrame("회원가입");
 			
 		} else if(obj == btnSearch) {
-			ps = new PsCheckFrame("비밀번호 찾기", joinFrame);
+			ps = new PsCheckFrame("비밀번호 찾기");
+			ps.setLocationRelativeTo(null);
 		} else if(obj == btnLogin || obj == tfId || obj == tfpw) {
 			try {
 				char[] tempPw = tfpw.getPassword();
@@ -274,37 +255,7 @@ public class Login extends JFrame implements ActionListener, MouseListener, Wind
 				
 				dbOpen temp = new dbOpen();
 				temp.loginSelect(this, tfId.getText(), result);
-				//아래 주석처리한 코드 부분은 원래 기존 코드인데 정리가 필요할 것 같아 남깁니다.
-				//일단 제가 위에 코드로만 돌려도 동작은 되는데 의도한 별도로 의도한 기능이 있으실 수도 있어서
-				//남겨요.. 정리 부탁드릴게요 (김지웅, 0526 AM 04:26)
-//				JTextField joinId = joinFrame.getTfId();
-//				JTextField joinPw = joinFrame.getTfPassword();
-//				
-//				String loginId = tfId.getText();
-//				String loginpw = tfpw.getText();
-//				
-//				
-//				// DB 연결
-//				char[] tempPw = tfpw.getPassword();
-//				result = "";
-//				
-//				for(char ch	: tempPw) {
-//					Character.toString(ch);
-//					result += ""+ch+"";
-//				}	
-//				
-//				loginID = temp.loginSelect(this,tfId.getText(), result);
-//				System.out.println(loginID); //로그인한 ID를 긁어옴
-//				 
-//				if(loginId.equals(joinId.getText())) {
-//					if(loginpw.equals(joinPw.getText())) {
-//						//btnLogin.setIcon(new ImageIcon("imges/unlock.png"));
-//						mainFrame = new MainFrame(this);
-//						this.dispose();
-//					}else {
-//						JOptionPane.showMessageDialog(this, "정보를 다시 확인해주세요.", "정보 오류", JOptionPane.ERROR_MESSAGE);
-//					}
-//				}
+
 			} catch (Exception e2) {
 				if(tfId.getText().equals("") || result.equals(""))
 					JOptionPane.showMessageDialog(this, "아이디/비밀번호를 입력해주세요.", "로그인 오류", JOptionPane.ERROR_MESSAGE);

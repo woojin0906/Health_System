@@ -11,6 +11,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import frame.login.IdCheckFrame;
 import frame.login.JoinFrame;
 import frame.login.Login;
 import frame.login.PsCheckFrame;
@@ -49,10 +50,11 @@ public class dbOpen {
 			
 			
 	}
+		
 	// 회원가입 할 때 텍스트필드에서 값 긁어와서 DB에 던지기
-	public void infoInsert(String id, String name, String ph, String add, String pw, String pwhint) {
-		String sqlInsert = "insert into memberinfo (id, name, phonenumber, address, password, passwordhint)"
-				+ " values('" + id + "', '" + name + "', '" + ph + "', '" + add + "', '" + pw + "', '" + pwhint + "')";
+	public void infoInsert(String id, String name, String ph, String add, String pw, String pwhint, String img) {
+		String sqlInsert = "insert into memberinfo (id, name, phonenumber, address, password, passwordhint, profile)"
+				+ " values('" + id + "', '" + name + "', '" + ph + "', '" + add + "', '" + pw + "', '" + pwhint + "', '" + img + "')";
 	
 		try {
 			statement.executeUpdate(sqlInsert);
@@ -70,39 +72,40 @@ public class dbOpen {
 	}
 	
 	//로그인 검증, id값 돌려쓰기 위해서 String으로 id 리턴
-	public void loginSelect(Login frame, String inputId, String inputPw) {
-		String id = inputId;
-		
-		try {
-			result = statement.executeQuery("select password from memberinfo where id = '" + inputId + "'" );
-			if(result.next()) {
-				pw = result.getString("password");
-			}
+		public void loginSelect(Login frame, String inputId, String inputPw) {
+			String id = inputId;
 			
-			//입력한 비밀번호와 DB에 저장된 비밀번호가 일치하는지 검증
-			
-			if(pw.equals(inputPw)) {
-				mainFrame = new MainFrame(frame, id);
-				frame.dispose();
-			} else {
-				JOptionPane.showMessageDialog(frame, "정보를 다시 확인해주세요.", "정보 오류", JOptionPane.ERROR_MESSAGE);
-				
-			}
-			
-		} catch (SQLException e) {
-			System.out.println("select Query Error!");
-			e.printStackTrace();
-		} 
-		finally {
 			try {
-				result.close();
-				statement.close();
-				conn.close();
+				result = statement.executeQuery("select password from memberinfo where id = '" + inputId + "'" );
+				if(result.next()) {
+					pw = result.getString("password");
+				}
+				
+				//입력한 비밀번호와 DB에 저장된 비밀번호가 일치하는지 검증
+				
+				if(pw.equals(inputPw)) {
+					mainFrame = new MainFrame(frame, id);
+					frame.dispose();
+				} else {
+					JOptionPane.showMessageDialog(frame, "정보를 다시 확인해주세요.", "정보 오류", JOptionPane.ERROR_MESSAGE);
+					
+				}
+				
 			} catch (SQLException e) {
+				System.out.println("select Query Error!");
 				e.printStackTrace();
+			} 
+			finally {
+				try {
+					result.close();
+					statement.close();
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
 			}
 		}
-	}
+		
 	
 	//패스워드 초기화하는 힌트값 DB에서 긁어와서 검증하기
 	public void resetPW(PsCheckFrame pf, String id, String inputHint) {
@@ -122,7 +125,7 @@ public class dbOpen {
 			else {
 				JOptionPane.showMessageDialog(pf, "아이디 또는 힌트가 일치하지 않습니다. ", "오류", JOptionPane.ERROR_MESSAGE);
 				if(JOptionPane.showConfirmDialog(pf, 
-						"힌트를 모르는 경우 고객센터로 전화하시겠습니까?",
+						"고객센터로 전화하시겠습니까?",
 						"힌트 오류",
 						JOptionPane.YES_NO_OPTION
 						) == JOptionPane.YES_OPTION) {
@@ -200,6 +203,23 @@ public class dbOpen {
 			}
 		}
 	}
+	
+	
+	// 이미지 값
+//		public void imageUpdate(String id, String inputImg) {
+//			
+//			String sqlUpdate = "update memberinfo set profile = '" + inputImg +  "'where id = '" + id + "'";
+//			
+//			try {
+//				statement.executeUpdate(sqlUpdate);
+//			} catch (SQLException e) {
+//				e.printStackTrace();
+//				//System.out.println("Update Error!");
+//			}
+//			
+//			
+//		}
+		
 	//이용권 구매시 이용권 기간 늘림
 	public void plusPeriod(String id, int addPeriod) {
 		try {
@@ -247,18 +267,19 @@ public class dbOpen {
 		return db_pw;
 	}
 	
-	public void checkID(JoinFrame jf, String idInput, JTextField tf) {
+	public void checkID(IdCheckFrame idCheckFrame, String idInput, JTextField tf) {
 		try {
 			result = statement.executeQuery("select id from memberinfo where id = '" + idInput + "'");
 			
 			if(result.next()) {
-				JOptionPane.showMessageDialog(jf, "이미 사용중인 아이디 입니다.");
+				JOptionPane.showMessageDialog(idCheckFrame, "이미 사용중인 아이디 입니다.");
 				tf.setText("");
 			}else {
-				JOptionPane.showMessageDialog(jf, "사용 가능한 아이디 입니다.");
+				JOptionPane.showMessageDialog(idCheckFrame, "사용 가능한 아이디 입니다.");
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
+
 }

@@ -11,6 +11,8 @@ import java.awt.Image;
 import java.awt.Label;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
@@ -40,7 +42,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import frame.db.dbOpen;
 
-public class JoinFrame extends JFrame implements MouseListener, ActionListener, WindowListener{
+public class JoinFrame extends JFrame implements MouseListener, ActionListener, WindowListener, KeyListener{
 	
 	private JPanel panelCenter;
 	private JPanel panelSouth;
@@ -71,8 +73,11 @@ public class JoinFrame extends JFrame implements MouseListener, ActionListener, 
 	private ImageIcon profileImg;
 	private Login login;
 	private JButton btnOver;
-	private String joinImg;
+	private String inputImg;
 	private dbOpen db;
+	private String id;
+	private final String ID = "gomwoong";
+	private String filename;
 
 	public JoinFrame(String title) {
 		setTitle(title);
@@ -105,7 +110,8 @@ public class JoinFrame extends JFrame implements MouseListener, ActionListener, 
 		btnCancel.setFont(subFont);
 		btnCancel.setContentAreaFilled(false);
 		btnCancel.setBorderPainted(false);
-		btnCancel.setBounds(0, 5, 70, 30);
+		btnCancel.setBounds(10, 10, 35, 25);
+		btnCancel.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
 		
 		btnCancel.addActionListener(this);
 		
@@ -154,31 +160,31 @@ public class JoinFrame extends JFrame implements MouseListener, ActionListener, 
 		JLabel lblId = new JLabel(imgId);
 		lblId.setBounds(13, 35, 148, 35);
 		panel2.add(lblId);
-				
-		// 회원가입 화면 아이디 중복 확인 버튼 출력
-		btnOver = new JButton("중복 확인");
-		btnOver.setBounds(175, 38, 90, 29);
-		btnOver.setContentAreaFilled(false);
-		btnOver.setBorderPainted(false);
-		btnOver.setForeground(Color.WHITE);
-		btnOver.setFont(subFont);
-		
-		btnOver.addActionListener(this);
-		
-		panel2.add(btnOver);
-		
-		// 회원가입 화면 아이디 중복 배경 이미지 출력
-		ImageIcon imgover = new ImageIcon("imges/overlap.png");
-		JLabel lblover = new JLabel(imgover);
-		lblover.setBounds(165, 35, 110, 35);
-		panel2.add(lblover);
+//				
+//		// 회원가입 화면 아이디 중복 확인 버튼 출력
+//		btnOver = new JButton("중복 확인");
+//		btnOver.setBounds(175, 38, 90, 29);
+//		btnOver.setContentAreaFilled(false);
+//		btnOver.setBorderPainted(false);
+//		btnOver.setForeground(Color.WHITE);
+//		btnOver.setFont(subFont);
+//		
+//		btnOver.addActionListener(this);
+//		
+//		panel2.add(btnOver);
+//		
+//		// 회원가입 화면 아이디 중복 배경 이미지 출력
+//		ImageIcon imgover = new ImageIcon("imges/overlap.png");
+//		JLabel lblover = new JLabel(imgover);
+//		lblover.setBounds(165, 35, 110, 35);
+//		panel2.add(lblover);
 	
 		// 회원가입 화면 텍스트 필드(비밀번호) 출력
 		tfPassword = new JPasswordField("1111");
 		tfPassword.setBounds(20, 78, 130, 29);
 		tfPassword.setBorder(BorderFactory.createEmptyBorder());
 		tfPassword.setFont(new Font("바탕체", 0, 14));
-
+		tfPassword.addKeyListener(this);
 		tfPassword.addMouseListener(this);
 		
 		panel2.add(tfPassword);
@@ -208,7 +214,7 @@ public class JoinFrame extends JFrame implements MouseListener, ActionListener, 
 		// 회원가입 화면 콤보박스 출력
 		vecCombo = new Vector<String>();
 		vecCombo.add("생일은?");
-		vecCombo.add("번호 뒷자리는?");
+		vecCombo.add("번호는?");
 		
 		comboHint = new JComboBox<String>(vecCombo);
 		comboHint.setBounds(20, 118, 85, 29);
@@ -344,7 +350,7 @@ public class JoinFrame extends JFrame implements MouseListener, ActionListener, 
 			if(agreeCheck.isSelected() == false) {
 				JOptionPane.showMessageDialog(this, "약관을 읽어주세요.", "이용약관 동의 안내", JOptionPane.INFORMATION_MESSAGE);
 				this.dispose();
-				af = new AgreeFrame("이용약관", this);
+				af = new AgreeFrame("이용약관");
 			}
 		} else if(obj == btnNext) {
 			String id = tfId.getText();
@@ -360,7 +366,7 @@ public class JoinFrame extends JFrame implements MouseListener, ActionListener, 
 						|| name.equals("이름") || phone.equals("전화번호")
 						||address.equals("주소")
 						
-						|| id.equals("") || pw.equals("") 
+						|| id.equals("") || pw.equals("")  
 						|| pwch.equals("") || hint.equals("") 
 						|| name.equals("") || phone.equals("")
 						|| address.equals("")) {
@@ -381,17 +387,16 @@ public class JoinFrame extends JFrame implements MouseListener, ActionListener, 
 						Character.toString(ch);
 						resultpwch += ""+ch+"";
 					}
-					
 					if(resultpw.equals(resultpwch)) {
-						if(resultpw.length() <= 8 && resultpw.length() >= 6 && resultpwch.length() <= 8 && resultpwch.length() >= 6) {
+						if(resultpw.length() <= 18 && resultpw.length() >= 8 && resultpwch.length() <= 18 && resultpwch.length() >= 8) {
 							
 							// DB 연결
 							db = new dbOpen();
-							db.infoInsert(tfId.getText(), tfName.getText(), tfPhone.getText(), tfAddress.getText(), tfPassword.getText(), tfHint.getText());
+							db.infoInsert(tfId.getText(), tfName.getText(), tfPhone.getText(), tfAddress.getText(), tfPassword.getText(), tfHint.getText(), filename);
 							JOptionPane.showMessageDialog(this, "회원가입이 완료 되었습니다");
 					this.dispose();
 					} else {
-						JOptionPane.showMessageDialog(this, "비밀번호는 6자리 이상 8자리 이하로 작성해주세요.");
+						JOptionPane.showMessageDialog(this, "비밀번호는 8자리 이상 18자리 이하로 작성해주세요.");
 					}
 				} else {
 					JOptionPane.showMessageDialog(this, "비밀번호가 일치하지 않습니다");
@@ -407,41 +412,29 @@ public class JoinFrame extends JFrame implements MouseListener, ActionListener, 
 				
 				int showOpenDialog = fc.showOpenDialog(this);
 				
-				path = fc.getSelectedFile().getPath();
-				profileImg = new ImageIcon(path);
-				
-				// DB 연결
 				btnImg.setText(fc.getSelectedFile().getAbsolutePath());
 				
-				File selfile = fc.getSelectedFile();
-				String path = selfile.getAbsolutePath();
+				File selfile = fc.getSelectedFile();  																
+				String path = selfile.getAbsolutePath();  															
 				
-				File dirfile = new File(btnImg.getText());
-				
-				File srcfile = new File("imges/" + btnImg.getText() + ".jpg");
-				
-				Files.copy(dirfile.toPath(), srcfile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-				
-				//joinImg = temp.imageUpdate(path);
-				//System.out.println(joinImg);
-				
+				ImageIcon profileImg = new ImageIcon(path);
 				Image img = profileImg.getImage();
 				Image changeImg = img.getScaledInstance(95, 102, Image.SCALE_SMOOTH);
 				
 				btnImg.setIcon(new ImageIcon(changeImg));
+				
+				filename = selfile.getName();
+				File dirfile = new File(btnImg.getText());  															
+					
+				File srcfile = new File("C://Users//jwjle//git//222222/img/" + filename);  						
+					
+				Files.copy(dirfile.toPath(), srcfile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+
 			} catch (Exception e2) {
 				JOptionPane.showMessageDialog(this, "이미지를 다시 선택해주세요.");
+				e2.printStackTrace();
 			} 
 			
-		} else if(obj == btnOver) {
-			String id = tfId.getText();
-			if(id.length() >= 4) {
-				db = new dbOpen();
-				db.checkID(this, id, tfId);
-//				JOptionPane.showMessageDialog(this, "사용 가능한 아이디 입니다.");
-			} else {
-				JOptionPane.showMessageDialog(this, "아이디는 4자리 이상으로 작성해주세요.");
-			} 
 		}
 	}
 
@@ -473,7 +466,8 @@ public class JoinFrame extends JFrame implements MouseListener, ActionListener, 
 		
 		Object obj = e.getSource();
 			if(obj == tfId) {
-				tfId.setText("");
+				IdCheckFrame idCheckFrame = new IdCheckFrame("아이디 중복 확인", this);
+				idCheckFrame.setLocationRelativeTo(null);
 			} else if(obj == tfPassword) {
 				tfPassword.setText("");
 			} else if(obj == tfPsCheck) {
@@ -517,7 +511,8 @@ public class JoinFrame extends JFrame implements MouseListener, ActionListener, 
 					"약관 안내",
 					JOptionPane.YES_NO_OPTION
 					) == JOptionPane.YES_OPTION) {
-				af = new AgreeFrame("이용약관", this);
+				af = new AgreeFrame("이용약관");
+				af.setLocationRelativeTo(null);
 				agreeCheck.setSelected(true);
 			} else {
 				this.dispose();
@@ -558,6 +553,26 @@ public class JoinFrame extends JFrame implements MouseListener, ActionListener, 
 
 	@Override
 	public void windowDeactivated(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		if(e.getKeyCode() == KeyEvent.VK_TAB) {
+			tfPassword.requestFocus();
+			tfPassword.setText("");
+		}
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
 		// TODO Auto-generated method stub
 		
 	}

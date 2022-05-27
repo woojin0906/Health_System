@@ -8,6 +8,8 @@ import java.awt.Font;
 import java.awt.TextField;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
@@ -26,7 +28,7 @@ import javax.swing.JTextField;
 
 import frame.db.dbOpen;
 
-public class PsCheckFrame extends JFrame implements MouseListener, ActionListener, WindowListener{
+public class PsCheckFrame extends JFrame implements MouseListener, ActionListener, WindowListener, KeyListener{
 
 	private JPanel panelCenter;
 	private JButton btnCancel;
@@ -38,15 +40,8 @@ public class PsCheckFrame extends JFrame implements MouseListener, ActionListene
 	private JTextField tfHint;
 	private Color gray;
 	private Font mainFont;
-	private JoinFrame joinFrame;
-
-	private dbOpen temp;
 	
-	public PsCheckFrame(String title, JoinFrame joinFrame) {
-		this.joinFrame = joinFrame;
-		//joinFrame.setTitle("회원가입");
-		
-		temp = new dbOpen();
+	public PsCheckFrame(String title) {
 		
 		setTitle(title);
 		setLocation(250, 150);
@@ -71,8 +66,8 @@ public class PsCheckFrame extends JFrame implements MouseListener, ActionListene
 		btnCancel.setFont(new Font("210 맨발의청춘 L", Font.PLAIN, 13));
 		btnCancel.setContentAreaFilled(false);
 		btnCancel.setBorderPainted(false);
-		btnCancel.setBounds(-7, 5, 70, 30);
-		
+		btnCancel.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
+		btnCancel.setBounds(0, 5, 40, 30);
 		btnCancel.addActionListener(this);
 		
         panelCenter.add(btnCancel);
@@ -107,7 +102,7 @@ public class PsCheckFrame extends JFrame implements MouseListener, ActionListene
 		// 비밀번호 확인 콤보박스 출력
 		vecCombo = new Vector<String>();
 		vecCombo.add("생일은?");
-		vecCombo.add("년도는?");
+		vecCombo.add("번호는?");
 		
 		comboHint = new JComboBox<String>(vecCombo);
 		comboHint.setFont(mainFont);
@@ -145,7 +140,8 @@ public class PsCheckFrame extends JFrame implements MouseListener, ActionListene
 		btnIdSearch.setBorderPainted(false);
 		gray = new Color(100, 100, 100);
 		btnIdSearch.setForeground(gray);
-		btnIdSearch.setBounds(180, 170, 170, 30);
+		btnIdSearch.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
+		btnIdSearch.setBounds(180, 170, 140, 30);
 		
 		btnIdSearch.addActionListener(this);
 		
@@ -177,46 +173,11 @@ public class PsCheckFrame extends JFrame implements MouseListener, ActionListene
 			try {
 				dbOpen temp = new dbOpen();
 				temp.resetPW(this, tfId.getText(), tfHint.getText());
-				//joinFrame = new JoinFrame("회원가입");
-//				JTextField joinId = joinFrame.getTfId();
-//				JTextField joinHint = joinFrame.getTfHint();
-//				JTextField joinPw = joinFrame.getTfPassword();
-//				
-//				String pwchId = tfId.getText();
-//				String pwchHint = tfHint.getText();
-//				
-//				if(pwchId.equals(joinId.getText())) {
-//					if(pwchHint.equals(joinHint.getText())) {
-//						JOptionPane.showMessageDialog(this, "힌트가 일치합니다. 비밀번호는 0000으로 초기화 됩니다.", "비밀번호 변경", JOptionPane.INFORMATION_MESSAGE);
-//						// DB 연결
-//						temp.resetPW(tfId.getText(), tfHint.getText());
-//						joinPw.setText("0000");
-//						this.dispose();
-//					} else {
-//						JOptionPane.showMessageDialog(this, "힌트를 다시 작성해주세요. ", "힌트 오류", JOptionPane.ERROR_MESSAGE);
-//						if(JOptionPane.showConfirmDialog(this, 
-//								"힌트를 모르 경우 고객센터로 전화하시겠습니까?",
-//								"힌트 오류",
-//								JOptionPane.YES_NO_OPTION
-//								) == JOptionPane.YES_OPTION) {
-//							JOptionPane.showMessageDialog(this, "고객센터 전화번호는 032-256-3652 입니다.", "고객센테 안내", JOptionPane.INFORMATION_MESSAGE);
-//						}
-//					}
-//				} else {
-//					JOptionPane.showMessageDialog(this, "아이디를 다시 확인해주세요.", "아이디 오류", JOptionPane.ERROR_MESSAGE);
-//				}
+
 			} catch (Exception e2) {
-				if(JOptionPane.showConfirmDialog(this, 
-						"일치하는 정보가 없습니다. 회원가입을 하시겠습니까?",
-						"약관 안내",
-						JOptionPane.YES_NO_OPTION
-						) == JOptionPane.YES_OPTION) {
-					joinFrame = new JoinFrame("회원가입");
-					this.dispose();
+				e2.printStackTrace();
 				}
 			}
-			
-		}
 	}
 
 	@Override
@@ -290,6 +251,26 @@ public class PsCheckFrame extends JFrame implements MouseListener, ActionListene
 
 	@Override
 	public void windowDeactivated(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		if(e.getKeyCode() == KeyEvent.VK_TAB) {
+			tfHint.requestFocus();
+			tfHint.setText("");
+		}
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
 		// TODO Auto-generated method stub
 		
 	}
