@@ -6,6 +6,11 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -17,30 +22,41 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import frame.db.DB;
+import frame.db.DBPT;
 
-public class BoardWrite_PT2 extends JFrame{
+
+public class BoardWrite_PT2 extends JFrame implements ActionListener, WindowListener{
 	private Font mainFont;
 	private JTextArea ta;
 	private JScrollPane sp;
 	private JButton btnsend;
 	private Color skyblue;
-
+	private ArrayList<String> alpt;
+	private JTextField[] TxField;
 	
-	public BoardWrite_PT2(String title) {
-		setTitle(title);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	public BoardWrite_PT2(ArrayList<String> string) {
+		this.alpt = string;
+		setTitle("PT게시판 글 수정");
+		
 		setLocation(300, 200);
 		setSize(450, 535);
 		setLayout(new BorderLayout());
 		skyblue = new Color(189, 215, 238);
 		mainFont = new Font("210 맨발의청춘 L", 0, 16);
 		
+		addWindowListener(this);
 		setNorth();
 		setCenter();
 		
 		setSouth();
 		
 		setVisible(true);
+	}
+
+
+	public BoardWrite_PT2(String string) {
+		// TODO Auto-generated constructor stub
 	}
 
 
@@ -65,7 +81,7 @@ public class BoardWrite_PT2 extends JFrame{
 	      }
 	      
 	      
-	      JTextField[] TxField = new JTextField[4];
+	       TxField = new JTextField[4];
 	      
 	      x = 100;
 	      y = 10;
@@ -76,6 +92,10 @@ public class BoardWrite_PT2 extends JFrame{
 	         TxField[i].setBounds(x, y, 310, 20);
 	         NorthPanel.add(TxField[i]);
 	      }
+	      TxField[0].setText(alpt.get(1));
+	      TxField[1].setText(alpt.get(3));
+	      TxField[2].setText(alpt.get(2));
+	     // TxField[3].setText(al.get(2));
 	      
 	      ImageIcon img1 = new ImageIcon("imges/textimage_edit.png");
 			JLabel lbl1 = new JLabel(img1);
@@ -103,6 +123,7 @@ public class BoardWrite_PT2 extends JFrame{
 	      
 		ta =new  JTextArea(16,30);
 		ta.setLineWrap(true);
+		ta.setText(alpt.get(4));
 		ta.setFont(new Font("210 맨발의청춘 L", Font.PLAIN, 13));
 		sp = new JScrollPane(ta, 
 				JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, 
@@ -113,6 +134,8 @@ public class BoardWrite_PT2 extends JFrame{
 		
 	}
 	
+	
+	//수정버튼 
 	private void setSouth() {
 		JPanel SouthPanel = new JPanel();
 		SouthPanel.setBackground(skyblue);
@@ -121,8 +144,72 @@ public class BoardWrite_PT2 extends JFrame{
 		btnsend = new JButton(new ImageIcon("imges/edit2.png"));
 		btnsend.setBorderPainted(false);
 		btnsend.setContentAreaFilled(false);
+		btnsend.addActionListener(this);
 		SouthPanel.add(btnsend);
 		
 		add(SouthPanel, BorderLayout.SOUTH);
+	}
+
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		Object obj = e.getSource();
+		// 수정 버튼 이벤트
+		if(obj == btnsend) {
+			DBPT dbpt = new DBPT(null);
+			dbpt.BDUpdate(alpt.get(0),TxField[0].getText(), TxField[1].getText(), TxField[2].getText(), TxField[3].getText(), ta.getText());
+			dispose();
+		
+	}
+}
+
+
+	@Override
+	public void windowOpened(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void windowClosing(WindowEvent e) {
+		
+		this.dispose();
+		
+	}
+
+
+	@Override
+	public void windowClosed(WindowEvent e) {
+		Board2_PT bdpt = new Board2_PT(null);
+		
+	}
+
+
+	@Override
+	public void windowIconified(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void windowDeiconified(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void windowActivated(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void windowDeactivated(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 }

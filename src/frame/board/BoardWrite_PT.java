@@ -1,12 +1,17 @@
 package frame.board;
 
-//PT게시판 글쓰기
+//PT게시판 글쓰기(올리기 버튼있는 프레임)
 
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+import java.util.Date;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -18,13 +23,17 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import frame.db.DBPT;
 
-public class BoardWrite_PT extends JFrame{
+
+public class BoardWrite_PT extends JFrame implements ActionListener, WindowListener{
 	private Font mainFont;
 	private JTextArea ta;
 	private JScrollPane sp;
 	private JButton btnsend;
 	private Color skyblue;
+	private JTextField[] TxField;
+	private Date today;
 
 	
 	public BoardWrite_PT(String title) {
@@ -40,7 +49,7 @@ public class BoardWrite_PT extends JFrame{
 		setCenter();
 		
 		setSouth();
-		
+		addWindowListener(this);
 		setVisible(true);
 	}
 
@@ -66,7 +75,7 @@ public class BoardWrite_PT extends JFrame{
 	      }
 	      
 	      
-	      JTextField[] TxField = new JTextField[4];
+	     TxField = new JTextField[4];
 	      
 	      x = 100;
 	      y = 10;
@@ -78,6 +87,8 @@ public class BoardWrite_PT extends JFrame{
 	         TxField[i].setFont(new Font("210 맨발의청춘 L", Font.PLAIN, 12));
 	         NorthPanel.add(TxField[i]);
 	      }
+//	      today = new Date();
+//	      TxField[1] = today.getDate();
 	      
 	      ImageIcon img1 = new ImageIcon("imges/textimage_edit.png");
 			JLabel lbl1 = new JLabel(img1);
@@ -115,6 +126,7 @@ public class BoardWrite_PT extends JFrame{
 		
 	}
 	
+	//올리기 버튼
 	private void setSouth() {
 		JPanel SouthPanel = new JPanel();
 		SouthPanel.setBackground(skyblue);
@@ -123,8 +135,72 @@ public class BoardWrite_PT extends JFrame{
 		btnsend = new JButton(new ImageIcon("imges/upload.png"));
 		btnsend.setBorderPainted(false);
 		btnsend.setContentAreaFilled(false);
+		btnsend.addActionListener(this);
+		
 		SouthPanel.add(btnsend);
 		add(SouthPanel, BorderLayout.SOUTH);
 
+	}
+
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		Object obj =  e.getSource();
+		
+		//올리기 버튼 누르면 디비에 정보 전송하기
+		if (obj == btnsend) {
+			DBPT dbpt = new DBPT(null);
+			dbpt.PtInsert(TxField[0].getText(),TxField[1].getText(),TxField[3].getText(),ta.getText(),TxField[2].getText());
+			dispose();
+		}
+	}
+
+
+	@Override
+	public void windowOpened(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void windowClosing(WindowEvent e) {
+		this.dispose();
+		
+	}
+
+
+	@Override
+	public void windowClosed(WindowEvent e) {
+		Board2_PT bdpt = new Board2_PT(null);
+		
+	}
+
+
+	@Override
+	public void windowIconified(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void windowDeiconified(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void windowActivated(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void windowDeactivated(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 }
