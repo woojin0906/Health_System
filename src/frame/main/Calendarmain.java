@@ -22,6 +22,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import frame.db.DB;
+
 //2022-05-26 201945012 윤선호 달력에 날짜 누르면 메모장에 그 날짜 출력
 class Calendarmain extends JFrame implements ActionListener, MouseListener, WindowListener{
 	
@@ -33,7 +35,6 @@ class Calendarmain extends JFrame implements ActionListener, MouseListener, Wind
 	JButton buttonBefore = new JButton(" << ");
 	JButton buttonAfter = new JButton(" >> ");
 	
-	//JLabel label = new JLabel("0000년 00월");
 	JLabel label_year = new JLabel("0000");
 	JLabel label1 = new JLabel();
 	JLabel label_month = new JLabel("00");
@@ -43,19 +44,25 @@ class Calendarmain extends JFrame implements ActionListener, MouseListener, Wind
 	String[] dayNames = {"일요일", "월요일", "화요일", "수요일", "목요일", "금요일", "토요일"};
 	
 	CalendarFunction cf = new CalendarFunction();
+	
 	private Date nowtoday;
 	private JLabel lblToday;
 	private JButton check_button;
+	private Calendarmain Calendarmain;
+	private String id;
 	private MemoFrame memo;
 	private MainFrame Mf;
 	private String str;
+	private DB db = new DB(null, null);
 	
-	public Calendarmain(MainFrame Mf) {
+	public Calendarmain(MainFrame Mf, String id) {
+		this.id = id;
 		this.Mf = Mf;
+		
 		setTitle("달력");
-		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(800, 600);
 		setLocation(250, 150);
+		
 		init();
 		this.addWindowListener(this);
 		setLocationRelativeTo(null);
@@ -85,16 +92,13 @@ class Calendarmain extends JFrame implements ActionListener, MouseListener, Wind
 		 
 		 panel1.add(buttonAfter);
 		 panel1.setBackground(new Color(189, 215, 238));
-		 //panel1.add(lblToday, RIGHT_ALIGNMENT);
 		 
 		 Font font = new Font("210 맨발의청춘 L", Font.BOLD, 30);
 		 buttonBefore.addActionListener(this);
 		 buttonBefore.setBackground(Color.LIGHT_GRAY);
-		 //buttonBefore.setFont(font);
 		 
 		 buttonAfter.addActionListener(this);
 		 buttonAfter.setBackground(Color.LIGHT_GRAY);
-		 //buttonAfter.setFont(font);
 		 
 		 label_year.setFont(font);
 		 label_month.setFont(font);
@@ -108,10 +112,6 @@ class Calendarmain extends JFrame implements ActionListener, MouseListener, Wind
 		 
 		 panel2.setLayout(new GridLayout(7, 7));
 		 
-		 //오늘 날짜 버튼 글자 색 변경하기 위해 오늘 날짜 데이터 받기
-		 //Calendar cal2 = Calendar.getInstance();
-		 //int date = cal2.get(Calendar.DATE) + 6;
-		 
 		 for(int i = 0; i < buttons.length; i++) {
 			 buttons[i] = new JButton();
 			 buttons[i].setBackground(Color.white);
@@ -119,11 +119,7 @@ class Calendarmain extends JFrame implements ActionListener, MouseListener, Wind
 			 buttons[i].setFont(new Font("210 맨발의 청춘 L", Font.BOLD, 16));
 			 buttons[i].addActionListener(this);
 			 buttons[i].addMouseListener(this);
-			 //buttons[i].addActionListener(this);
 			 
-			 //오늘 날짜 버튼 글자색 변경
-			 //if(i == date) buttons[i].setForeground(Color.green);
-				 //buttons[i].setBackground(Color.green);
 			 if(i < 7) {
 				 buttons[i].setText(dayNames[i]); 
 				 buttons[i].setBackground(Color.GRAY);
@@ -145,10 +141,17 @@ class Calendarmain extends JFrame implements ActionListener, MouseListener, Wind
 		} else if(e.getSource() == buttonBefore ) {		// 1달 전
 			gap = -1;
 		} else if(str != null) {
-			memo = new MemoFrame("메모 프레임", this);
+			//2022-05-29 윤선호 해당 id, 날짜에 맞는 메모장을 보여준다.
+			//db = new DB(null);
+			String day = null;
+			day = label_year.getText() + label_month.getText() + getStr() + "일";
+			
+			System.out.println(day);
+			memo = new MemoFrame("메모 프레임", this, id, day);
 		}
+		
 		cf.allInit(gap);
-		label_year.setText(cf.getCalYearText()); //년 갱신
+		label_year.setText(cf.getCalYearText()); //년도 갱신
 		label_month.setText(cf.getCalMonthText()); // 월 갱신		
 	}
 	

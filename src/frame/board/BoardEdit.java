@@ -17,6 +17,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -24,43 +25,51 @@ import javax.swing.JTextField;
 import javax.swing.plaf.DimensionUIResource;
 
 import frame.db.DB;
+import frame.login.QuestionPW;
 
 
 public class BoardEdit extends JFrame implements ActionListener, WindowListener{
 	private Font mainFont;
-	private JTextArea ta;
-	private JScrollPane sp;
-	private JButton btnsend;
 	private Color skyblue;
-	private JPanel panel1;
-	private JPanel panel2;
-	private JButton btn;
-	private JButton btn2;
-	private JPanel panelS1;
-	private JPanel panelS2;
-	private JPanel panelS3;
-	private JLabel lblcomment;
-	private JTextArea ta2;
-	private JScrollPane sp2;
-	private JButton btn3;
-	private JTextField tfcomment;
 	private Color skyblue2;
+	
+	private JTextArea ta_write;
+	private JTextArea ta_comment;
+	
+	private JScrollPane write_sp;
+	private JScrollPane comment_sp;
+	
+	private JPanel panel_write;
+	private JPanel panel_button;
+	private JPanel panel_cmtlabel;
+	private JPanel panel_comment;
+	private JPanel panel_commnet;
+	
+	private JButton btnsend;
+	private JButton btn_edit;
+	private JButton btn_delete;
+	private JButton btn_comment;
+	
+	private JLabel lblcomment;
+	private JTextField tfcomment;
 	private ArrayList<String> al;
+	
 	private int bdi;
 	private Board bd;
+	private Boardwrite2 bw2;
+	private String id;
 	
-	public BoardEdit(ArrayList<String> al) {
-
+	public BoardEdit(ArrayList<String> al, String id) {
 		this.al = al;
+		this.id = id;
+		
 		setTitle("게시물 댓글 및 삭제");
-		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocation(200, 200);
 		setSize(450, 643);
 		setLayout(new BorderLayout());
 		skyblue = new Color(189, 215, 238);
 		mainFont = new Font("210 맨발의청춘 L", 0, 16);
 		
-		//System.out.println(al.get(0));
 		addWindowListener(this);
 		setNorth();
 		setCenter();
@@ -113,10 +122,10 @@ public class BoardEdit extends JFrame implements ActionListener, WindowListener{
 		JLabel lbl3 = new JLabel(img1);
 		JLabel lbl4 = new JLabel(img1);
 	      
-	      JLabel[] lblimg  ={lbl1 , lbl2 , lbl3, lbl4};
+	    JLabel[] lblimg  ={lbl1 , lbl2 , lbl3, lbl4};
 	      
-	      x = 90;
-	      y = 1;
+	    x = 90;
+	    y = 1;
 	      
 	      for(int i = 0; i < lblimg.length; i++, y+=40) {
 	    	  lblimg[i].setBounds(x, y, 330, 40);
@@ -132,38 +141,40 @@ public class BoardEdit extends JFrame implements ActionListener, WindowListener{
 		TextPanel.setBackground(skyblue);
 	    TextPanel.setLayout(new BorderLayout()); 
 		
-		panel1 = new JPanel();//글쓰기 파트
-		panel1.setBackground(skyblue);
-		ta =new  JTextArea(8,30);
-		ta.setFont(new Font("210 맨발의청춘 L", Font.PLAIN, 13));
-		ta.setLineWrap(true);
-		ta.setText(al.get(5));
-		sp = new JScrollPane(ta, 
+	    //글쓰기
+		panel_write = new JPanel();
+		panel_write.setBackground(skyblue);
+		ta_write =new  JTextArea(8,30);
+		ta_write.setFont(new Font("210 맨발의청춘 L", Font.PLAIN, 13));
+		ta_write.setLineWrap(true);
+		ta_write.setText(al.get(5));
+		write_sp = new JScrollPane(ta_write, 
 				JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, 
 				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		panel1.add(sp);
-		TextPanel.add(panel1,BorderLayout.CENTER);
+		panel_write.add(write_sp);
+		TextPanel.add(panel_write,BorderLayout.CENTER);
 		
 		
-		panel2 = new JPanel();
-		panel2.setBackground(skyblue);
-		panel2.setLayout(new FlowLayout(FlowLayout.RIGHT));
+		panel_button = new JPanel();
+		panel_button.setBackground(skyblue);
+		panel_button.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		
 		//수정버튼
-		btn = new JButton(new ImageIcon("imges/edit2.png"));
-		btn.addActionListener(this);
-		btn.setBorderPainted(false);
-		btn.setContentAreaFilled(false);
+		btn_edit = new JButton(new ImageIcon("imges/edit2.png"));
+		btn_edit.addActionListener(this);
+		btn_edit.setBorderPainted(false);
+		btn_edit.setContentAreaFilled(false);
 
-		panel2.add(btn);
+		panel_button.add(btn_edit);
 		
 		//삭제버튼
-		btn2 = new JButton(new ImageIcon("imges/delete2.png"));
-		btn2.setBorderPainted(false);
-		btn2.setContentAreaFilled(false);
+		btn_delete = new JButton(new ImageIcon("imges/delete2.png"));
+		btn_delete.setBorderPainted(false);
+		btn_delete.setContentAreaFilled(false);
+		btn_delete.addActionListener(this);
 
-		panel2.add(btn2);
-		TextPanel.add(panel2, BorderLayout.NORTH);
+		panel_button.add(btn_delete);
+		TextPanel.add(panel_button, BorderLayout.NORTH);
 		
 	    add(TextPanel, BorderLayout.CENTER);
 		
@@ -173,32 +184,32 @@ public class BoardEdit extends JFrame implements ActionListener, WindowListener{
 		JPanel SouthPanel = new JPanel();
 		SouthPanel.setLayout(new BorderLayout());
 		
-		panelS1 = new JPanel();
-		panelS1.setBackground(skyblue);
-		panelS1.setLayout(new FlowLayout(FlowLayout.LEFT,20,7));
+		panel_cmtlabel = new JPanel();
+		panel_cmtlabel.setBackground(skyblue);
+		panel_cmtlabel.setLayout(new FlowLayout(FlowLayout.LEFT,20,7));
 		lblcomment = new JLabel("댓글");
 		lblcomment.setFont(new Font("210 맨발의청춘 L", Font.BOLD, 13));
-		panelS1.add(lblcomment);
-		SouthPanel.add(panelS1, BorderLayout.NORTH);
+		panel_cmtlabel.add(lblcomment);
+		SouthPanel.add(panel_cmtlabel, BorderLayout.NORTH);
 		
 		//댓글 목록 TextArea
-		panelS2 = new JPanel();
-		panelS2.setBackground(skyblue);
-		ta2 =new  JTextArea(8,30);
-		ta2.setFont(new Font("210 맨발의청춘 L", Font.PLAIN, 13));
-		ta2.setLineWrap(true);
-		sp2 = new JScrollPane(ta2, 
+		panel_comment = new JPanel();
+		panel_comment.setBackground(skyblue);
+		ta_comment =new  JTextArea(8,30);
+		ta_comment.setFont(new Font("210 맨발의청춘 L", Font.PLAIN, 13));
+		ta_comment.setLineWrap(true);
+		comment_sp = new JScrollPane(ta_comment, 
 				JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, 
 				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		panelS2.add(sp2);
-		SouthPanel.add(panelS2, BorderLayout.CENTER);
+		panel_comment.add(comment_sp);
+		SouthPanel.add(panel_comment, BorderLayout.CENTER);
 		
 		
 		//마지막 부분 답글 텍스트 있는 부분!
-		panelS3 = new JPanel();
-		panelS3.setLayout(null);
-		panelS3.setPreferredSize(new DimensionUIResource(100, 70));
-		panelS3.setBackground(skyblue);
+		panel_commnet = new JPanel();
+		panel_commnet.setLayout(null);
+		panel_commnet.setPreferredSize(new DimensionUIResource(100, 70));
+		panel_commnet.setBackground(skyblue);
 		
 		//댓글 입력 TextField
 		tfcomment = new JTextField(20);
@@ -207,23 +218,23 @@ public class BoardEdit extends JFrame implements ActionListener, WindowListener{
 		tfcomment.setFont(new Font("210 맨발의청춘 L", Font.PLAIN, 14));
 		//엔터 입력하면 댓글이 추가된다.
 		tfcomment.addActionListener(this);
-		panelS3.add(tfcomment);
+		panel_commnet.add(tfcomment);
 		
 		//답글 이미지
 		ImageIcon imgcomment = new ImageIcon("imges/textimage_edit.png");
 		JLabel lblcomment = new JLabel(imgcomment);
 		lblcomment.setBounds(8, 3, 330, 50);
-		panelS3.add(lblcomment);
+		panel_commnet.add(lblcomment);
 		
 		//댓글 버튼
-		btn3 = new JButton(new ImageIcon("imges/comment2_3.png"));	
-		btn3.setBounds(330, 8, 100, 40);
-		btn3.setBorderPainted(false);
-		btn3.setContentAreaFilled(false);
-		btn3.addActionListener(this);
+		btn_comment = new JButton(new ImageIcon("imges/comment2_3.png"));	
+		btn_comment.setBounds(330, 8, 100, 40);
+		btn_comment.setBorderPainted(false);
+		btn_comment.setContentAreaFilled(false);
+		btn_comment.addActionListener(this);
 		
-		panelS3.add(btn3);
-		SouthPanel.add(panelS3, BorderLayout.SOUTH);
+		panel_commnet.add(btn_comment);
+		SouthPanel.add(panel_commnet, BorderLayout.SOUTH);
 		
 		
 		SouthPanel.setBackground(skyblue);
@@ -235,21 +246,38 @@ public class BoardEdit extends JFrame implements ActionListener, WindowListener{
 	public void actionPerformed(ActionEvent e) {
 		Object obj = e.getSource();
 		//Boardwrite2 bw2 = new Boardwrite2(null);
-		if(obj == tfcomment || obj == btn3) {
-			ta2.append(tfcomment.getText() + "\n");
+		if(obj == tfcomment || obj == btn_comment) {
+			ta_comment.append(tfcomment.getText() + "\n");
 			//tfcomment.setText("");
 			
 			//현재 선택한 게시물의 글번호를 가져옴
 			bdi = Integer.parseInt(al.get(0).toString());
 			System.out.println(bdi);
 		
-			DB db = new DB(this);
+			DB db = new DB(this, null);
 			//int in = Integer.parseInt(bd.getAl().get(0));
 			System.out.println(al.get(1));
 			db.BDCMT(al.get(0), tfcomment.getText());
 			tfcomment.setText("");
 			db.DisplayCMT(al.get(0));
 			
+		//2022-05-28 19:36 윤선호 수정 버튼 누르면 게시물 수정창이 뜬다.
+		}else if(obj == btn_edit) {
+			//System.out.println(al.get(4));
+			bw2 = new Boardwrite2(al, id);
+		//2022-05-28 20:50 윤선호 게시물 삭제기능
+		}else if(obj == btn_delete) {
+			if(JOptionPane.showConfirmDialog (this, 
+					"게시물을 삭제하시겠습니까?",
+					"글삭제",
+					JOptionPane.YES_NO_OPTION
+					) == JOptionPane.YES_OPTION){
+					DB db = new DB(null, null);
+					db.DeleteBD(al.get(0));
+					
+					this.dispose();
+					Board bd = new Board(null, id);
+				}
 		}
 		
 	}
@@ -263,7 +291,7 @@ public class BoardEdit extends JFrame implements ActionListener, WindowListener{
 	@Override
 	public void windowClosing(WindowEvent e) {
 		this.dispose();
-		Board bd = new Board(null);
+		Board bd = new Board(null, null);
 		bd.dispose();
 	}
 
@@ -298,8 +326,8 @@ public class BoardEdit extends JFrame implements ActionListener, WindowListener{
 	}
 
 
-	public JTextArea getTa2() {
-		return ta2;
+	public JTextArea getta_comment() {
+		return ta_comment;
 	}
 	
 }

@@ -9,6 +9,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.lang.reflect.Member;
 import java.sql.DriverManager;
 import java.sql.Connection;
@@ -44,13 +46,12 @@ import frame.db.DB;
 import frame.main.MainFrame;
 
 
-public class Board extends JFrame implements ActionListener, MouseListener{
+public class Board extends JFrame implements ActionListener, MouseListener, WindowListener{
 	private JButton btn_Insert, btn_Delete, btn_Exit;
-	private String[][]datas = new String[0][7];
-	private String[] title = {"글번호", "제목", "작성자", "작성날짜", "내용", "분류","비고"};
+	private String[] title = {"글번호", "제목", "작성자", "작성날짜", "내용", "분류"};
+	private String[][]datas = new String[0][5];
 	private DefaultTableModel model = new DefaultTableModel(datas, title);
 	private JTable table = new JTable(model);
-	private JLabel lbl_Count = new JLabel("게시물 수 : + 0");
 	
 	private Connection conn;
 	private Statement stmt;
@@ -72,94 +73,26 @@ public class Board extends JFrame implements ActionListener, MouseListener{
 	private TableModel data;
 	private BoardEdit be;
 	private String pre_i;
+	private DB db;
+	private String id;
 
-	public Board(MainFrame mf) {
+	public Board(MainFrame mf, String id) {
+		this.id = id;
 		skyblue = new Color(189, 215, 238);
+		
 		setTitle("자유게시판");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocation(300, 300);
 		setSize(600, 600);
-		//setResizable(false); // 사이즈 조절 못하게함
+		setResizable(false); // 사이즈 조절 못하게함
 		setLayout(new BorderLayout());
-		//addWindowListener(this);
+		
+		addWindowListener(this);
 		PanelUP();
 		PanelDowm();
 		
 		displayData();
 		setVisible(true);
-	}
-	
-	public Board(String pre_title, String pre_writer, String pre_writeday, String pre_content) {
-		// TODO Auto-generated constructor stub
-	}
-
-	public class TableCell extends AbstractCellEditor implements TableCellEditor, TableCellRenderer, ActionListener {
-		JButton btn_modify;
-		private ArrayList<String> al;
-		private TableModel data;
-		private String pre_i;
-		
-		public TableCell() {
-			btn_modify = new JButton("수정");
-			btn_modify.addActionListener(this);
-		}
-		
-		@Override
-		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
-				int row, int column) {
-			return btn_modify;
-		}
-
-		@Override
-		public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row,
-				int column) {
-			return btn_modify;
-		}
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			Object obj = e.getSource();
-			if(obj == btn_modify) {
-				//선택한 셀의 행 번호 가져오기
-				int row = table.getSelectedRow();
-				int col = table.getSelectedColumn();
-				
-				//테이블의 모델 객체 받아온다
-				data = table.getModel();
-				//글번호, 제목, 작성자, 작성날짜, 내용, 분류
-				pre_i = (String)data.getValueAt(row, 0);
-				String pre_title = (String)data.getValueAt(row, 1);
-				String pre_writer = (String)data.getValueAt(row, 2);
-				String pre_writeday = (String)data.getValueAt(row, 3);
-				String pre_content = (String)data.getValueAt(row, 4);
-				String pre_category = (String)data.getValueAt(row, 5);
-				
-				System.out.println(pre_i);
-				System.out.println(Integer.parseInt((pre_i).toString()) + 2);
-				System.out.println(pre_title);
-				System.out.println(pre_writer);
-				System.out.println(pre_writeday);
-				System.out.println(pre_content);
-				System.out.println(pre_category);
-				
-				al = new ArrayList<>();
-				al.add(pre_i);
-				al.add(pre_title);
-				al.add(pre_writer);
-				al.add(pre_writeday);
-				al.add(pre_content);
-				al.add(pre_category);
-				
-				Boardwrite2 bd2 = new Boardwrite2(al);
-				//BoardEdit be = new BoardEdit(al);
-			}
-		}
-
-		@Override
-		public Object getCellEditorValue() {
-			// TODO Auto-generated method stub
-			return null;
-		}
 	}
 
 	private void PanelUP() {
@@ -200,6 +133,7 @@ public class Board extends JFrame implements ActionListener, MouseListener{
 		tfsearch.setBounds(20, 10, 300, 25);
 		tfsearch.setBorder(BorderFactory.createEmptyBorder());
 		tfsearch.setFont(new Font("210 맨발의청춘 L", Font.PLAIN, 12));
+		tfsearch.addActionListener(this);
 		
 		ImageIcon imgtfsearch = new ImageIcon("imges/textimage_edit.png");
 		JLabel lbltfsearch = new JLabel(imgtfsearch);
@@ -216,43 +150,33 @@ public class Board extends JFrame implements ActionListener, MouseListener{
 		btnsearch.setContentAreaFilled(false);
 		btnsearch.setFocusPainted(false);
 		btnsearch.setFont(new Font("210 맨발의청춘 L", Font.BOLD, 10));
+		btnsearch.addActionListener(this);
 		
 		panel2.add(btnsearch);
 		panelUP.add(panel2);
 		
 		add(panelUP,BorderLayout.NORTH);
-		
-		
 	}
 
 	private void PanelDowm() {
-		//ta = new JTextArea(40,40);
-		//sp = new JScrollPane(ta, 
-				//JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, 
-				//JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-		//ta.setLineWrap(true);
-		//ta.setEditable(false);
-		//add(sp,BorderLayout.CENTER);
-		
 		bdpanel = new JPanel();
-		add(bdpanel, BorderLayout.CENTER);
 		
 		//테이블 크기 조절
-		table.getColumnModel().getColumn(0).setPreferredWidth(30);
-		table.getColumnModel().getColumn(1).setPreferredWidth(150);
+		table.getColumnModel().getColumn(0).setPreferredWidth(20);
+		table.getColumnModel().getColumn(1).setPreferredWidth(80);
+		table.getColumnModel().getColumn(2).setPreferredWidth(50);
+		table.getColumnModel().getColumn(3).setPreferredWidth(80);
+		table.getColumnModel().getColumn(4).setPreferredWidth(120);
+		table.getColumnModel().getColumn(5).setPreferredWidth(50);
+		
 		JScrollPane ScrollPane = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 												JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-		//DefaultTableCellRenderer render = new MyDefaultTableCellRender();
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); // 단일 선택
-		table.getColumnModel().getColumn(6).setCellRenderer(new TableCell());
-		table.getColumnModel().getColumn(6).setCellEditor(new TableCell());
 		table.addMouseListener(this);
-		//if(table.getSelectedRow() < 5) {
-			//table.addMouseListener(this);
-		//}
-		add(ScrollPane, BorderLayout.SOUTH);
-		//add(lbl_Count, BorderLayout.SOUTH);
 		
+		bdpanel.add(ScrollPane);
+		add(bdpanel, BorderLayout.CENTER);
+		add(ScrollPane, BorderLayout.SOUTH);
 	}
 
 	@Override
@@ -261,9 +185,55 @@ public class Board extends JFrame implements ActionListener, MouseListener{
 		
 		//글쓰기 버튼 누를 시 자유게시판 글쓰기 창이 뜬다.
 		if(obj == btnWrite) {
-		Boardwrite be = new Boardwrite("글쓰기");
+		Boardwrite be = new Boardwrite("글쓰기", id);
 		this.dispose();
-		}
+		
+		//게시물 검색 기능
+		}else if(obj == tfsearch || obj == btnsearch) {}
+		String src = tfsearch.getText();
+		System.out.println(src);
+		scDisplay(src);
+		//db = new DB(null);
+		
+	}
+	//2022-05-28 내용으로 글 검색하면 보여준다
+	public void scDisplay(String src) {
+		model.setNumRows(0);
+		try {
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+			conn = DriverManager.getConnection(
+					"jdbc:oracle:thin:@127.0.0.1:1521:XE",
+					"barbelljava",
+					"kkt1004");
+			
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery("select * from freetalk where BD_CONTENT LIKE '%' || '" +  src + "' || '%' order by BD_ID desc");
+			
+			while(rs.next()) {
+				String[] sch = {rs.getString("BD_ID"), rs.getString("BD_TITLE"), rs.getString("BD_WRITER"), rs.getString("WRITE_DAY"), rs.getString("BD_CONTENT"), rs.getString("CATEGORY")};
+				model.addRow(sch);
+				}
+			
+			}catch (ClassNotFoundException e) {
+				System.out.println("예외발생 : 해당 드라이버가 없습니다.");
+				e.printStackTrace();
+				
+			} catch(SQLException e) {
+				System.out.println("예외발생 : 접속 정보 확인 필요");
+				e.printStackTrace();
+				
+			} finally {
+				try {
+					if(rs != null)
+						rs.close();
+					if(stmt != null)
+						stmt.close();
+					if(conn != null)
+						conn.close();
+				}catch(Exception e) {
+					e.printStackTrace();
+				}
+			}
 	}
 	
 	//JTable에 모든 값 보여줌
@@ -277,17 +247,13 @@ public class Board extends JFrame implements ActionListener, MouseListener{
 					"kkt1004");
 			
 			stmt = conn.createStatement();
-			//stmt = conn.prepareStatement("select * from freetalk order by code desc");
 			rs = stmt.executeQuery("select * from freetalk order by BD_ID desc");
-			int count = 0;
 			
 			while(rs.next()) {
-				String[] imsi = {rs.getString("BD_ID"), rs.getString("BD_TITLE"), rs.getString("BD_WRITER"), rs.getString("WRITE_DAY"), rs.getString("BD_CONTENT"), rs.getString("CATEGORY")};
-			model.addRow(imsi);
-			count++;
+				String[] imsi = {rs.getString("BD_ID"), rs.getString("BD_TITLE"), rs.getString("BD_WRITER"), rs.getString("WRITE_DAY"), rs.getString("BD_CONTENT"),rs.getString("CATEGORY")};
+				model.addRow(imsi);
 			}
 			
-			//lbl_Count.setText("게시물 수 : " + count);
 		} catch (ClassNotFoundException e) {
 			System.out.println("예외발생 : 해당 드라이버가 없습니다.");
 			e.printStackTrace();
@@ -341,9 +307,12 @@ public class Board extends JFrame implements ActionListener, MouseListener{
 		al.add(pre_writeday);
 		al.add(pre_category);
 		al.add(pre_content);
-		BoardEdit be = new BoardEdit(al);
-		DB db = new DB(be);
+		
+		BoardEdit be = new BoardEdit(al, id);
+		
+		DB db = new DB(be, null);
 		db.DisplayCMT(pre_i);
+		this.dispose();
 	}
 
 	@Override
@@ -370,5 +339,47 @@ public class Board extends JFrame implements ActionListener, MouseListener{
 
 	public ArrayList<String> getAl() {
 		return al;
+	}
+
+	//2022-05-28 윤선호 자유게시판 창 뜨면 검색필드 활성화
+	@Override
+	public void windowOpened(WindowEvent e) {
+		tfsearch.requestFocus();
+	}
+
+	@Override
+	public void windowClosing(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowClosed(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowIconified(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowDeiconified(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowActivated(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowDeactivated(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 }

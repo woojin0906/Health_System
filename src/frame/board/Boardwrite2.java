@@ -31,35 +31,42 @@ import javax.swing.plaf.DimensionUIResource;
 import frame.db.DB;
 //허유진 글쓰기 변형해서 수정하는 폼
 public class Boardwrite2 extends JFrame implements ActionListener, WindowListener{
-
+	
+	private Color skyblue;
+	private JTextArea ta;
 	private JPanel PanelUp;
 	private JPanel PanelDown;
 	private JPanel PanelCenter;
-	private JTextArea ta;
+	
 	private JButton btnSend;
 	private JLabel lblboardname;
 	private JLabel lbltitle;
-	private JTextField tftitle;
 	private JLabel lblWriter;
-	private JTextField tfWriter;
 	private JLabel lblWriteday;
-	private JTextField tfWriteday;
-	private JPanel panel1;
-	private JPanel panel1UP;
-	private JPanel panel1Center;
-	private JPanel panel1Down;
-	private JPanel panel2;
 	private JLabel lblselection;
+	
+	private JTextField tftitle;
+	private JTextField tfWriter;
+	private JTextField tfWriteday;
+	
+	private JPanel panel_title;
+	private JPanel panel_titleUP;
+	private JPanel panel_titleCenter;
+	private JPanel panel_titleDown;
+	private JPanel panel_combo;
+	
 	private Vector<String> vecCombo;
 	private JComboBox<String> comboselection;
-	private JPanel panelUpp;
-	private Color skyblue;
+	
 	private JScrollPane sp;
 	private Board user;
 	private ArrayList<String> al;
+	private String id;
 
-	public Boardwrite2(ArrayList<String> al) {
+	public Boardwrite2(ArrayList<String> al, String id) {
 		this.al = al;
+		this.id = id;
+		
 		setTitle("자유게시판 글 수정");
 		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocation(300, 300);
@@ -81,55 +88,50 @@ public class Boardwrite2 extends JFrame implements ActionListener, WindowListene
 		PanelUp = new JPanel();
 		PanelUp.setLayout(new BorderLayout());
 		
-//		panelUpp = new JPanel();
-//		panelUpp.setLayout(null);
-//		lblboardname = new JLabel("자유게시판");
-//		lblboardname.setLocation(10, 20);
-//		lblboardname.setSize(40, 20);
-//		panelUpp.add(lblboardname);
-//		PanelUp.add(panelUpp, BorderLayout.NORTH);
 		
-		panel1 = new JPanel();
-		panel1.setLayout(new GridLayout(4,1));
+		panel_title = new JPanel();
+		panel_title.setLayout(new GridLayout(4,1));
 		
-		panel1UP=new JPanel();
-		panel1UP.setLayout(null);
-		panel1UP.setPreferredSize(new DimensionUIResource(100, 50));
-		panel1UP.setBackground(skyblue);
+		panel_titleUP = new JPanel();
+		panel_titleUP.setLayout(null);
+		panel_titleUP.setPreferredSize(new DimensionUIResource(100, 50));
+		panel_titleUP.setBackground(skyblue);
 		
 		lbltitle = new JLabel("제목");
 		lbltitle.setFont(new Font("210 맨발의청춘 L", Font.BOLD, 15));
 		lbltitle.setLocation(10, 20);
 		lbltitle.setSize(40, 20);
-		panel1UP.add(lbltitle);
+		
 		
 		tftitle = new JTextField(25);
 		tftitle.setLocation(85, 20);
 		tftitle.setSize(280, 10);
 		tftitle.setText(al.get(1));
-		System.out.println(al.get(1));
+		//System.out.println(al.get(1));
 		tftitle.setBorder(BorderFactory.createEmptyBorder());
 		tftitle.setFont(new Font("210 맨발의청춘 L", Font.PLAIN, 10));
-		panel1UP.add(tftitle);
+		
+		panel_titleUP.add(lbltitle);
+		panel_titleUP.add(tftitle);
 		
 		// 제목 텍스트 배경
 		ImageIcon imgtitle = new ImageIcon("imges/text5.png");
 		JLabel lbltitle = new JLabel(imgtitle);
 		lbltitle.setBounds(75, 10, 302, 30);
 		
-		panel1UP.add(lbltitle);
-		panel1.add(panel1UP); //제목
+		panel_titleUP.add(lbltitle);
+		panel_title.add(panel_titleUP); //제목
 		
-		panel1Center = new JPanel();
-		panel1Center.setLayout(null);
-		panel1Center.setPreferredSize(new DimensionUIResource(100, 50));
-		panel1Center.setBackground(skyblue);
+		panel_titleCenter = new JPanel();
+		panel_titleCenter.setLayout(null);
+		panel_titleCenter.setPreferredSize(new DimensionUIResource(100, 50));
+		panel_titleCenter.setBackground(skyblue);
 		
 		lblWriteday = new JLabel("작성일자");
 		lblWriteday.setFont(new Font("210 맨발의청춘 L", Font.BOLD, 15));
 		lblWriteday.setLocation(10, 20);
 		lblWriteday.setSize(150, 20);
-		panel1Center.add(lblWriteday);
+		panel_titleCenter.add(lblWriteday);
 		
 		tfWriteday = new JTextField(25);
 		tfWriteday.setLocation(85, 20);
@@ -137,25 +139,25 @@ public class Boardwrite2 extends JFrame implements ActionListener, WindowListene
 		tfWriteday.setText(al.get(3));
 		tfWriteday.setBorder(BorderFactory.createEmptyBorder());
 		tfWriteday.setFont(new Font("210 맨발의청춘 L", Font.PLAIN, 10));
-		panel1Center.add(tfWriteday);
+		panel_titleCenter.add(tfWriteday);
 		
 		ImageIcon imgwriteday = new ImageIcon("imges/text5.png");
 		JLabel lblwriteday = new JLabel(imgwriteday);
 		lblwriteday.setBounds(75, 10, 302, 30);
-		panel1Center.add(lblwriteday);
+		panel_titleCenter.add(lblwriteday);
 		
-		panel1.add(panel1Center);//작성일자
+		panel_title.add(panel_titleCenter);//작성일자
 		
-		panel1Down = new JPanel();
-		panel1Down.setLayout(null);
-		panel1Down.setPreferredSize(new DimensionUIResource(100, 50));
-		panel1Down.setBackground(skyblue);
+		panel_titleDown = new JPanel();
+		panel_titleDown.setLayout(null);
+		panel_titleDown.setPreferredSize(new DimensionUIResource(100, 50));
+		panel_titleDown.setBackground(skyblue);
 		
 		lblWriter = new JLabel("작성자");
 		lblWriter.setFont(new Font("210 맨발의청춘 L", Font.BOLD, 15));
 		lblWriter.setLocation(10, 20);
 		lblWriter.setSize(150, 20);
-		panel1Down.add(lblWriter);
+		panel_titleDown.add(lblWriter);
 		
 		tfWriter = new JTextField(25);
 		tfWriter.setLocation(85, 20);
@@ -163,46 +165,50 @@ public class Boardwrite2 extends JFrame implements ActionListener, WindowListene
 		tfWriter.setText(al.get(2));
 		tfWriter.setBorder(BorderFactory.createEmptyBorder());
 		tfWriter.setFont(new Font("210 맨발의청춘 L", Font.PLAIN, 10));
-		panel1Down.add(tfWriter);
+		panel_titleDown.add(tfWriter);
 		
 		ImageIcon imgwriter = new ImageIcon("imges/text5.png");
 		JLabel lblwriter = new JLabel(imgwriter);
 		lblwriter.setBounds(75, 10, 302, 30);
-		panel1Down.add(lblwriter);
+		panel_titleDown.add(lblwriter);
 		
-		panel1.add(panel1Down);//작성자
+		panel_title.add(panel_titleDown);//작성자
 		
-		panel2 = new JPanel();
-		panel2.setLayout(new FlowLayout(FlowLayout.RIGHT,10,5));
-		panel2.setBackground(skyblue);
+		panel_combo = new JPanel();
+		panel_combo.setLayout(new FlowLayout(FlowLayout.RIGHT,10,5));
+		panel_combo.setBackground(skyblue);
 		lblselection = new JLabel("카테고리");
 		lblselection.setFont(new Font("210 맨발의청춘 L", Font.BOLD, 10));
-		panel2.add(lblselection);
+		panel_combo.add(lblselection);
 		
 		vecCombo = new Vector<String>();
-	      vecCombo.add("운동");
-	      vecCombo.add("나눔");
+	    vecCombo.add("운동");
+	    vecCombo.add("나눔");
 	      
-	      comboselection = new JComboBox<String>(vecCombo);
-	      comboselection.setPreferredSize(new Dimension(100, 35));
-	      comboselection.setBackground(Color.white);
+	    comboselection = new JComboBox<String>(vecCombo);
+	    comboselection.setPreferredSize(new Dimension(100, 35));
+	    comboselection.setBackground(Color.white);
 	      
-		panel2.add(comboselection);//콤보박스
-		panel1.add(panel2);
+		panel_combo.add(comboselection);//콤보박스
+		panel_title.add(panel_combo);
 
-		PanelUp.add(panel1);
+		PanelUp.add(panel_title);
 		add(PanelUp, BorderLayout.NORTH);
 	}
 	
 	private void PanelCenter() {
+		
 		PanelCenter = new JPanel();
 		PanelCenter.setBackground(skyblue);
 		ta = new JTextArea(13,37);
 		ta.setLineWrap(true);
+		
 		sp = new JScrollPane(ta, 
 				JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, 
 				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		ta.setText(al.get(4));
+		
+		ta.setText(al.get(5));
+		
 		PanelCenter.add(sp);
 		add(PanelCenter, BorderLayout.CENTER);
 	}
@@ -211,11 +217,13 @@ public class Boardwrite2 extends JFrame implements ActionListener, WindowListene
 		PanelDown = new JPanel();
 		PanelDown.setBackground(skyblue);
 		PanelDown.setLayout(new FlowLayout(FlowLayout.RIGHT,10,0));
+		
 		btnSend = new JButton(new ImageIcon("imges/edit2.png"));
 		btnSend.setBorderPainted(false);
 		btnSend.setContentAreaFilled(false);
 		btnSend.addActionListener(this);
 		btnSend.setFont(new Font("210 맨발의청춘 L", Font.BOLD, 10));
+		
 		PanelDown.add(btnSend);
 		add(PanelDown, BorderLayout.SOUTH);
 		
@@ -226,7 +234,7 @@ public class Boardwrite2 extends JFrame implements ActionListener, WindowListene
 		Object obj = e.getSource();
 		//2022-05-27 윤선호 수정 버튼 이벤트
 		if(obj == btnSend) {
-			DB db = new DB(null);
+			DB db = new DB(null, null);
 			db.BDUpdate(al.get(0),tftitle.getText(), tfWriteday.getText(), tfWriter.getText(), comboselection.getSelectedItem().toString(), ta.getText());
 			dispose();
 		}
@@ -245,7 +253,7 @@ public class Boardwrite2 extends JFrame implements ActionListener, WindowListene
 
 	@Override
 	public void windowClosed(WindowEvent e) {
-		Board bd = new Board(null);
+		Board bd = new Board(null, id);
 	}
 
 	@Override

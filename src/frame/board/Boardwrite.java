@@ -28,48 +28,51 @@ import javax.swing.plaf.DimensionUIResource;
 import frame.db.DB;
 
 public class Boardwrite extends JFrame implements ActionListener, WindowListener{
-	
-	
 
 	private JPanel PanelUp;
 	private JPanel PanelDown;
 	private JPanel PanelCenter;
 	private JTextArea ta;
+	
 	private JButton btnSend;
 	private JLabel lblboardname;
 	private JLabel lbltitle;
-	private JTextField tftitle;
-	private JLabel lblWriter;
-	private JTextField tfWriter;
 	private JLabel lblWriteday;
+	private JLabel lblselection;
+	private JLabel lblWriter;
+	
+	private JTextField tftitle;
+	private JTextField tfWriter;
 	private JTextField tfWriteday;
+	
 	private JPanel panel1;
+	private JPanel panel2;
+	
 	private JPanel panel1UP;
 	private JPanel panel1Center;
 	private JPanel panel1Down;
-	private JPanel panel2;
-	private JLabel lblselection;
+	
 	private Vector<String> vecCombo;
 	private JComboBox<String> comboselection;
-	private JPanel panelUpp;
 	private Color skyblue;
 	private JScrollPane sp;
-	private int i;
-	//private DB db;
-
-	public Boardwrite(String title) {
+	private String id;
+	
+	public Boardwrite(String title, String id) {
+		this.id = id;
 		setTitle(title);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
 		setLocation(300, 300);
 		setSize(390, 500);
+		
 		setLayout(new BorderLayout());
 		skyblue = new Color(189, 215, 238);
+		
 		PanelUP();
 		PanelCenter();
 		PanelDown();
-		addWindowListener(this);
-		//db = new DB();
 		
+		addWindowListener(this);
 		setVisible(true);
 	}
 
@@ -182,12 +185,15 @@ public class Boardwrite extends JFrame implements ActionListener, WindowListener
 	private void PanelCenter() {
 		PanelCenter = new JPanel();
 		PanelCenter.setBackground(skyblue);
+		
 		ta = new JTextArea(12,26);
 		ta.setLineWrap(true);
 		ta.setFont(new Font("210 맨발의청춘 L", Font.PLAIN, 13));
+		
 		sp = new JScrollPane(ta, 
 				JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, 
 				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		
 		PanelCenter.add(sp);
 		add(PanelCenter, BorderLayout.CENTER);
 	}
@@ -204,16 +210,17 @@ public class Boardwrite extends JFrame implements ActionListener, WindowListener
 		btnSend.setContentAreaFilled(false);
 		btnSend.setFont(new Font("210 맨발의청춘 L", Font.BOLD, 10));
 		btnSend.addActionListener(this);
+		
 		PanelDown.add(btnSend);
 		add(PanelDown, BorderLayout.SOUTH);
-		
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object obj = e.getSource();
+		
 		//2022-05-26 윤선호 게시글 추가
 		if(obj == btnSend) {
-			DB db = new DB(null);
+			DB db = new DB(null, null);
 			//게시물 하나씩 추가할때 마다 글 하나씩 추가
 			db.BDInsert(tftitle.getText(), tfWriteday.getText(), tfWriter.getText(), comboselection.getSelectedItem().toString(), ta.getText());
 			dispose();
@@ -234,7 +241,7 @@ public class Boardwrite extends JFrame implements ActionListener, WindowListener
 
 	@Override
 	public void windowClosed(WindowEvent e) {
-		Board bd = new Board(null);
+		Board bd = new Board(null, id);
 	}
 
 	@Override

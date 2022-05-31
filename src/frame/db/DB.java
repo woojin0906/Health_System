@@ -9,10 +9,10 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import frame.board.Board;
-import frame.board.BoardEdit; 
+import frame.board.BoardEdit;
+import frame.main.MemoFrame; 
 
 public class DB {
-	//private java.sql.Statement stmt;
 	//윤선호 자유게시판관련 DB 추가
 	private ResultSet result=null;
 	private Connection conn = null;
@@ -20,9 +20,12 @@ public class DB {
 	private int id;
 	private String cmt;
 	private BoardEdit be;
-	private ArrayList<Object> list = new ArrayList<Object>();
-	public DB(BoardEdit boardedit) {
+	private MemoFrame memo;
+	private String my_memo;
+	
+	public DB(BoardEdit boardedit, MemoFrame memoframe) {
 		this.be = boardedit;
+		this.memo = memoframe;
 		
 		try {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
@@ -46,7 +49,6 @@ public class DB {
 	//2022-05-26 윤선호 자유게시판 글 작성 DB
 	public void BDInsert(String title, String writeday, String writer, String category, String bd_contents) {
 		System.out.println("입력할 데이터 : ");
-		//System.out.println(i);
 		System.out.println(title);
 		System.out.println(writeday);
 		System.out.println(writer);
@@ -74,16 +76,14 @@ public class DB {
 	}
 		
 }
-	
+
 	//윤선호 자유게시판 id DB에서 불러오기
 	public int GetBDID() {
 		try {
-			//int id;
 			result = stmt.executeQuery("select BD_ID from freetalk");
 			if(result.next()) {
 				String max = String.valueOf(result.getInt(1));
 				id = Integer.parseInt(max);
-				//System.out.println("마지막 값 : " + id);
 			}
 		}catch(SQLException e) {
 			System.out.println("select Query Error!");
@@ -150,10 +150,10 @@ public class DB {
 	public void DisplayCMT(String id) {
 		try {
 			
-			result = stmt.executeQuery("select \"COMMENT\" FROM FR_COMMENT where BD_ID = '" + Integer.parseInt(id) + "'");		
+			result = stmt.executeQuery("select \"COMMENT\" FROM FR_COMMENT where BD_ID = '" + Integer.parseInt(id) + "'");	
 			while(result.next()) {
 				String test = result.getString(1);
-				be.getTa2().append(test + "\n");
+				be.getta_comment().append(test + "\n");
 				System.out.println(result.getString(1));
 				System.out.println("댓글 보여주기 성공");
 				
@@ -171,5 +171,54 @@ public class DB {
 		}
 		
 	}
-
+	//2022-05-28 21:57 윤선호 게시물 삭제
+	public void DeleteBD(String id) {
+		//int num_id = Integer.parseInt(id);
+		try {
+			result = stmt.executeQuery("delete FROM FR_COMMENT where BD_ID = '" + Integer.parseInt(id) + "'");
+			result = stmt.executeQuery("delete FROM FREETALK where BD_ID = '" + Integer.parseInt(id) + "'");
+			System.out.println("게시물 삭제 성공");
+		} catch (NumberFormatException e) {
+			System.out.println("게시물 삭제 실패");
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				stmt.close();
+				result.close();
+			}catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	//2022-05-29 윤선호 메모장 데베 저장
+	public void InsertMemo(String memo_date, String memo_data, String id) {
+		System.out.println(memo_date);
+		System.out.println(memo_data);
+		System.out.println(id);
+		
+		try {
+			//중복되면 업데이트
+			String sqlInsert = "insert into MEMO (MEMO_ID, MEMO_CONTENT, ID, MEMO_DATE) values(memo_seq.NEXTVAL, '" + memo_data + "', '" + id +"', '" + memo_date +"')";
+			stmt.executeUpdate(sqlInsert);
+			
+			System.out.println("메모 저장 성공");
+			
+		}catch(SQLException e){
+			System.out.println("메모 저장 실패");
+			e.printStackTrace();
+			
+		}finally {
+			try {
+				stmt.close();
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			
+		}
+	}
 }
+
+
