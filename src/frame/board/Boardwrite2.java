@@ -253,7 +253,6 @@ public class Boardwrite2 extends JFrame implements ActionListener, WindowListene
 
 	@Override
 	public void windowClosed(WindowEvent e) {
-		Board bd = new Board(null, id);
 	}
 
 	@Override

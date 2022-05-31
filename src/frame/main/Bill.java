@@ -29,9 +29,10 @@ public class Bill extends JFrame implements WindowListener{
 	private int i;
 	private int total;
 	private DecimalFormat priceFormat;
+	private String ID;
 	
-	public Bill(Ticket TK) {
-		
+	public Bill(Ticket TK, String ID) {
+		this.ID = ID;
 		setTitle("Bill");
 		this.TK = TK;
 		total = TK.getTotal();
@@ -148,6 +149,7 @@ public class Bill extends JFrame implements WindowListener{
 
 	@Override
 	public void windowClosing(WindowEvent e) {
+		MainFrame mf = new MainFrame(ID);
 		TK.dispose();
 	}
 

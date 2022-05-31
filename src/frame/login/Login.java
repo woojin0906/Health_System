@@ -43,11 +43,14 @@ public class Login extends JFrame implements ActionListener, MouseListener, Wind
 	private JoinFrame jf;
 
 	private String result;
-//	private String loginID; //로그인한 ID 확인용 변수
-	private dbOpen temp;
+	private dbOpen dbconn;
 	
-
-	public Login(MainFrame mainFrame) {
+	//06.01 김지웅 메인메서드 생성
+	public static void main(String[] args) {
+		Login startProgram = new Login();
+	}
+	
+	public Login() {
 		setTitle("로그인 화면");
 		
 		setSize(780, 480);
@@ -55,7 +58,6 @@ public class Login extends JFrame implements ActionListener, MouseListener, Wind
 		setResizable(false);
 		addWindowListener(this);
 		setLocationRelativeTo(null);
-		temp = new dbOpen();
 		
 		mainFont = new Font("210 맨발의청춘 L", Font.BOLD, 22); // 메인 제목
 	    subFont = new Font("210 맨발의청춘 L", Font.PLAIN, 13); 
@@ -242,8 +244,8 @@ public class Login extends JFrame implements ActionListener, MouseListener, Wind
 					result += ""+ch+"";
 				}
 				
-				dbOpen temp = new dbOpen();
-				temp.loginSelect(this, tfId.getText(), result);
+				dbconn = new dbOpen();
+				dbconn.loginSelect(this, tfId.getText(), result);
 
 			} catch (Exception e2) {
 				if(tfId.getText().equals("") || result.equals(""))

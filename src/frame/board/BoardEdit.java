@@ -276,7 +276,7 @@ public class BoardEdit extends JFrame implements ActionListener, WindowListener{
 					db.DeleteBD(al.get(0));
 					
 					this.dispose();
-					Board bd = new Board(null, id);
+					Board bd = new Board(id);
 				}
 		}
 		
@@ -291,8 +291,7 @@ public class BoardEdit extends JFrame implements ActionListener, WindowListener{
 	@Override
 	public void windowClosing(WindowEvent e) {
 		this.dispose();
-		Board bd = new Board(null, null);
-		bd.dispose();
+		Board bd = new Board(id);
 	}
 
 	@Override

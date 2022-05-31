@@ -35,7 +35,6 @@ public class ChangeInfo extends JFrame implements ActionListener, WindowListener
 	private Font mainFont;
 	private Font subFont;
 	//DB연결 전 임시 데이터 저장
-	private final String ID = "aaaa";
 	private JButton profile;
 	private Color def;
 	private JButton edit;
@@ -51,6 +50,7 @@ public class ChangeInfo extends JFrame implements ActionListener, WindowListener
 	private String imgfile;
 	private ImageIcon profileImg;
 	private ImageIcon profileImg2;
+	private String ID;
 
 	public JPasswordField getPwField() {
 		return pwField;
@@ -70,8 +70,9 @@ public class ChangeInfo extends JFrame implements ActionListener, WindowListener
 	
 
 	//201945012 MainFrame 연결
-	public ChangeInfo(MainFrame mf) {
+	public ChangeInfo(MainFrame mf, String ID) {
 		this.mf = mf;
+		this.ID = ID;
 		setTitle("Change Info");
 		setBounds(100, 100, 360, 450);
 		setResizable(false); //창 크기 조절 불가능하게 만들기
@@ -321,7 +322,7 @@ public class ChangeInfo extends JFrame implements ActionListener, WindowListener
 			}
 			
 			if(result.equals(result2)) {
-				QuestionPW pw = new QuestionPW(this, 2); //수정 버튼 클릭시 비밀번호 확인 프레임 호출
+				QuestionPW pw = new QuestionPW(this, 2, ID); //수정 버튼 클릭시 비밀번호 확인 프레임 호출
 				this.dispose();
 			}
 			else

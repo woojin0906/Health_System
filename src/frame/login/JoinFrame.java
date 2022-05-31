@@ -301,7 +301,7 @@ public class JoinFrame extends JFrame implements MouseListener, ActionListener, 
 		Object obj = e.getSource();
 		if(obj == btnCancel) {
 			this.dispose();
-			Login login = new Login(null);
+			Login login = new Login();
 		} else if(obj == agreeCheck) {
 			if(agreeCheck.isSelected() == false) {
 				JOptionPane.showMessageDialog(this, "약관을 읽어주세요.", "이용약관 동의 안내", JOptionPane.INFORMATION_MESSAGE);
@@ -362,7 +362,7 @@ public class JoinFrame extends JFrame implements MouseListener, ActionListener, 
 										db = new dbOpen();
 										db.infoInsert(tfId.getText(), tfName.getText(), tfPhone.getText(), tfAddress.getText(), tfPassword.getText(), tfHint.getText());
 										JOptionPane.showMessageDialog(this, "회원가입이 완료 되었습니다");
-										Login lg = new Login(null);
+										Login lg = new Login();
 										this.dispose();
 									} else {
 										JOptionPane.showMessageDialog(this, "이름은 5자이내로 작성해주세요.");

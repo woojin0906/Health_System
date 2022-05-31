@@ -40,13 +40,15 @@ public class Ticket extends JFrame implements ActionListener, ItemListener {
 	private DecimalFormat priceFormat;
 	private MainFrame mf;
 	private int period;
+	private String ID;
 
 	public int getTotal() {
 		return total;
 	}
 //201945012 윤선호 MainFrame 연결
-	public Ticket(MainFrame mf) {
+	public Ticket(MainFrame mf, String ID) {
 		this.mf = mf;
+		this.ID = ID;
 		setTitle("이용권 구매하기");
 		setBounds(95, 100, 350, 350);
 		setResizable(false); //창 크기 조절 불가능하게 만들기
@@ -179,7 +181,7 @@ public class Ticket extends JFrame implements ActionListener, ItemListener {
 	
 		else if(obj == payment) {
 				if(total > 0) {
-					QuestionPW password = new QuestionPW(this, 1, period);
+					QuestionPW password = new QuestionPW(this, 1, ID, period);
 					//이용권을 선택하고 결제버튼 누르면 비밀번호 확인 프레임 호출
 //					this.setEnabled(false); 모달창 대신 비활성화로 처리
 				}else {

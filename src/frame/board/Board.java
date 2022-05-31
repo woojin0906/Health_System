@@ -75,8 +75,8 @@ public class Board extends JFrame implements ActionListener, MouseListener, Wind
 	private String pre_i;
 	private DB db;
 	private String id;
-
-	public Board(MainFrame mf, String id) {
+	
+	public Board(String id) {
 		this.id = id;
 		skyblue = new Color(189, 215, 238);
 		
@@ -349,8 +349,8 @@ public class Board extends JFrame implements ActionListener, MouseListener, Wind
 
 	@Override
 	public void windowClosing(WindowEvent e) {
-		// TODO Auto-generated method stub
-		
+		MainFrame mf = new MainFrame(id);
+		this.dispose();
 	}
 
 	@Override

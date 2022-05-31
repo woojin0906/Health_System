@@ -193,6 +193,11 @@ public class DBPT {
 			}
 		}
 		
-		
+		public void boardPwCheck() {
+			try {
+				
+			} catch (Exception e) {
+			}
+		}
 
 	}

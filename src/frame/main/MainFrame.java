@@ -53,6 +53,7 @@ public class MainFrame extends JFrame implements Runnable, ActionListener, Windo
 	private JLabel lbl_day;
 	private JLabel lbl_coment;
 	private String id; //로그인 한 계정의 id값을 받아옴.
+	private String name; //로그인 한 계정의 이름 값을 받아옴.
 
 	
 	// 전우진 5/29 db
@@ -61,8 +62,32 @@ public class MainFrame extends JFrame implements Runnable, ActionListener, Windo
 	private JLabel lbl_member;
 	private JLabel lbl_name2;
 	
-	public MainFrame(Login login, String id) {
+	public MainFrame(String id) {
 		this.id = id;
+		setTitle("메인 화면");
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		setLocation(300,200);
+		setSize(800, 550);
+		setLayout(new BorderLayout());
+		//setUndecorated(true);
+		
+		setInfo();
+		setMenu();
+		
+		// 전우진 5/29 12:34 db 연결
+		db = new dbOpen();
+		db.pullInfoMain(id, lbl_name, lbl_name2, lbl_day);
+		
+		this.addWindowListener(this);
+		setLocationRelativeTo(null); //화면 가운데에 보여줌
+		setResizable(false); // 화면 크기 조절 못하게 해줌
+		setVisible(true);
+		
+	}
+	public MainFrame(String id, String name) {
+		this.id = id;
+		this.name = name;
+		System.out.println(name);
 		setTitle("메인 화면");
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setLocation(300,200);
@@ -233,7 +258,7 @@ public class MainFrame extends JFrame implements Runnable, ActionListener, Windo
 		btn_cal = new JButton();
 		btn_cal.setContentAreaFilled(false);
 		btn_cal.setBorderPainted(false);
-		btn_cal.setBounds(30, 6, 140, 100);
+		btn_cal.setBounds(90, 10, 105, 65);
 		btn_cal.setPreferredSize(new Dimension(140, 40));
 		btn_cal.addActionListener(this);
 		
@@ -244,7 +269,7 @@ public class MainFrame extends JFrame implements Runnable, ActionListener, Windo
 		btn_buy = new JButton();
 		btn_buy.setContentAreaFilled(false);
 		btn_buy.setBorderPainted(false);
-		btn_buy.setBounds(150, 2, 140, 100);
+		btn_buy.setBounds(237, 25, 70, 50);
 		btn_buy.setPreferredSize(new Dimension(140, 40)); //버튼 크기 설정
 		btn_buy.addActionListener(this);
 		
@@ -255,7 +280,7 @@ public class MainFrame extends JFrame implements Runnable, ActionListener, Windo
 		btn_board1 = new JButton();
 		btn_board1.setContentAreaFilled(false);
 		btn_board1.setBorderPainted(false);
-		btn_board1.setBounds(340, 6, 140, 100);
+		btn_board1.setBounds(372, 26, 75, 60);
 		btn_board1.setPreferredSize(new Dimension(140, 40)); // 버튼 크기 설정
 		btn_board1.addActionListener(this);
 		
@@ -266,7 +291,7 @@ public class MainFrame extends JFrame implements Runnable, ActionListener, Windo
 		btn_board2 = new JButton();
 		btn_board2.setContentAreaFilled(false);
 		btn_board2.setBorderPainted(false);
-		btn_board2.setBounds(480, 5, 140, 100);
+		btn_board2.setBounds(514, 23, 75, 60);
 		btn_board2.setPreferredSize(new Dimension(140, 40)); // 버튼 크기 설정
 		btn_board2.addActionListener(this);
 		
@@ -277,7 +302,7 @@ public class MainFrame extends JFrame implements Runnable, ActionListener, Windo
 		btn_modify = new JButton();
 		btn_modify.setContentAreaFilled(false);
 		btn_modify.setBorderPainted(false);
-		btn_modify.setBounds(600, 2, 140, 100);
+		btn_modify.setBounds(625, 2, 95, 70);
 		btn_modify.addActionListener(this);
 		btn_modify.setPreferredSize(new Dimension(140, 100)); // 버튼 크기 설정
 		
@@ -320,33 +345,33 @@ public class MainFrame extends JFrame implements Runnable, ActionListener, Windo
 		
 		//2022-05-19 윤선호 이용권 구매 버튼을 누르면 이용권 구매 화면이 뜬다.
 		if(obj == btn_buy) {
-			Ticket tk = new Ticket(this);
-			//this.dispose();
+			Ticket tk = new Ticket(this, id);
+			this.dispose(); //이용권 구매 프레임 호출시 메인프레임 종료
 		}
 		else if(obj == btn_board1) {
 			// 5/31 전우진 자유게시판 생성시 메인 꺼짐
 			//2022-05-19 윤선호 자유게시판과 메인프레임 연결
-			Board bd = new Board(this);
+			Board bd = new Board(id);
 			this.dispose();
 		}
 		else if(obj == btn_board2) {
 			// 5/31 전우진 자유게시판 생성시 메인 꺼짐
 			//2022-05-19 윤선호 PT 게시판과 메인프레임 연결
-			Board2_PT pt = new Board2_PT(this);
+			Board2_PT pt = new Board2_PT(this, id);
 			this.dispose();
 			
 		}else if(obj == btn_cal) {
 			// 5/31 전우진 자유게시판 생성시 메인 꺼짐
-			Calendarmain cm = new Calendarmain(this);
+			Calendarmain cm = new Calendarmain(this, id);
 			this.dispose();
 			
 		}else if(obj == btn_modify) {
 			// 5/31 전우진 자유게시판 생성시 메인 꺼짐
-			ChangeInfo ci = new ChangeInfo(this);
+			ChangeInfo ci = new ChangeInfo(this, id);
 			this.dispose();
 			
 		}else if(obj == btn_logout) {
-			Login login = new Login(this);
+			Login login = new Login();
 			this.dispose();
 		}
 //		//2022-05-20 03시 윤선호 프로필 사진 변경 기능 추가

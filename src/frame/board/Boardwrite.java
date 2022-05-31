@@ -241,7 +241,7 @@ public class Boardwrite extends JFrame implements ActionListener, WindowListener
 
 	@Override
 	public void windowClosed(WindowEvent e) {
-		Board bd = new Board(null, id);
+		Board bd = new Board(id);
 	}
 
 	@Override

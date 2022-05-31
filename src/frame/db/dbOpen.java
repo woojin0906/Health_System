@@ -31,6 +31,7 @@ public class dbOpen {
 	private String db_pw;
 	private String db_id;
 	private String imgfile;
+	private String name;
 
 	public dbOpen() {
 			try {
@@ -85,10 +86,15 @@ public class dbOpen {
 					pw = result.getString("password");
 				}
 				
+				result = statement.executeQuery("select name from memberinfo where id = '" + inputId + "'" );
+				if(result.next()) {
+					name = result.getString("name");
+				}
+				
 				//입력한 비밀번호와 DB에 저장된 비밀번호가 일치하는지 검증
 				
 				if(pw.equals(inputPw)) {
-					mainFrame = new MainFrame(frame, id);
+					mainFrame = new MainFrame(id, name);
 					frame.dispose();
 				} else {
 					JOptionPane.showMessageDialog(frame, "정보를 다시 확인해주세요.", "정보 오류", JOptionPane.ERROR_MESSAGE);

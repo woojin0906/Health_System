@@ -34,9 +34,11 @@ public class BoardWrite_PT2 extends JFrame implements ActionListener, WindowList
 	private Color skyblue;
 	private ArrayList<String> alpt;
 	private JTextField[] TxField;
+	private String ID;
 	
-	public BoardWrite_PT2(ArrayList<String> string) {
+	public BoardWrite_PT2(ArrayList<String> string, String ID) {
 		this.alpt = string;
+		this.ID = ID;
 		setTitle("PT게시판 글 수정");
 		
 		setLocation(300, 200);

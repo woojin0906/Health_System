@@ -50,11 +50,12 @@ public class BoardEdit_PT extends JFrame implements ActionListener, WindowListen
 	private Object bdi;
 	private JTextField[] TxField;
 	private JButton btn2;
-
+	private String ID;
 	
-	public BoardEdit_PT(ArrayList<String> alpt) {
-		
+	
+	public BoardEdit_PT(ArrayList<String> alpt, String ID) {
 		this.alpt = alpt;
+		this.ID = ID;
 		setTitle("게시물 댓글 및 삭제");
 		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocation(200, 200);
@@ -258,7 +259,7 @@ public class BoardEdit_PT extends JFrame implements ActionListener, WindowListen
 			dbpt.DisplayCMT(alpt.get(0));
 		
 	}else if (btnedit == obj) {
-		BoardWrite_PT2 bw2 = new BoardWrite_PT2(alpt);
+		BoardWrite_PT2 bw2 = new BoardWrite_PT2(alpt, ID);
 		
 	}else if (btn2 == obj) 
 	{

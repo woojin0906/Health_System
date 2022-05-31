@@ -19,6 +19,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 
+import frame.board.Board2_PT;
 import frame.db.dbOpen;
 import frame.main.Bill;
 import frame.main.MainFrame;
@@ -29,7 +30,7 @@ public class QuestionPW extends JFrame implements ActionListener, WindowListener
 	private JButton submit;
 	// 전우진 5/28 23:36
 	// 회원정보 수정 가능한지 확인차 id 디비에 있는 것으로 변경
-	private String ID = "aaaa";
+	private String ID;
 	private JPasswordField InputPW;
 	private Ticket TK;
 	private ChangeInfo CI;
@@ -38,11 +39,13 @@ public class QuestionPW extends JFrame implements ActionListener, WindowListener
 	private Color def;
 	private int ctrIndex;
 	private int period; // 이용권 증가시킬 기간 저장
-	private String dp_pw;
+	private String db_pw;
+	private Board2_PT PT;
 	
 	//이용권 구매 프레임의 주소와 구분자를 받아오는 생성자
-	public QuestionPW(Ticket TK, int ctrIndex, int period) {
+	public QuestionPW(Ticket TK, int ctrIndex, String ID, int period) {
 		this.TK = TK; //이용권 구매 프레임 주소 저장
+		this.ID = ID;
 		this.ctrIndex = ctrIndex; //구분자 값 저장
 		this.period = period;
 		
@@ -53,9 +56,22 @@ public class QuestionPW extends JFrame implements ActionListener, WindowListener
 	}
 	
 	//정보 수정 프레임의 주소와 구분자를 받아오는 생성자
-	public QuestionPW(ChangeInfo CI, int ctrIndex) {
+	public QuestionPW(ChangeInfo CI, int ctrIndex, String ID) {
 		this.CI = CI; //정보 수정 프레임 주소 저장
 		this.ctrIndex = ctrIndex; //구분자 값 저장
+		this.ID = ID;
+		
+		// 전우진 윈도우 취소 버튼
+		addWindowListener(this);
+		setPanel(); //메인 패널 설정 생정자 호출
+		setVisible(true);
+	}
+	
+	//PT 게시판의 게시물 정보 출력 전 비밀번호 확인
+	public QuestionPW(Board2_PT PT, int ctrIndex, String ID) {
+		this.PT = PT; //정보 수정 프레임 주소 저장
+		this.ctrIndex = ctrIndex; //구분자 값 저장
+		this.ID = ID;
 		
 		// 전우진 윈도우 취소 버튼
 		addWindowListener(this);
@@ -131,14 +147,14 @@ public class QuestionPW extends JFrame implements ActionListener, WindowListener
 			} //문자를 문자열로 변환
 			
 			dbOpen db = new dbOpen();
-			dp_pw = db.checkPW(ID);
+			db_pw = db.checkPW(ID);
 			
-			if(result.equals(dp_pw)){ //비밀번호와 입력받은 비밀번호가 일치한다면 
+			if(result.equals(db_pw)){ //비밀번호와 입력받은 비밀번호가 일치한다면 
 				this.dispose(); //해당 서브프레임만 닫기
 				if(ctrIndex == 1) { 
 					dbOpen db2 = new dbOpen();
 					db2.plusPeriod(ID, period);
-					Bill bill = new Bill(TK); 
+					Bill bill = new Bill(TK, ID); 
 					//생성자 매개변수로부터 전해받은 구분자를 통해 각기 다른 프로세스 실행
 					//구분자가 1일 경우, 영수증 프레임을 출력해야 하기 때문에 영수증 프레임 생성자 호출
 					//구분자가 2일 경우, 정보 수정만 마치면 되기에 다이얼로그 출력
@@ -150,6 +166,8 @@ public class QuestionPW extends JFrame implements ActionListener, WindowListener
 					CI.dispose();
 					// 전우진 5/31 확인 누르면 메인 프레임 생성
 					MainFrame mf = new MainFrame(null, ID);
+				}else if(ctrIndex == 3) {
+					PT.runBoard();
 				}
 			}else {
 				JOptionPane.showMessageDialog(this, "비밀번호가 틀립니다.",

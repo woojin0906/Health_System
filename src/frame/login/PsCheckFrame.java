@@ -167,7 +167,7 @@ public class PsCheckFrame extends JFrame implements MouseListener, ActionListene
 		Object obj = e.getSource();
 		if(obj == btnCancel) {
 			this.dispose();
-			Login lg = new Login(null);
+			Login lg = new Login();
 		} else if(obj == btnIdSearch) {
 			if(JOptionPane.showConfirmDialog(this, 
 					"고객센터에 전화하시겠습니까?",
@@ -180,7 +180,7 @@ public class PsCheckFrame extends JFrame implements MouseListener, ActionListene
 			try {
 				dbOpen temp = new dbOpen();
 				temp.resetPW(this, tfId.getText(), tfHint.getText());
-				Login lg = new Login(null);
+				Login lg = new Login();
 			} catch (Exception e2) {
 				e2.printStackTrace();
 				}

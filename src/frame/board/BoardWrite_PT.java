@@ -34,9 +34,11 @@ public class BoardWrite_PT extends JFrame implements ActionListener, WindowListe
 	private Color skyblue;
 	private JTextField[] TxField;
 	private Date today;
+	private String ID;
 
 	
-	public BoardWrite_PT(String title) {
+	public BoardWrite_PT(String title, String ID) {
+		this.ID = ID;
 		setTitle(title);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocation(300, 200);
