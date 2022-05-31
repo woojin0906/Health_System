@@ -6,26 +6,36 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import frame.db.dbOpen;
 import frame.main.MainFrame;
 
-public class ChangeInfo extends JFrame implements ActionListener{
+public class ChangeInfo extends JFrame implements ActionListener, WindowListener{
 	private Font mainFont;
 	private Font subFont;
 	//DB연결 전 임시 데이터 저장
-	private final String ID = "gomwoong";
+	private final String ID = "aaaa";
 	private JButton profile;
 	private Color def;
 	private JButton edit;
@@ -38,6 +48,9 @@ public class ChangeInfo extends JFrame implements ActionListener{
 	private JTextField phoneField;
 	private JTextField addressField;
 	private JButton pwEdit;
+	private String imgfile;
+	private ImageIcon profileImg;
+	private ImageIcon profileImg2;
 
 	public JPasswordField getPwField() {
 		return pwField;
@@ -51,6 +64,11 @@ public class ChangeInfo extends JFrame implements ActionListener{
 		return addressField;
 	}
 	
+	public String getImgfile() {
+		return imgfile;
+	}
+	
+
 	//201945012 MainFrame 연결
 	public ChangeInfo(MainFrame mf) {
 		this.mf = mf;
@@ -59,7 +77,7 @@ public class ChangeInfo extends JFrame implements ActionListener{
 		setResizable(false); //창 크기 조절 불가능하게 만들기
 		setLocationRelativeTo(null); //정가운데 출력
 		setLayout(new BorderLayout());
-
+		addWindowListener(this);
 		mainFont = new Font("210 맨발의청춘 L", Font.BOLD, 20); // 메인 및 서브 컬러 RGB값 담는 객체 생성
 		subFont = new Font("210 맨발의청춘 L", 0, 13);
 		def = new Color(189, 215, 238); //별도로 사용할 글꼴의 세부사항 설정
@@ -67,6 +85,7 @@ public class ChangeInfo extends JFrame implements ActionListener{
 		setNorth(); //상단 패널 설정하는 생성자 호출
 		setCenter(); //중앙 패널 설정하는 생성자 호출
 		db = new dbOpen();
+		
 		db.pullInfo(ID, nameField, phoneField, addressField, pwField, pwCheckField);
 		
 		setVisible(true);
@@ -85,9 +104,9 @@ public class ChangeInfo extends JFrame implements ActionListener{
 		
 		setNorth(); //상단 패널 설정하는 생성자 호출
 		setCenter(); //중앙 패널 설정하는 생성자 호출
+		
 		db = new dbOpen();
 		db.pullInfo(ID, nameField, phoneField, addressField, pwField, pwCheckField);
-		
 		setVisible(true);
 	}
 	
@@ -103,18 +122,27 @@ public class ChangeInfo extends JFrame implements ActionListener{
 		title.setBounds(115, 10, 120, 30);
 		NorthPanel.add(title);
 		
+	
+		// 전우진 5/28 이미지 경로 변경
 		//이미지 붙은 버튼 추가하기
-		ImageIcon profileImg = new ImageIcon("imges/person.png"); 
-		profile = new JButton(profileImg);
+		//profileImg = new ImageIcon("imges/Person.png");
+		profileImg = new ImageIcon("imges/"+ID+".png");
+		//System.out.println("imges/"+ID+".png");
+		Image img = profileImg.getImage();
+		Image changeImg = img.getScaledInstance(100, 97, Image.SCALE_SMOOTH);
+		ImageIcon changeimgicon = new ImageIcon(changeImg);
+			
+		profile = new JButton(changeimgicon);
 		profile.setContentAreaFilled(false); //버튼 영역 배경 표시 설정
-		profile.setBorderPainted(false); //버튼 테두리 표시 설정
-		profile.setFocusPainted(false); //포커스 표시 설정
+		//profile.setBorderPainted(false); //버튼 테두리 표시 설정
+		//profile.setFocusPainted(false); //포커스 표시 설정
 		profile.setBounds(125, 50, 100, 100);
 		profile.addActionListener(this);
 		NorthPanel.add(profile);
+
 	}
 
-	
+
 	private void setCenter() {
 		JPanel CenterPanel = new JPanel();
 		CenterPanel.setBackground(Color.WHITE);
@@ -134,30 +162,6 @@ public class ChangeInfo extends JFrame implements ActionListener{
 			CenterPanel.add(textlb[i]);
 		}
 		
-		//텍스트필드 뒤의 배경 이미지를 추가
-		JLabel idImage = new JLabel(new ImageIcon("imges/textField.png"));
-		idImage.setBounds(72, 10, 130, 30);
-		CenterPanel.add(idImage);
-		
-		JLabel nameImage = new JLabel(new ImageIcon("imges/textField.png"));
-		nameImage.setBounds(72, 50, 130, 30);
-		CenterPanel.add(nameImage);
-		
-		JLabel pwImage = new JLabel(new ImageIcon("imges/textField.png"));
-		pwImage.setBounds(72, 90, 130, 30);
-		CenterPanel.add(pwImage);
-		
-		JLabel pwchImage = new JLabel(new ImageIcon("imges/textField.png"));
-		pwchImage.setBounds(202, 90, 130, 30);
-		CenterPanel.add(pwchImage);
-		
-		JLabel phoneImage = new JLabel(new ImageIcon("imges/textField.png"));
-		phoneImage.setBounds(72, 130, 130, 30);
-		CenterPanel.add(phoneImage);
-		
-		JLabel addImage = new JLabel(new ImageIcon("imges/addtextField.png"));
-		addImage.setBounds(61, 170, 280, 30);
-		CenterPanel.add(addImage);
 		
 		//아이디 텍스트 필드 붙이기
 		JTextField idField = new JTextField(ID, 11);
@@ -224,6 +228,31 @@ public class ChangeInfo extends JFrame implements ActionListener{
 		edit.setBounds(260, 210, 90, 30);
 		CenterPanel.add(edit);
 		edit.addActionListener(this);
+		
+		//텍스트필드 뒤의 배경 이미지를 추가
+		JLabel idImage = new JLabel(new ImageIcon("imges/textField.png"));
+		idImage.setBounds(72, 10, 130, 30);
+		CenterPanel.add(idImage);
+		
+		JLabel nameImage = new JLabel(new ImageIcon("imges/textField.png"));
+		nameImage.setBounds(72, 50, 130, 30);
+		CenterPanel.add(nameImage);
+		
+		JLabel pwImage = new JLabel(new ImageIcon("imges/textField.png"));
+		pwImage.setBounds(72, 90, 130, 30);
+		CenterPanel.add(pwImage);
+		
+		JLabel pwchImage = new JLabel(new ImageIcon("imges/textField.png"));
+		pwchImage.setBounds(202, 90, 130, 30);
+		CenterPanel.add(pwchImage);
+		
+		JLabel phoneImage = new JLabel(new ImageIcon("imges/textField.png"));
+		phoneImage.setBounds(72, 130, 130, 30);
+		CenterPanel.add(phoneImage);
+		
+		JLabel addImage = new JLabel(new ImageIcon("imges/addtextField.png"));
+		addImage.setBounds(61, 170, 280, 30);
+		CenterPanel.add(addImage);
 	}
 	
 	@Override
@@ -232,6 +261,43 @@ public class ChangeInfo extends JFrame implements ActionListener{
 		
 		if(obj == profile) {
 			//파일입출력 부분
+			// 전우진 5/28 23:36 이미지 경로
+			JFileChooser fc = new JFileChooser();
+		
+			fc.addChoosableFileFilter(new FileNameExtensionFilter("PNG", "png"));
+			fc.addChoosableFileFilter(new FileNameExtensionFilter("JPEG", "jpeg"));
+			fc.addChoosableFileFilter(new FileNameExtensionFilter("GIF", "gif"));
+			
+			fc.showOpenDialog(this);
+			
+			try {
+			profile.setText(fc.getSelectedFile().getAbsolutePath());
+			
+			File selfile = fc.getSelectedFile();  																
+			String path = selfile.getAbsolutePath(); 
+			 	
+			profileImg2 = new ImageIcon(path);
+			Image img = profileImg2.getImage();
+			Image changeImg = img.getScaledInstance(115, 102, Image.SCALE_SMOOTH);
+			
+			profile.setIcon(new ImageIcon(changeImg));
+			
+			imgfile = selfile.getName();
+			File dirfile = new File(profile.getText());  															
+				
+			File srcfile = new File("imges/"+ID+".png");  		
+			Files.copy(dirfile.toPath(), srcfile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+			
+			
+			
+			} catch (NullPointerException e1) {
+				JOptionPane.showMessageDialog(this, "이미지를 선택하지 않았습니다.");
+				//e1.printStackTrace();
+			} catch (IOException e1) {
+				JOptionPane.showMessageDialog(this, "이미지를 선택하지 않았습니다.");
+				//e1.printStackTrace();
+			}
+			
 		}else if(obj == pwEdit) {
 			pwField.setEditable(true);
 			pwField.setText("");
@@ -256,10 +322,55 @@ public class ChangeInfo extends JFrame implements ActionListener{
 			
 			if(result.equals(result2)) {
 				QuestionPW pw = new QuestionPW(this, 2); //수정 버튼 클릭시 비밀번호 확인 프레임 호출
+				this.dispose();
 			}
 			else
 				JOptionPane.showMessageDialog(this, "입력한 비밀번호가 일치하지 않습니다.", "알림",
 						JOptionPane.INFORMATION_MESSAGE);
 		}
+	}
+
+	@Override
+	public void windowOpened(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+		
+	}
+// 전우진 윈도우 취소 버튼 누르면 메인 생성
+	@Override
+	public void windowClosing(WindowEvent e) {
+		this.dispose();
+		mf = new MainFrame(null, ID);
+	}
+
+	@Override
+	public void windowClosed(WindowEvent e) {
+		// TODO Auto-generated method stub
+
+		
+	}
+
+	@Override
+	public void windowIconified(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowDeiconified(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowActivated(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowDeactivated(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 }

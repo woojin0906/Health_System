@@ -27,19 +27,18 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import frame.db.dbOpen;
+import frame.main.MainFrame;
 
 public class PsCheckFrame extends JFrame implements MouseListener, ActionListener, WindowListener, KeyListener{
 
 	private JPanel panelCenter;
-	private JButton btnCancel;
-	private JButton btnCheck;
-	private JTextField tfId;
-	private JButton btnIdSearch;
+	private JButton btnCancel, btnCheck, btnIdSearch;
+	private JTextField tfId, tfHint;
 	private Vector<String> vecCombo;
 	private JComboBox<String> comboHint;
-	private JTextField tfHint;
 	private Color gray;
 	private Font mainFont;
+	private JLabel lblbirth;
 	
 	public PsCheckFrame(String title) {
 		
@@ -88,7 +87,8 @@ public class PsCheckFrame extends JFrame implements MouseListener, ActionListene
 		tfId.setFont(mainFont);
 		tfId.setBounds(28, 94, 143, 30);
 		tfId.setBorder(BorderFactory.createEmptyBorder());
-		
+		tfId.addKeyListener(this);
+		tfId.setFocusTraversalKeysEnabled(false);
 		tfId.addMouseListener(this);
 		
 		panelCenter.add(tfId);
@@ -99,17 +99,23 @@ public class PsCheckFrame extends JFrame implements MouseListener, ActionListene
 		lblId.setBounds(25, 90, 148, 35);
 		panelCenter.add(lblId);
 		
-		// 비밀번호 확인 콤보박스 출력
-		vecCombo = new Vector<String>();
-		vecCombo.add("생일은?");
-		vecCombo.add("번호는?");
+//		// 비밀번호 확인 콤보박스 출력
+//		vecCombo = new Vector<String>();
+//		vecCombo.add("생일은?");
+//		vecCombo.add("번호는?");
+//		
+//		comboHint = new JComboBox<String>(vecCombo);
+//		comboHint.setFont(mainFont);
+//		comboHint.setBounds(30, 138, 85, 30);
+//		comboHint.setBorder(BorderFactory.createEmptyBorder(-2, -2, -2, -2));
+//		comboHint.setBackground(Color.WHITE);
+//		panelCenter.add(comboHint);
 		
-		comboHint = new JComboBox<String>(vecCombo);
-		comboHint.setFont(mainFont);
-		comboHint.setBounds(30, 138, 85, 30);
-		comboHint.setBorder(BorderFactory.createEmptyBorder(-2, -2, -2, -2));
-		comboHint.setBackground(Color.WHITE);
-		panelCenter.add(comboHint);
+		// 비밀번호 확인 라벨 출력
+		lblbirth = new JLabel("생일은?");
+		lblbirth.setFont(mainFont);
+		lblbirth.setBounds(32, 138, 85, 30);
+		panelCenter.add(lblbirth);
 		
 		// 비밀번호 확인 텍스트 필드 배경 이미지 출력
 		ImageIcon imgCombo = new ImageIcon("imges/background_combo.png");
@@ -161,6 +167,7 @@ public class PsCheckFrame extends JFrame implements MouseListener, ActionListene
 		Object obj = e.getSource();
 		if(obj == btnCancel) {
 			this.dispose();
+			Login lg = new Login(null);
 		} else if(obj == btnIdSearch) {
 			if(JOptionPane.showConfirmDialog(this, 
 					"고객센터에 전화하시겠습니까?",
@@ -173,7 +180,7 @@ public class PsCheckFrame extends JFrame implements MouseListener, ActionListene
 			try {
 				dbOpen temp = new dbOpen();
 				temp.resetPW(this, tfId.getText(), tfHint.getText());
-
+				Login lg = new Login(null);
 			} catch (Exception e2) {
 				e2.printStackTrace();
 				}

@@ -8,6 +8,8 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -19,12 +21,15 @@ import javax.swing.JPasswordField;
 
 import frame.db.dbOpen;
 import frame.main.Bill;
+import frame.main.MainFrame;
 import frame.main.Ticket;
 
-public class QuestionPW extends JFrame implements ActionListener{
+public class QuestionPW extends JFrame implements ActionListener, WindowListener{
 	
 	private JButton submit;
-	private String ID = "gomwoong";
+	// 전우진 5/28 23:36
+	// 회원정보 수정 가능한지 확인차 id 디비에 있는 것으로 변경
+	private String ID = "aaaa";
 	private JPasswordField InputPW;
 	private Ticket TK;
 	private ChangeInfo CI;
@@ -41,6 +46,8 @@ public class QuestionPW extends JFrame implements ActionListener{
 		this.ctrIndex = ctrIndex; //구분자 값 저장
 		this.period = period;
 		
+		// 전우진 윈도우 취소 버튼
+		addWindowListener(this);
 		setPanel(); //메인 패널 설정 생성자 호출
 		setVisible(true);
 	}
@@ -50,6 +57,8 @@ public class QuestionPW extends JFrame implements ActionListener{
 		this.CI = CI; //정보 수정 프레임 주소 저장
 		this.ctrIndex = ctrIndex; //구분자 값 저장
 		
+		// 전우진 윈도우 취소 버튼
+		addWindowListener(this);
 		setPanel(); //메인 패널 설정 생정자 호출
 		setVisible(true);
 	}
@@ -139,6 +148,8 @@ public class QuestionPW extends JFrame implements ActionListener{
 					dbOpen db2 = new dbOpen();
 					db2.chMemberInfo(ID, CI.getPwField(), CI.getPhoneField(), CI.getAddressField());
 					CI.dispose();
+					// 전우진 5/31 확인 누르면 메인 프레임 생성
+					MainFrame mf = new MainFrame(null, ID);
 				}
 			}else {
 				JOptionPane.showMessageDialog(this, "비밀번호가 틀립니다.",
@@ -147,5 +158,48 @@ public class QuestionPW extends JFrame implements ActionListener{
 			InputPW.setText(""); //데이터 처리 완료 후 패스워드필드 비우기
 			InputPW.requestFocus(); //계속 포커스 잡기
 		}
+	}
+
+	@Override
+	public void windowOpened(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	// 전우진 5/31 윈도우 취소 버튼 메인프레인 생성
+	@Override
+	public void windowClosing(WindowEvent e) {
+		this.dispose();
+		MainFrame mf = new MainFrame(null, ID);
+	}
+
+	@Override
+	public void windowClosed(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowIconified(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowDeiconified(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowActivated(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowDeactivated(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 }

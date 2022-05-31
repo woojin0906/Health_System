@@ -239,5 +239,6 @@ public class Ticket extends JFrame implements ActionListener, ItemListener {
 			period = 365;
 		}
 		PriceMonitor.setText(priceFormat.format(total)); //설정한 데이터 포맷대로 라벨에 출력
+	
 	}
 }

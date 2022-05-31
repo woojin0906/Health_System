@@ -7,6 +7,7 @@ import javax.swing.plaf.basic.DefaultMenuLayout;
 
 import frame.board.Board;
 import frame.board.Board2_PT;
+import frame.db.dbOpen;
 import frame.login.ChangeInfo;
 import frame.login.Login;
 
@@ -16,6 +17,7 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.TextArea;
 import java.awt.event.*;
 import java.io.File;
@@ -34,7 +36,7 @@ public class MainFrame extends JFrame implements Runnable, ActionListener, Windo
 	private JPanel panelNorth;
 	private JPanel panelSouth;
 	private JTextArea ta;
-	private JButton btn_icon;
+	private JLabel lbl_icon;
 	private JLabel lbl_welcome;
 	private JLabel lbl_lastday;
 	private JPanel panelWest;
@@ -52,6 +54,13 @@ public class MainFrame extends JFrame implements Runnable, ActionListener, Windo
 	private JLabel lbl_coment;
 	private String id; //로그인 한 계정의 id값을 받아옴.
 
+	
+	// 전우진 5/29 db
+	private dbOpen db;
+	private JLabel lbl_name;
+	private JLabel lbl_member;
+	private JLabel lbl_name2;
+	
 	public MainFrame(Login login, String id) {
 		this.id = id;
 		setTitle("메인 화면");
@@ -64,6 +73,10 @@ public class MainFrame extends JFrame implements Runnable, ActionListener, Windo
 		setInfo();
 		setMenu();
 		
+		// 전우진 5/29 12:34 db 연결
+		db = new dbOpen();
+		db.pullInfoMain(id, lbl_name, lbl_name2, lbl_day);
+		
 		this.addWindowListener(this);
 		setLocationRelativeTo(null); //화면 가운데에 보여줌
 		setResizable(false); // 화면 크기 조절 못하게 해줌
@@ -73,16 +86,21 @@ public class MainFrame extends JFrame implements Runnable, ActionListener, Windo
 	
 	private void setInfo() {
 		panelNorth = new JPanel();
-		panelNorth.setLayout(new FlowLayout());
+		panelNorth.setLayout(null);
 		
-		ImageIcon icn = new ImageIcon("imges/person.png");
+		// 전우진 5/31
+		ImageIcon icn = new ImageIcon("imges/" + id + ".png");
+		Image img = icn.getImage();
+		Image changeImg = img.getScaledInstance(250, 250, Image.SCALE_SMOOTH);
+		ImageIcon changeimgicon = new ImageIcon(changeImg);
+		
 		panelWest = new JPanel();
 		panelWest.setLayout(new FlowLayout());
-		btn_icon = new JButton(icn);
-		btn_icon.setPreferredSize(new Dimension(250, 250));
-		btn_icon.addActionListener(this);
+		lbl_icon = new JLabel(changeimgicon);
+		lbl_icon.setPreferredSize(new Dimension(300, 300));
+
+		panelWest.add(lbl_icon);
 		
-		panelWest.add(btn_icon);
 		panelWest.setBackground(new Color(189, 215, 238));
 		
 		panelEast = new JPanel();
@@ -104,7 +122,6 @@ public class MainFrame extends JFrame implements Runnable, ActionListener, Windo
 		lblDay.setFont(font3);
 		panelEast.add(lblDay);
 		
-		
 		lblTime = new JLabel("12:35:05");
 		lblTime.setFont(font3);
 		
@@ -123,27 +140,64 @@ public class MainFrame extends JFrame implements Runnable, ActionListener, Windo
 		btn_logout.addActionListener(this);
 		panelEast.add(btn_logout);
 		
-		//로그인한 회원 이름
-		lbl_welcome = new JLabel("반갑습니다 윤선호 회원님!");	
+		// 전우진 5/29 1:48 라벨 분리
+		// 반갑습니다
+//		if(lbl_name.getText().length() == 2) {
+//			
+//		}
+		lbl_welcome = new JLabel("반갑습니다 ");
 		Font font = new Font("맑은 고딕", Font.BOLD, 30);
+		lbl_welcome.setBounds(20, 25, 180, 30);
 		lbl_welcome.setFont(font);
 		panelNorth.add(lbl_welcome);
 		
-		//로그인한 회원의 헬스장 만료일
-		lbl_lastday = new JLabel("윤선호님 만료일까지 ");
+		// 전우진 5/29 1:48 라벨 분리
+		//로그인한 회원 이름 (lbl_name으로 변경)
+		lbl_name = new JLabel();	
+		font = new Font("맑은 고딕", Font.BOLD, 30);
+		lbl_name.setFont(font);
+		lbl_name.setBounds(180, 25, 200, 30);
+		panelNorth.add(lbl_name);
+		
+		// 전우진 5/29 1:48 라벨 분리
+		// 회원님!
+		lbl_member = new JLabel(" 회원님!");
+		font = new Font("맑은 고딕", Font.BOLD, 30);
+		lbl_member.setFont(font);
+		lbl_member.setBounds(300, 25, 150, 30);
+		panelNorth.add(lbl_member);
+		
+		// 전우진 5/29 1:48 라벨 분리
+		//로그인한 회원 이름2
+		lbl_name2 = new JLabel();	
+		font = new Font("맑은 고딕", Font.BOLD, 20);
+		lbl_name2.setFont(font);
+		lbl_name2.setBounds(10, 65, 100, 30);
+		panelNorth.add(lbl_name2);
+		
+		// 전우진 5/29 1:48 라벨 분리
+		// 님 만료일까지
+		lbl_lastday = new JLabel("님 만료일까지 ");
 		Font font2 = new Font("맑은 고딕", Font.BOLD, 20);
 		lbl_lastday.setFont(font2);
+		lbl_lastday.setBounds(90, 65, 150, 30);
 		panelNorth.add(lbl_lastday);
 		
-		lbl_day = new JLabel("350");
+		// 전우진 5/29 1:48 라벨 분리
+		// 로그인한 회원의 만료일 수
+		lbl_day = new JLabel();
 		lbl_day.setFont(font2);
+		lbl_day.setBounds(220, 65, 60, 30);
 		lbl_day.setOpaque(true);
 		lbl_day.setForeground(Color.RED);
 		lbl_day.setBackground(new Color(189, 215, 238));
+		lbl_day.setHorizontalAlignment(JLabel.CENTER);
 		panelNorth.add(lbl_day);
 		
+		// 전우진 5/29 1:48 라벨 분리
 		lbl_coment = new JLabel("일 남았습니다.");
 		lbl_coment.setFont(font2);
+		lbl_coment.setBounds(290, 65, 150, 30);
 		panelNorth.add(lbl_coment);
 		
 		JTextArea ta = new JTextArea("", 8, 30);
@@ -151,6 +205,7 @@ public class MainFrame extends JFrame implements Runnable, ActionListener, Windo
 		ta.setEditable(true);
 		ta.setLineWrap(true);
 		ta.setFont(font_ta);
+		ta.setBounds(20, 105, 400, 170);
 		ta.setBackground(Color.LIGHT_GRAY);
 		panelNorth.add(ta);
 		
@@ -266,53 +321,65 @@ public class MainFrame extends JFrame implements Runnable, ActionListener, Windo
 		//2022-05-19 윤선호 이용권 구매 버튼을 누르면 이용권 구매 화면이 뜬다.
 		if(obj == btn_buy) {
 			Ticket tk = new Ticket(this);
+			//this.dispose();
 		}
 		else if(obj == btn_board1) {
+			// 5/31 전우진 자유게시판 생성시 메인 꺼짐
 			//2022-05-19 윤선호 자유게시판과 메인프레임 연결
 			Board bd = new Board(this);
+			this.dispose();
 		}
 		else if(obj == btn_board2) {
+			// 5/31 전우진 자유게시판 생성시 메인 꺼짐
 			//2022-05-19 윤선호 PT 게시판과 메인프레임 연결
 			Board2_PT pt = new Board2_PT(this);
+			this.dispose();
+			
 		}else if(obj == btn_cal) {
+			// 5/31 전우진 자유게시판 생성시 메인 꺼짐
 			Calendarmain cm = new Calendarmain(this);
+			this.dispose();
+			
 		}else if(obj == btn_modify) {
+			// 5/31 전우진 자유게시판 생성시 메인 꺼짐
 			ChangeInfo ci = new ChangeInfo(this);
+			this.dispose();
+			
 		}else if(obj == btn_logout) {
 			Login login = new Login(this);
 			this.dispose();
 		}
-		//2022-05-20 03시 윤선호 프로필 사진 변경 기능 추가
-		else if(obj == btn_icon) {
-			JFileChooser jfc = new JFileChooser();
-			jfc.setDialogTitle("프로필 사진 변경");
-			int returnVal = jfc.showSaveDialog(null);
-			
-			if(returnVal == 0) {
-				File file = jfc.getSelectedFile();
-				
-				try {
-					String tmp, str = null;
-					BufferedReader br = new BufferedReader(new FileReader(file));
-					while((tmp = br.readLine())!= null) {
-						str += tmp;
-					}
-					
-				}catch(Exception e1) {
-				e1.printStackTrace();
-				}
-				
-			} else {
-				System.out.println("이미지를 선택해주세요.");
-			}
-			
-			//이미지 경로를 불러서 바로 이미지 변경
-			String path = jfc.getSelectedFile().getPath();
-			
-			ImageIcon fileicon = new ImageIcon(path);
-			System.out.println(jfc.getSelectedFile().getPath());
-			btn_icon.setIcon(fileicon);
-		}
+//		//2022-05-20 03시 윤선호 프로필 사진 변경 기능 추가
+//		else if(obj == lbl_icon) {
+//			JFileChooser jfc = new JFileChooser();
+//			jfc.setDialogTitle("프로필 사진 변경");
+//			int returnVal = jfc.showSaveDialog(null);
+//			
+//			if(returnVal == 0) {
+//				File file = jfc.getSelectedFile();
+//				
+//				try {
+//					String tmp, str = null;
+//					BufferedReader br = new BufferedReader(new FileReader(file));
+//					while((tmp = br.readLine())!= null) {
+//						str += tmp;
+//					}
+//					
+//				}catch(Exception e1) {
+//				e1.printStackTrace();
+//				}
+//				
+//			} else {
+//				System.out.println("이미지를 선택해주세요.");
+//			}
+			// 전우진 5/28 23:24 이미지 경로 확인 때문에 주석 처리
+//			//이미지 경로를 불러서 바로 이미지 변경
+//			String path = jfc.getSelectedFile().getPath();
+//			
+//			ImageIcon fileicon = new ImageIcon(path);
+//			System.out.println(jfc.getSelectedFile().getPath());
+//			btn_icon.setIcon(fileicon);
+		//}
 	}
 
 	@Override

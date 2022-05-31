@@ -31,32 +31,19 @@ import frame.main.MainFrame;
 public class Login extends JFrame implements ActionListener, MouseListener, WindowListener, KeyListener{
 	
 	
-	private JPanel panelLeft;
-	private JPanel panelRight;
-	private JPanel panel1;
-	private JPanel panel2;
-	private JPanel panel3;
-	private JPanel panelWord;
-	private JTextField tfId;
+	private JPanel panelLeft, panelRight, panel1, panel2, panel3, panelWord;
+	private JTextField tfId, tfJoinId, tfJoinPw;
 	private JPasswordField tfpw;
-	private JButton btnLogin;
-	private JButton btnCall;
-	private JButton btnJoin;
-	private JButton btnSearch;
-	private JLabel welcome;
-	private JLabel gym;
+	private JButton btnLogin, btnCall, btnJoin, btnSearch;
+	private JLabel lblWelcome, lblGym;
 	private PsCheckFrame ps;
-	private Font mainFont;
-	private Font subFont;
-	private Font southFont;
+	private Font mainFont, subFont, southFont;
 	private AgreeFrame af;
-	private MainFrame mainFrame;
-	private JoinFrame joinFrame;
-	private JTextField joinId;
-	private JTextField joinPw;
+	private MainFrame mf;
+	private JoinFrame jf;
 
 	private String result;
-	private String loginID; //로그인한 ID 확인용 변수
+//	private String loginID; //로그인한 ID 확인용 변수
 	private dbOpen temp;
 	
 
@@ -117,18 +104,18 @@ public class Login extends JFrame implements ActionListener, MouseListener, Wind
 		// 로그인 화면 글씨
 		panelWord = new JPanel();
 		panelWord.setBackground(skyblue);
-		welcome = new JLabel("Welcome");
-		gym = new JLabel(" to 건강해GYM!");
+		lblWelcome = new JLabel("Welcome");
+		lblGym = new JLabel(" to 건강해GYM!");
 		      
-		welcome.setBackground(skyblue);
-		welcome.setForeground(Color.BLACK);
-		gym.setBackground(skyblue);
-		gym.setForeground(Color.WHITE);
-		welcome.setFont(mainFont);
-		gym.setFont(mainFont);
+		lblWelcome.setBackground(skyblue);
+		lblWelcome.setForeground(Color.BLACK);
+		lblGym.setBackground(skyblue);
+		lblGym.setForeground(Color.WHITE);
+		lblWelcome.setFont(mainFont);
+		lblGym.setFont(mainFont);
 		
-		panelWord.add(welcome);
-		panelWord.add(gym);
+		panelWord.add(lblWelcome);
+		panelWord.add(lblGym);
 		
 		panel1.add(panelWord,BorderLayout.SOUTH);
 		panelRight.add(panel1);
@@ -185,7 +172,7 @@ public class Login extends JFrame implements ActionListener, MouseListener, Wind
 		panel2.add(btnLogin);
 		
 		// 로그인 화면 직원 호출 출력
-		btnCall = new JButton("고객센터");
+		btnCall = new JButton("회원탈퇴");
 		btnCall.setBounds(70, 105, 90, 30);
 		Color a = new Color(130, 130, 130);
 		btnCall.setForeground(a);
@@ -238,11 +225,13 @@ public class Login extends JFrame implements ActionListener, MouseListener, Wind
 		} else if(obj == btnJoin) {
 			af = new AgreeFrame("이용약관");
 			af.setLocationRelativeTo(null);
+			this.dispose();
 		//	joinFrame = new JoinFrame("회원가입");
 			
 		} else if(obj == btnSearch) {
 			ps = new PsCheckFrame("비밀번호 찾기");
 			ps.setLocationRelativeTo(null);
+			this.dispose();
 		} else if(obj == btnLogin || obj == tfId || obj == tfpw) {
 			try {
 				char[] tempPw = tfpw.getPassword();

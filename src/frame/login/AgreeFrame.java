@@ -228,6 +228,7 @@ public class AgreeFrame extends JFrame implements ActionListener, WindowListener
 		Object obj = e.getSource();
 		if(obj == btnCancel) {
 			this.dispose();
+			Login lg = new Login(null);
 		} 
 		if(obj == btnAgree) {
 			if(JOptionPane.showConfirmDialog(this, 

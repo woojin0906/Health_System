@@ -7,6 +7,8 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -28,6 +30,7 @@ public class dbOpen {
 	private int period;
 	private String db_pw;
 	private String db_id;
+	private String imgfile;
 
 	public dbOpen() {
 			try {
@@ -52,9 +55,10 @@ public class dbOpen {
 	}
 		
 	// 회원가입 할 때 텍스트필드에서 값 긁어와서 DB에 던지기
-	public void infoInsert(String id, String name, String ph, String add, String pw, String pwhint, String img) {
-		String sqlInsert = "insert into memberinfo (id, name, phonenumber, address, password, passwordhint, profile)"
-				+ " values('" + id + "', '" + name + "', '" + ph + "', '" + add + "', '" + pw + "', '" + pwhint + "', '" + img + "')";
+	// 이미지 경로 추가 (전우진 5/28 23:36)
+	public void infoInsert(String id, String name, String ph, String add, String pw, String pwhint) {
+		String sqlInsert = "insert into memberinfo (id, name, phonenumber, address, password, passwordhint)"
+				+ " values('" + id + "', '" + name + "', '" + ph + "', '" + add + "', '" + pw + "', '" + pwhint + "')";
 	
 		try {
 			statement.executeUpdate(sqlInsert);
@@ -145,7 +149,37 @@ public class dbOpen {
 		}
 	}
 	
+	public void pullInfoMain(String id, JLabel name1, JLabel name2, JLabel date) {
+		try {
+			result = statement.executeQuery("select name from memberinfo where id = '" + id + "'");
+			if(result.next()) {
+				name1.setText(result.getString("name"));
+			}
+			result = statement.executeQuery("select name from memberinfo where id = '" + id + "'");
+			if(result.next()) {
+				name2.setText(result.getString("name"));
+			}
+			result = statement.executeQuery("select period from memberinfo where id = '" + id + "'");
+			if(result.next()) {
+				date.setText(result.getString("period"));
+			}
+			
+		} catch (SQLException e) {
+			System.out.println("pull Main Error!");
+			e.printStackTrace();
+		} finally {
+			try {
+				statement.close();
+				result.close();
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
 	//전달받은 ID에 해당하는 정보를 가져옴
+	// 전우진(5/28 23:26) 이미지 경로 추가
 	public void pullInfo(String id, JTextField name, JTextField phonenumber, JTextField address, JPasswordField pw, JPasswordField pwCh) {
 		try {
 				result = statement.executeQuery("select name from memberinfo where id = '" + id + "'");
@@ -165,7 +199,7 @@ public class dbOpen {
 					pw.setText(result.getString("password"));
 					pwCh.setText(result.getString("password"));
 				}
-				
+					
 		} catch (SQLException e) {
 			System.out.println("pull Informaiton Error!");
 			e.printStackTrace();
@@ -179,7 +213,9 @@ public class dbOpen {
 			}
 		}
 	}
+
 	//회원정보 업데이트
+	// 전우진 (5/28 23:36) 이미지 경로 추가
 	public void chMemberInfo(String id, JPasswordField pw, JTextField phone, JTextField address) {
 		char[] temp = pw.getPassword();
 		String result = "";
@@ -189,7 +225,7 @@ public class dbOpen {
 			result += ""+ch+"";
 		}
 		
-		String sqlUpdate = "update memberinfo set password = '" + result + "', phonenumber = '" + phone.getText() + "', address = '" + address.getText() + "' where id = '" + id + "'";
+		String sqlUpdate = "update memberinfo set password = '" + result + "', phonenumber = '" + phone.getText() + "', address = '" + address.getText() +  "' where id = '" + id + "'";
 		try {
 			statement.executeUpdate(sqlUpdate);
 		} catch (SQLException e) {
@@ -202,23 +238,8 @@ public class dbOpen {
 				e.printStackTrace();
 			}
 		}
+		
 	}
-	
-	
-	// 이미지 값
-//		public void imageUpdate(String id, String inputImg) {
-//			
-//			String sqlUpdate = "update memberinfo set profile = '" + inputImg +  "'where id = '" + id + "'";
-//			
-//			try {
-//				statement.executeUpdate(sqlUpdate);
-//			} catch (SQLException e) {
-//				e.printStackTrace();
-//				//System.out.println("Update Error!");
-//			}
-//			
-//			
-//		}
 		
 	//이용권 구매시 이용권 기간 늘림
 	public void plusPeriod(String id, int addPeriod) {
