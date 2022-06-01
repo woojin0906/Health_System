@@ -145,13 +145,8 @@ public class IdCheckFrame extends JFrame implements WindowListener, ActionListen
 				if(id.length() >= 4 && id.length() <= 16) {
 					db = new dbOpen();
 					db.checkID(this, id, tfId);
-					jf = new JoinFrame("회원가입");
-					jf.setLocationRelativeTo(null);
-					JCheckBox ch = jf.getAgreeCheck();
-					ch.setSelected(true);
-					JTextField jfid = jf.getTfId();
-					jfid.setText(id);
-					this.dispose();
+					
+					
 				} else {
 					JOptionPane.showMessageDialog(this, "아이디는 4자리 이상 16자리 이하로 작성해주세요.");
 				} 
@@ -168,7 +163,11 @@ public class IdCheckFrame extends JFrame implements WindowListener, ActionListen
 
 	@Override
 	public void windowClosing(WindowEvent e) {
-		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);		
+		//setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);	
+		jf = new JoinFrame("회원가입");
+		jf.setLocationRelativeTo(null);
+		JCheckBox ch = jf.getAgreeCheck();
+		ch.setSelected(true);
 	}
 
 	@Override

@@ -8,6 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import javax.swing.ImageIcon;
+import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
@@ -27,6 +28,7 @@ public class dbOpen {
 	private String pw; //로그인 시 비밀번호 검증용 변수
 	private String hint;
 	private MainFrame mainFrame;
+	private IdCheckFrame idch;
 	private int period;
 	private String db_pw;
 	private String db_id;
@@ -155,15 +157,11 @@ public class dbOpen {
 		}
 	}
 	
-	public void pullInfoMain(String id, JLabel name1, JLabel name2, JLabel date) {
+	public void pullInfoMain(String id, JLabel name1, JLabel date) {
 		try {
 			result = statement.executeQuery("select name from memberinfo where id = '" + id + "'");
 			if(result.next()) {
 				name1.setText(result.getString("name"));
-			}
-			result = statement.executeQuery("select name from memberinfo where id = '" + id + "'");
-			if(result.next()) {
-				name2.setText(result.getString("name"));
 			}
 			result = statement.executeQuery("select period from memberinfo where id = '" + id + "'");
 			if(result.next()) {
@@ -185,7 +183,6 @@ public class dbOpen {
 	}
 	
 	//전달받은 ID에 해당하는 정보를 가져옴
-	// 전우진(5/28 23:26) 이미지 경로 추가
 	public void pullInfo(String id, JTextField name, JTextField phonenumber, JTextField address, JPasswordField pw, JPasswordField pwCh) {
 		try {
 				result = statement.executeQuery("select name from memberinfo where id = '" + id + "'");
@@ -221,7 +218,6 @@ public class dbOpen {
 	}
 
 	//회원정보 업데이트
-	// 전우진 (5/28 23:36) 이미지 경로 추가
 	public void chMemberInfo(String id, JPasswordField pw, JTextField phone, JTextField address) {
 		char[] temp = pw.getPassword();
 		String result = "";
@@ -303,6 +299,14 @@ public class dbOpen {
 				tf.setText("");
 			}else {
 				JOptionPane.showMessageDialog(idCheckFrame, "사용 가능한 아이디 입니다.");
+				idCheckFrame.dispose();
+				JoinFrame jf = new JoinFrame("회원가입");
+				jf.setLocationRelativeTo(null);
+				JCheckBox ch = jf.getAgreeCheck();
+				ch.setSelected(true);
+				JTextField jfid = jf.getTfId();
+				
+				jfid.setText(idInput);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

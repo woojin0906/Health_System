@@ -60,7 +60,6 @@ public class MainFrame extends JFrame implements Runnable, ActionListener, Windo
 	private dbOpen db;
 	private JLabel lbl_name;
 	private JLabel lbl_member;
-	private JLabel lbl_name2;
 	
 	public MainFrame(String id) {
 		this.id = id;
@@ -76,7 +75,7 @@ public class MainFrame extends JFrame implements Runnable, ActionListener, Windo
 		
 		// 전우진 5/29 12:34 db 연결
 		db = new dbOpen();
-		db.pullInfoMain(id, lbl_name, lbl_name2, lbl_day);
+		db.pullInfoMain(id, lbl_name, lbl_day);
 		
 		this.addWindowListener(this);
 		setLocationRelativeTo(null); //화면 가운데에 보여줌
@@ -87,7 +86,6 @@ public class MainFrame extends JFrame implements Runnable, ActionListener, Windo
 	public MainFrame(String id, String name) {
 		this.id = id;
 		this.name = name;
-		System.out.println(name);
 		setTitle("메인 화면");
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setLocation(300,200);
@@ -100,7 +98,7 @@ public class MainFrame extends JFrame implements Runnable, ActionListener, Windo
 		
 		// 전우진 5/29 12:34 db 연결
 		db = new dbOpen();
-		db.pullInfoMain(id, lbl_name, lbl_name2, lbl_day);
+		db.pullInfoMain(id, lbl_name, lbl_day);
 		
 		this.addWindowListener(this);
 		setLocationRelativeTo(null); //화면 가운데에 보여줌
@@ -170,49 +168,43 @@ public class MainFrame extends JFrame implements Runnable, ActionListener, Windo
 //		if(lbl_name.getText().length() == 2) {
 //			
 //		}
-		lbl_welcome = new JLabel("반갑습니다 ");
-		Font font = new Font("맑은 고딕", Font.BOLD, 30);
-		lbl_welcome.setBounds(20, 25, 180, 30);
-		lbl_welcome.setFont(font);
-		panelNorth.add(lbl_welcome);
+//		lbl_welcome = new JLabel("반갑습니다 ");
+//		font = new Font("맑은 고딕", Font.BOLD, 30);
+//		lbl_welcome.setBounds(20, 25, 180, 30);
+//		lbl_welcome.setFont(font);
+//		panelNorth.add(lbl_welcome);
 		
 		// 전우진 5/29 1:48 라벨 분리
 		//로그인한 회원 이름 (lbl_name으로 변경)
-		lbl_name = new JLabel();	
-		font = new Font("맑은 고딕", Font.BOLD, 30);
-		lbl_name.setFont(font);
-		lbl_name.setBounds(180, 25, 200, 30);
-		panelNorth.add(lbl_name);
+//		lbl_name = new JLabel();	
+//		Font font = new Font("맑은 고딕", Font.BOLD, 30);
+//		lbl_name.setFont(font);
+//		lbl_name.setBounds(50, 25, 200, 30);
+//		lbl_name.setHorizontalAlignment(JLabel.CENTER);
+//		panelNorth.add(lbl_name);
 		
 		// 전우진 5/29 1:48 라벨 분리
 		// 회원님!
-		lbl_member = new JLabel(" 회원님!");
-		font = new Font("맑은 고딕", Font.BOLD, 30);
+		lbl_member = new JLabel(name + " 회원님!");
+		Font font = new Font("맑은 고딕", Font.BOLD, 30);
 		lbl_member.setFont(font);
-		lbl_member.setBounds(300, 25, 150, 30);
+		lbl_member.setBounds(0, 25, 150, 30);
+		lbl_member.setHorizontalAlignment(JLabel.CENTER);
 		panelNorth.add(lbl_member);
 		
 		// 전우진 5/29 1:48 라벨 분리
-		//로그인한 회원 이름2
-		lbl_name2 = new JLabel();	
-		font = new Font("맑은 고딕", Font.BOLD, 20);
-		lbl_name2.setFont(font);
-		lbl_name2.setBounds(10, 65, 100, 30);
-		panelNorth.add(lbl_name2);
-		
-		// 전우진 5/29 1:48 라벨 분리
 		// 님 만료일까지
-		lbl_lastday = new JLabel("님 만료일까지 ");
+		lbl_lastday = new JLabel("만료일까지 ");
 		Font font2 = new Font("맑은 고딕", Font.BOLD, 20);
 		lbl_lastday.setFont(font2);
-		lbl_lastday.setBounds(90, 65, 150, 30);
+		lbl_lastday.setBounds(70, 65, 150, 30);
 		panelNorth.add(lbl_lastday);
 		
 		// 전우진 5/29 1:48 라벨 분리
 		// 로그인한 회원의 만료일 수
 		lbl_day = new JLabel();
 		lbl_day.setFont(font2);
-		lbl_day.setBounds(220, 65, 60, 30);
+		lbl_day.setBounds(180, 65, 60, 30);
 		lbl_day.setOpaque(true);
 		lbl_day.setForeground(Color.RED);
 		lbl_day.setBackground(new Color(189, 215, 238));
@@ -222,7 +214,7 @@ public class MainFrame extends JFrame implements Runnable, ActionListener, Windo
 		// 전우진 5/29 1:48 라벨 분리
 		lbl_coment = new JLabel("일 남았습니다.");
 		lbl_coment.setFont(font2);
-		lbl_coment.setBounds(290, 65, 150, 30);
+		lbl_coment.setBounds(250, 65, 150, 30);
 		panelNorth.add(lbl_coment);
 		
 		JTextArea ta = new JTextArea("", 8, 30);
