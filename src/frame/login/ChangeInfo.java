@@ -127,7 +127,7 @@ public class ChangeInfo extends JFrame implements ActionListener, WindowListener
 		// 전우진 5/28 이미지 경로 변경
 		//이미지 붙은 버튼 추가하기
 		//profileImg = new ImageIcon("imges/Person.png");
-		profileImg = new ImageIcon("imges/"+ID+".png");
+		profileImg = new ImageIcon("C://Users/jwjle/git/22222/imges/"+ID+".png");
 		//System.out.println("imges/"+ID+".png");
 		Image img = profileImg.getImage();
 		Image changeImg = img.getScaledInstance(100, 97, Image.SCALE_SMOOTH);
@@ -289,14 +289,12 @@ public class ChangeInfo extends JFrame implements ActionListener, WindowListener
 			File srcfile = new File("imges/"+ID+".png");  		
 			Files.copy(dirfile.toPath(), srcfile.toPath(), StandardCopyOption.REPLACE_EXISTING);
 			
-			
-			
 			} catch (NullPointerException e1) {
 				JOptionPane.showMessageDialog(this, "이미지를 선택하지 않았습니다.");
-				//e1.printStackTrace();
+				e1.printStackTrace();
 			} catch (IOException e1) {
 				JOptionPane.showMessageDialog(this, "이미지를 선택하지 않았습니다.");
-				//e1.printStackTrace();
+				e1.printStackTrace();
 			}
 			
 		}else if(obj == pwEdit) {

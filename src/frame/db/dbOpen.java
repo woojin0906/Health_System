@@ -42,7 +42,7 @@ public class dbOpen {
 				conn = DriverManager.getConnection(
 						"jdbc:oracle:thin:@127.0.0.1:1521:XE", 
 						"barbelljava", 
-						"kkt1004");
+						"inha1004");
 				
 				statement = conn.createStatement();
 				
@@ -58,7 +58,6 @@ public class dbOpen {
 	}
 		
 	// 회원가입 할 때 텍스트필드에서 값 긁어와서 DB에 던지기
-	// 이미지 경로 추가 (전우진 5/28 23:36)
 	public void infoInsert(String id, String name, String ph, String add, String pw, String pwhint) {
 		String sqlInsert = "insert into memberinfo (id, name, phonenumber, address, password, passwordhint)"
 				+ " values('" + id + "', '" + name + "', '" + ph + "', '" + add + "', '" + pw + "', '" + pwhint + "')";
@@ -157,12 +156,9 @@ public class dbOpen {
 		}
 	}
 	
-	public void pullInfoMain(String id, JLabel name1, JLabel date) {
+	// 전우진 메인프레임 만료일 db
+	public void pullInfoMain(String id, JLabel date) {
 		try {
-			result = statement.executeQuery("select name from memberinfo where id = '" + id + "'");
-			if(result.next()) {
-				name1.setText(result.getString("name"));
-			}
 			result = statement.executeQuery("select period from memberinfo where id = '" + id + "'");
 			if(result.next()) {
 				date.setText(result.getString("period"));

@@ -26,6 +26,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Random;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -33,33 +34,16 @@ import javax.swing.filechooser.*;
 
 public class MainFrame extends JFrame implements Runnable, ActionListener, WindowListener {
 
-	private JPanel panelNorth;
-	private JPanel panelSouth;
+	private JPanel panelNorth, panelSouth, panelWest, panelEast, paTime;
 	private JTextArea ta;
-	private JLabel lbl_icon;
-	private JLabel lbl_welcome;
-	private JLabel lbl_lastday;
-	private JPanel panelWest;
-	private JPanel panelEast;
-	private JButton btn_logout;
-	private JLabel lblDay;
-	private JLabel lblTime;
-	private JPanel paTime;
-	private JButton btn_modify;
-	private JButton btn_buy;
-	private JButton btn_board1;
-	private JButton btn_board2;
-	private JButton btn_cal;
-	private JLabel lbl_day;
-	private JLabel lbl_coment;
+	private JLabel lbl_icon, lbl_member, lbl_lastday, lblDay, lblTime, lbl_day, lbl_coment;
+	private JButton btn_logout, btn_modify, btn_buy, btn_board1, btn_board2, btn_cal;
 	private String id; //로그인 한 계정의 id값을 받아옴.
 	private String name; //로그인 한 계정의 이름 값을 받아옴.
 
-	
 	// 전우진 5/29 db
 	private dbOpen db;
-	private JLabel lbl_name;
-	private JLabel lbl_member;
+	private Font mainFont;
 	
 	public MainFrame(String id) {
 		this.id = id;
@@ -73,9 +57,10 @@ public class MainFrame extends JFrame implements Runnable, ActionListener, Windo
 		setInfo();
 		setMenu();
 		
+		
 		// 전우진 5/29 12:34 db 연결
 		db = new dbOpen();
-		db.pullInfoMain(id, lbl_name, lbl_day);
+		db.pullInfoMain(id, lbl_day);
 		
 		this.addWindowListener(this);
 		setLocationRelativeTo(null); //화면 가운데에 보여줌
@@ -96,9 +81,10 @@ public class MainFrame extends JFrame implements Runnable, ActionListener, Windo
 		setInfo();
 		setMenu();
 		
+		
 		// 전우진 5/29 12:34 db 연결
 		db = new dbOpen();
-		db.pullInfoMain(id, lbl_name, lbl_day);
+		db.pullInfoMain(id, lbl_day);
 		
 		this.addWindowListener(this);
 		setLocationRelativeTo(null); //화면 가운데에 보여줌
@@ -112,7 +98,7 @@ public class MainFrame extends JFrame implements Runnable, ActionListener, Windo
 		panelNorth.setLayout(null);
 		
 		// 전우진 5/31
-		ImageIcon icn = new ImageIcon("imges/" + id + ".png");
+		ImageIcon icn = new ImageIcon("C://Users/jwjle/git/22222/imges/" + id + ".png");
 		Image img = icn.getImage();
 		Image changeImg = img.getScaledInstance(250, 250, Image.SCALE_SMOOTH);
 		ImageIcon changeimgicon = new ImageIcon(changeImg);
@@ -141,7 +127,7 @@ public class MainFrame extends JFrame implements Runnable, ActionListener, Windo
 		
 		//오늘 날짜를 보여준다.
 		lblDay = new JLabel(formattedDate);
-		Font font3 = new Font("맑은 고딕", Font.BOLD, 16);
+		Font font3 = new Font("210 맨발의청춘 L", Font.BOLD, 16);
 		lblDay.setFont(font3);
 		panelEast.add(lblDay);
 		
@@ -186,25 +172,24 @@ public class MainFrame extends JFrame implements Runnable, ActionListener, Windo
 		// 전우진 5/29 1:48 라벨 분리
 		// 회원님!
 		lbl_member = new JLabel(name + " 회원님!");
-		Font font = new Font("맑은 고딕", Font.BOLD, 30);
-		lbl_member.setFont(font);
-		lbl_member.setBounds(0, 25, 150, 30);
-		lbl_member.setHorizontalAlignment(JLabel.CENTER);
+		lbl_member.setFont(new Font("210 맨발의청춘 L", Font.BOLD, 30));
+		lbl_member.setBounds(20, 30, 300, 40);
+		lbl_member.setHorizontalAlignment(JLabel.LEFT);
 		panelNorth.add(lbl_member);
 		
 		// 전우진 5/29 1:48 라벨 분리
 		// 님 만료일까지
 		lbl_lastday = new JLabel("만료일까지 ");
-		Font font2 = new Font("맑은 고딕", Font.BOLD, 20);
-		lbl_lastday.setFont(font2);
-		lbl_lastday.setBounds(70, 65, 150, 30);
+		lbl_lastday.setFont(new Font("210 맨발의청춘 L", Font.BOLD, 22));
+		lbl_lastday.setBounds(20, 70, 150, 40);
+		lbl_member.setHorizontalAlignment(JLabel.LEFT);
 		panelNorth.add(lbl_lastday);
 		
 		// 전우진 5/29 1:48 라벨 분리
 		// 로그인한 회원의 만료일 수
 		lbl_day = new JLabel();
-		lbl_day.setFont(font2);
-		lbl_day.setBounds(180, 65, 60, 30);
+		lbl_day.setFont(new Font("210 맨발의청춘 L", Font.BOLD, 22));
+		lbl_day.setBounds(130, 70, 60, 40);
 		lbl_day.setOpaque(true);
 		lbl_day.setForeground(Color.RED);
 		lbl_day.setBackground(new Color(189, 215, 238));
@@ -213,17 +198,24 @@ public class MainFrame extends JFrame implements Runnable, ActionListener, Windo
 		
 		// 전우진 5/29 1:48 라벨 분리
 		lbl_coment = new JLabel("일 남았습니다.");
-		lbl_coment.setFont(font2);
-		lbl_coment.setBounds(250, 65, 150, 30);
+		lbl_coment.setFont(new Font("210 맨발의청춘 L", Font.BOLD, 22));
+		lbl_coment.setBounds(210, 70, 150, 40);
 		panelNorth.add(lbl_coment);
 		
-		JTextArea ta = new JTextArea("", 8, 30);
-		Font font_ta = new Font("맑은 고딕", Font.ROMAN_BASELINE, 14);
-		ta.setEditable(true);
-		ta.setLineWrap(true);
+		String random[] = {"오늘 들 무게를 내일로 미루지 마라.", "일어나 하체 해야지", "이거 못들면 죽는거야", 
+							"복근 없으면 치팅데이는 없다", "바다갈 준비 안할거야?", "Light Weight", 
+							"너도 3대 500 될 수 있어", "너가 먹은 치킨이 불쌍하지 않아?"};
+		Random rd = new Random();
+		JLabel ta = new JLabel(random[rd.nextInt(8)]);
+		Font font_ta = new Font("210 맨발의청춘 L", Font.ROMAN_BASELINE, 28);
+		//ta.setEditable(true);
+		//ta.setLineWrap(true);
 		ta.setFont(font_ta);
-		ta.setBounds(20, 105, 400, 170);
+		ta.setForeground(Color.WHITE);
+		ta.setBounds(20, 110, 400, 170);
 		ta.setBackground(Color.LIGHT_GRAY);
+		ta.setOpaque(true); // 라벨은 투명해서 불투명도를 true로 설정
+		ta.setHorizontalAlignment(JLabel.CENTER);
 		panelNorth.add(ta);
 		
 		panelNorth.setBackground(new Color(189, 215, 238)); // 패널 백그라운드 색상 지정
