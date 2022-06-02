@@ -99,7 +99,6 @@ public class dbOpen {
 					frame.dispose();
 				} else {
 					JOptionPane.showMessageDialog(frame, "정보를 다시 확인해주세요.", "정보 오류", JOptionPane.ERROR_MESSAGE);
-					
 				}
 				
 			} catch (SQLException e) {

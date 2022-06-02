@@ -32,7 +32,7 @@ public class DB {
 			conn = DriverManager.getConnection(
 					"jdbc:oracle:thin:@127.0.0.1:1521:XE",
 					"barbelljava",
-					"kkt1004");
+					"inha1004");
 			
 			stmt = conn.createStatement();
 			

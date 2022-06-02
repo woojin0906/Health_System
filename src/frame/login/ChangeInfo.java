@@ -339,7 +339,7 @@ public class ChangeInfo extends JFrame implements ActionListener, WindowListener
 	@Override
 	public void windowClosing(WindowEvent e) {
 		this.dispose();
-		mf = new MainFrame(null, ID);
+		mf = new MainFrame(ID);
 	}
 
 	@Override

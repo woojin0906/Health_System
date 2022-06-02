@@ -2,7 +2,6 @@ package frame.board;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -18,7 +17,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import javax.swing.AbstractCellEditor;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -32,13 +30,10 @@ import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.plaf.DimensionUIResource;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellEditor;
-import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableModel;
 
-import frame.board.Board.TableCell;
-import frame.db.DB;
 import frame.db.DBPT;
+import frame.login.QuestionPW;
 import frame.main.MainFrame;
 
 public class Board2_PT extends JFrame implements ActionListener, MouseListener, WindowListener{
@@ -76,8 +71,27 @@ public class Board2_PT extends JFrame implements ActionListener, MouseListener, 
 	private String pre_passwordpt;
 	private String pre_contentpt;
 	private String pre_ipt;
+	private String ID;
 
 	public Board2_PT(MainFrame mf) {
+		skyblue = new Color(189, 215, 238);
+		setTitle("PT 게시판");
+		//setResizable(false); 
+		//addWindowListener(this);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setLocation(300, 300);
+		setSize(420, 600);
+		setLayout(new BorderLayout());
+		
+		PanelUP();
+		PanelDowm();
+		addWindowListener(this);
+		displayData();
+		setVisible(true);
+	}
+	
+	public Board2_PT(MainFrame mf, String ID) {
+		this.ID = ID;
 		skyblue = new Color(189, 215, 238);
 		setTitle("PT 게시판");
 		//setResizable(false); 
@@ -192,7 +206,7 @@ public class Board2_PT extends JFrame implements ActionListener, MouseListener, 
 		
 		//글쓰기 버튼 누를 시 pt게시판 글쓰기 창이 뜬다.
 		if(obj == btnWrite) {
-		BoardWrite_PT be = new BoardWrite_PT("글쓰기");
+		BoardWrite_PT be = new BoardWrite_PT("글쓰기", ID);
 		this.dispose();
 		}
 		else if(obj == tfsearch || obj == btnsearch) {}
@@ -210,7 +224,7 @@ public class Board2_PT extends JFrame implements ActionListener, MouseListener, 
 	         conn = DriverManager.getConnection(
 	               "jdbc:oracle:thin:@127.0.0.1:1521:XE",
 	               "barbelljava",
-	               "kkt1004");
+	               "inha1004");
 
 	         stmt = conn.createStatement();
 	         rs = stmt.executeQuery("select * from pttalk where PT_TITLE LIKE '%' || '" +  src + "' || '%' order by PT_ID desc");
@@ -251,7 +265,7 @@ public class Board2_PT extends JFrame implements ActionListener, MouseListener, 
 				conn = DriverManager.getConnection(
 						"jdbc:oracle:thin:@127.0.0.1:1521:XE",
 						"barbelljava",
-						"kkt1004");
+						"inha1004");
 				
 				stmt = conn.createStatement();
 				rs = stmt.executeQuery("select * from PTTALK order by PT_ID desc");
@@ -287,41 +301,47 @@ public class Board2_PT extends JFrame implements ActionListener, MouseListener, 
 		}
 
 
+		//게시물 누르면 이거 다 긁어옴
+		//BoardEdit_PT를 실행
+		public void runBoard() {
+			int row = table.getSelectedRow();
+			int col = table.getSelectedColumn();
+			
+			data = table.getModel();
+			
+			pre_ipt = (String)data.getValueAt(row, 0);
+			//System.out.println(pre_i);
+			pre_titlept = (String)data.getValueAt(row, 1);
+			pre_writerpt = (String)data.getValueAt(row, 2);
+			pre_writedaypt = (String)data.getValueAt(row, 3);
+			//pre_passwordpt = (String)data.getValueAt(row, 5);
+			pre_contentpt = (String)data.getValueAt(row, 4);
+			
+			alpt = new ArrayList<>();
+			alpt.add(pre_ipt);
+			alpt.add(pre_titlept);
+			alpt.add(pre_writerpt);
+			alpt.add(pre_writedaypt);
+			//alpt.add(pre_passwordpt);
+			alpt.add(pre_contentpt);
+			BoardEdit_PT be2 = new BoardEdit_PT(alpt, ID);
+			DBPT dbpt = new DBPT(be2);
+			dbpt.DisplayCMT(pre_ipt);
+			
+			//JTable 값 -> boardEdit_PT
+		}
+		
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
 		
 	}
+	
 	//게시물 클릭시 게시물 내용 보여줌
 	@Override
 	public void mousePressed(MouseEvent e) {
-		//게시물 누르면 이거 다 긁어옴
-				//BoardEdit_PT를 실행
-				int row = table.getSelectedRow();
-				int col = table.getSelectedColumn();
-				
-				data = table.getModel();
-				
-				pre_ipt = (String)data.getValueAt(row, 0);
-				//System.out.println(pre_i);
-				pre_titlept = (String)data.getValueAt(row, 1);
-				pre_writerpt = (String)data.getValueAt(row, 2);
-				pre_writedaypt = (String)data.getValueAt(row, 3);
-				//pre_passwordpt = (String)data.getValueAt(row, 5);
-				pre_contentpt = (String)data.getValueAt(row, 4);
-				
-				alpt = new ArrayList<>();
-				alpt.add(pre_ipt);
-				alpt.add(pre_titlept);
-				alpt.add(pre_writerpt);
-				alpt.add(pre_writedaypt);
-				//alpt.add(pre_passwordpt);
-				alpt.add(pre_contentpt);
-				BoardEdit_PT be2 = new BoardEdit_PT(alpt);
-				DBPT dbpt = new DBPT(be2);
-				dbpt.DisplayCMT(pre_ipt);
-		
-				//JTable 값 -> boardEdit_PT
+		QuestionPW pwCheck = new QuestionPW(this, 3, ID);
+//		runBoard();
 	}
 
 

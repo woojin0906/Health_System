@@ -204,7 +204,7 @@ public class Board extends JFrame implements ActionListener, MouseListener, Wind
 			conn = DriverManager.getConnection(
 					"jdbc:oracle:thin:@127.0.0.1:1521:XE",
 					"barbelljava",
-					"kkt1004");
+					"inha1004");
 			
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery("select * from freetalk where BD_CONTENT LIKE '%' || '" +  src + "' || '%' order by BD_ID desc");
@@ -244,7 +244,7 @@ public class Board extends JFrame implements ActionListener, MouseListener, Wind
 			conn = DriverManager.getConnection(
 					"jdbc:oracle:thin:@127.0.0.1:1521:XE",
 					"barbelljava",
-					"kkt1004");
+					"inha1004");
 			
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery("select * from freetalk order by BD_ID desc");

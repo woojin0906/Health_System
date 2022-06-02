@@ -176,6 +176,7 @@ public class Ticket extends JFrame implements ActionListener, ItemListener {
 		if(obj == cancle) {
 			JOptionPane.showMessageDialog(this, "이용권 결제를 취소합니다.", "알림",
 					JOptionPane.CANCEL_OPTION); //취소 버튼이 눌렸다면 다이얼로그 출력
+			MainFrame mf = new MainFrame(ID);
 			this.dispose(); //해당 프레임만 종료시킴
 		}
 	

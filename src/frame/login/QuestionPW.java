@@ -165,7 +165,7 @@ public class QuestionPW extends JFrame implements ActionListener, WindowListener
 					db2.chMemberInfo(ID, CI.getPwField(), CI.getPhoneField(), CI.getAddressField());
 					CI.dispose();
 					// 전우진 5/31 확인 누르면 메인 프레임 생성
-					MainFrame mf = new MainFrame(null, ID);
+					MainFrame mf = new MainFrame(ID);
 				}else if(ctrIndex == 3) {
 					PT.runBoard();
 				}

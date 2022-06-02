@@ -166,7 +166,7 @@ public class MemoFrame extends JFrame implements ActionListener {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
 			conn1 = DriverManager.getConnection("jdbc:oracle:thin:@127.0.0.1:1521:XE",
 					"barbelljava",
-					"kkt1004");
+					"inha1004");
 			
 			stmt1 = conn1.createStatement();
 			sql1 = "select * FROM MEMO WHERE ID = '" + id +"' AND MEMO_DATE = '" + date +"'";
