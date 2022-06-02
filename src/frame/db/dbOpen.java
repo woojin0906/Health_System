@@ -113,7 +113,10 @@ public class dbOpen {
 			} catch (SQLException e) {
 				System.out.println("select Query Error!");
 				e.printStackTrace();
-			} 
+			} catch (NullPointerException e) {
+				JOptionPane.showMessageDialog(frame, "정보를 다시 확인해주세요.", "정보 오류", JOptionPane.ERROR_MESSAGE);
+			}
+			
 			finally {
 				try {
 					result.close();
@@ -349,6 +352,7 @@ public class dbOpen {
 		return db_pw;
 	}
 	
+	//아이디 중복 체크
 	public void checkID(IdCheckFrame idCheckFrame, String idInput, JTextField tf) {
 		try {
 			result = statement.executeQuery("select id from memberinfo where id = '" + idInput + "'");
