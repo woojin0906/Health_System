@@ -335,7 +335,7 @@ public class MainFrame extends JFrame implements Runnable, ActionListener, Windo
 		else if(obj == btn_board1) {
 			// 5/31 전우진 자유게시판 생성시 메인 꺼짐
 			//2022-05-19 윤선호 자유게시판과 메인프레임 연결
-			Board bd = new Board(id);
+			Board bd = new Board(id, name);
 			this.dispose();
 		}
 		else if(obj == btn_board2) {

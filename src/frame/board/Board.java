@@ -33,6 +33,7 @@ import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
+import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 import javax.swing.event.CellEditorListener;
 import javax.swing.plaf.DimensionUIResource;
@@ -40,6 +41,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
 
 import frame.db.DB;
@@ -75,9 +77,11 @@ public class Board extends JFrame implements ActionListener, MouseListener, Wind
 	private String pre_i;
 	private DB db;
 	private String id;
-	
-	public Board(String id) {
+	private String name;
+
+	public Board(String id, String name) {
 		this.id = id;
+		this.name = name;
 		skyblue = new Color(189, 215, 238);
 		
 		setTitle("자유게시판");
@@ -169,12 +173,27 @@ public class Board extends JFrame implements ActionListener, MouseListener, Wind
 		table.getColumnModel().getColumn(4).setPreferredWidth(120);
 		table.getColumnModel().getColumn(5).setPreferredWidth(50);
 		
+		//table.setEnabled(true);
+		
 		JScrollPane ScrollPane = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 												JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); // 단일 선택
 		table.addMouseListener(this);
 		
 		bdpanel.add(ScrollPane);
+		
+		//테이블 가운데 정렬
+		DefaultTableCellRenderer tscheduleCellRenderer = new DefaultTableCellRenderer();
+		tscheduleCellRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+		
+		//테이블의 columnmodel을 가져옴
+		TableColumnModel tcmSchedule = table.getColumnModel();
+		
+		//테이블을 가운데 정렬로 지정
+		for(int i = 0; i < tcmSchedule.getColumnCount(); i++) {
+			tcmSchedule.getColumn(i).setCellRenderer(tscheduleCellRenderer);
+		}
+		
 		add(bdpanel, BorderLayout.CENTER);
 		add(ScrollPane, BorderLayout.SOUTH);
 	}
@@ -185,7 +204,7 @@ public class Board extends JFrame implements ActionListener, MouseListener, Wind
 		
 		//글쓰기 버튼 누를 시 자유게시판 글쓰기 창이 뜬다.
 		if(obj == btnWrite) {
-		Boardwrite be = new Boardwrite("글쓰기", id);
+		Boardwrite be = new Boardwrite("글쓰기", id, name);
 		this.dispose();
 		
 		//게시물 검색 기능
@@ -293,9 +312,11 @@ public class Board extends JFrame implements ActionListener, MouseListener, Wind
 		data = table.getModel();
 		
 		pre_i = (String)data.getValueAt(row, 0);
-		//System.out.println(pre_i);
+		
 		String pre_title = (String)data.getValueAt(row, 1);
-		String pre_writer = (String)data.getValueAt(row, 2);
+		String pre_writer = name;
+		//System.out.println(pre_writer);
+		//String pre_writer = (String)data.getValueAt(row, 2);
 		String pre_writeday = (String)data.getValueAt(row, 3);
 		String pre_category = (String)data.getValueAt(row, 5);
 		String pre_content = (String)data.getValueAt(row, 4);
@@ -308,7 +329,7 @@ public class Board extends JFrame implements ActionListener, MouseListener, Wind
 		al.add(pre_category);
 		al.add(pre_content);
 		
-		BoardEdit be = new BoardEdit(al, id);
+		BoardEdit be = new BoardEdit(al, id, name);
 		
 		DB db = new DB(be, null);
 		db.DisplayCMT(pre_i);
@@ -349,8 +370,8 @@ public class Board extends JFrame implements ActionListener, MouseListener, Wind
 
 	@Override
 	public void windowClosing(WindowEvent e) {
-		MainFrame mf = new MainFrame(id);
-		this.dispose();
+		// TODO Auto-generated method stub
+		
 	}
 
 	@Override

@@ -117,7 +117,7 @@ public class DB {
 	
 	}
 	//2022-05-27 윤선호 자유게시판 댓글 추가
-	public void BDCMT(String id, String bd_contents) {
+	public void BDCMT(String id, String bd_contents, String name) {
 		
 		try {
 			Random rnd = new Random();
@@ -127,7 +127,7 @@ public class DB {
 			String cmt = bd_contents;
 			//System.out.println(i);
 			System.out.println(cmt);
-		String sqlInsert = "insert into FR_COMMENT values('" + rnd.nextInt(99999 - 10000 + 1) + 10000 + "', '" + bd_contents + "', '" + id + "')";
+		String sqlInsert = "insert into FR_COMMENT values('" + rnd.nextInt(99999 - 10000 + 1) + 10000 + "', '" + bd_contents + "', '" + id + "', '" + name + "')";
 		stmt.executeUpdate(sqlInsert);
 		
 		System.out.println("댓글 추가 성공");
@@ -150,11 +150,17 @@ public class DB {
 	public void DisplayCMT(String id) {
 		try {
 			
-			result = stmt.executeQuery("select \"COMMENT\" FROM FR_COMMENT where BD_ID = '" + Integer.parseInt(id) + "'");	
+			result = stmt.executeQuery("select \"CMT_WRITER\", \"COMMENT\" FROM FR_COMMENT where BD_ID = '" + Integer.parseInt(id) + "'");	
 			while(result.next()) {
-				String test = result.getString(1);
-				be.getta_comment().append(test + "\n");
-				System.out.println(result.getString(1));
+				//String cmt_writer = result.getString(0);
+				//System.out.println(cmt_writer);
+				//String test = result.getString(1);
+				//be.getta_comment().append(cmt_writer + " : " + test + "\n");
+				//System.out.println(result.getString(1));
+				String[] cmt = {result.getString("CMT_WRITER"), result.getString("COMMENT")};
+				System.out.println(cmt[0]);
+				System.out.println(cmt[1]);
+				be.getta_comment().append(cmt[0] + " : " + cmt[1] + "\n");
 				System.out.println("댓글 보여주기 성공");
 				
 			}

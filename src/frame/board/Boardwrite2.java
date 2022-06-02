@@ -62,10 +62,12 @@ public class Boardwrite2 extends JFrame implements ActionListener, WindowListene
 	private Board user;
 	private ArrayList<String> al;
 	private String id;
-
-	public Boardwrite2(ArrayList<String> al, String id) {
+	private String name;
+	
+	public Boardwrite2(ArrayList<String> al, String id, String name) {
 		this.al = al;
 		this.id = id;
+		this.name = name;
 		
 		setTitle("자유게시판 글 수정");
 		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -253,6 +255,7 @@ public class Boardwrite2 extends JFrame implements ActionListener, WindowListene
 
 	@Override
 	public void windowClosed(WindowEvent e) {
+		Board bd = new Board(id, name);
 	}
 
 	@Override

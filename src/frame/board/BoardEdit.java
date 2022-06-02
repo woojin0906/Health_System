@@ -58,10 +58,12 @@ public class BoardEdit extends JFrame implements ActionListener, WindowListener{
 	private Board bd;
 	private Boardwrite2 bw2;
 	private String id;
+	private String name;
 	
-	public BoardEdit(ArrayList<String> al, String id) {
+	public BoardEdit(ArrayList<String> al, String id, String name) {
 		this.al = al;
 		this.id = id;
+		this.name = name;
 		
 		setTitle("게시물 댓글 및 삭제");
 		setLocation(200, 200);
@@ -112,6 +114,8 @@ public class BoardEdit extends JFrame implements ActionListener, WindowListener{
 	         TxField[i].setBounds(x, y, 310, 20);
 	         TxField[i].setBorder(BorderFactory.createEmptyBorder());
 	         TxField[i].setText(al.get(i+1));
+	         //0602 윤선호 편집 textfield 편집 불가
+	         TxField[i].setEditable(false);
 	         TxField[i].setFont(new Font("210 맨발의청춘 L", Font.PLAIN, 12));
 	         NorthPanel.add(TxField[i]);
 	      }
@@ -147,6 +151,7 @@ public class BoardEdit extends JFrame implements ActionListener, WindowListener{
 		ta_write =new  JTextArea(8,30);
 		ta_write.setFont(new Font("210 맨발의청춘 L", Font.PLAIN, 13));
 		ta_write.setLineWrap(true);
+		ta_write.setEditable(false);//편집 불가
 		ta_write.setText(al.get(5));
 		write_sp = new JScrollPane(ta_write, 
 				JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, 
@@ -195,12 +200,15 @@ public class BoardEdit extends JFrame implements ActionListener, WindowListener{
 		//댓글 목록 TextArea
 		panel_comment = new JPanel();
 		panel_comment.setBackground(skyblue);
-		ta_comment =new  JTextArea(8,30);
+		ta_comment = new JTextArea(8,30);
 		ta_comment.setFont(new Font("210 맨발의청춘 L", Font.PLAIN, 13));
 		ta_comment.setLineWrap(true);
+		ta_comment.setEditable(false);//편집 불가
+		
 		comment_sp = new JScrollPane(ta_comment, 
 				JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, 
 				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		
 		panel_comment.add(comment_sp);
 		SouthPanel.add(panel_comment, BorderLayout.CENTER);
 		
@@ -257,14 +265,16 @@ public class BoardEdit extends JFrame implements ActionListener, WindowListener{
 			DB db = new DB(this, null);
 			//int in = Integer.parseInt(bd.getAl().get(0));
 			System.out.println(al.get(1));
-			db.BDCMT(al.get(0), tfcomment.getText());
+			
+			
+			db.BDCMT(al.get(0), tfcomment.getText(), name);
 			tfcomment.setText("");
 			db.DisplayCMT(al.get(0));
 			
 		//2022-05-28 19:36 윤선호 수정 버튼 누르면 게시물 수정창이 뜬다.
 		}else if(obj == btn_edit) {
 			//System.out.println(al.get(4));
-			bw2 = new Boardwrite2(al, id);
+			bw2 = new Boardwrite2(al, id, name);
 		//2022-05-28 20:50 윤선호 게시물 삭제기능
 		}else if(obj == btn_delete) {
 			if(JOptionPane.showConfirmDialog (this, 
@@ -276,7 +286,7 @@ public class BoardEdit extends JFrame implements ActionListener, WindowListener{
 					db.DeleteBD(al.get(0));
 					
 					this.dispose();
-					Board bd = new Board(id);
+					//Board bd = new Board(id, name);
 				}
 		}
 		
@@ -291,7 +301,8 @@ public class BoardEdit extends JFrame implements ActionListener, WindowListener{
 	@Override
 	public void windowClosing(WindowEvent e) {
 		this.dispose();
-		Board bd = new Board(id);
+		Board bd = new Board(id, name);
+		bd.dispose();
 	}
 
 	@Override

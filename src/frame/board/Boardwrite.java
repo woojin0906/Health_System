@@ -57,9 +57,12 @@ public class Boardwrite extends JFrame implements ActionListener, WindowListener
 	private Color skyblue;
 	private JScrollPane sp;
 	private String id;
+	private String name;
 	
-	public Boardwrite(String title, String id) {
+	public Boardwrite(String title, String id, String name) {
 		this.id = id;
+		this.name = name;
+		
 		setTitle(title);
 		
 		setLocation(300, 300);
@@ -241,7 +244,7 @@ public class Boardwrite extends JFrame implements ActionListener, WindowListener
 
 	@Override
 	public void windowClosed(WindowEvent e) {
-		Board bd = new Board(id);
+		Board bd = new Board(id, name);
 	}
 
 	@Override
