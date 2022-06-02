@@ -6,6 +6,10 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 import javax.swing.ImageIcon;
 import javax.swing.JCheckBox;
@@ -34,6 +38,11 @@ public class dbOpen {
 	private String db_id;
 	private String imgfile;
 	private String name;
+	//전우진
+	private String dbname;
+	private String date;
+	private int addPeriod;
+	private String endDate2;
 
 	public dbOpen() {
 			try {
@@ -156,27 +165,82 @@ public class dbOpen {
 	}
 	
 	// 전우진 메인프레임 만료일 db
-	public void pullInfoMain(String id, JLabel date) {
-		try {
-			result = statement.executeQuery("select period from memberinfo where id = '" + id + "'");
-			if(result.next()) {
-				date.setText(result.getString("period"));
-			}
-			
-		} catch (SQLException e) {
-			System.out.println("pull Main Error!");
-			e.printStackTrace();
-		} finally {
+		public void pullInfoMain(String id, JLabel name, JLabel date) {
 			try {
-				statement.close();
-				result.close();
-				conn.close();
+				result = statement.executeQuery("select period from memberinfo where id = '" + id + "'");
+				if(result.next()) {
+					date.setText(result.getString("period"));
+				}
+				result = statement.executeQuery("select name from memberinfo where id = '" + id + "'");
+				if(result.next()) {
+					name.setText(result.getString("name") + "회원님!");
+				}
+				
 			} catch (SQLException e) {
+				System.out.println("pull Main Error!");
 				e.printStackTrace();
+			} finally {
+				try {
+					statement.close();
+					result.close();
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
 			}
 		}
-	}
-	
+
+		// 전우진
+		public void plusPeriodDate(String id, int period, String endDate) {
+			try {
+				result = statement.executeQuery("select period from memberinfo where id = '" + id + "'" );
+				
+				if(result.next()) {
+					period = result.getInt("period");
+				}
+				
+				result = statement.executeQuery("select enddate from memberinfo where id = '" + id + "'" );
+				
+				if(result.next()) {
+					date = result.getString("enddate");
+				}
+				Date now = new Date();
+				SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
+
+				Calendar cal = Calendar.getInstance(); 
+				cal.setTime(now);
+				endDate = format.format(cal.getTime());
+				String startDate = format.format(cal.getTime());
+
+				cal.add(Calendar.DATE, period);
+				endDate = format.format(cal.getTime());
+				
+				Date stdate = format.parse(startDate);
+				Date eddate = format.parse(endDate);
+						
+				long diffDay = (eddate.getTime() - stdate.getTime()) / (24*60*60*1000);
+						
+
+				System.out.println(endDate);
+				String sqlUpdate2 = "update memberinfo set enddate = '" + endDate +  "' where id = '" + id + "'";
+				statement.executeUpdate(sqlUpdate2);
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} finally {
+				try {
+					result.close();
+					statement.close();
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			
+		}
 	//전달받은 ID에 해당하는 정보를 가져옴
 	public void pullInfo(String id, JTextField name, JTextField phonenumber, JTextField address, JPasswordField pw, JPasswordField pwCh) {
 		try {
