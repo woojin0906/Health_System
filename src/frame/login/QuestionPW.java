@@ -10,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -20,6 +21,8 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 
 import frame.board.Board2_PT;
+import frame.board.BoardEdit;
+import frame.board.BoardEdit_PT;
 import frame.db.dbOpen;
 import frame.main.Bill;
 import frame.main.MainFrame;
@@ -41,6 +44,8 @@ public class QuestionPW extends JFrame implements ActionListener, WindowListener
 	private int period; // 이용권 증가시킬 기간 저장
 	private String db_pw;
 	private Board2_PT PT;
+	private String bdID;
+	private ArrayList<String> alpt;
 	
 	//이용권 구매 프레임의 주소와 구분자를 받아오는 생성자
 	public QuestionPW(Ticket TK, int ctrIndex, String ID, int period) {
@@ -68,10 +73,10 @@ public class QuestionPW extends JFrame implements ActionListener, WindowListener
 	}
 	
 	//PT 게시판의 게시물 정보 출력 전 비밀번호 확인
-	public QuestionPW(Board2_PT PT, int ctrIndex, String ID) {
+	public QuestionPW(Board2_PT PT, int ctrIndex, String bdID) {
 		this.PT = PT; //정보 수정 프레임 주소 저장
 		this.ctrIndex = ctrIndex; //구분자 값 저장
-		this.ID = ID;
+		this.bdID = bdID;
 		
 		// 전우진 윈도우 취소 버튼
 		addWindowListener(this);
@@ -146,35 +151,48 @@ public class QuestionPW extends JFrame implements ActionListener, WindowListener
 				result += ""+ch+"";
 			} //문자를 문자열로 변환
 			
-			dbOpen db = new dbOpen();
-			db_pw = db.checkPW(ID);
-			
-			if(result.equals(db_pw)){ //비밀번호와 입력받은 비밀번호가 일치한다면 
-				this.dispose(); //해당 서브프레임만 닫기
-				if(ctrIndex == 1) { 
-					dbOpen db2 = new dbOpen();
-					db2.plusPeriod(ID, period);
-					Bill bill = new Bill(TK, ID); 
-					//생성자 매개변수로부터 전해받은 구분자를 통해 각기 다른 프로세스 실행
-					//구분자가 1일 경우, 영수증 프레임을 출력해야 하기 때문에 영수증 프레임 생성자 호출
-					//구분자가 2일 경우, 정보 수정만 마치면 되기에 다이얼로그 출력
-				}else if(ctrIndex == 2){
-					JOptionPane.showMessageDialog(this, "정보를 수정합니다.", "알림",
-							JOptionPane.INFORMATION_MESSAGE);
-					dbOpen db2 = new dbOpen();
-					db2.chMemberInfo(ID, CI.getPwField(), CI.getPhoneField(), CI.getAddressField());
-					CI.dispose();
-					// 전우진 5/31 확인 누르면 메인 프레임 생성
-					MainFrame mf = new MainFrame(ID);
-				}else if(ctrIndex == 3) {
-					PT.runBoard();
+			if(ctrIndex == 3) {
+				String bdpw;
+				dbOpen db = new dbOpen();
+				bdpw = db.chBoardPW(bdID);
+				
+				if(bdpw.equals(result)) {
+					BoardEdit_PT bep = new BoardEdit_PT(PT.getAlpt(), ID);
+					this.dispose();
+				}else {
+					JOptionPane.showMessageDialog(this, "비밀번호가 틀립니다.",
+							"글 비밀번호 오류", JOptionPane.WARNING_MESSAGE);
 				}
-			}else {
-				JOptionPane.showMessageDialog(this, "비밀번호가 틀립니다.",
-						"경고", JOptionPane.WARNING_MESSAGE);
 			}
+			else if(ctrIndex == 1 || ctrIndex == 2) {
+				dbOpen db = new dbOpen();
+				db_pw = db.checkPW(ID);
+			
+				if(result.equals(db_pw)){ //비밀번호와 입력받은 비밀번호가 일치한다면 
+					this.dispose(); //해당 서브프레임만 닫기
+					if(ctrIndex == 1) { 
+						dbOpen db2 = new dbOpen();
+						db2.plusPeriod(ID, period);
+						Bill bill = new Bill(TK, ID); 
+						//생성자 매개변수로부터 전해받은 구분자를 통해 각기 다른 프로세스 실행
+						//구분자가 1일 경우, 영수증 프레임을 출력해야 하기 때문에 영수증 프레임 생성자 호출
+						//구분자가 2일 경우, 정보 수정만 마치면 되기에 다이얼로그 출력
+					}else if(ctrIndex == 2){
+						JOptionPane.showMessageDialog(this, "정보를 수정합니다.", "알림",
+								JOptionPane.INFORMATION_MESSAGE);
+						dbOpen db2 = new dbOpen();
+						db2.chMemberInfo(ID, CI.getPwField(), CI.getPhoneField(), CI.getAddressField());
+						CI.dispose();
+						// 전우진 5/31 확인 누르면 메인 프레임 생성
+						MainFrame mf = new MainFrame(ID);
+					}
+				}else {
+					JOptionPane.showMessageDialog(this, "비밀번호가 틀립니다.",
+							"경고", JOptionPane.WARNING_MESSAGE);
+				}
 			InputPW.setText(""); //데이터 처리 완료 후 패스워드필드 비우기
 			InputPW.requestFocus(); //계속 포커스 잡기
+			}
 		}
 	}
 
@@ -188,7 +206,9 @@ public class QuestionPW extends JFrame implements ActionListener, WindowListener
 	@Override
 	public void windowClosing(WindowEvent e) {
 		this.dispose();
-		MainFrame mf = new MainFrame(null, ID);
+		if(ctrIndex == 1 || ctrIndex == 2) {
+			MainFrame mf = new MainFrame(ID);
+		}
 	}
 
 	@Override

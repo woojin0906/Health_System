@@ -72,6 +72,7 @@ public class Board2_PT extends JFrame implements ActionListener, MouseListener, 
 	private String pre_contentpt;
 	private String pre_ipt;
 	private String ID;
+	private String bd_ID;
 
 	public Board2_PT(MainFrame mf) {
 		skyblue = new Color(189, 215, 238);
@@ -317,16 +318,17 @@ public class Board2_PT extends JFrame implements ActionListener, MouseListener, 
 			//pre_passwordpt = (String)data.getValueAt(row, 5);
 			pre_contentpt = (String)data.getValueAt(row, 4);
 			
-			alpt = new ArrayList<>();
+			alpt = new ArrayList<String>();
 			alpt.add(pre_ipt);
 			alpt.add(pre_titlept);
 			alpt.add(pre_writerpt);
 			alpt.add(pre_writedaypt);
 			//alpt.add(pre_passwordpt);
 			alpt.add(pre_contentpt);
-			BoardEdit_PT be2 = new BoardEdit_PT(alpt, ID);
-			DBPT dbpt = new DBPT(be2);
-			dbpt.DisplayCMT(pre_ipt);
+			bd_ID = alpt.get(0);
+			//BoardEdit_PT be2 = new BoardEdit_PT(alpt, ID);
+			//DBPT dbpt = new DBPT(be2);
+			//dbpt.DisplayCMT(pre_ipt);
 			
 			//JTable 값 -> boardEdit_PT
 		}
@@ -340,8 +342,8 @@ public class Board2_PT extends JFrame implements ActionListener, MouseListener, 
 	//게시물 클릭시 게시물 내용 보여줌
 	@Override
 	public void mousePressed(MouseEvent e) {
-		QuestionPW pwCheck = new QuestionPW(this, 3, ID);
-//		runBoard();
+		runBoard();
+		QuestionPW pwCheck = new QuestionPW(this, 3, bd_ID);
 	}
 
 
@@ -411,6 +413,10 @@ public class Board2_PT extends JFrame implements ActionListener, MouseListener, 
 	public void windowDeactivated(WindowEvent e) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	public ArrayList<String> getAlpt() {
+		return alpt;
 	}
 	
 }

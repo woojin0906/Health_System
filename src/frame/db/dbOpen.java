@@ -307,5 +307,21 @@ public class dbOpen {
 			e.printStackTrace();
 		}
 	}
+	
+	//PT게시판 글 비밀번호 끌어오는 메서드, 작성자 김지웅, 0602
+	public String chBoardPW(String bdID) {
+		String boardPW = "";
+		
+		try {
+			result = statement.executeQuery("select password from pttalk where pt_id = '" + bdID + "'");
+			if(result.next()) {
+				boardPW = result.getString(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return boardPW;
+	}
 
 }

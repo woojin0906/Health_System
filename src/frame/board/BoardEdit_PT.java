@@ -107,7 +107,7 @@ public class BoardEdit_PT extends JFrame implements ActionListener, WindowListen
 	      x = 100;
 	      y = 10;
 	      
-	      for(int i = 0; i < TxField.length; i++, y+=40) {
+	      for(int i = 0; i < TxField.length -1 ; i++, y+=40) {
 	         TxField[i] =  new JTextField(15);
 	         TxField[i].setBounds(x, y, 310, 20);
 	         TxField[i].setBorder(BorderFactory.createEmptyBorder());
