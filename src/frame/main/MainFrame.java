@@ -44,9 +44,11 @@ public class MainFrame extends JFrame implements Runnable, ActionListener, Windo
 	// 전우진 5/29 db
 	private dbOpen db;
 	private Font mainFont;
+	private String enddate;
 	
 	public MainFrame(String id) {
 		this.id = id;
+		
 		setTitle("메인 화면");
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setLocation(300,200);
@@ -60,7 +62,11 @@ public class MainFrame extends JFrame implements Runnable, ActionListener, Windo
 		
 		// 전우진 5/29 12:34 db 연결
 		db = new dbOpen();
-		db.pullInfoMain(id, lbl_member, lbl_day);
+		db.pullInfoMain(id, lbl_member);
+		
+		// 전우진 만료일 db 6/3
+		db = new dbOpen();
+		db.plusPeriodDate(id, lbl_day, enddate);
 		
 		this.addWindowListener(this);
 		setLocationRelativeTo(null); //화면 가운데에 보여줌
@@ -68,9 +74,11 @@ public class MainFrame extends JFrame implements Runnable, ActionListener, Windo
 		setVisible(true);
 		
 	}
-	public MainFrame(String id, String name) {
+	public MainFrame(String id, String name, String enddate) {
 		this.id = id;
 		this.name = name;
+		this.enddate = enddate;
+		
 		setTitle("메인 화면");
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setLocation(300,200);
@@ -81,10 +89,13 @@ public class MainFrame extends JFrame implements Runnable, ActionListener, Windo
 		setInfo();
 		setMenu();
 		
-		
 		// 전우진 5/29 12:34 db 연결
 		db = new dbOpen();
-		db.pullInfoMain(id, lbl_member, lbl_day);
+		db.pullInfoMain(id, lbl_member);
+		
+		// 전우진 만료일 db 6/3
+		db = new dbOpen();
+		db.plusPeriodDate(id, lbl_day, enddate);
 		
 		this.addWindowListener(this);
 		setLocationRelativeTo(null); //화면 가운데에 보여줌

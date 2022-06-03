@@ -252,7 +252,7 @@ public class Login extends JFrame implements ActionListener, MouseListener, Wind
 					JOptionPane.showMessageDialog(this, "아이디/비밀번호를 입력해주세요.", "로그인 오류", JOptionPane.ERROR_MESSAGE);
 				else {
 					e2.printStackTrace();
-					//JOptionPane.showMessageDialog(this, "아이디/비밀번호를 확인해주세요.", "로그인 오류", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(this, "아이디/비밀번호를 확인해주세요.", "로그인 오류", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 			}

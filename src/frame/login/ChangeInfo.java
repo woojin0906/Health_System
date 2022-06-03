@@ -291,10 +291,10 @@ public class ChangeInfo extends JFrame implements ActionListener, WindowListener
 			
 			} catch (NullPointerException e1) {
 				JOptionPane.showMessageDialog(this, "이미지를 선택하지 않았습니다.");
-				e1.printStackTrace();
+				//e1.printStackTrace();
 			} catch (IOException e1) {
 				JOptionPane.showMessageDialog(this, "이미지를 선택하지 않았습니다.");
-				e1.printStackTrace();
+				//e1.printStackTrace();
 			}
 			
 		}else if(obj == pwEdit) {

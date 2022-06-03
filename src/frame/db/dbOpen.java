@@ -36,14 +36,15 @@ public class dbOpen {
 	private int period;
 	private String db_pw;
 	private String db_id;
-	private String imgfile;
 	private String name;
+	
 	//전우진
-	private String dbname;
 	private String date;
-	private int addPeriod;
-	private String endDate2;
-
+	private String startDate; // 현재 날짜
+	private long diffDay;  // 종료 - 현재 = 만료일
+	private SimpleDateFormat format;  // 날짜 형식
+	private String enddate;  // 이용권 종료날짜
+	
 	public dbOpen() {
 			try {
 				Class.forName("oracle.jdbc.driver.OracleDriver");
@@ -101,10 +102,15 @@ public class dbOpen {
 					name = result.getString("name");
 				}
 				
+				result = statement.executeQuery("select enddate from memberinfo where id = '" + inputId + "'" );
+				if(result.next()) {
+					enddate = result.getString("enddate");
+				}
+				
 				//입력한 비밀번호와 DB에 저장된 비밀번호가 일치하는지 검증
 				
 				if(pw.equals(inputPw)) {
-					mainFrame = new MainFrame(id, name);
+					mainFrame = new MainFrame(id, name, enddate);
 					frame.dispose();
 				} else {
 					JOptionPane.showMessageDialog(frame, "정보를 다시 확인해주세요.", "정보 오류", JOptionPane.ERROR_MESSAGE);
@@ -114,6 +120,7 @@ public class dbOpen {
 				System.out.println("select Query Error!");
 				e.printStackTrace();
 			} catch (NullPointerException e) {
+				e.printStackTrace();
 				JOptionPane.showMessageDialog(frame, "정보를 다시 확인해주세요.", "정보 오류", JOptionPane.ERROR_MESSAGE);
 			}
 			
@@ -167,13 +174,9 @@ public class dbOpen {
 		}
 	}
 	
-	// 전우진 메인프레임 만료일 db
-		public void pullInfoMain(String id, JLabel name, JLabel date) {
+	// 전우진 메인프레임 회원 이름
+		public void pullInfoMain(String id, JLabel name) {
 			try {
-				result = statement.executeQuery("select period from memberinfo where id = '" + id + "'");
-				if(result.next()) {
-					date.setText(result.getString("period"));
-				}
 				result = statement.executeQuery("select name from memberinfo where id = '" + id + "'");
 				if(result.next()) {
 					name.setText(result.getString("name") + "회원님!");
@@ -193,13 +196,15 @@ public class dbOpen {
 			}
 		}
 
-		// 전우진
-		public void plusPeriodDate(String id, int period, String endDate) {
+		
+		// 전우진 메인프레임 만료일 수정(하루 지날 때마다 차감)
+		public void plusPeriodDate(String id, JLabel period, String endDate) {
+			//String id = id;
 			try {
 				result = statement.executeQuery("select period from memberinfo where id = '" + id + "'" );
 				
 				if(result.next()) {
-					period = result.getInt("period");
+					period.setText(result.getString("period"));
 				}
 				
 				result = statement.executeQuery("select enddate from memberinfo where id = '" + id + "'" );
@@ -208,31 +213,44 @@ public class dbOpen {
 					date = result.getString("enddate");
 				}
 				Date now = new Date();
-				SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
-
-				Calendar cal = Calendar.getInstance(); 
-				cal.setTime(now);
-				endDate = format.format(cal.getTime());
-				String startDate = format.format(cal.getTime());
-
-				cal.add(Calendar.DATE, period);
-				endDate = format.format(cal.getTime());
+				format = new SimpleDateFormat("yyyyMMdd");
 				
-				Date stdate = format.parse(startDate);
-				Date eddate = format.parse(endDate);
-						
-				long diffDay = (eddate.getTime() - stdate.getTime()) / (24*60*60*1000);
-						
+				if(date == null || date.equals("0")) {
+					Calendar cal = Calendar.getInstance(); 
+					cal.setTime(now);
+					endDate = format.format(cal.getTime());
+					diffDay = 0;
+					String lbl = Long.toString(diffDay);
+					period.setText(lbl);
+					String sqlUpdate = "update memberinfo set enddate = '" + endDate + "', period = '" +  period.getText() + "' where id = '" + id + "'";
+					statement.executeUpdate(sqlUpdate);
+					
+				} else {
+					Calendar cal = Calendar.getInstance(); 
+					cal.setTime(now);
+					startDate = format.format(cal.getTime());
+					//startDate = "20220604";
+					Date finish = format.parse(endDate);
+					Date start = format.parse(startDate);
+					
+					diffDay =  ((finish.getTime() - start.getTime()) / (24*60*60*1000)); 
+					
+					String lblday = Long.toString(diffDay);
+					period.setText(lblday);
+					
+					endDate = format.format(finish);
+					
+					String sqlUpdate = "update memberinfo set enddate = '" + endDate + "', period = '" +  period.getText() + "' where id = '" + id + "'";
+					statement.executeUpdate(sqlUpdate);
+					
+				}
 
-				System.out.println(endDate);
-				String sqlUpdate2 = "update memberinfo set enddate = '" + endDate +  "' where id = '" + id + "'";
-				statement.executeUpdate(sqlUpdate2);
-				
 			} catch (SQLException e) {
 				e.printStackTrace();
 			} catch (ParseException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
+			} catch (NullPointerException e) {
+				
 			} finally {
 				try {
 					result.close();
@@ -244,6 +262,7 @@ public class dbOpen {
 			}
 			
 		}
+		
 	//전달받은 ID에 해당하는 정보를 가져옴
 	public void pullInfo(String id, JTextField name, JTextField phonenumber, JTextField address, JPasswordField pw, JPasswordField pwCh) {
 		try {
@@ -305,8 +324,8 @@ public class dbOpen {
 		
 	}
 		
-	//이용권 구매시 이용권 기간 늘림
-	public void plusPeriod(String id, int addPeriod) {
+	//김지웅 이용권 구매시 이용권 기간 늘림 + 전우진 이용 기간 늘어날 때마다 만료일 늘림
+	public void plusPeriod(String id, int addPeriod, String endDate) {
 		try {
 			result = statement.executeQuery("select period from memberinfo where id = '" + id + "'" );
 			
@@ -315,8 +334,25 @@ public class dbOpen {
 			}
 			addPeriod += period;
 			
-			String sqlUpdate = "update memberinfo set period = '" + addPeriod +  "' where id = '" + id + "'";
-			statement.executeUpdate(sqlUpdate);
+			result = statement.executeQuery("select enddate from memberinfo where id = '" + id + "'" );
+
+			if(result.next()) {
+				date = result.getString("enddate");
+			}
+			
+			SimpleDateFormat format = new SimpleDateFormat("yyyymmdd");
+			try {
+				Date day = format.parse(date);
+				Calendar cal = Calendar.getInstance();
+				cal.setTime(day);
+				cal.add(Calendar.DATE, addPeriod);
+				endDate = format.format(cal.getTime());
+				
+				String sqlUpdate = "update memberinfo set enddate = '" + endDate + "', period = '" +  addPeriod + "' where id = '" + id + "'";
+				statement.executeUpdate(sqlUpdate);
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
