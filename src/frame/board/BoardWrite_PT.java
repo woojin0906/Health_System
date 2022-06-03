@@ -47,9 +47,10 @@ public class BoardWrite_PT extends JFrame implements ActionListener, WindowListe
 		skyblue = new Color(189, 215, 238);
 		mainFont = new Font("210 맨발의청춘 L", 0, 16);
 		
+		setResizable(false); 
+		
 		setNorth();
 		setCenter();
-		
 		setSouth();
 		addWindowListener(this);
 		setVisible(true);
