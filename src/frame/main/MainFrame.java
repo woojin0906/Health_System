@@ -60,7 +60,7 @@ public class MainFrame extends JFrame implements Runnable, ActionListener, Windo
 		
 		// 전우진 5/29 12:34 db 연결
 		db = new dbOpen();
-		db.pullInfoMain(id, lbl_day);
+		db.pullInfoMain(id, lbl_member, lbl_day);
 		
 		this.addWindowListener(this);
 		setLocationRelativeTo(null); //화면 가운데에 보여줌
@@ -84,7 +84,7 @@ public class MainFrame extends JFrame implements Runnable, ActionListener, Windo
 		
 		// 전우진 5/29 12:34 db 연결
 		db = new dbOpen();
-		db.pullInfoMain(id, lbl_day);
+		db.pullInfoMain(id, lbl_member, lbl_day);
 		
 		this.addWindowListener(this);
 		setLocationRelativeTo(null); //화면 가운데에 보여줌
@@ -98,7 +98,7 @@ public class MainFrame extends JFrame implements Runnable, ActionListener, Windo
 		panelNorth.setLayout(null);
 		
 		// 전우진 5/31
-		ImageIcon icn = new ImageIcon("C://Users/jwjle/git/22222/imges/" + id + ".png");
+		ImageIcon icn = new ImageIcon("imges/" + id + ".png");
 		Image img = icn.getImage();
 		Image changeImg = img.getScaledInstance(250, 250, Image.SCALE_SMOOTH);
 		ImageIcon changeimgicon = new ImageIcon(changeImg);

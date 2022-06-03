@@ -46,7 +46,7 @@ public class QuestionPW extends JFrame implements ActionListener, WindowListener
 	private Board2_PT PT;
 	private String bdID;
 	private ArrayList<String> alpt;
-	
+	private String date;// 전우진 만료일 date
 	//이용권 구매 프레임의 주소와 구분자를 받아오는 생성자
 	public QuestionPW(Ticket TK, int ctrIndex, String ID, int period) {
 		this.TK = TK; //이용권 구매 프레임 주소 저장
@@ -173,6 +173,9 @@ public class QuestionPW extends JFrame implements ActionListener, WindowListener
 					if(ctrIndex == 1) { 
 						dbOpen db2 = new dbOpen();
 						db2.plusPeriod(ID, period);
+						// 전우진 만료일 db 6/3
+						db2 = new dbOpen();
+						db2.plusPeriodDate(ID, period, date);
 						Bill bill = new Bill(TK, ID); 
 						//생성자 매개변수로부터 전해받은 구분자를 통해 각기 다른 프로세스 실행
 						//구분자가 1일 경우, 영수증 프레임을 출력해야 하기 때문에 영수증 프레임 생성자 호출
