@@ -59,25 +59,20 @@ public class Board extends JFrame implements ActionListener, MouseListener, Wind
 	private Statement stmt;
 	private ResultSet rs;
 	
-	private JPanel panelUP;
-	private JPanel panel1;
-	private JPanel panel2;
+	private JPanel panelUP,panelUPUP , panelUPDown;
 	private JLabel lblTilte;
-	private JTextArea ta;
 	private JTextField tfsearch;
-	private JButton btnsearch;
-	private JButton btnWrite;
+	private JButton btnsearch, btnWrite;
 	private Color skyblue;
-	private JScrollPane sp;
+
 	private MainFrame mf;
 	private JPanel bdpanel;
 	private ArrayList<String> al;
 	private TableModel data;
 	private BoardEdit be;
-	private String pre_i;
+	private String pre_i, id , name;
 	private DB db;
-	private String id;
-	private String name;
+	private JScrollPane ScrollPane;
 
 	public Board(String id, String name) {
 		this.id = id;
@@ -87,7 +82,7 @@ public class Board extends JFrame implements ActionListener, MouseListener, Wind
 		setTitle("자유게시판");
 		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocation(300, 300);
-		setSize(600, 600);
+		setSize(600, 560);
 		setResizable(false); // 사이즈 조절 못하게함
 		setLayout(new BorderLayout());
 		
@@ -103,15 +98,15 @@ public class Board extends JFrame implements ActionListener, MouseListener, Wind
 		panelUP = new JPanel();
 		panelUP.setLayout(new GridLayout(2,1));
 		
-		panel1 = new JPanel();
-		panel1.setBackground(skyblue);
-		panel1.setLayout(null);
-		panel1.setPreferredSize(new DimensionUIResource(100,50));
+		panelUPUP = new JPanel();
+		panelUPUP.setBackground(skyblue);
+		panelUPUP.setLayout(null);
+		panelUPUP.setPreferredSize(new DimensionUIResource(100,50));
 		lblTilte = new JLabel("자유게시판");
 		lblTilte.setFont(new Font("210 맨발의청춘 L", Font.BOLD, 25));
 		lblTilte.setLocation(20, 20);
 		lblTilte.setSize(150, 30);
-		panel1.add(lblTilte);
+		panelUPUP.add(lblTilte);
 		
 		//글쓰기 버튼 출력
 		btnWrite = new JButton(new ImageIcon("imges/pencil1.png"));
@@ -119,45 +114,45 @@ public class Board extends JFrame implements ActionListener, MouseListener, Wind
 		btnWrite.setBorderPainted(false);
 		btnWrite.setContentAreaFilled(false);
 		btnWrite.setFocusPainted(false);
-		btnWrite.setLocation(300,20);
+		btnWrite.setLocation(470,20);
 		btnWrite.setSize(130, 30);
 		
 		btnWrite.addActionListener(this);
-		panel1.add(btnWrite);
+		panelUPUP.add(btnWrite);
 		
-		panelUP.add(panel1);
+		panelUP.add(panelUPUP);
 		
-		panel2 = new JPanel();
-		panel2.setLayout(null);
-		panel2.setPreferredSize(new DimensionUIResource(100,50));
-		panel2.setBackground(skyblue);
+		panelUPDown = new JPanel();
+		panelUPDown.setLayout(null);
+		panelUPDown.setPreferredSize(new DimensionUIResource(100,50));
+		panelUPDown.setBackground(skyblue);
 		
 		//검색 텍스트 필드 출력
 		tfsearch = new JTextField(30);
-		tfsearch.setBounds(20, 10, 300, 25);
+		tfsearch.setBounds(25, 10, 450, 25);
 		tfsearch.setBorder(BorderFactory.createEmptyBorder());
 		tfsearch.setFont(new Font("210 맨발의청춘 L", Font.PLAIN, 12));
 		tfsearch.addActionListener(this);
 		
-		ImageIcon imgtfsearch = new ImageIcon("imges/textimage_edit.png");
+		ImageIcon imgtfsearch = new ImageIcon("imges/tfsearch.png");
 		JLabel lbltfsearch = new JLabel(imgtfsearch);
-		lbltfsearch.setBounds(8, 2, 330, 40);
+		lbltfsearch.setBounds(8, 2, 500, 40);
 		
-		panel2.add(lbltfsearch);
-		panel2.add(tfsearch);
+		panelUPDown.add(lbltfsearch);
+		panelUPDown.add(tfsearch);
 		
 		
 		//검색 버튼 출력
 		btnsearch = new JButton(new ImageIcon("imges/btnsearch2.png"));
-		btnsearch.setBounds(325, 10, 70, 25);
+		btnsearch.setBounds(490, 10, 70, 25);
 		btnsearch.setBorderPainted(false);
 		btnsearch.setContentAreaFilled(false);
 		btnsearch.setFocusPainted(false);
 		btnsearch.setFont(new Font("210 맨발의청춘 L", Font.BOLD, 10));
 		btnsearch.addActionListener(this);
 		
-		panel2.add(btnsearch);
-		panelUP.add(panel2);
+		panelUPDown.add(btnsearch);
+		panelUP.add(panelUPDown);
 		
 		add(panelUP,BorderLayout.NORTH);
 	}
@@ -175,7 +170,7 @@ public class Board extends JFrame implements ActionListener, MouseListener, Wind
 		
 		//table.setEnabled(true);
 		
-		JScrollPane ScrollPane = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+		ScrollPane = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 												JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); // 단일 선택
 		table.addMouseListener(this);

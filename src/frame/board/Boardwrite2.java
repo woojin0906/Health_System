@@ -72,17 +72,17 @@ public class Boardwrite2 extends JFrame implements ActionListener, WindowListene
 		setTitle("자유게시판 글 수정");
 		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocation(300, 300);
-		setSize(390, 500);
+		setSize(440, 580);
 		
 		setLayout(new BorderLayout());
 		skyblue = new Color(189, 215, 238);
-		addWindowListener(this);
 		
 		PanelUP();
 		PanelCenter();
 		PanelDown();
 		
-		
+		setResizable(false);
+		addWindowListener(this);
 		setVisible(true);
 	}
 
@@ -100,26 +100,26 @@ public class Boardwrite2 extends JFrame implements ActionListener, WindowListene
 		panel_titleUP.setBackground(skyblue);
 		
 		lbltitle = new JLabel("제목");
-		lbltitle.setFont(new Font("210 맨발의청춘 L", Font.BOLD, 15));
-		lbltitle.setLocation(10, 20);
+		lbltitle.setFont(new Font("210 맨발의청춘 L", Font.BOLD, 18));
+		lbltitle.setLocation(20, 20);
 		lbltitle.setSize(40, 20);
+		panel_titleUP.add(lbltitle);
 		
 		
 		tftitle = new JTextField(25);
-		tftitle.setLocation(85, 20);
-		tftitle.setSize(280, 10);
+		tftitle.setLocation(110, 20);
+		tftitle.setSize(280, 20);
 		tftitle.setText(al.get(1));
 		//System.out.println(al.get(1));
 		tftitle.setBorder(BorderFactory.createEmptyBorder());
-		tftitle.setFont(new Font("210 맨발의청춘 L", Font.PLAIN, 10));
+		tftitle.setFont(new Font("210 맨발의청춘 L", Font.PLAIN, 14));
 		
-		panel_titleUP.add(lbltitle);
 		panel_titleUP.add(tftitle);
 		
 		// 제목 텍스트 배경
-		ImageIcon imgtitle = new ImageIcon("imges/text5.png");
+		ImageIcon imgtitle = new ImageIcon("imges/writefield.png");
 		JLabel lbltitle = new JLabel(imgtitle);
-		lbltitle.setBounds(75, 10, 302, 30);
+		lbltitle.setBounds(98, 15, 330, 30);
 		
 		panel_titleUP.add(lbltitle);
 		panel_title.add(panel_titleUP); //제목
@@ -130,22 +130,22 @@ public class Boardwrite2 extends JFrame implements ActionListener, WindowListene
 		panel_titleCenter.setBackground(skyblue);
 		
 		lblWriteday = new JLabel("작성일자");
-		lblWriteday.setFont(new Font("210 맨발의청춘 L", Font.BOLD, 15));
-		lblWriteday.setLocation(10, 20);
+		lblWriteday.setFont(new Font("210 맨발의청춘 L", Font.BOLD, 18));
+		lblWriteday.setLocation(20, 20);
 		lblWriteday.setSize(150, 20);
 		panel_titleCenter.add(lblWriteday);
 		
 		tfWriteday = new JTextField(25);
-		tfWriteday.setLocation(85, 20);
-		tfWriteday.setSize(280, 10);
+		tfWriteday.setLocation(110, 20);
+		tfWriteday.setSize(280, 20);
 		tfWriteday.setText(al.get(3));
 		tfWriteday.setBorder(BorderFactory.createEmptyBorder());
-		tfWriteday.setFont(new Font("210 맨발의청춘 L", Font.PLAIN, 10));
+		tfWriteday.setFont(new Font("210 맨발의청춘 L", Font.PLAIN, 14));
 		panel_titleCenter.add(tfWriteday);
 		
-		ImageIcon imgwriteday = new ImageIcon("imges/text5.png");
+		ImageIcon imgwriteday = new ImageIcon("imges/writefield.png");
 		JLabel lblwriteday = new JLabel(imgwriteday);
-		lblwriteday.setBounds(75, 10, 302, 30);
+		lblwriteday.setBounds(98, 15, 330, 30);
 		panel_titleCenter.add(lblwriteday);
 		
 		panel_title.add(panel_titleCenter);//작성일자
@@ -156,31 +156,31 @@ public class Boardwrite2 extends JFrame implements ActionListener, WindowListene
 		panel_titleDown.setBackground(skyblue);
 		
 		lblWriter = new JLabel("작성자");
-		lblWriter.setFont(new Font("210 맨발의청춘 L", Font.BOLD, 15));
-		lblWriter.setLocation(10, 20);
+		lblWriter.setFont(new Font("210 맨발의청춘 L", Font.BOLD, 18));
+		lblWriter.setLocation(20, 20);
 		lblWriter.setSize(150, 20);
 		panel_titleDown.add(lblWriter);
 		
 		tfWriter = new JTextField(25);
-		tfWriter.setLocation(85, 20);
-		tfWriter.setSize(280, 10);
+		tfWriter.setLocation(110, 20);
+		tfWriter.setSize(280, 20);
 		tfWriter.setText(al.get(2));
 		tfWriter.setBorder(BorderFactory.createEmptyBorder());
-		tfWriter.setFont(new Font("210 맨발의청춘 L", Font.PLAIN, 10));
+		tfWriter.setFont(new Font("210 맨발의청춘 L", Font.PLAIN, 14));
 		panel_titleDown.add(tfWriter);
 		
-		ImageIcon imgwriter = new ImageIcon("imges/text5.png");
+		ImageIcon imgwriter = new ImageIcon("imges/writefield.png");
 		JLabel lblwriter = new JLabel(imgwriter);
-		lblwriter.setBounds(75, 10, 302, 30);
+		lblwriter.setBounds(98, 15, 330, 30);
 		panel_titleDown.add(lblwriter);
 		
 		panel_title.add(panel_titleDown);//작성자
 		
 		panel_combo = new JPanel();
-		panel_combo.setLayout(new FlowLayout(FlowLayout.RIGHT,10,5));
+		panel_combo.setLayout(new FlowLayout(FlowLayout.RIGHT,10,10));
 		panel_combo.setBackground(skyblue);
 		lblselection = new JLabel("카테고리");
-		lblselection.setFont(new Font("210 맨발의청춘 L", Font.BOLD, 10));
+		lblselection.setFont(new Font("210 맨발의청춘 L", Font.BOLD, 18));
 		panel_combo.add(lblselection);
 		
 		vecCombo = new Vector<String>();
@@ -202,7 +202,8 @@ public class Boardwrite2 extends JFrame implements ActionListener, WindowListene
 		
 		PanelCenter = new JPanel();
 		PanelCenter.setBackground(skyblue);
-		ta = new JTextArea(13,37);
+		ta = new JTextArea(16,30);
+		ta.setFont(new Font("210 맨발의청춘 L", Font.PLAIN, 13));
 		ta.setLineWrap(true);
 		
 		sp = new JScrollPane(ta, 
@@ -218,13 +219,12 @@ public class Boardwrite2 extends JFrame implements ActionListener, WindowListene
 	private void PanelDown() {
 		PanelDown = new JPanel();
 		PanelDown.setBackground(skyblue);
-		PanelDown.setLayout(new FlowLayout(FlowLayout.RIGHT,10,0));
+		PanelDown.setLayout(new FlowLayout(FlowLayout.RIGHT,5,0));
 		
 		btnSend = new JButton(new ImageIcon("imges/edit2.png"));
 		btnSend.setBorderPainted(false);
 		btnSend.setContentAreaFilled(false);
 		btnSend.addActionListener(this);
-		btnSend.setFont(new Font("210 맨발의청춘 L", Font.BOLD, 10));
 		
 		PanelDown.add(btnSend);
 		add(PanelDown, BorderLayout.SOUTH);

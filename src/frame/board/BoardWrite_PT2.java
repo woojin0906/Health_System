@@ -17,6 +17,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -25,7 +26,7 @@ import javax.swing.JTextField;
 import frame.db.DB;
 import frame.db.DBPT;
 
-
+//비밀 번호 창이 널이면 메서지 창 뜨게 하기
 public class BoardWrite_PT2 extends JFrame implements ActionListener, WindowListener{
 	private Font mainFont;
 	private JTextArea ta;
@@ -35,6 +36,7 @@ public class BoardWrite_PT2 extends JFrame implements ActionListener, WindowList
 	private ArrayList<String> alpt;
 	private JTextField[] TxField;
 	private String ID;
+	private JLabel lbl1, lbl2, lbl3, lbl4;
 	
 	public BoardWrite_PT2(ArrayList<String> string, String ID) {
 		this.alpt = string;
@@ -46,7 +48,7 @@ public class BoardWrite_PT2 extends JFrame implements ActionListener, WindowList
 		setLayout(new BorderLayout());
 		skyblue = new Color(189, 215, 238);
 		mainFont = new Font("210 맨발의청춘 L", 0, 16);
-		
+		setResizable(false); 
 		addWindowListener(this);
 		setNorth();
 		setCenter();
@@ -92,6 +94,8 @@ public class BoardWrite_PT2 extends JFrame implements ActionListener, WindowList
 	         TxField[i] = new JTextField(15);
 	         TxField[i].setBorder(BorderFactory.createEmptyBorder());
 	         TxField[i].setBounds(x, y, 310, 20);
+	         TxField[i].addActionListener(this);
+	         TxField[i].setFont(new Font("210 맨발의청춘 L", Font.PLAIN, 12));
 	         NorthPanel.add(TxField[i]);
 	      }
 	      TxField[0].setText(alpt.get(1));
@@ -100,12 +104,12 @@ public class BoardWrite_PT2 extends JFrame implements ActionListener, WindowList
 	     // TxField[3].setText(al.get(2));
 	      
 	      ImageIcon img1 = new ImageIcon("imges/textimage_edit.png");
-			JLabel lbl1 = new JLabel(img1);
-			JLabel lbl2 = new JLabel(img1);
-			JLabel lbl3 = new JLabel(img1);
-			JLabel lbl4 = new JLabel(img1);
+			lbl1 = new JLabel(img1);
+			lbl2 = new JLabel(img1);
+			lbl3 = new JLabel(img1);
+			lbl4 = new JLabel(img1);
 		      
-		      JLabel[] lblimg  ={lbl1 , lbl2 , lbl3, lbl4};
+		      JLabel[] lblimg  ={lbl1 , lbl2 , lbl3,lbl4};
 		      
 		      x = 90;
 		      y = 1;
@@ -161,8 +165,11 @@ public class BoardWrite_PT2 extends JFrame implements ActionListener, WindowList
 			DBPT dbpt = new DBPT(null);
 			dbpt.BDUpdate(alpt.get(0),TxField[0].getText(), TxField[1].getText(), TxField[2].getText(), TxField[3].getText(), ta.getText());
 			dispose();
-		
-	}
+		}else if (obj == TxField[3]) {
+			if (TxField[3].getText().equals("")) {
+			JOptionPane.showConfirmDialog (this, "비밀번호를 입력해주세요","오류",JOptionPane.YES_NO_OPTION);
+			}
+		}
 }
 
 

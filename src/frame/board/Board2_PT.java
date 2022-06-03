@@ -28,8 +28,11 @@ import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
+import javax.swing.SwingConstants;
 import javax.swing.plaf.DimensionUIResource;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
 
 import frame.db.DBPT;
@@ -38,50 +41,33 @@ import frame.main.MainFrame;
 
 public class Board2_PT extends JFrame implements ActionListener, MouseListener, WindowListener{
 	
-	private JButton btn_Insert, btn_Delete, btn_Exit;
 	private String[][]datas = new String[0][7];
 	private String[] title = {"글번호", "제목", "작성자", "작성날짜", "내용"};
 	private DefaultTableModel model = new DefaultTableModel(datas, title);
 	private JTable table = new JTable(model);
-	private JLabel lbl_Count = new JLabel("게시물 수 : + 0");
 	
 	private Connection conn;
 	private Statement stmt;
 	private ResultSet rs;
 	
-	private JPanel panelUP;
-	private JPanel panel1;
-	private JPanel panel2;
+	private JPanel panelUP, panelUPUP, panelUPDown, bdpanel;
 	private JLabel lblTilte;
-	private JTextArea ta;
 	private JTextField tfsearch;
-	private JButton btnsearch;
-	private JButton btnWrite;
-	private JScrollPane sp;
+	private JButton btnsearch ,btnWrite;
+	private JScrollPane sptable;
 	private Color skyblue;
-	private MainFrame mf;
 	private TableModel data;
-	private BoardEdit be;
-	private String pre_i;
-	private JPanel bdpanel;
+	private String pre_ipt, pre_titlept, pre_writerpt,pre_writedaypt,pre_contentpt;
 	private ArrayList<String> alpt;
-	private String pre_titlept;
-	private String pre_writerpt;
-	private String pre_writedaypt;
-	private String pre_passwordpt;
-	private String pre_contentpt;
-	private String pre_ipt;
-	private String ID;
-	private String bd_ID;
+	private String ID, bd_ID;
 
 	public Board2_PT(MainFrame mf) {
 		skyblue = new Color(189, 215, 238);
 		setTitle("PT 게시판");
-		//setResizable(false); 
-		//addWindowListener(this);
+		setResizable(false); 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocation(300, 300);
-		setSize(420, 600);
+		setSize(470, 560);
 		setLayout(new BorderLayout());
 		
 		PanelUP();
@@ -95,11 +81,11 @@ public class Board2_PT extends JFrame implements ActionListener, MouseListener, 
 		this.ID = ID;
 		skyblue = new Color(189, 215, 238);
 		setTitle("PT 게시판");
-		//setResizable(false); 
+		setResizable(false); 
 		//addWindowListener(this);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocation(300, 300);
-		setSize(420, 600);
+		setSize(470, 560);
 		setLayout(new BorderLayout());
 		
 		PanelUP();
@@ -118,59 +104,59 @@ public class Board2_PT extends JFrame implements ActionListener, MouseListener, 
 		panelUP = new JPanel();
 		panelUP.setLayout(new GridLayout(2,1));
 		
-		panel1 = new JPanel();
-		panel1.setLayout(null);
-		panel1.setPreferredSize(new DimensionUIResource(100,50));
-		panel1.setBackground(skyblue);
+		panelUPUP = new JPanel();
+		panelUPUP.setLayout(null);
+		panelUPUP.setPreferredSize(new DimensionUIResource(100,50));
+		panelUPUP.setBackground(skyblue);
 		lblTilte = new JLabel("PT게시판");
 		lblTilte.setFont(new Font("210 맨발의청춘 L", Font.BOLD, 25));
 		lblTilte.setLocation(20, 20);
 		lblTilte.setSize(150, 30);
-		panel1.add(lblTilte);
+		panelUPUP.add(lblTilte);
 		
 		btnWrite = new JButton(new ImageIcon("imges/pencil1.png"));
 		//btnWrite.setFont(new Font("210 맨발의청춘 L", Font.BOLD, 10));
 		btnWrite.setBorderPainted(false);
 		btnWrite.setContentAreaFilled(false);
 		btnWrite.setFocusPainted(false);
-		btnWrite.setLocation(300, 20);
+		btnWrite.setLocation(355, 20);
 		btnWrite.setSize(130, 24);
 		
 		btnWrite.addActionListener(this);
-		panel1.add(btnWrite);
+		panelUPUP.add(btnWrite);
 		
-		panelUP.add(panel1);
+		panelUP.add(panelUPUP);
 		
-		panel2 = new JPanel();
-		panel2.setLayout(null);
-		panel2.setPreferredSize(new DimensionUIResource(100,50));
-		panel2.setBackground(skyblue);
+		panelUPDown = new JPanel();
+		panelUPDown.setLayout(null);
+		panelUPDown.setPreferredSize(new DimensionUIResource(100,50));
+		panelUPDown.setBackground(skyblue);
 		
 		//검색필드
 		tfsearch = new JTextField(30);
-		tfsearch.setBounds(20, 10, 300, 25);
+		tfsearch.setBounds(25, 10, 335, 25);
 		tfsearch.setBorder(BorderFactory.createEmptyBorder());
 		tfsearch.addActionListener(this);
 		tfsearch.setFont(new Font("210 맨발의청춘 L", Font.PLAIN, 12));
 		
-		ImageIcon imgtfsearch = new ImageIcon("imges/textimage_edit.png");
+		ImageIcon imgtfsearch = new ImageIcon("imges/Testsearch.png");
 		JLabel lbltfsearch = new JLabel(imgtfsearch);
-		lbltfsearch.setBounds(8, 2, 330, 40);
+		lbltfsearch.setBounds(10, 2, 370, 40);
 		
-		panel2.add(lbltfsearch);
-		panel2.add(tfsearch);
+		panelUPDown.add(lbltfsearch);
+		panelUPDown.add(tfsearch);
 		
 		//검색버튼
 		btnsearch = new JButton(new ImageIcon("imges/btnsearch2.png"));
-		btnsearch.setBounds(325, 10, 70, 25);
+		btnsearch.setBounds(375, 10, 70, 25);
 		btnsearch.setBorderPainted(false);
 		btnsearch.setContentAreaFilled(false);
 		btnsearch.setFocusPainted(false);
 		btnsearch.addActionListener(this);
 		btnsearch.setFont(new Font("210 맨발의청춘 L", Font.BOLD, 10));
-		panel2.add(btnsearch);
+		panelUPDown.add(btnsearch);
 		
-		panelUP.add(panel2);
+		panelUP.add(panelUPDown);
 		
 		add(panelUP,BorderLayout.NORTH);
 		
@@ -189,14 +175,28 @@ public class Board2_PT extends JFrame implements ActionListener, MouseListener, 
 	    table.getColumnModel().getColumn(3).setPreferredWidth(70);
 	    table.getColumnModel().getColumn(4).setPreferredWidth(120);
 
-		JScrollPane ScrollPane = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+		sptable = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 												JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); // 단일 선택
+		
+		//DafaultTableCellHeaderRenderer 생성 (가운데 정렬을 위한)
+		DefaultTableCellRenderer tableCellRenderer = new DefaultTableCellRenderer();
+		
+		//DfaultTableCellHeaderRender의 정렬을 가운데 정렬로 지정
+		tableCellRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+		
+		//정렬할 테이블의 ColumnModel 을 가져옴
+		TableColumnModel tableColumnModel = table.getColumnModel();
+		
+		//반복문을 이용하여 테이블 가운데 정렬로 지정
+		for (int i = 0; i < tableColumnModel.getColumnCount(); i++) {
+			tableColumnModel.getColumn(i).setCellRenderer(tableCellRenderer);
+		}
 
 		table.addMouseListener(this);
 
-		add(ScrollPane, BorderLayout.SOUTH);
+		add(sptable, BorderLayout.SOUTH);
 		
 	}
 
@@ -326,6 +326,7 @@ public class Board2_PT extends JFrame implements ActionListener, MouseListener, 
 			//alpt.add(pre_passwordpt);
 			alpt.add(pre_contentpt);
 			bd_ID = alpt.get(0);
+			
 			//BoardEdit_PT be2 = new BoardEdit_PT(alpt, ID);
 			//DBPT dbpt = new DBPT(be2);
 			//dbpt.DisplayCMT(pre_ipt);
@@ -365,8 +366,8 @@ public class Board2_PT extends JFrame implements ActionListener, MouseListener, 
 		
 	}
 	
-	public String getPre_i() {
-		return pre_i;
+	public String getPre_ipt() {
+		return pre_ipt;
 	}
 
 	public ArrayList<String> getAl() {
@@ -381,13 +382,13 @@ public class Board2_PT extends JFrame implements ActionListener, MouseListener, 
 
 	@Override
 	public void windowClosing(WindowEvent e) {
-		// TODO Auto-generated method stub
+		this.dispose();
 		
 	}
 
 	@Override
 	public void windowClosed(WindowEvent e) {
-		// TODO Auto-generated method stub
+
 		
 	}
 
