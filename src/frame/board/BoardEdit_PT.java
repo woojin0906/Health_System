@@ -247,7 +247,7 @@ public class BoardEdit_PT extends JFrame implements ActionListener, WindowListen
 			//int in = Integer.parseInt(bd.getAl().get(0));
 			System.out.println(alpt.get(1));
 			
-			dbpt.BDCMT(alpt.get(0), tfcomment.getText(),namept);
+			dbpt.BDCMT(alpt.get(0), tfcomment.getText());
 			tfcomment.setText("");
 			dbpt.DisplayCMT(alpt.get(0));
 		
