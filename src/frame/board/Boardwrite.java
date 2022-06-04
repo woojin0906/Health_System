@@ -11,6 +11,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Vector;
 
 import javax.swing.BorderFactory;
@@ -58,10 +65,15 @@ public class Boardwrite extends JFrame implements ActionListener, WindowListener
 	private JScrollPane sp;
 	private String id;
 	private String name;
+	private Board bd;
+	private Connection conn;
+	private Statement stmt;
+	private ResultSet rs;
 	
-	public Boardwrite(String title, String id, String name) {
+	public Boardwrite(String title, String id, String name, Board bd) {
 		this.id = id;
 		this.name = name;
+		this.bd = bd;
 		
 		setTitle(title);
 		
@@ -125,7 +137,12 @@ public class Boardwrite extends JFrame implements ActionListener, WindowListener
 		lblWriteday.setSize(150, 20);
 		panel1Center.add(lblWriteday);
 		
-		tfWriteday = new JTextField(25);
+		//현재 날짜 구하기 0603 윤선호 추가
+		LocalDate now = LocalDate.now();
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+		String formatedNow = now.format(formatter);
+		
+		tfWriteday = new JTextField(formatedNow);
 		tfWriteday.setLocation(110, 20);
 		tfWriteday.setSize(280, 20);
 		tfWriteday.setBorder(BorderFactory.createEmptyBorder());
@@ -150,7 +167,8 @@ public class Boardwrite extends JFrame implements ActionListener, WindowListener
 		lblWriter.setSize(150, 20);
 		panel1Down.add(lblWriter);
 		
-		tfWriter = new JTextField(25);
+		//로그인 한사람의 이름을 바로 붙여줌 0603 윤선호 
+		tfWriter = new JTextField(name);
 		tfWriter.setLocation(110, 20);
 		tfWriter.setSize(280, 20);
 		tfWriter.setBorder(BorderFactory.createEmptyBorder());
@@ -226,10 +244,13 @@ public class Boardwrite extends JFrame implements ActionListener, WindowListener
 			DB db = new DB(null, null);
 			//게시물 하나씩 추가할때 마다 글 하나씩 추가
 			db.BDInsert(tftitle.getText(), tfWriteday.getText(), tfWriter.getText(), comboselection.getSelectedItem().toString(), ta.getText());
-			dispose();
+			db.TableRefresh(bd);
+			this.dispose();
 		}
 		
 	}
+	
+	
 
 	@Override
 	public void windowOpened(WindowEvent e) {
@@ -239,12 +260,14 @@ public class Boardwrite extends JFrame implements ActionListener, WindowListener
 
 	@Override
 	public void windowClosing(WindowEvent e) {
+		//bd.getModel().fireTableDataChanged();
 		this.dispose();
 	}
 
 	@Override
 	public void windowClosed(WindowEvent e) {
-		Board bd = new Board(id, name);
+		//Board bd = new Board(id, name);
+		//bd.getModel().fireTableDataChanged();
 	}
 
 	@Override

@@ -13,10 +13,11 @@ import frame.board.BoardEdit;
 import frame.main.MemoFrame; 
 
 public class DB {
-	//윤선호 자유게시판관련 DB 추가
-	private ResultSet result=null;
+	//윤선호 자유게시판 관련 DB 추가
+	private ResultSet result = null;
 	private Connection conn = null;
 	private Statement stmt = null;
+	
 	private int id;
 	private String cmt;
 	private BoardEdit be;
@@ -151,6 +152,7 @@ public class DB {
 		try {
 			
 			result = stmt.executeQuery("select \"CMT_WRITER\", \"COMMENT\" FROM FR_COMMENT where BD_ID = '" + Integer.parseInt(id) + "'");	
+			
 			while(result.next()) {
 				//String cmt_writer = result.getString(0);
 				//System.out.println(cmt_writer);
@@ -205,7 +207,6 @@ public class DB {
 		System.out.println(id);
 		
 		try {
-			//중복되면 업데이트
 			String sqlInsert = "insert into MEMO (MEMO_ID, MEMO_CONTENT, ID, MEMO_DATE) values(memo_seq.NEXTVAL, '" + memo_data + "', '" + id +"', '" + memo_date +"')";
 			stmt.executeUpdate(sqlInsert);
 			
@@ -225,6 +226,134 @@ public class DB {
 			
 		}
 	}
+	
+	//2022-06-04 윤선호 테이블 업데이트
+	public void TableRefresh(Board bd) {
+		int rowCount = bd.getModel().getRowCount();
+		for(int i = rowCount - 1; i >= 0; i--) {
+			bd.getModel().removeRow(i);
+		}
+		try {
+			stmt = conn.createStatement();
+			result = stmt.executeQuery("select * from freetalk order by BD_ID desc");
+			
+			while(result.next()) {
+				String[] imsi = {result.getString("BD_ID"), result.getString("BD_TITLE"), result.getString("BD_WRITER"), result.getString("WRITE_DAY"), result.getString("BD_CONTENT"),result.getString("CATEGORY")};
+				bd.getModel().addRow(imsi);
+			}
+		} catch(SQLException e) {
+			System.out.println("예외발생 : 접속 정보 확인 필요");
+			e.printStackTrace();
+			
+		}finally {
+			try {
+				if(result != null)
+					result.close();
+				if(stmt != null)
+					stmt.close();
+				if(conn != null)
+					conn.close();
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+	}
+	
+	//윤선호 JTable에 모든 값 보여줌
+		public void displayData(Board bd) {
+			bd.getModel().setNumRows(0);
+			try {
+				stmt = conn.createStatement();
+				result = stmt.executeQuery("select * from freetalk order by BD_ID desc");
+				
+				while(result.next()) {
+					String[] imsi = {result.getString("BD_ID"), result.getString("BD_TITLE"), result.getString("BD_WRITER"), result.getString("WRITE_DAY"), result.getString("BD_CONTENT"),result.getString("CATEGORY")};
+					bd.getModel().addRow(imsi);
+				}
+				
+			} catch(SQLException e) {
+				System.out.println("예외발생 : 접속 정보 확인 필요");
+				e.printStackTrace();
+				
+			}finally {
+				try {
+					if(result != null)
+						result.close();
+					if(stmt != null)
+						stmt.close();
+					//if(conn != null)
+						//conn.close();
+				}catch(Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	
+	//2022-05-28 윤선호 내용으로 글 검색하면 보여준다
+		public void scDisplay(Board bd, String src) {
+			bd.getModel().setNumRows(0);
+			try {
+				stmt = conn.createStatement();
+				result = stmt.executeQuery("select * from freetalk where BD_CONTENT LIKE '%' || '" +  src + "' || '%' order by BD_ID desc");
+				
+				while(result.next()) {
+					String[] sch = {result.getString("BD_ID"), result.getString("BD_TITLE"), result.getString("BD_WRITER"), result.getString("WRITE_DAY"), result.getString("BD_CONTENT"), result.getString("CATEGORY")};
+					bd.getModel().addRow(sch);
+					}
+					
+				} catch(SQLException e) {
+					System.out.println("예외발생 : 접속 정보 확인 필요");
+					e.printStackTrace();
+					
+				} finally {
+					try {
+						if(result != null)
+							result.close();
+						if(stmt != null)
+							stmt.close();
+						//if(conn != null)
+							//conn.close();
+					}catch(Exception e) {
+						e.printStackTrace();
+					}
+				}
+		}
+		//201945012 로그인한 사람별로 저장한 메모를 날짜에 맞게 보여준다
+		public void showMemo(String id, String date, MemoFrame memo) {
+			String sql = "";
+			
+			try {
+				stmt = conn.createStatement();
+				sql = "select * FROM MEMO WHERE ID = '" + id +"' AND MEMO_DATE = '" + date +"'";
+				result = stmt.executeQuery(sql);
+				//System.out.println(sql1);
+				
+				if(result.next()) {
+					String my_memo = result.getString(2);
+					System.out.println(result.getString(2));
+					memo.getTaMemo().append(my_memo + "\n");
+					System.out.println("메모장 보여주기 성공");
+					
+				}else {
+					System.out.println("저장된 내용 없음");
+				}
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			} 
+			catch (Exception e) {
+				System.out.println("메모장 보여주기 실패");
+				e.printStackTrace();
+				e.getMessage();
+			}finally {
+				try {
+					stmt.close();
+					result.close();
+					//conn.close();
+				}catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		
 }
-
-

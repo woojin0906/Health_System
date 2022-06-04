@@ -63,7 +63,7 @@ public class MemoFrame extends JFrame implements ActionListener {
 	public MemoFrame(String title, Calendarmain calendarmain, String id, String day) {
 		this.calendarmain = calendarmain;
 		this.id = id;
-			
+		
 		DB db = new DB(null, this);
 		
 		setTitle(title);
@@ -76,7 +76,7 @@ public class MemoFrame extends JFrame implements ActionListener {
 		setNorth();
 		setCenter();
 		setSouth();
-		showMemo(id, day);
+		db.showMemo(id, day, this);
 		
 		setVisible(true);
 	}
@@ -123,7 +123,7 @@ public class MemoFrame extends JFrame implements ActionListener {
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		Object obj =  e.getSource();
+		Object obj = e.getSource();
 		//내용 삭제
 		if(obj == btnClear) {
 			taMemo.setText("");
@@ -154,49 +154,4 @@ public class MemoFrame extends JFrame implements ActionListener {
 		return taMemo;
 	}
 	
-	//201945012 로그인한 사람별로 저장한 메모를 날짜에 맞게 보여준다
-	public void showMemo(String id, String date) {
-		System.out.println(id + date);
-		Connection conn1 = null;
-		Statement stmt1 = null;
-		ResultSet rs1 = null;
-		String sql1 = "";
-		
-		try {
-			Class.forName("oracle.jdbc.driver.OracleDriver");
-			conn1 = DriverManager.getConnection("jdbc:oracle:thin:@127.0.0.1:1521:XE",
-					"barbelljava",
-					"inha1004");
-			
-			stmt1 = conn1.createStatement();
-			sql1 = "select * FROM MEMO WHERE ID = '" + id +"' AND MEMO_DATE = '" + date +"'";
-			rs1 = stmt1.executeQuery(sql1);
-			//System.out.println(sql1);
-			
-			if(rs1.next()) {
-				String my_memo = rs1.getString(2);
-				System.out.println(rs1.getString(2));
-				taMemo.append(my_memo + "\n");
-				System.out.println("메모장 보여주기 성공");
-			}else {
-				System.out.println("저장된 내용 없음");
-			}
-		} catch (SQLException e1) {
-			e1.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}catch (Exception e) {
-			System.out.println("메모장 보여주기 실패");
-			e.printStackTrace();
-			e.getMessage();
-		}finally {
-			try {
-				stmt1.close();
-				rs1.close();
-				//conn.close();
-			}catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-	}
 }

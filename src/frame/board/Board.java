@@ -71,8 +71,16 @@ public class Board extends JFrame implements ActionListener, MouseListener, Wind
 	private TableModel data;
 	private BoardEdit be;
 	private String pre_i, id , name;
-	private DB db;
+	private DB db = new DB(null, null);
 	private JScrollPane ScrollPane;
+
+	public DefaultTableModel getModel() {
+		return model;
+	}
+
+	public JTable getTable() {
+		return table;
+	}
 
 	public Board(String id, String name) {
 		this.id = id;
@@ -90,7 +98,7 @@ public class Board extends JFrame implements ActionListener, MouseListener, Wind
 		PanelUP();
 		PanelDowm();
 		
-		displayData();
+		db.displayData(this);
 		setVisible(true);
 	}
 
@@ -199,101 +207,20 @@ public class Board extends JFrame implements ActionListener, MouseListener, Wind
 		
 		//글쓰기 버튼 누를 시 자유게시판 글쓰기 창이 뜬다.
 		if(obj == btnWrite) {
-		Boardwrite be = new Boardwrite("글쓰기", id, name);
-		this.dispose();
+		Boardwrite be = new Boardwrite("글쓰기", id, name, this);
 		
 		//게시물 검색 기능
 		}else if(obj == tfsearch || obj == btnsearch) {}
 		String src = tfsearch.getText();
 		System.out.println(src);
-		scDisplay(src);
-		//db = new DB(null);
 		
-	}
-	//2022-05-28 내용으로 글 검색하면 보여준다
-	public void scDisplay(String src) {
-		model.setNumRows(0);
-		try {
-			Class.forName("oracle.jdbc.driver.OracleDriver");
-			conn = DriverManager.getConnection(
-					"jdbc:oracle:thin:@127.0.0.1:1521:XE",
-					"barbelljava",
-					"inha1004");
-			
-			stmt = conn.createStatement();
-			rs = stmt.executeQuery("select * from freetalk where BD_CONTENT LIKE '%' || '" +  src + "' || '%' order by BD_ID desc");
-			
-			while(rs.next()) {
-				String[] sch = {rs.getString("BD_ID"), rs.getString("BD_TITLE"), rs.getString("BD_WRITER"), rs.getString("WRITE_DAY"), rs.getString("BD_CONTENT"), rs.getString("CATEGORY")};
-				model.addRow(sch);
-				}
-			
-			}catch (ClassNotFoundException e) {
-				System.out.println("예외발생 : 해당 드라이버가 없습니다.");
-				e.printStackTrace();
-				
-			} catch(SQLException e) {
-				System.out.println("예외발생 : 접속 정보 확인 필요");
-				e.printStackTrace();
-				
-			} finally {
-				try {
-					if(rs != null)
-						rs.close();
-					if(stmt != null)
-						stmt.close();
-					if(conn != null)
-						conn.close();
-				}catch(Exception e) {
-					e.printStackTrace();
-				}
-			}
-	}
-	
-	//JTable에 모든 값 보여줌
-	public void displayData() {
-		model.setNumRows(0);
-		try {
-			Class.forName("oracle.jdbc.driver.OracleDriver");
-			conn = DriverManager.getConnection(
-					"jdbc:oracle:thin:@127.0.0.1:1521:XE",
-					"barbelljava",
-					"inha1004");
-			
-			stmt = conn.createStatement();
-			rs = stmt.executeQuery("select * from freetalk order by BD_ID desc");
-			
-			while(rs.next()) {
-				String[] imsi = {rs.getString("BD_ID"), rs.getString("BD_TITLE"), rs.getString("BD_WRITER"), rs.getString("WRITE_DAY"), rs.getString("BD_CONTENT"),rs.getString("CATEGORY")};
-				model.addRow(imsi);
-			}
-			
-		} catch (ClassNotFoundException e) {
-			System.out.println("예외발생 : 해당 드라이버가 없습니다.");
-			e.printStackTrace();
-			
-		} catch(SQLException e) {
-			System.out.println("예외발생 : 접속 정보 확인 필요");
-			e.printStackTrace();
-			
-		}finally {
-			try {
-				if(rs != null)
-					rs.close();
-				if(stmt != null)
-					stmt.close();
-				if(conn != null)
-					conn.close();
-			}catch(Exception e) {
-				e.printStackTrace();
-			}
-		}
+		db.scDisplay(this, src);
+		
 	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	//2022-05-26 201945012 윤선호 게시물 클릭시 게시물 내용 보여줌
@@ -309,9 +236,11 @@ public class Board extends JFrame implements ActionListener, MouseListener, Wind
 		pre_i = (String)data.getValueAt(row, 0);
 		
 		String pre_title = (String)data.getValueAt(row, 1);
-		String pre_writer = name;
+		//0603 윤선호 여기 수정
+		//이렇게 하면 안됨
+		//String pre_writer = name;
 		//System.out.println(pre_writer);
-		//String pre_writer = (String)data.getValueAt(row, 2);
+		String pre_writer = (String)data.getValueAt(row, 2);
 		String pre_writeday = (String)data.getValueAt(row, 3);
 		String pre_category = (String)data.getValueAt(row, 5);
 		String pre_content = (String)data.getValueAt(row, 4);
@@ -324,11 +253,11 @@ public class Board extends JFrame implements ActionListener, MouseListener, Wind
 		al.add(pre_category);
 		al.add(pre_content);
 		
-		BoardEdit be = new BoardEdit(al, id, name);
+		BoardEdit be = new BoardEdit(al, id, name, this);
 		
 		DB db = new DB(be, null);
 		db.DisplayCMT(pre_i);
-		this.dispose();
+		//this.dispose();
 	}
 
 	@Override

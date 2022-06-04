@@ -13,6 +13,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.lang.reflect.Member;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Vector;
 
@@ -63,11 +65,13 @@ public class Boardwrite2 extends JFrame implements ActionListener, WindowListene
 	private ArrayList<String> al;
 	private String id;
 	private String name;
+	private Board bd;
 	
-	public Boardwrite2(ArrayList<String> al, String id, String name) {
+	public Boardwrite2(ArrayList<String> al, String id, String name, Board bd) {
 		this.al = al;
 		this.id = id;
 		this.name = name;
+		this.bd = bd;
 		
 		setTitle("자유게시판 글 수정");
 		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -135,10 +139,15 @@ public class Boardwrite2 extends JFrame implements ActionListener, WindowListene
 		lblWriteday.setSize(150, 20);
 		panel_titleCenter.add(lblWriteday);
 		
-		tfWriteday = new JTextField(25);
+		//현재 날짜 구하기 0603 윤선호 추가
+		LocalDate now = LocalDate.now();
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+		String formatedNow = now.format(formatter);
+		
+		tfWriteday = new JTextField(formatedNow);
 		tfWriteday.setLocation(110, 20);
 		tfWriteday.setSize(280, 20);
-		tfWriteday.setText(al.get(3));
+		//tfWriteday.setText(al.get(3));
 		tfWriteday.setBorder(BorderFactory.createEmptyBorder());
 		tfWriteday.setFont(new Font("210 맨발의청춘 L", Font.PLAIN, 14));
 		panel_titleCenter.add(tfWriteday);
@@ -238,6 +247,7 @@ public class Boardwrite2 extends JFrame implements ActionListener, WindowListene
 		if(obj == btnSend) {
 			DB db = new DB(null, null);
 			db.BDUpdate(al.get(0),tftitle.getText(), tfWriteday.getText(), tfWriter.getText(), comboselection.getSelectedItem().toString(), ta.getText());
+			db.TableRefresh(bd);
 			dispose();
 		}
 	}
@@ -255,7 +265,7 @@ public class Boardwrite2 extends JFrame implements ActionListener, WindowListene
 
 	@Override
 	public void windowClosed(WindowEvent e) {
-		Board bd = new Board(id, name);
+		//Board bd = new Board(id, name);
 	}
 
 	@Override

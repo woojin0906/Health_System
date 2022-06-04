@@ -60,10 +60,11 @@ public class BoardEdit extends JFrame implements ActionListener, WindowListener{
 	private String id;
 	private String name;
 	
-	public BoardEdit(ArrayList<String> al, String id, String name) {
+	public BoardEdit(ArrayList<String> al, String id, String name, Board bd) {
 		this.al = al;
 		this.id = id;
 		this.name = name;
+		this.bd = bd;
 		
 		setTitle("게시물 댓글 및 삭제");
 		setLocation(200, 200);
@@ -273,24 +274,34 @@ public class BoardEdit extends JFrame implements ActionListener, WindowListener{
 			
 		//2022-05-28 19:36 윤선호 수정 버튼 누르면 게시물 수정창이 뜬다.
 		}else if(obj == btn_edit) {
-			//System.out.println(al.get(4));
-			bw2 = new Boardwrite2(al, id, name);
+			//2022-06-03 윤선호
+			//로그인 한 사람의 id와 이 글을 작성한 사람의 아이디가 다르면 수정, 삭제 불가
+			if(!name.equals(al.get(2))) {
+				System.out.println(al.get(2) + "이름 다름");
+				JOptionPane.showMessageDialog(null, "게시물 수정 불가", "경고 메시지", JOptionPane.WARNING_MESSAGE);
+				
+			}else if(name.equals(al.get(2))) {
+				System.out.println("이름이 같음");
+				bw2 = new Boardwrite2(al, id, name, bd);
+				this.dispose();
+				//System.out.println(al.get(4));
+			}
+			
 		//2022-05-28 20:50 윤선호 게시물 삭제기능
 		}else if(obj == btn_delete) {
-			if(JOptionPane.showConfirmDialog (this, 
-					"게시물을 삭제하시겠습니까?",
-					"글삭제",
-					JOptionPane.YES_NO_OPTION
-					) == JOptionPane.YES_OPTION){
+			if(!name.equals(al.get(2))) {
+				JOptionPane.showMessageDialog(null, "게시물 삭제 불가", "경고 메시지", JOptionPane.WARNING_MESSAGE);
+			}else if(name.equals(al.get(2))) {
 					DB db = new DB(null, null);
+					
 					db.DeleteBD(al.get(0));
+					db.TableRefresh(bd);
 					
 					this.dispose();
-					//Board bd = new Board(id, name);
 				}
+			}
 		}
 		
-	}
 
 	@Override
 	public void windowOpened(WindowEvent e) {
@@ -301,8 +312,7 @@ public class BoardEdit extends JFrame implements ActionListener, WindowListener{
 	@Override
 	public void windowClosing(WindowEvent e) {
 		this.dispose();
-		Board bd = new Board(id, name);
-		bd.dispose();
+		//Board bd = new Board(id, name);
 	}
 
 	@Override
