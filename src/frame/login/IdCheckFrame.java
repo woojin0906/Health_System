@@ -83,7 +83,7 @@ public class IdCheckFrame extends JFrame implements WindowListener, ActionListen
 		tfId.setFont(mainFont);
 		tfId.setBounds(45, 30, 135, 28);
 		tfId.setBorder(BorderFactory.createEmptyBorder());
-				
+		tfId.addActionListener(this);
 		tfId.addMouseListener(this);
 				
 		panelCenter.add(tfId);
@@ -137,7 +137,7 @@ public class IdCheckFrame extends JFrame implements WindowListener, ActionListen
 //				this.dispose();
 //			}
 			
-		} else if(obj == btnOver) {
+		} else if(obj == btnOver || obj == tfId) {
 			id = tfId.getText();
 			if(id.equals("") || id.equals("아이디")) {
 				JOptionPane.showMessageDialog(this, "아이디를 입력해주세요.");
@@ -210,6 +210,7 @@ public class IdCheckFrame extends JFrame implements WindowListener, ActionListen
 	public void mousePressed(MouseEvent e) {
 		Object obj = e.getSource();
 		if(obj == tfId) {
+			tfId.requestFocus();
 			tfId.setText("");
 		}
 	}

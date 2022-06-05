@@ -159,8 +159,10 @@ public class dbOpen {
 						JOptionPane.YES_NO_OPTION
 						) == JOptionPane.YES_OPTION) {
 					JOptionPane.showMessageDialog(pf, "고객센터 전화번호는 032-256-3652 입니다.", "고객센테 안내", JOptionPane.INFORMATION_MESSAGE);
+					} else {
+						
 					}
-			}
+			} 
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
