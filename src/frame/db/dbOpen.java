@@ -95,25 +95,26 @@ public class dbOpen {
 				result = statement.executeQuery("select password from memberinfo where id = '" + inputId + "'" );
 				if(result.next()) {
 					pw = result.getString("password");
-				}
-				
-				result = statement.executeQuery("select name from memberinfo where id = '" + inputId + "'" );
-				if(result.next()) {
-					name = result.getString("name");
-				}
-				
-				result = statement.executeQuery("select enddate from memberinfo where id = '" + inputId + "'" );
-				if(result.next()) {
-					enddate = result.getString("enddate");
-				}
-				
-				//입력한 비밀번호와 DB에 저장된 비밀번호가 일치하는지 검증
-				
-				if(pw.equals(inputPw)) {
-					mainFrame = new MainFrame(id, name, enddate);
-					frame.dispose();
-				} else {
-					JOptionPane.showMessageDialog(frame, "정보를 다시 확인해주세요.", "정보 오류", JOptionPane.ERROR_MESSAGE);
+					
+					result = statement.executeQuery("select name from memberinfo where id = '" + inputId + "'" );
+					if(result.next()) {
+						name = result.getString("name");
+					}
+					
+					result = statement.executeQuery("select enddate from memberinfo where id = '" + inputId + "'" );
+					if(result.next()) {
+						enddate = result.getString("enddate");
+					}
+					
+					//입력한 비밀번호와 DB에 저장된 비밀번호가 일치하는지 검증
+					if(pw.equals(inputPw)) {
+						mainFrame = new MainFrame(id, name, enddate);
+						frame.dispose();
+					} else {
+						JOptionPane.showMessageDialog(frame, "입력 정보를 다시 확인해주세요.", "정보 오류", JOptionPane.ERROR_MESSAGE);
+					}
+				}else {
+					JOptionPane.showMessageDialog(frame, "입력 정보를 다시 확인해주세요.", "정보 오류", JOptionPane.ERROR_MESSAGE);
 				}
 				
 			} catch (SQLException e) {
@@ -121,7 +122,7 @@ public class dbOpen {
 				e.printStackTrace();
 			} catch (NullPointerException e) {
 				e.printStackTrace();
-				JOptionPane.showMessageDialog(frame, "정보를 다시 확인해주세요.", "정보 오류", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(frame, "입력 정보를 다시 확인해주세요.", "정보 오류", JOptionPane.ERROR_MESSAGE);
 			}
 			
 			finally {

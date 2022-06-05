@@ -333,7 +333,7 @@ public class JoinFrame extends JFrame implements MouseListener, ActionListener, 
 					if(resultpw.equals(resultpwch)) {
 						if(resultpw.length() <= 18 && resultpw.length() >= 8 && resultpwch.length() <= 18 && resultpwch.length() >= 8) {
 							if(phone.length() >= 10 && phone.length() <= 11) {
-								if(hint.length() == 4) {
+								if(hint.length() >= 4 && hint.length() <= 16) {
 									if(name.length() <= 5) {
 										try {
 											File file = new File(img);
@@ -356,7 +356,7 @@ public class JoinFrame extends JFrame implements MouseListener, ActionListener, 
 									}
 							
 								} else {
-									JOptionPane.showMessageDialog(this, "힌트는 4자리로 작성해주세요.");
+									JOptionPane.showMessageDialog(this, "힌트는 4자리 이상 16자리 이하로 작성해주세요.");
 								}
 							} else {
 								JOptionPane.showMessageDialog(this, "전화번호는 10자리 혹은 11자리입니다.");
