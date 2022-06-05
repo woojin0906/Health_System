@@ -5,6 +5,11 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Vector;
 
 import javax.swing.BorderFactory;
@@ -17,7 +22,9 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.plaf.DimensionUIResource;
 
-public class Record extends JFrame {
+import frame.db.DB;
+
+public class Record extends JFrame implements ActionListener {
 
 	private JLabel lblDate;
 	private JButton btnAdd;
@@ -41,8 +48,19 @@ public class Record extends JFrame {
 	private JTextField tfNum;
 	private JLabel lblNums;
 	private JLabel lblSets;
+	private ArrayList<String> rcal;
+	private String id;
+	private String name;
+	private DB db = new DB(null, null);
+	
+	public Vector<String> getVecCombo() {
+		return vecCombo;
+	}
 
-	public Record(String title) {
+	public Record(String title, String id, String name) {
+		this.id = id;
+		this.name = name;
+		
 		setTitle(title);
 		setLocation(250, 150);
 		setSize(510, 462);
@@ -53,7 +71,7 @@ public class Record extends JFrame {
 		
 	    setCenter();
 	    setSouth();
-
+	    
 		setVisible(true);
 	}
 	
@@ -68,7 +86,12 @@ public class Record extends JFrame {
 		lblDate.setBounds(30, 25, 120, 30);
 		panel1.add(lblDate);
 		
-		tfDate = new JTextField();
+		//현재 날짜 구하기 윤선호
+		LocalDate now = LocalDate.now();
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+		String formatedNow = now.format(formatter);
+		
+		tfDate = new JTextField(formatedNow);
 		tfDate.setBounds(150, 22, 140, 30);
 		tfDate.setBorder(BorderFactory.createEmptyBorder());
 		tfDate.setFont(new Font("210 맨발의청춘 L", Font.PLAIN, 14));
@@ -101,6 +124,7 @@ public class Record extends JFrame {
 		//btnAdd.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
 	    btn.setBounds(340, 20, 65, 30);
 	    btn.setForeground(Color.WHITE);
+	    btn.addActionListener(this);
 	    panel2.add(btn);
 	 		
 	 	// 비밀번호 확인 취소 버튼 출력
@@ -282,7 +306,7 @@ public class Record extends JFrame {
 		panelSouth.setLayout(null);
 		panelSouth.setPreferredSize(new Dimension(0, 60));
 		
-		// 비밀번호 확인 취소 버튼 출력
+		// 운동 등록 버튼 출력
 		btnAdd = new JButton("등록");
 		btnAdd.setFont(new Font("210 맨발의청춘 L", Font.PLAIN, 13));
 		btnAdd.setContentAreaFilled(false);
@@ -290,6 +314,7 @@ public class Record extends JFrame {
 		//btnAdd.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
 		btnAdd.setBounds(300, 10, 80, 40);
 		btnAdd.setForeground(Color.WHITE);
+		btnAdd.addActionListener(this);
 		panelSouth.add(btnAdd);
 				
 		// 비밀번호 확인 취소 버튼 출력
@@ -300,6 +325,7 @@ public class Record extends JFrame {
 		//btnCancel.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
 		btnCancel.setBounds(400, 10, 80, 40);
 		btnCancel.setForeground(Color.WHITE);
+		btnCancel.addActionListener(this);
 		panelSouth.add(btnCancel);
 		
 		ImageIcon imgSouthAdd = new ImageIcon("imges/btnSouth.png");
@@ -322,8 +348,35 @@ public class Record extends JFrame {
 		
 	}
 
-	public static void main(String[] args) {
-		Record rd = new Record("기록");
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		Object obj = e.getSource();
+		if(obj == btn) {
+			ExAddFrame exadd = new ExAddFrame("운동 등록", this, id, name);
+		}else if(obj == btnCancel) {
+			this.dispose();
+		}else if(obj == btnAdd) {
+			rcal = new ArrayList<String>();
+			String ex_date = tfDate.getText();
+			String ex_name = comboEx.getSelectedItem().toString();
+			String ex_weight = tfWeight.getText();
+			String ex_times = tfTime.getText();
+			String ex_reps = tfNum.getText();
+			String ex_set = tfSet.getText();
+			
+			rcal.add(ex_date);
+			rcal.add(ex_name);
+			rcal.add(ex_weight);
+			rcal.add(ex_times);
+			rcal.add(ex_reps);
+			rcal.add(ex_set);
+			
+			DB db = new DB(null, null);
+			db.EXInsert(id, name, ex_date, ex_name, ex_weight, ex_times, ex_reps, ex_set);
+			MyRoutine mr = new MyRoutine(id, name);
+			db.EXRefresh(mr, id);
+		}
 	}
 
 }

@@ -18,6 +18,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import frame.login.Ex;
 import frame.login.IdCheckFrame;
 import frame.login.JoinFrame;
 import frame.login.Login;
@@ -109,6 +110,8 @@ public class dbOpen {
 					//입력한 비밀번호와 DB에 저장된 비밀번호가 일치하는지 검증
 					if(pw.equals(inputPw)) {
 						mainFrame = new MainFrame(id, name, enddate);
+						//0605 윤선호 임시 추가
+						Ex ex = new Ex("운동 기록", id, name);
 						frame.dispose();
 					} else {
 						JOptionPane.showMessageDialog(frame, "입력 정보를 다시 확인해주세요.", "정보 오류", JOptionPane.ERROR_MESSAGE);

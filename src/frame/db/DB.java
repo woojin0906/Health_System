@@ -10,6 +10,7 @@ import java.util.Random;
 
 import frame.board.Board;
 import frame.board.BoardEdit;
+import frame.login.MyRoutine;
 import frame.main.MemoFrame; 
 
 public class DB {
@@ -355,5 +356,87 @@ public class DB {
 				}
 			}
 		}
+		//2022-06-05 윤선호 운동기록 디비저장
+		public void EXInsert(String id, String name, String ex_date, String ex_name, String ex_weight, String ex_times, String ex_reps, String ex_set) {
+			System.out.println(id);
+			System.out.println(name);
+			System.out.println(ex_date);
+			System.out.println(ex_name);
+			System.out.println(ex_weight);
+			System.out.println(ex_times);
+			System.out.println(ex_reps);
+			System.out.println(ex_set);
+			try {
+				String sqlInsert = "insert into EX (ID, NAME, EX_DATE, EX_NAME, EX_WEIGHT, EX_TIMES, EX_REPS, EX_SET) "
+						+ "values('" + id + "', '" + name + "', '" + ex_date + "', '" + ex_name + "', '" + ex_weight + "', '" + ex_times + "', '" + ex_reps + "', '" + ex_set + "') ";
+				System.out.println(sqlInsert);
+				stmt.execute(sqlInsert);
+				System.out.println("기록 성공");
+			}catch (Exception e) {
+				System.out.println("운동기록실패");
+				e.printStackTrace();
+			}finally {
+				try {
+					stmt.close();
+				}catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		//2022-06-05 운동기록한거 테이블에 보여주기
+		public void EXdisplay(MyRoutine mr, String id) {
+			mr.getModel().setNumRows(0);
+			try {
+				stmt = conn.createStatement();
+				result = stmt.executeQuery("select EX_DATE, EX_NAME, EX_WEIGHT, EX_TIMES, EX_REPS, EX_SET from EX where ID = '"+ id + "'");
+				while(result.next()) {
+					String[] ex = {result.getString("EX_DATE"), result.getString("EX_NAME"),result.getString("EX_WEIGHT"), result.getString("EX_TIMES"),
+							result.getString("EX_REPS"), result.getString("EX_SET")};
+					mr.getModel().addRow(ex);
+					}
+				System.out.println("운동기록을 잘 보여줍니다");
+				}catch (Exception e) {
+					System.out.println("운동기록 보여주기 실패");
+					e.printStackTrace();
+				}finally {
+					try {
+						result.close();
+						stmt.close();
+				}catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
 		
+		//2022-06-05 윤선호 운동기록 보는 테이블 리프레시 
+		public void EXRefresh(MyRoutine mr, String id) {
+			int rowCount = mr.getModel().getRowCount();
+			for(int i = rowCount - 1; i >= 0; i--) {
+				mr.getModel().removeRow(i);
+			}
+			try {
+				stmt = conn.createStatement();
+				result = stmt.executeQuery("select EX_DATE, EX_NAME, EX_WEIGHT, EX_TIMES, EX_REPS, EX_SET from EX where ID = '"+ id + "'");
+				
+				while(result.next()) {
+					String[] ex = {result.getString("EX_DATE"), result.getString("EX_NAME"), result.getString("EX_WEIGHT"), result.getString("EX_TIMES"), result.getString("EX_REPS"),result.getString("EX_SET")};
+					mr.getModel().addRow(ex);
+				}
+				
+			} catch(SQLException e) {
+				System.out.println("예외발생 : 접속 정보 확인 필요");
+				e.printStackTrace();
+				
+			}finally {
+				try {
+					if(result != null)
+						result.close();
+					if(stmt != null)
+						stmt.close();
+				}catch(Exception e) {
+					e.printStackTrace();
+				}
+			}
+			
+		}
 }

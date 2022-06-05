@@ -24,7 +24,7 @@ import javax.swing.JTextField;
 
 import frame.db.dbOpen;
 
-public class ExAddFrame extends JFrame {
+public class ExAddFrame extends JFrame implements ActionListener, MouseListener {
 	
 	private JPanel panelCenter;
 	private JButton btnCancel, btnCheck, btnIdSearch;
@@ -33,8 +33,14 @@ public class ExAddFrame extends JFrame {
 	private Font mainFont;
 	private JLabel lblAdd;
 	private JButton btnAdd;
+	private Record record;
+	private String id;
+	private String name;
 	
-	public ExAddFrame(String title) {
+	public ExAddFrame(String title, Record record, String id, String name) {
+		this.record = record;
+		this.id = id;
+		this.name = name;
 		
 		setTitle(title);
 		setLocation(250, 150);
@@ -53,17 +59,19 @@ public class ExAddFrame extends JFrame {
 		panelCenter = new JPanel();
 		panelCenter.setLayout(null);
 
-        lblAdd = new JLabel("운동이름");
+        lblAdd = new JLabel("운동 이름");
         lblAdd.setFont(mainFont);
         lblAdd.setBounds(60, 61, 120, 30);
 		panelCenter.add(lblAdd);
 		
         // 비밀번호 확인 텍스트 필드(아이디) 출력
-        tfId = new JTextField("기구 이름");
+        tfId = new JTextField("운동 이름");
 		tfId.setFont(mainFont);
 		tfId.setBounds(145, 62, 195, 30);
 		tfId.setBorder(BorderFactory.createEmptyBorder());
 		tfId.setFocusTraversalKeysEnabled(false);
+		tfId.addMouseListener(this);
+		tfId.addActionListener(this);
 		panelCenter.add(tfId);
 		
 		// 비밀번호 확인 취소 버튼 출력
@@ -74,6 +82,7 @@ public class ExAddFrame extends JFrame {
 		//btnAdd.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
 		btnAdd.setBounds(105, 120, 70, 30);
 		btnAdd.setForeground(Color.WHITE);
+		btnAdd.addActionListener(this);
 		panelCenter.add(btnAdd);
 		
 		// 비밀번호 확인 취소 버튼 출력
@@ -84,6 +93,7 @@ public class ExAddFrame extends JFrame {
 		//btnCancel.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
 		btnCancel.setBounds(205, 120, 70, 30);
 		btnCancel.setForeground(Color.WHITE);
+		btnCancel.addActionListener(this);
 		panelCenter.add(btnCancel);
 		
 		// 비밀번호 확인 텍스트 필드 배경 이미지 출력
@@ -110,19 +120,49 @@ public class ExAddFrame extends JFrame {
         background.setBounds(-8, -35, 400, 230);
         panelCenter.add(background);
         
-//     		
-//     	// 비밀번호 확인 텍스트 필드 배경 이미지 출력
-//    	ImageIcon imgId = new ImageIcon("imges/background_id.png");
-//    	JLabel lblId = new JLabel(imgId);
-//    	lblId.setBounds(175, 58, 160, 35);
-//    	panelCenter.add(lblId);
-    	
         add(panelCenter, BorderLayout.CENTER);
 	}
 
 
-	public static void main(String[] args) {
-		ExAddFrame ex = new ExAddFrame("운동 등록");
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		Object obj = e.getSource();
+		if(obj == btnCancel) {
+			this.dispose();
+		}else if(obj == tfId || obj == btnAdd) {
+			record.getVecCombo().add(tfId.getText());
+			System.out.println(tfId.getText());
+			this.dispose();
+		}
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		tfId.setText("");
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 }
 
