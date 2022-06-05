@@ -9,7 +9,10 @@ import frame.board.Board;
 import frame.board.Board2_PT;
 import frame.db.dbOpen;
 import frame.login.ChangeInfo;
+import frame.login.ExAddFrame;
 import frame.login.Login;
+import frame.login.MyRoutine;
+import frame.login.Record;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -44,6 +47,8 @@ public class MainFrame extends JFrame implements Runnable, ActionListener, Windo
 	private dbOpen db;
 	private Font mainFont;
 	private String enddate;
+	private JButton btn_record;
+	private JButton btn_read;
 	
 	public MainFrame(String id) {
 		this.id = id;
@@ -53,11 +58,9 @@ public class MainFrame extends JFrame implements Runnable, ActionListener, Windo
 		setLocation(300,200);
 		setSize(800, 550);
 		setLayout(new BorderLayout());
-		//setUndecorated(true);
-		
+
 		setInfo();
 		setMenu();
-		
 		
 		// 전우진 5/29 12:34 db 연결
 		db = new dbOpen();
@@ -160,26 +163,6 @@ public class MainFrame extends JFrame implements Runnable, ActionListener, Windo
 		panelEast.add(btn_logout);
 		
 		// 전우진 5/29 1:48 라벨 분리
-		// 반갑습니다
-//		if(lbl_name.getText().length() == 2) {
-//			
-//		}
-//		lbl_welcome = new JLabel("반갑습니다 ");
-//		font = new Font("맑은 고딕", Font.BOLD, 30);
-//		lbl_welcome.setBounds(20, 25, 180, 30);
-//		lbl_welcome.setFont(font);
-//		panelNorth.add(lbl_welcome);
-		
-		// 전우진 5/29 1:48 라벨 분리
-		//로그인한 회원 이름 (lbl_name으로 변경)
-//		lbl_name = new JLabel();	
-//		Font font = new Font("맑은 고딕", Font.BOLD, 30);
-//		lbl_name.setFont(font);
-//		lbl_name.setBounds(50, 25, 200, 30);
-//		lbl_name.setHorizontalAlignment(JLabel.CENTER);
-//		panelNorth.add(lbl_name);
-		
-		// 전우진 5/29 1:48 라벨 분리
 		// 회원님!
 		lbl_member = new JLabel(name + " 회원님!");
 		lbl_member.setFont(new Font("210 맨발의청춘 L", Font.BOLD, 30));
@@ -212,14 +195,28 @@ public class MainFrame extends JFrame implements Runnable, ActionListener, Windo
 		lbl_coment.setBounds(210, 70, 150, 40);
 		panelNorth.add(lbl_coment);
 		
+		btn_record = new JButton("운동 기록");
+		btn_record.setBounds(85, 300, 120, 40);
+		btn_record.setBackground(Color.WHITE);
+		btn_record.setBorder(BorderFactory.createEmptyBorder());
+		btn_record.setFont(new Font("210 맨발의청춘 L", Font.BOLD, 15));
+		btn_record.addActionListener(this);
+		panelNorth.add(btn_record);
+		
+		btn_read = new JButton("운동 기록지");
+		btn_read.setBounds(230, 300, 120, 40);
+		btn_read.setBackground(Color.WHITE);
+		btn_read.setBorder(BorderFactory.createEmptyBorder());
+		btn_read.setFont(new Font("210 맨발의청춘 L", Font.BOLD, 15));
+		btn_read.addActionListener(this);
+		panelNorth.add(btn_read);
+		
 		String random[] = {"오늘 들 무게를 내일로 미루지 마라.", "일어나 하체 해야지", "이거 못들면 죽는거야", 
 							"복근 없으면 치팅데이는 없다", "바다갈 준비 안할거야?", "Light Weight", 
 							"너도 3대 500 될 수 있어", "너가 먹은 치킨이 불쌍하지 않아?"};
 		Random rd = new Random();
 		JLabel ta = new JLabel(random[rd.nextInt(8)]);
 		Font font_ta = new Font("210 맨발의청춘 L", Font.ROMAN_BASELINE, 28);
-		//ta.setEditable(true);
-		//ta.setLineWrap(true);
 		ta.setFont(font_ta);
 		ta.setForeground(Color.WHITE);
 		ta.setBounds(20, 110, 400, 170);
@@ -227,6 +224,7 @@ public class MainFrame extends JFrame implements Runnable, ActionListener, Windo
 		ta.setOpaque(true); // 라벨은 투명해서 불투명도를 true로 설정
 		ta.setHorizontalAlignment(JLabel.CENTER);
 		panelNorth.add(ta);
+		
 		
 		panelNorth.setBackground(new Color(189, 215, 238)); // 패널 백그라운드 색상 지정
 		add(panelWest, BorderLayout.WEST);
@@ -367,38 +365,16 @@ public class MainFrame extends JFrame implements Runnable, ActionListener, Windo
 		}else if(obj == btn_logout) {
 			Login login = new Login();
 			this.dispose();
+		} else if(obj == btn_record) {
+			Record rc = new Record("기록", id, name);
+			rc.setLocationRelativeTo(null); // 프레임 정가운데 출력
+			this.dispose();
+		} else if(obj == btn_read) {
+			MyRoutine mrt = new MyRoutine(id, name);
+			mrt.setLocationRelativeTo(null); // 프레임 정가운데 출력
+			this.dispose();
 		}
-//		//2022-05-20 03시 윤선호 프로필 사진 변경 기능 추가
-//		else if(obj == lbl_icon) {
-//			JFileChooser jfc = new JFileChooser();
-//			jfc.setDialogTitle("프로필 사진 변경");
-//			int returnVal = jfc.showSaveDialog(null);
-//			
-//			if(returnVal == 0) {
-//				File file = jfc.getSelectedFile();
-//				
-//				try {
-//					String tmp, str = null;
-//					BufferedReader br = new BufferedReader(new FileReader(file));
-//					while((tmp = br.readLine())!= null) {
-//						str += tmp;
-//					}
-//					
-//				}catch(Exception e1) {
-//				e1.printStackTrace();
-//				}
-//				
-//			} else {
-//				System.out.println("이미지를 선택해주세요.");
-//			}
-			// 전우진 5/28 23:24 이미지 경로 확인 때문에 주석 처리
-//			//이미지 경로를 불러서 바로 이미지 변경
-//			String path = jfc.getSelectedFile().getPath();
-//			
-//			ImageIcon fileicon = new ImageIcon(path);
-//			System.out.println(jfc.getSelectedFile().getPath());
-//			btn_icon.setIcon(fileicon);
-		//}
+
 	}
 
 	@Override

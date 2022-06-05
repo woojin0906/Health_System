@@ -18,7 +18,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-import frame.login.Ex;
 import frame.login.IdCheckFrame;
 import frame.login.JoinFrame;
 import frame.login.Login;
@@ -45,6 +44,8 @@ public class dbOpen {
 	private long diffDay;  // 종료 - 현재 = 만료일
 	private SimpleDateFormat format;  // 날짜 형식
 	private String enddate;  // 이용권 종료날짜
+	private int add;
+	private int day;
 	
 	public dbOpen() {
 			try {
@@ -110,8 +111,6 @@ public class dbOpen {
 					//입력한 비밀번호와 DB에 저장된 비밀번호가 일치하는지 검증
 					if(pw.equals(inputPw)) {
 						mainFrame = new MainFrame(id, name, enddate);
-						//0605 윤선호 임시 추가
-						Ex ex = new Ex("운동 기록", id, name);
 						frame.dispose();
 					} else {
 						JOptionPane.showMessageDialog(frame, "입력 정보를 다시 확인해주세요.", "정보 오류", JOptionPane.ERROR_MESSAGE);
@@ -339,6 +338,8 @@ public class dbOpen {
 				period = result.getInt("period");
 			}
 			addPeriod += period;
+			add = addPeriod - period;
+		
 			
 			result = statement.executeQuery("select enddate from memberinfo where id = '" + id + "'" );
 
@@ -351,9 +352,37 @@ public class dbOpen {
 				Date day = format.parse(date);
 				Calendar cal = Calendar.getInstance();
 				cal.setTime(day);
-				cal.add(Calendar.DATE, addPeriod);
+				switch(add) {
+				case 365:
+					//int year = 1;
+					int year = add / 365;
+					cal.add(Calendar.YEAR, year);
+					break;
+				case 180:
+				case 90:
+				case 30:
+					//int month = add/30;
+					int m = cal.get(Calendar.MONTH);
+					cal.add(Calendar.MONTH, 1);
+					break;
+				case 7:
+				case 1:
+					int dd = add % 30;
+					cal.add(Calendar.DATE, dd);
+					break;
+				}
+//				int year = add / 365;
+//				int month = add / 30;
+//				int dd = add % 30;
+//				cal.add(Calendar.YEAR, year);
+//				cal.add(Calendar.MONTH, month);
+//				cal.add(Calendar.DATE, dd);
 				endDate = format.format(cal.getTime());
+
 				
+				//System.out.println(Calendar.DAY_OF_MONTH);
+				System.out.println(endDate);
+
 				String sqlUpdate = "update memberinfo set enddate = '" + endDate + "', period = '" +  addPeriod + "' where id = '" + id + "'";
 				statement.executeUpdate(sqlUpdate);
 			} catch (ParseException e) {

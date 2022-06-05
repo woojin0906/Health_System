@@ -28,7 +28,7 @@ public class ExAddFrame extends JFrame implements ActionListener, MouseListener 
 	
 	private JPanel panelCenter;
 	private JButton btnCancel, btnCheck, btnIdSearch;
-	private JTextField tfId, tfHint;
+	private JTextField tfName, tfHint;
 	private Color gray;
 	private Font mainFont;
 	private JLabel lblAdd;
@@ -65,14 +65,14 @@ public class ExAddFrame extends JFrame implements ActionListener, MouseListener 
 		panelCenter.add(lblAdd);
 		
         // 비밀번호 확인 텍스트 필드(아이디) 출력
-        tfId = new JTextField("운동 이름");
-		tfId.setFont(mainFont);
-		tfId.setBounds(145, 62, 195, 30);
-		tfId.setBorder(BorderFactory.createEmptyBorder());
-		tfId.setFocusTraversalKeysEnabled(false);
-		tfId.addMouseListener(this);
-		tfId.addActionListener(this);
-		panelCenter.add(tfId);
+        tfName = new JTextField("운동 이름");
+		tfName.setFont(mainFont);
+		tfName.setBounds(145, 62, 195, 30);
+		tfName.setBorder(BorderFactory.createEmptyBorder());
+		tfName.setFocusTraversalKeysEnabled(false);
+		tfName.addMouseListener(this);
+		tfName.addActionListener(this);
+		panelCenter.add(tfName);
 		
 		// 비밀번호 확인 취소 버튼 출력
 		btnAdd = new JButton("추가");
@@ -129,10 +129,16 @@ public class ExAddFrame extends JFrame implements ActionListener, MouseListener 
 		Object obj = e.getSource();
 		if(obj == btnCancel) {
 			this.dispose();
-		}else if(obj == tfId || obj == btnAdd) {
-			record.getVecCombo().add(tfId.getText());
-			System.out.println(tfId.getText());
-			this.dispose();
+		}else if(obj == tfName || obj == btnAdd) {
+			if(tfName.getText().equals("")) {
+				JOptionPane.showMessageDialog(this, "운동 이름을 작성해주세요.");
+			}else {
+				this.dispose();
+				//record = new Record("운동기록", id, name);
+				//record.setLocationRelativeTo(null); // 프레임 정가운데 출력
+				record.getVecCombo().add(tfName.getText());
+				System.out.println(tfName.getText());
+			}
 		}
 	}
 
@@ -144,7 +150,7 @@ public class ExAddFrame extends JFrame implements ActionListener, MouseListener 
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		tfId.setText("");
+		tfName.setText("");
 	}
 
 	@Override

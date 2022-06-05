@@ -18,6 +18,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.plaf.DimensionUIResource;
@@ -95,6 +96,7 @@ public class Record extends JFrame implements ActionListener {
 		tfDate.setBounds(150, 22, 140, 30);
 		tfDate.setBorder(BorderFactory.createEmptyBorder());
 		tfDate.setFont(new Font("210 맨발의청춘 L", Font.PLAIN, 14));
+		tfDate.setEnabled(false);	  // 날짜 텍스트필드 활성화 막음	
 		panel1.add(tfDate);
 		panelCenter.add(panel1);
 		
@@ -135,6 +137,7 @@ public class Record extends JFrame implements ActionListener {
 		//btnAdd.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
 	 	btnDel.setBounds(415, 20, 65, 30);
 	 	btnDel.setForeground(Color.WHITE);
+	 	btnDel.addActionListener(this);
 	 	panel2.add(btnDel);
 		panelCenter.add(panel2);
 		
@@ -294,11 +297,6 @@ public class Record extends JFrame implements ActionListener {
 		lblPanel6.setBounds(0, 0, 510, 62);
 		panel6.add(lblPanel6);
 		
-//		ImageIcon imgCenter = new ImageIcon("imges/centerBackImg.png");
-//		JLabel lblCenter = new JLabel(imgCenter);
-//		lblCenter.setBounds(0, 0, 510, 1);
-//		panelCenter.add(lblCenter);
-		
 	}
 
 	private void setSouth() {
@@ -354,9 +352,14 @@ public class Record extends JFrame implements ActionListener {
 		Object obj = e.getSource();
 		if(obj == btn) {
 			ExAddFrame exadd = new ExAddFrame("운동 등록", this, id, name);
+			exadd.setLocationRelativeTo(null); // 프레임 정가운데 출력
+			//this.dispose();
 		}else if(obj == btnCancel) {
 			this.dispose();
 		}else if(obj == btnAdd) {
+			if(comboEx.getSelectedIndex() == 0) {
+				JOptionPane.showMessageDialog(this, "운동 기구를 선택해주세요.");
+			} else {
 			rcal = new ArrayList<String>();
 			String ex_date = tfDate.getText();
 			String ex_name = comboEx.getSelectedItem().toString();
@@ -374,8 +377,19 @@ public class Record extends JFrame implements ActionListener {
 			
 			DB db = new DB(null, null);
 			db.EXInsert(id, name, ex_date, ex_name, ex_weight, ex_times, ex_reps, ex_set);
-			MyRoutine mr = new MyRoutine(id, name);
-			db.EXRefresh(mr, id);
+			MyRoutine mrt = new MyRoutine(id, name);
+			mrt.setLocationRelativeTo(null); // 프레임 정가운데 출력
+			// 전우진 기록지 보여주면서 해당 창 종료
+			//this.dispose();
+			db.EXRefresh(mrt, id);
+			}
+		} else if(obj == btnDel) {
+			if(comboEx.getSelectedIndex() == 0) {
+				JOptionPane.showMessageDialog(this, "추가한 운동을 지워주세요.");
+			} else {
+				vecCombo.remove(comboEx.getSelectedIndex());
+			}
+			
 		}
 	}
 

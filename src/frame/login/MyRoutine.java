@@ -193,6 +193,8 @@ public class MyRoutine extends JFrame implements WindowListener{
 	@Override
 	public void windowClosing(WindowEvent e) {
 		this.dispose();
+		MainFrame mf = new MainFrame(id);
+		mf.setLocationRelativeTo(null); // 프레임 정가운데 출력
 	}
 
 	@Override
