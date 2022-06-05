@@ -57,11 +57,13 @@ public class Board2_PT extends JFrame implements ActionListener, MouseListener, 
 	private JScrollPane sptable;
 	private Color skyblue;
 	private TableModel data;
-	private String pre_ipt, pre_titlept, pre_writerpt,pre_writedaypt,pre_contentpt;
+	private String pre_ipt, pre_titlept, pre_writerpt,pre_writedaypt,pre_contentpt,ID, bd_ID ,namept;
 	private ArrayList<String> alpt;
-	private String ID, bd_ID;
+	private JButton btnRefresh;
 
-	public Board2_PT(MainFrame mf) {
+	public Board2_PT(MainFrame mf ,String namept) {//수정||삭제 -> pt게시판
+		this.namept = namept;
+		
 		skyblue = new Color(189, 215, 238);
 		setTitle("PT 게시판");
 		setResizable(false); 
@@ -69,20 +71,22 @@ public class Board2_PT extends JFrame implements ActionListener, MouseListener, 
 		setLocation(300, 300);
 		setSize(470, 560);
 		setLayout(new BorderLayout());
-		
-		PanelUP();
+														 //문제		
+		PanelUP();                                       //테이블 누르고 버튼 나오는 거 할때 게시판 못누르게 모달창
+														 //수정/삭제 누르고 나오는 게시판 닫기 버튼 누르면 아예 다꺼짐 
+														 //edit창 넘어갈때 게시물 안없어짐
 		PanelDowm();
 		addWindowListener(this);
 		displayData();
 		setVisible(true);
 	}
 	
-	public Board2_PT(MainFrame mf, String ID) {
+	public Board2_PT(MainFrame mf, String ID, String namept) {//메인->PT했을때 나오는 창
 		this.ID = ID;
+		this.namept = namept;
 		skyblue = new Color(189, 215, 238);
 		setTitle("PT 게시판");
 		setResizable(false); 
-		//addWindowListener(this);
 		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocation(300, 300);
 		setSize(470, 560);
@@ -114,6 +118,15 @@ public class Board2_PT extends JFrame implements ActionListener, MouseListener, 
 		lblTilte.setSize(150, 30);
 		panelUPUP.add(lblTilte);
 		
+		
+		//리프레쉬 버튼
+		btnRefresh = new JButton("리프레쉬");//기능 아직 적용안함
+		btnRefresh.addActionListener(this);
+		btnRefresh.setBounds(300, 20, 100, 30);
+		panelUPUP.add(btnRefresh);
+		
+		
+		//글쓰기 버튼
 		btnWrite = new JButton(new ImageIcon("imges/pencil1.png"));
 		//btnWrite.setFont(new Font("210 맨발의청춘 L", Font.BOLD, 10));
 		btnWrite.setBorderPainted(false);
@@ -207,13 +220,16 @@ public class Board2_PT extends JFrame implements ActionListener, MouseListener, 
 		
 		//글쓰기 버튼 누를 시 pt게시판 글쓰기 창이 뜬다.
 		if(obj == btnWrite) {
-		BoardWrite_PT be = new BoardWrite_PT("글쓰기", ID);
+		BoardWrite_PT be = new BoardWrite_PT("글쓰기", ID,namept);
 		this.dispose();
 		}
-		else if(obj == tfsearch || obj == btnsearch) {}
+		else if(obj == tfsearch || obj == btnsearch) {
 	      String src = tfsearch.getText();
 	      System.out.println(src);
 	      scDisplay(src);
+		}else if(obj == btnRefresh){
+			
+		}
 
 }
 	
@@ -382,13 +398,13 @@ public class Board2_PT extends JFrame implements ActionListener, MouseListener, 
 
 	@Override
 	public void windowClosing(WindowEvent e) {
-		this.dispose();
+		dispose();
 		
 	}
 
 	@Override
 	public void windowClosed(WindowEvent e) {
-
+		MainFrame mf = new MainFrame(null);
 		
 	}
 

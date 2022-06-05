@@ -35,12 +35,14 @@ public class BoardWrite_PT2 extends JFrame implements ActionListener, WindowList
 	private Color skyblue;
 	private ArrayList<String> alpt;
 	private JTextField[] TxField;
-	private String ID;
+	private String ID, namept;
 	private JLabel lbl1, lbl2, lbl3, lbl4;
 	
-	public BoardWrite_PT2(ArrayList<String> string, String ID) {
-		this.alpt = string;
+	public BoardWrite_PT2(ArrayList<String> alpt, String ID, String namept) {
+		this.alpt = alpt;
 		this.ID = ID;
+		this.namept = namept;
+		
 		setTitle("PT게시판 글 수정");
 		
 		setLocation(300, 200);
@@ -162,14 +164,17 @@ public class BoardWrite_PT2 extends JFrame implements ActionListener, WindowList
 		Object obj = e.getSource();
 		// 수정 버튼 이벤트
 		if(obj == btnsend) {
-			DBPT dbpt = new DBPT(null);
-			dbpt.BDUpdate(alpt.get(0),TxField[0].getText(), TxField[1].getText(), TxField[2].getText(), TxField[3].getText(), ta.getText());
-			dispose();
-		}else if (obj == TxField[3]) {
-			if (TxField[3].getText().equals("")) {
-			JOptionPane.showConfirmDialog (this, "비밀번호를 입력해주세요","오류",JOptionPane.YES_NO_OPTION);
+
+			if(TxField[3].getText().equals("")){
+				JOptionPane.showMessageDialog(null, "비밀번호를 입력해주세요");
+				TxField[3].requestFocus();	
+			}else {
+				DBPT dbpt = new DBPT(null);
+				dbpt.BDUpdate(alpt.get(0),TxField[0].getText(), TxField[1].getText(), TxField[2].getText(), TxField[3].getText(), ta.getText());
+				dispose();
 			}
 		}
+		
 }
 
 
@@ -190,7 +195,7 @@ public class BoardWrite_PT2 extends JFrame implements ActionListener, WindowList
 
 	@Override
 	public void windowClosed(WindowEvent e) {
-		Board2_PT bdpt = new Board2_PT(null);
+		Board2_PT bdpt = new Board2_PT(null,namept);
 		
 	}
 

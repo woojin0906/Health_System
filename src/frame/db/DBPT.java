@@ -117,7 +117,7 @@ public class DBPT {
 		
 		}
 		//pt게시판 댓글 추가
-		public void BDCMT(String id, String ptcontent) {
+		public void BDCMT(String id, String ptcontent, String namept) {
 			
 			try {
 				Random rnd = new Random();
@@ -126,7 +126,7 @@ public class DBPT {
 				System.out.println(id);
 				String cmt = ptcontent;
 				System.out.println(cmt);
-			String sqlInsert = "insert into PT_COMMENT values('" + rnd.nextInt(99999 - 10000 + 1) + 10000 + "', '" + ptcontent + "', '" + id + "')";
+			String sqlInsert = "insert into PT_COMMENT values('" + rnd.nextInt(99999 - 10000 + 1) + 10000 + "', '" + ptcontent + "', '" + id +  "', '"+namept+"')";
 			stmt.executeUpdate(sqlInsert);
 			
 			System.out.println("댓글 추가 성공");
@@ -148,11 +148,17 @@ public class DBPT {
 		public void DisplayCMT(String id) {
 			try {
 				
-				result = stmt.executeQuery("select \"COMMENTPT\" FROM PT_COMMENT where PT_ID = '" + Integer.parseInt(id) + "'");		
+				result = stmt.executeQuery("select \"CMPT_WRITER\",\"COMMENTPT\" FROM PT_COMMENT where PT_ID = '" + Integer.parseInt(id) + "'");		
+				
 				while(result.next()) {
-					String test = result.getString(1);
-					be2.getTa2().append(test + "\n");
-					System.out.println(result.getString(1));
+//					String test = result.getString(1);
+//					be2.getTa2().append(test + "\n");
+//					System.out.println(result.getString(1));
+					
+					String[] cmt = {result.getString("CMPT_WRITER"), result.getString("COMMENTPT")};
+					System.out.println(cmt[0]);
+					System.out.println(cmt[1]);
+					be2.getTacomment().append(cmt[0] + " : " + cmt[1] + "\n");
 					System.out.println("댓글 보여주기 성공");
 					
 				}
@@ -161,8 +167,8 @@ public class DBPT {
 				//e.printStackTrace();
 			}finally {
 				try {
-					//stmt.close();
-					//result.close();
+//					stmt.close();
+//					result.close();
 				}catch (Exception e) {
 					e.printStackTrace();
 				}
