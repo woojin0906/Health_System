@@ -41,7 +41,7 @@ public class Login extends JFrame implements ActionListener, MouseListener, Wind
 	private AgreeFrame af;
 	private MainFrame mf;
 	private JoinFrame jf;
-
+	
 	private String result;
 	private dbOpen dbconn;
 	
@@ -264,7 +264,6 @@ public class Login extends JFrame implements ActionListener, MouseListener, Wind
 
 	}
 	
-
 	@Override
 	public void mousePressed(MouseEvent e) {
 		Object obj = e.getSource();	

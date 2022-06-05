@@ -31,28 +31,13 @@ import javax.swing.WindowConstants;
 
 public class AgreeFrame extends JFrame implements ActionListener, WindowListener {
 	
-	private JPanel panelNorth;
-	private JPanel panelCenter;
-	private JButton btnCancel;
-	private JLabel lblAgree;
+	private JPanel panelNorth, panelCenter, panelOne, panelTwo, panelThree, panel1, panel2, panel3;
+	private JButton btnCancel, btnAgree;
+	private JLabel lblAgree, lbl1, lbl2, lbl3;
 	private Color a;
-	private JPanel panelOne;
-	private Container panelTwo;
-	private Container panelThree;
-	private JPanel panel1;
-	private JPanel panel2;
-	private JPanel panel3;
-	private JLabel lbl1;
-	private JLabel lbl2;
-	private JLabel lbl3;
-	private JTextArea ta1;
-	private JTextArea ta2;
-	private JTextArea ta3;
-	private JButton btnAgree;
+	private JTextArea ta1, ta2, ta3;
 	private JScrollPane sp;
-	private Font mainFont;
-	private Font subFont;
-	private Font mLabelFont;
+	private Font mainFont, subFont, lblInfoFont;
 	private JoinFrame joinFrame;
 
 
@@ -66,7 +51,7 @@ public class AgreeFrame extends JFrame implements ActionListener, WindowListener
 	
 		mainFont = new Font("210 맨발의청춘 L", Font.BOLD, 20); // 메인 제목
 	    subFont = new Font("210 맨발의청춘 L", Font.PLAIN, 13); 
-	    mLabelFont = new Font("210 맨발의청춘 L", Font.BOLD, 13); // 각 장의 제목
+	    lblInfoFont = new Font("210 맨발의청춘 L", Font.BOLD, 13); // 각 장의 제목
 	    
 		setNorth();
 		setCenter();
@@ -125,7 +110,7 @@ public class AgreeFrame extends JFrame implements ActionListener, WindowListener
 		// 이용약관 화면 제 1장 라벨 출력
 		lbl1 = new JLabel("제 1장 서비스 이용약관");
 		lbl1.setBounds(10, 10, 130, 20);
-		lbl1.setFont(mLabelFont);
+		lbl1.setFont(lblInfoFont);
 		panelOne.add(lbl1);
 
 		// 이용약관 화면 첫번째 패널 안에 패널
@@ -159,7 +144,7 @@ public class AgreeFrame extends JFrame implements ActionListener, WindowListener
 		// 이용약관 화면 제 2장 라벨 출력
 		lbl2 = new JLabel("제 2장 개인정보 이용약관");
 		lbl2.setBounds(10, 10, 200, 20);
-		lbl2.setFont(mLabelFont);
+		lbl2.setFont(lblInfoFont);
 		panelTwo.add(lbl2);
 				
 		// 이용약관 화면 두번째 패널 안에 패널
@@ -193,7 +178,7 @@ public class AgreeFrame extends JFrame implements ActionListener, WindowListener
 		
 		lbl3 = new JLabel("제 3장 전자금융거래 이용약관");
 		lbl3.setBounds(10, 10, 200, 20);
-		lbl3.setFont(mLabelFont);
+		lbl3.setFont(lblInfoFont);
 		panelThree.add(lbl3);
 
 		// 이용약관 화면 두번째 패널 안에 패널

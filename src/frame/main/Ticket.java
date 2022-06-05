@@ -10,6 +10,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.text.DecimalFormat;
 
 import javax.swing.BorderFactory;
@@ -23,7 +25,7 @@ import javax.swing.JPanel;
 
 import frame.login.QuestionPW;
 
-public class Ticket extends JFrame implements ActionListener, ItemListener {
+public class Ticket extends JFrame implements ActionListener, ItemListener, WindowListener {
 
 	private Font mainFont;
 	private Font subFont;
@@ -167,6 +169,9 @@ public class Ticket extends JFrame implements ActionListener, ItemListener {
 		cancle.setFocusPainted(false);
 		CenterPanel.add(cancle);
 		cancle.addActionListener(this);
+		
+		//윈도우 리스너 추가
+		this.addWindowListener(this);
 	}
 
 	@Override
@@ -184,7 +189,8 @@ public class Ticket extends JFrame implements ActionListener, ItemListener {
 				if(total > 0) {
 					QuestionPW password = new QuestionPW(this, 1, ID, period);
 					//이용권을 선택하고 결제버튼 누르면 비밀번호 확인 프레임 호출
-//					this.setEnabled(false); 모달창 대신 비활성화로 처리
+					this.setEnabled(false); 
+//					모달창 대신 비활성화로 처리
 				}else {
 					JOptionPane.showMessageDialog(this, "이용권을 선택해주세요!",
 						"경고", JOptionPane.WARNING_MESSAGE);
@@ -243,5 +249,41 @@ public class Ticket extends JFrame implements ActionListener, ItemListener {
 		}
 		PriceMonitor.setText(priceFormat.format(total)); //설정한 데이터 포맷대로 라벨에 출력
 	
+	}
+	@Override
+	public void windowOpened(WindowEvent e) {
+		// TODO Auto-generated method stub
+	}
+	@Override
+	public void windowClosing(WindowEvent e) {
+		JOptionPane.showMessageDialog(this, "이용권 결제를 취소합니다.", "알림",
+				JOptionPane.CANCEL_OPTION);
+		MainFrame mf = new MainFrame(ID);
+		this.dispose();		
+	}
+	@Override
+	public void windowClosed(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void windowIconified(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void windowDeiconified(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void windowActivated(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void windowDeactivated(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 }

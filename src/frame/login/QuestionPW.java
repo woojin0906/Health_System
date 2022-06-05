@@ -219,6 +219,9 @@ public class QuestionPW extends JFrame implements ActionListener, WindowListener
 	public void windowClosing(WindowEvent e) {
 		this.dispose();
 		if(ctrIndex == 1 || ctrIndex == 2) {
+			JOptionPane.showMessageDialog(this, "이용권 결제를 취소합니다.", "알림",
+					JOptionPane.CANCEL_OPTION);
+			TK.dispose();
 			MainFrame mf = new MainFrame(ID);
 		}
 	}

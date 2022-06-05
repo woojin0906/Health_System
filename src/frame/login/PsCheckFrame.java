@@ -34,11 +34,8 @@ public class PsCheckFrame extends JFrame implements MouseListener, ActionListene
 	private JPanel panelCenter;
 	private JButton btnCancel, btnCheck, btnIdSearch;
 	private JTextField tfId, tfHint;
-	private Vector<String> vecCombo;
-	private JComboBox<String> comboHint;
 	private Color gray;
 	private Font mainFont;
-	private JLabel lblbirth;
 	
 	public PsCheckFrame(String title) {
 		
@@ -68,7 +65,6 @@ public class PsCheckFrame extends JFrame implements MouseListener, ActionListene
 		btnCancel.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
 		btnCancel.setBounds(0, 5, 40, 30);
 		btnCancel.addActionListener(this);
-		
         panelCenter.add(btnCancel);
         
         // 비밀번호 확인 버튼 출력
@@ -77,67 +73,28 @@ public class PsCheckFrame extends JFrame implements MouseListener, ActionListene
 		btnCheck.setContentAreaFilled(false);
 		btnCheck.setBorderPainted(false);
 		btnCheck.setBounds(140, 10, 70, 70);
-		
 		btnCheck.addActionListener(this);
-		
 		panelCenter.add(btnCheck);
 		
         // 비밀번호 확인 텍스트 필드(아이디) 출력
         tfId = new JTextField("아이디");
 		tfId.setFont(mainFont);
-		tfId.setBounds(28, 94, 143, 30);
+		tfId.setBounds(33, 94, 120, 30);
 		tfId.setBorder(BorderFactory.createEmptyBorder());
-		tfId.addKeyListener(this);
 		tfId.setFocusTraversalKeysEnabled(false);
+		tfId.addActionListener(this);
 		tfId.addMouseListener(this);
-		
+		tfId.addKeyListener(this);
 		panelCenter.add(tfId);
         
-		// 비밀번호 확인 텍스트 필드 배경 이미지 출력
-		ImageIcon imgId = new ImageIcon("imges/background_id.png");
-		JLabel lblId = new JLabel(imgId);
-		lblId.setBounds(25, 90, 148, 35);
-		panelCenter.add(lblId);
-		
-//		// 비밀번호 확인 콤보박스 출력
-//		vecCombo = new Vector<String>();
-//		vecCombo.add("생일은?");
-//		vecCombo.add("번호는?");
-//		
-//		comboHint = new JComboBox<String>(vecCombo);
-//		comboHint.setFont(mainFont);
-//		comboHint.setBounds(30, 138, 85, 30);
-//		comboHint.setBorder(BorderFactory.createEmptyBorder(-2, -2, -2, -2));
-//		comboHint.setBackground(Color.WHITE);
-//		panelCenter.add(comboHint);
-		
-		// 비밀번호 확인 라벨 출력
-		lblbirth = new JLabel("생일은?");
-		lblbirth.setFont(mainFont);
-		lblbirth.setBounds(32, 138, 85, 30);
-		panelCenter.add(lblbirth);
-		
-		// 비밀번호 확인 텍스트 필드 배경 이미지 출력
-		ImageIcon imgCombo = new ImageIcon("imges/background_combo.png");
-		JLabel lblCombo = new JLabel(imgCombo);
-		lblCombo.setBounds(22, 135, 100, 35);
-		panelCenter.add(lblCombo);
-		
 		// 비밀번호 확인 텍스트 필드(힌트 답변) 출력
-		tfHint = new JTextField("힌트 답변");
+		tfHint = new JTextField("비밀번호 재설정 힌트 답변(4-16자)");
 		tfHint.setFont(mainFont);
 		tfHint.setBorder(BorderFactory.createEmptyBorder());
-		tfHint.setBounds(134, 139, 185, 30);
+		tfHint.setBounds(33, 139, 250, 30);
 		tfHint.addActionListener(this);
 		tfHint.addMouseListener(this);
-		
 		panelCenter.add(tfHint);
-		
-		// 비밀번호 확인 텍스트 필드 배경 이미지 출력
-		ImageIcon imgHint = new ImageIcon("imges/background_hint.png");
-		JLabel lblHint = new JLabel(imgHint);
-		lblHint.setBounds(130, 135, 195, 35);
-		panelCenter.add(lblHint);
 		
 		// 비밀번호 확인 아이디 찾기 라벨 출력
 		btnIdSearch = new JButton("아이디를 잃어버리셨나요?");
@@ -148,10 +105,21 @@ public class PsCheckFrame extends JFrame implements MouseListener, ActionListene
 		btnIdSearch.setForeground(gray);
 		btnIdSearch.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
 		btnIdSearch.setBounds(180, 170, 140, 30);
-		
 		btnIdSearch.addActionListener(this);
 		
 		panelCenter.add(btnIdSearch);
+		
+		// 비밀번호 확인 텍스트 필드 배경 이미지 출력
+		ImageIcon imgId = new ImageIcon("imges/background_id.png");
+		JLabel lblId = new JLabel(imgId);
+		lblId.setBounds(25, 90, 150, 35);
+		panelCenter.add(lblId);
+		
+		// 비밀번호 확인 텍스트 필드 배경 이미지 출력
+		ImageIcon imgHint = new ImageIcon("imges/background_address.png");
+		JLabel lblHint = new JLabel(imgHint);
+		lblHint.setBounds(25, 135, 300, 35);
+		panelCenter.add(lblHint);
 		
         // 비밀번호 확인 백그라운드 이미지 붙이기
 		ImageIcon background_img = new ImageIcon("imges/ps_background.png");
@@ -168,6 +136,7 @@ public class PsCheckFrame extends JFrame implements MouseListener, ActionListene
 		if(obj == btnCancel) {
 			this.dispose();
 			Login lg = new Login();
+			
 		} else if(obj == btnIdSearch) {
 			if(JOptionPane.showConfirmDialog(this, 
 					"고객센터에 전화하시겠습니까?",
@@ -175,8 +144,8 @@ public class PsCheckFrame extends JFrame implements MouseListener, ActionListene
 					JOptionPane.YES_NO_OPTION
 					) == JOptionPane.YES_OPTION) {
 				JOptionPane.showMessageDialog(this, "032-258-2365");
-			}		
-		} else if(obj == btnCheck || obj == tfHint) { 
+			}
+		} else if(obj == btnCheck || obj == tfId || obj == tfHint) { 
 			try {
 				dbOpen temp = new dbOpen();
 				temp.resetPW(this, tfId.getText(), tfHint.getText());

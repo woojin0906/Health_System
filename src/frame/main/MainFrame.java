@@ -38,8 +38,7 @@ public class MainFrame extends JFrame implements Runnable, ActionListener, Windo
 	private JTextArea ta;
 	private JLabel lbl_icon, lbl_member, lbl_lastday, lblDay, lblTime, lbl_day, lbl_coment;
 	private JButton btn_logout, btn_modify, btn_buy, btn_board1, btn_board2, btn_cal;
-	private String id; //로그인 한 계정의 id값을 받아옴.
-	private String name; //로그인 한 계정의 이름 값을 받아옴.
+	private String id, name; //로그인 한 계정의 id, name을 받아옴.
 
 	// 전우진 5/29 db
 	private dbOpen db;

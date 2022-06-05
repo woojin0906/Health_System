@@ -18,6 +18,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import frame.login.Ex;
 import frame.login.IdCheckFrame;
 import frame.login.JoinFrame;
 import frame.login.Login;
@@ -95,25 +96,28 @@ public class dbOpen {
 				result = statement.executeQuery("select password from memberinfo where id = '" + inputId + "'" );
 				if(result.next()) {
 					pw = result.getString("password");
-				}
-				
-				result = statement.executeQuery("select name from memberinfo where id = '" + inputId + "'" );
-				if(result.next()) {
-					name = result.getString("name");
-				}
-				
-				result = statement.executeQuery("select enddate from memberinfo where id = '" + inputId + "'" );
-				if(result.next()) {
-					enddate = result.getString("enddate");
-				}
-				
-				//입력한 비밀번호와 DB에 저장된 비밀번호가 일치하는지 검증
-				
-				if(pw.equals(inputPw)) {
-					mainFrame = new MainFrame(id, name, enddate);
-					frame.dispose();
-				} else {
-					JOptionPane.showMessageDialog(frame, "정보를 다시 확인해주세요.", "정보 오류", JOptionPane.ERROR_MESSAGE);
+					
+					result = statement.executeQuery("select name from memberinfo where id = '" + inputId + "'" );
+					if(result.next()) {
+						name = result.getString("name");
+					}
+					
+					result = statement.executeQuery("select enddate from memberinfo where id = '" + inputId + "'" );
+					if(result.next()) {
+						enddate = result.getString("enddate");
+					}
+					
+					//입력한 비밀번호와 DB에 저장된 비밀번호가 일치하는지 검증
+					if(pw.equals(inputPw)) {
+						mainFrame = new MainFrame(id, name, enddate);
+						//0605 윤선호 임시 추가
+						Ex ex = new Ex("운동 기록", id, name);
+						frame.dispose();
+					} else {
+						JOptionPane.showMessageDialog(frame, "입력 정보를 다시 확인해주세요.", "정보 오류", JOptionPane.ERROR_MESSAGE);
+					}
+				}else {
+					JOptionPane.showMessageDialog(frame, "입력 정보를 다시 확인해주세요.", "정보 오류", JOptionPane.ERROR_MESSAGE);
 				}
 				
 			} catch (SQLException e) {
@@ -121,7 +125,7 @@ public class dbOpen {
 				e.printStackTrace();
 			} catch (NullPointerException e) {
 				e.printStackTrace();
-				JOptionPane.showMessageDialog(frame, "정보를 다시 확인해주세요.", "정보 오류", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(frame, "입력 정보를 다시 확인해주세요.", "정보 오류", JOptionPane.ERROR_MESSAGE);
 			}
 			
 			finally {
@@ -159,8 +163,10 @@ public class dbOpen {
 						JOptionPane.YES_NO_OPTION
 						) == JOptionPane.YES_OPTION) {
 					JOptionPane.showMessageDialog(pf, "고객센터 전화번호는 032-256-3652 입니다.", "고객센테 안내", JOptionPane.INFORMATION_MESSAGE);
+					} else {
+						
 					}
-			}
+			} 
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
