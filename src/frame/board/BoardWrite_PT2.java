@@ -37,11 +37,13 @@ public class BoardWrite_PT2 extends JFrame implements ActionListener, WindowList
 	private JTextField[] TxField;
 	private String ID, namept;
 	private JLabel lbl1, lbl2, lbl3, lbl4;
+	private Board2_PT bdpt;
 	
-	public BoardWrite_PT2(ArrayList<String> alpt, String ID, String namept) {
+	public BoardWrite_PT2(ArrayList<String> alpt, String ID, String namept, Board2_PT bdpt) {
 		this.alpt = alpt;
 		this.ID = ID;
 		this.namept = namept;
+		this.bdpt = bdpt;
 		
 		setTitle("PT게시판 글 수정");
 		
@@ -72,7 +74,7 @@ public class BoardWrite_PT2 extends JFrame implements ActionListener, WindowList
 	      NorthPanel.setLayout(null);
 	      NorthPanel.setBackground(skyblue);
 	      
-	      String[] name = {"제목", "작성일자", "작성자", "비밀번호"}; 
+	      String[] name = {"제목", "작성자", "작성일자", "비밀번호"}; 
 	      
 	      JLabel[] TxValue = new JLabel[4];
 	   
@@ -101,7 +103,13 @@ public class BoardWrite_PT2 extends JFrame implements ActionListener, WindowList
 	         NorthPanel.add(TxField[i]);
 	      }
 	      TxField[0].setText(alpt.get(1));
+	      
+	      TxField[1].setEditable(false);
+	      TxField[1].setBackground(Color.white);
 	      TxField[1].setText(alpt.get(3));
+	      
+	      TxField[2].setEditable(false);
+	      TxField[2].setBackground(Color.white);
 	      TxField[2].setText(alpt.get(2));
 	     // TxField[3].setText(al.get(2));
 	      
@@ -170,7 +178,8 @@ public class BoardWrite_PT2 extends JFrame implements ActionListener, WindowList
 				TxField[3].requestFocus();	
 			}else {
 				DBPT dbpt = new DBPT(null);
-				dbpt.BDUpdate(alpt.get(0),TxField[0].getText(), TxField[1].getText(), TxField[2].getText(), TxField[3].getText(), ta.getText());
+				dbpt.BDUpdate(alpt.get(0),TxField[0].getText(), TxField[2].getText(), TxField[1].getText(), TxField[3].getText(), ta.getText());
+				dbpt.PtRefresh(bdpt);
 				dispose();
 			}
 		}
@@ -195,7 +204,7 @@ public class BoardWrite_PT2 extends JFrame implements ActionListener, WindowList
 
 	@Override
 	public void windowClosed(WindowEvent e) {
-		Board2_PT bdpt = new Board2_PT(null,namept);
+		//Board2_PT bdpt = new Board2_PT(null, namept);
 		
 	}
 

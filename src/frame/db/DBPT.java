@@ -7,8 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Random;
-
-import frame.board.BoardEdit;
+import frame.board.Board2_PT;
 import frame.board.BoardEdit_PT;
 
 public class DBPT {
@@ -20,8 +19,8 @@ public class DBPT {
 	private ResultSet result = null;
 	private int id;
 	private BoardEdit_PT be2;
-	private ArrayList<Object> list = new ArrayList<Object>();
-
+	private String cmt;
+	
 	public  DBPT(BoardEdit_PT be2) {
 		this.be2 = be2;
 		
@@ -95,10 +94,10 @@ public class DBPT {
 			return id ;
 		}
 		
-		//pt게시판 글 수정
-		public void BDUpdate(String id, String pttitle, String ptwriteday, String ptwriter, String password, String ptcontent ) {
+		//pt게시판 글 수정-BoardWirtept2
+		public void BDUpdate(String id, String pttitle, String ptwriter, String ptwriteday, String password, String ptcontent ) {
 			try {
-				String sqlUpdate = "update pttalk SET PT_TITLE = '" + pttitle +"', PT_WRITEDAY = '" + ptwriteday + "', PT_WRITER = '" + ptwriter + "', PASSWORD = '" + password + "', PT_CONTENT = '" + ptcontent + "' where PT_ID = '" + Integer.parseInt(id) +"'";
+				String sqlUpdate = "update pttalk SET PT_TITLE = '" + pttitle +"', PT_WRITER = '" + ptwriter + "', PT_WRITEDAY = '" + ptwriteday + "', PASSWORD = '" + password + "', PT_CONTENT = '" + ptcontent + "' where PT_ID = '" + Integer.parseInt(id) +"'";
 				stmt.executeUpdate(sqlUpdate);
 				
 				System.out.println("수정 성공!");
@@ -116,7 +115,7 @@ public class DBPT {
 		}
 		
 		}
-		//pt게시판 댓글 추가
+		//pt게시판 댓글 추가-Boardedit_pt
 		public void BDCMT(String id, String ptcontent, String namept) {
 			
 			try {
@@ -144,13 +143,22 @@ public class DBPT {
 			
 		}
 	}
-		//pt게시판 댓글 보여주기
+		//pt게시판 댓글 보여주기-Boardedit_pt
 		public void DisplayCMT(String id) {
+			Statement stmt = null;
+			ResultSet result = null;
 			try {
+				stmt = conn.createStatement();
 				
-				result = stmt.executeQuery("select \"CMPT_WRITER\",\"COMMENTPT\" FROM PT_COMMENT where PT_ID = '" + Integer.parseInt(id) + "'");		
+//				String sqlcom "select \"CMPT_WRITER\", \"COMMENTPT\" FROM PT_COMMENT where PT_ID= '"+ Integer.parseInt(id)+"'";
+//				System.out.println(sqlcom);
+//				result = stmt.executeQuery(sqlcom);
+				result = stmt.executeQuery("select  \"CMPT_WRITER\", \"COMMENTPT\" FROM PT_COMMENT where PT_ID= '"+ Integer.parseInt(id)+"'");
+//				result = stmt.executeQuery("select CMPT_WRITER, COMMENTPT FROM PT_COMMENT where PT_ID = '" + Integer.parseInt(id) + "'");		
+				System.out.println("================================");
 				
 				while(result.next()) {
+					System.out.println("vvvvvvvvvvvvvvvvvvvvvvvvvvvv");
 //					String test = result.getString(1);
 //					be2.getTa2().append(test + "\n");
 //					System.out.println(result.getString(1));
@@ -163,20 +171,22 @@ public class DBPT {
 					
 				}
 			} catch (SQLException e) {
-				//System.out.println("댓글 못 불러옵니다.");
+				System.out.println("댓글 못 불러옵니다.");
 				//e.printStackTrace();
-			}finally {
+			}
+			finally {
 				try {
-//					stmt.close();
-//					result.close();
+					result.close();
+					conn.close();
+					stmt.close();
 				}catch (Exception e) {
-					e.printStackTrace();
+					//e.printStackTrace();
 				}
 			}
 			
 		}
 		
-		// 테이블 삭제
+		// 게시물 삭제-Boardedit_pt
 		public void PT_DELETE(String id ) {
 			try {
 				String sqldeletechild = " delete from PT_comment where PT_ID = '"+ Integer.parseInt(id) +"'";
@@ -204,6 +214,103 @@ public class DBPT {
 				
 			} catch (Exception e) {
 			}
+		}
+		
+		
+		//Jtable에 모든 값을 보여줌-Board2_pt
+		public void displayData(Board2_PT bdpt) {
+			bdpt.getModel().setNumRows(0);//테이블 초기화 
+			try {
+				
+				stmt = conn.createStatement();
+				result = stmt.executeQuery("select * from PTTALK order by PT_ID desc");
+				int count = 0;
+				
+				while(result.next()) {//"글번호", "제목", "작성자", "작성날짜", "내용"
+					String[] imsi = {result.getString("PT_ID"), result.getString("PT_TITLE"), result.getString("PT_WRITER"), result.getString("PT_WRITEDAY"), result.getString("PT_CONTENT")};
+				bdpt.getModel().addRow(imsi);
+				count++;
+				}
+
+			} catch(SQLException e) {
+				System.out.println("예외발생 : 접속 정보 확인 필요");
+				e.printStackTrace();
+				
+			}finally {
+				try {
+					if(result != null)
+						result.close();
+					if(stmt != null)
+						stmt.close();
+//					if(conn != null)
+//						conn.close();
+				}catch(Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		
+		
+		//검색하면 보여줌-Board2_pt
+		public void scDisplay(Board2_PT dbpt, String src) {
+		      dbpt.getModel().setNumRows(0);
+		      try {
+		        
+		         stmt = conn.createStatement();
+		         result = stmt.executeQuery("select * from pttalk where PT_TITLE LIKE '%' || '" +  src + "' || '%' order by PT_ID desc");
+		         
+		         while(result.next()) {
+		            String[] sch = {result.getString("PT_ID"), result.getString("PT_TITLE"), result.getString("PT_WRITER"), result.getString("PT_WRITEDAY"), result.getString("PT_CONTENT")};
+		            dbpt.getModel().addRow(sch);
+		         }
+		      } catch(SQLException e) {
+		            System.out.println("예외발생 : 접속 정보 확인 필요");
+		            e.printStackTrace();
+		            
+		         }finally {
+		            try {
+		               if(result != null)
+		                  result.close();
+		               if(stmt != null)
+		                  stmt.close();
+//		               if(conn != null)
+//		                  conn.close();
+		            }catch(Exception e) {
+		               e.printStackTrace();
+		            }
+		         }
+		   }
+		
+		//리프레시하기
+		public void PtRefresh(Board2_PT bdpt) {
+			int rowCount = bdpt.getModel().getRowCount();
+			for (int i = rowCount -1; i >= 0; i--) {
+				bdpt.getModel().removeRow(i);
+			}
+			try {
+				stmt = conn.createStatement();
+				result = stmt.executeQuery("select * from pttalk order by PT_ID desc");
+				
+				while (result.next()) {
+					String[] imsi = {result.getString("PT_ID"), result.getString("PT_TITLE"), result.getString("PT_WRITER"), result.getString("PT_WRITEDAY"), result.getString("PT_CONTENT")};
+					bdpt.getModel().addRow(imsi);
+				}
+			} catch (SQLException e) {
+				System.out.println("예외발생 : 접속 정보 확인 필요");
+				e.printStackTrace();
+			}finally {
+				try {
+					if(result != null)
+						result.close();
+					if(stmt != null)
+						stmt.close();
+					if(conn != null)
+						conn.close();
+				}catch(Exception e) {
+					e.printStackTrace();
+				}
+			}
+			
 		}
 
 	}

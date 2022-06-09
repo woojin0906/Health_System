@@ -19,6 +19,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -37,11 +38,14 @@ public class BoardWrite_PT extends JFrame implements ActionListener, WindowListe
 	private Date today;
 	private String ID;
 	private String namept;
+	private Board2_PT bdpt;
 
 	
-	public BoardWrite_PT(String title, String ID, String namept) {
+	public BoardWrite_PT(String title, String ID, String namept, Board2_PT bdpt) {
 		this.ID = ID;
 		this.namept = namept;
+		this.bdpt = bdpt;
+		
 		setTitle(title);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocation(300, 200);
@@ -101,6 +105,11 @@ public class BoardWrite_PT extends JFrame implements ActionListener, WindowListe
 	      
 	      //작성자 이름 자동으로 넣기
 	     TxField[2].setText(namept);
+	     
+	     TxField[1].setEditable(false);
+	     TxField[1].setBackground(Color.white);
+	     TxField[2].setEditable(false);
+	     TxField[2].setBackground(Color.white);
 	      
 	      ImageIcon img1 = new ImageIcon("imges/textimage_edit.png");
 			JLabel lbl1 = new JLabel(img1);
@@ -161,9 +170,18 @@ public class BoardWrite_PT extends JFrame implements ActionListener, WindowListe
 		
 		//올리기 버튼 누르면 디비에 정보 전송하기
 		if (obj == btnupload) {
+			if(TxField[3].getText().equals("")){
+			JOptionPane.showMessageDialog(null, "비밀번호를 입력해주세요");
+			TxField[3].requestFocus();	
+			
+			
+			}else 
+			{
 			DBPT dbpt = new DBPT(null);
-			dbpt.PtInsert(TxField[0].getText(),TxField[1].getText(),TxField[2].getText(),TxField[3].getText(),ta.getText());
+			dbpt.PtInsert(TxField[0].getText(),TxField[1].getText(),TxField[3].getText(),ta.getText(),TxField[2].getText());
+			dbpt.PtRefresh(bdpt);
 			dispose();
+			}
 		}
 	}
 

@@ -43,12 +43,14 @@ public class BoardEdit_PT extends JFrame implements ActionListener, WindowListen
 	private Object bdi;
 	private String namept, ID;
 	private ImageIcon img1,imgcomment;
+	private Board2_PT bdpt;
 	
 	
-	public BoardEdit_PT(ArrayList<String> alpt, String ID) {
+	public BoardEdit_PT(ArrayList<String> alpt, String ID, String namept,Board2_PT bdpt) {
 		this.alpt = alpt;
 		this.ID = ID;
-		//this.namept = namept;
+		this.namept = namept;
+		this.bdpt = bdpt;
 		
 		setTitle("게시물 댓글 및 삭제");
 		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -103,6 +105,7 @@ public class BoardEdit_PT extends JFrame implements ActionListener, WindowListen
 	         TxField[i].setText(alpt.get(i+1));//여기
 	         TxField[i].setFont(new Font("210 맨발의청춘 L", Font.PLAIN, 12));
 	         TxField[i].setEditable(false);//변경불가
+	         TxField[i].setBackground(Color.white);
 	         NorthPanel.add(TxField[i]);
 	      }
 	      
@@ -237,8 +240,8 @@ public class BoardEdit_PT extends JFrame implements ActionListener, WindowListen
 		Object obj = e.getSource();
 		//Boardwrite2 bw2 = new Boardwrite2(null);
 		if(obj == tfcomment || obj == btnSend) {
-			tacomment.append(tfcomment.getText() + "\n");
-			//tfcomment.setText("");
+			//tacomment.append(tfcomment.getText() + "\n");
+			tacomment.setText("");
 			
 			//현재 선택한 게시물의 글번호를 가져옴
 			bdi = Integer.parseInt(alpt.get(0).toString());
@@ -249,11 +252,16 @@ public class BoardEdit_PT extends JFrame implements ActionListener, WindowListen
 			System.out.println(alpt.get(1));
 			
 			dbpt.BDCMT(alpt.get(0), tfcomment.getText(), namept);
+			System.out.println(namept);
+			System.out.println(tfcomment.getText());
 			tfcomment.setText("");
+			System.out.println(alpt.get(0));
 			dbpt.DisplayCMT(alpt.get(0));
+//			dbpt.BDCMT(alpt.get(0), tfcomment.getText(), namept);
+			
 		
 	}else if (btnedit == obj) {
-		BoardWrite_PT2 bw2 = new BoardWrite_PT2(alpt, ID,namept);
+		BoardWrite_PT2 bw2 = new BoardWrite_PT2(alpt, ID,namept,bdpt);
 		
 	}else if (btnDelete == obj) //삭제 기능 - 확인하는 메세지창
 	{
@@ -287,7 +295,7 @@ public class BoardEdit_PT extends JFrame implements ActionListener, WindowListen
 
 	@Override
 	public void windowClosed(WindowEvent e) {
-		Board2_PT bd = new Board2_PT(null, namept);
+		//Board2_PT bd = new Board2_PT(null, namept);
 		
 	}
 
