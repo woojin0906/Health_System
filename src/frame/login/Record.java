@@ -7,6 +7,8 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -24,34 +26,20 @@ import javax.swing.JTextField;
 import javax.swing.plaf.DimensionUIResource;
 
 import frame.db.DB;
+import frame.main.MainFrame;
 
-public class Record extends JFrame implements ActionListener {
+public class Record extends JFrame implements ActionListener, WindowListener{
 
 	private JLabel lblDate;
-	private JButton btnAdd;
-	private JButton btnCancel;
+	private JButton btnCheck, btnCancel, btnAdd, btnDel;
 	private Vector<String> vecCombo;
 	private JComboBox<String> comboEx;
-	private JTextField tfWeight;
-	private JTextField tfTime;
-	private JTextField tfSet;
-	private JButton btn;
-	private JButton btnDel;
-	private JTextField tfDate;
+	private JTextField tfWeight, tfDate, tfTime, tfSet;
 	private Color skyblue;
-	private JLabel lblKg;
-	private JLabel lblTimes;
-	private JLabel lblNum;
-	private JLabel lblName;
-	private JLabel lblWeight;
-	private JLabel lblTime;
-	private JLabel lblSet;
+	private JLabel lblKg, lblTimes, lblNum, lblName, lblWeight, lblTime, lblSet, lblNums, lblSets;
 	private JTextField tfNum;
-	private JLabel lblNums;
-	private JLabel lblSets;
 	private ArrayList<String> rcal;
-	private String id;
-	private String name;
+	private String id, name;
 	private DB db = new DB(null, null);
 	
 	public Vector<String> getVecCombo() {
@@ -67,8 +55,9 @@ public class Record extends JFrame implements ActionListener {
 		setSize(510, 462);
 		setLayout(new BorderLayout());
 		setResizable(false);
+		addWindowListener(this);
 		skyblue = new Color(189, 215, 238);
-		setBackground(skyblue);
+		
 		
 	    setCenter();
 	    setSouth();
@@ -78,7 +67,6 @@ public class Record extends JFrame implements ActionListener {
 	
 	private void setCenter() {
 		JPanel panelCenter = new JPanel(new GridLayout(6, 1));
-	
 		JPanel panel1 = new JPanel();
 		panel1.setLayout(null);
 		
@@ -97,6 +85,7 @@ public class Record extends JFrame implements ActionListener {
 		tfDate.setBorder(BorderFactory.createEmptyBorder());
 		tfDate.setFont(new Font("210 맨발의청춘 L", Font.PLAIN, 14));
 		tfDate.setEnabled(false);	  // 날짜 텍스트필드 활성화 막음	
+		//tfDate.setForeground(Color.WHITE);
 		panel1.add(tfDate);
 		panelCenter.add(panel1);
 		
@@ -119,22 +108,20 @@ public class Record extends JFrame implements ActionListener {
 	    panel2.add(comboEx);
 	    
 	    // 비밀번호 확인 취소 버튼 출력
-	    btn = new JButton("추가");
-	    btn.setFont(new Font("210 맨발의청춘 L", Font.PLAIN, 13));
-	    btn.setContentAreaFilled(false);
-	    btn.setBorderPainted(false);
-		//btnAdd.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
-	    btn.setBounds(340, 20, 65, 30);
-	    btn.setForeground(Color.WHITE);
-	    btn.addActionListener(this);
-	    panel2.add(btn);
+	    btnAdd = new JButton("추가");
+	    btnAdd.setFont(new Font("210 맨발의청춘 L", Font.PLAIN, 13));
+	    btnAdd.setContentAreaFilled(false);
+	    btnAdd.setBorderPainted(false);
+	    btnAdd.setBounds(340, 20, 65, 30);
+	    btnAdd.setForeground(Color.WHITE);
+	    btnAdd.addActionListener(this);
+	    panel2.add(btnAdd);
 	 		
 	 	// 비밀번호 확인 취소 버튼 출력
 	 	btnDel = new JButton("삭제");
 	 	btnDel.setFont(new Font("210 맨발의청춘 L", Font.PLAIN, 13));
 	 	btnDel.setContentAreaFilled(false);
 	 	btnDel.setBorderPainted(false);
-		//btnAdd.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
 	 	btnDel.setBounds(415, 20, 65, 30);
 	 	btnDel.setForeground(Color.WHITE);
 	 	btnDel.addActionListener(this);
@@ -223,7 +210,6 @@ public class Record extends JFrame implements ActionListener {
 		
 		add(panelCenter, BorderLayout.CENTER);
 		
-		
 		// 비밀번호 확인 텍스트 필드 배경 이미지 출력
 		ImageIcon imgAdd = new ImageIcon("imges/btnCancel.png");
 		JLabel lblAdd = new JLabel(imgAdd);
@@ -297,30 +283,34 @@ public class Record extends JFrame implements ActionListener {
 		lblPanel6.setBounds(0, 0, 510, 62);
 		panel6.add(lblPanel6);
 		
+//		ImageIcon imgPanelCenter = new ImageIcon("imges/centerBackImg.png");
+//		JLabel lblPanelCenter = new JLabel(imgPanelCenter);
+//		lblPanelCenter.setBounds(0, 0, 510, 62);
+//		panelCenter.add(lblPanelCenter);
+		
 	}
 
 	private void setSouth() {
 		JPanel panelSouth = new JPanel();
 		panelSouth.setLayout(null);
 		panelSouth.setPreferredSize(new Dimension(0, 60));
+		//panelSouth.setBackground(skyblue);
 		
 		// 운동 등록 버튼 출력
-		btnAdd = new JButton("등록");
-		btnAdd.setFont(new Font("210 맨발의청춘 L", Font.PLAIN, 13));
-		btnAdd.setContentAreaFilled(false);
-		btnAdd.setBorderPainted(false);
-		//btnAdd.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
-		btnAdd.setBounds(300, 10, 80, 40);
-		btnAdd.setForeground(Color.WHITE);
-		btnAdd.addActionListener(this);
-		panelSouth.add(btnAdd);
+		btnCheck = new JButton("등록");
+		btnCheck.setFont(new Font("210 맨발의청춘 L", Font.PLAIN, 13));
+		btnCheck.setContentAreaFilled(false);
+		btnCheck.setBorderPainted(false);
+		btnCheck.setBounds(300, 10, 80, 40);
+		btnCheck.setForeground(Color.WHITE);
+		btnCheck.addActionListener(this);
+		panelSouth.add(btnCheck);
 				
 		// 비밀번호 확인 취소 버튼 출력
 		btnCancel = new JButton("취소");
 		btnCancel.setFont(new Font("210 맨발의청춘 L", Font.PLAIN, 13));
 		btnCancel.setContentAreaFilled(false);
 		btnCancel.setBorderPainted(false);
-		//btnCancel.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
 		btnCancel.setBounds(400, 10, 80, 40);
 		btnCancel.setForeground(Color.WHITE);
 		btnCancel.addActionListener(this);
@@ -350,13 +340,15 @@ public class Record extends JFrame implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object obj = e.getSource();
-		if(obj == btn) {
+		if(obj == btnAdd) {
 			ExAddFrame exadd = new ExAddFrame("운동 등록", this, id, name);
 			exadd.setLocationRelativeTo(null); // 프레임 정가운데 출력
 			
 		}else if(obj == btnCancel) {
 			this.dispose();
-		}else if(obj == btnAdd) {
+			MainFrame mf = new MainFrame(id);
+			mf.setLocationRelativeTo(null); 
+		}else if(obj == btnCheck) {
 			if(comboEx.getSelectedIndex() == 0) {
 				JOptionPane.showMessageDialog(this, "운동 기구를 선택해주세요.");
 			} else {
@@ -391,6 +383,47 @@ public class Record extends JFrame implements ActionListener {
 			}
 			
 		}
+	}
+
+	@Override
+	public void windowOpened(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowClosing(WindowEvent e) {
+		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+	}
+
+	@Override
+	public void windowClosed(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowIconified(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowDeiconified(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowActivated(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowDeactivated(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

@@ -30,8 +30,7 @@ import frame.main.MainFrame;
 
 public class Login extends JFrame implements ActionListener, MouseListener, WindowListener, KeyListener{
 	
-	
-	private JPanel panelLeft, panelRight, panel1, panel2, panel3, panelWord;
+	private JPanel panelLeft, panelRight, panelOne, panelTwo, panelThree, panelWord;
 	private JTextField tfId, tfJoinId, tfJoinPw;
 	private JPasswordField tfpw;
 	private JButton btnLogin, btnCall, btnJoin, btnSearch;
@@ -99,9 +98,9 @@ public class Login extends JFrame implements ActionListener, MouseListener, Wind
 		
 		Color skyblue = new Color(189, 215, 238);
 		// 로그인 화면 오른쪽 패널 첫번째 부분
-		panel1 = new JPanel();
-		panel1.setBackground(skyblue);
-		panel1.setLayout(new BorderLayout());
+		panelOne = new JPanel();
+		panelOne.setBackground(skyblue);
+		panelOne.setLayout(new BorderLayout());
 		
 		// 로그인 화면 글씨
 		panelWord = new JPanel();
@@ -119,14 +118,14 @@ public class Login extends JFrame implements ActionListener, MouseListener, Wind
 		panelWord.add(lblWelcome);
 		panelWord.add(lblGym);
 		
-		panel1.add(panelWord,BorderLayout.SOUTH);
-		panelRight.add(panel1);
+		panelOne.add(panelWord,BorderLayout.SOUTH);
+		panelRight.add(panelOne);
 		
 		// 로그인 화면 오른쪽 패널 두번째 부분
-		panel2 = new JPanel();
-		panel2.setBackground(skyblue);
-		panel2.setLayout(null);
-		panel2.setPreferredSize(new Dimension(100, 50));
+		panelTwo = new JPanel();
+		panelTwo.setBackground(skyblue);
+		panelTwo.setLayout(null);
+		panelTwo.setPreferredSize(new Dimension(100, 50));
 		
 		// 로그인 화면 텍스트 필드(아이디) 출력
 		tfId = new JTextField("아이디", 20);
@@ -137,14 +136,13 @@ public class Login extends JFrame implements ActionListener, MouseListener, Wind
 		tfId.setBorder(BorderFactory.createEmptyBorder()); // 텍스트 필드 테두리 없애기
 		tfId.addActionListener(this);
 		tfId.addMouseListener(this);
-		
-		panel2.add(tfId);
+		panelTwo.add(tfId);
 		
 		// 로그인 화면 텍스트 필드 배경이미지 출력
 		ImageIcon imgId = new ImageIcon("imges/background_loginid.png");
 		JLabel lblId = new JLabel(imgId);
 		lblId.setBounds(88, 19, 200, 30);
-		panel2.add(lblId);
+		panelTwo.add(lblId);
 		
 		// 로그인 화면 텍스트 필드(비밀번호) 출력
 		tfpw = new JPasswordField("비밀번호", 20);
@@ -153,14 +151,13 @@ public class Login extends JFrame implements ActionListener, MouseListener, Wind
 		tfpw.setBorder(BorderFactory.createEmptyBorder());
 		tfpw.addActionListener(this);
 		tfpw.addMouseListener(this);
-		
-		panel2.add(tfpw);
+		panelTwo.add(tfpw);
 		
 		// 로그인 화면 텍스트 필드 배경이미지 출력
 		ImageIcon imgPw = new ImageIcon("imges/background_loginid.png");
 		JLabel lblPw = new JLabel(imgPw);
 		lblPw.setBounds(88, 59, 200, 30);
-		panel2.add(lblPw);
+		panelTwo.add(lblPw);
 		
 		// 로그인 화면 로그인 잠금 버튼 이미지 출력
 		ImageIcon loginimg2 = new ImageIcon("imges/lock.png");
@@ -168,10 +165,8 @@ public class Login extends JFrame implements ActionListener, MouseListener, Wind
 		btnLogin.setBounds(300, 15, 80, 80);
 		btnLogin.setBorderPainted(false);
 		btnLogin.setContentAreaFilled(false);
-		
 		btnLogin.addActionListener(this);
-		
-		panel2.add(btnLogin);
+		panelTwo.add(btnLogin);
 		
 		// 로그인 화면 직원 호출 출력
 		btnCall = new JButton("회원탈퇴");
@@ -181,10 +176,8 @@ public class Login extends JFrame implements ActionListener, MouseListener, Wind
 		btnCall.setFont(southFont);
 		btnCall.setBorderPainted(false);
 		btnCall.setContentAreaFilled(false);
-		
 		btnCall.addActionListener(this);
-		
-		panel2.add(btnCall);
+		panelTwo.add(btnCall);
 		
 		// 로그인 화면 회원 가입 출력
 		btnJoin = new JButton("회원 가입");
@@ -193,10 +186,8 @@ public class Login extends JFrame implements ActionListener, MouseListener, Wind
 		btnJoin.setFont(southFont);
 		btnJoin.setBorderPainted(false);
 		btnJoin.setContentAreaFilled(false);
-		
 		btnJoin.addActionListener(this);
-		
-		panel2.add(btnJoin);
+		panelTwo.add(btnJoin);
 		
 		// 로그인 화면 비밀번호 찾기 출력
 		btnSearch = new JButton("비밀번호 찾기");
@@ -205,17 +196,15 @@ public class Login extends JFrame implements ActionListener, MouseListener, Wind
 		btnSearch.setFont(southFont);
 		btnSearch.setBorderPainted(false);
 		btnSearch.setContentAreaFilled(false);
-		
 		btnSearch.addActionListener(this);
+		panelTwo.add(btnSearch);
 		
-		panel2.add(btnSearch);
-		
-		panelRight.add(panel2);
+		panelRight.add(panelTwo);
 		
 		// 로그인 화면 그리드 세번째 패널(공백)
-		panel3 = new JPanel();
-		panel3.setBackground(skyblue);
-		panelRight.add(panel3);
+		panelThree = new JPanel();
+		panelThree.setBackground(skyblue);
+		panelRight.add(panelThree);
 	}
 
 	@Override

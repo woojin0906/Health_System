@@ -34,8 +34,7 @@ public class ExAddFrame extends JFrame implements ActionListener, MouseListener 
 	private JLabel lblAdd;
 	private JButton btnAdd;
 	private Record record;
-	private String id;
-	private String name;
+	private String id, name;
 	
 	public ExAddFrame(String title, Record record, String id, String name) {
 		this.record = record;
@@ -171,5 +170,4 @@ public class ExAddFrame extends JFrame implements ActionListener, MouseListener 
 		
 	}
 }
-
 

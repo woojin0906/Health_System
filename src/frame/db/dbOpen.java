@@ -44,6 +44,7 @@ public class dbOpen {
 	private long diffDay;  // 종료 - 현재 = 만료일
 	private SimpleDateFormat format;  // 날짜 형식
 	private String enddate;  // 이용권 종료날짜
+	private int add;
 	
 	public dbOpen() {
 			try {
@@ -202,7 +203,7 @@ public class dbOpen {
 		
 		// 전우진 메인프레임 만료일 수정(하루 지날 때마다 차감)
 		public void plusPeriodDate(String id, JLabel period, String endDate) {
-			//String id = id;
+			
 			try {
 				result = statement.executeQuery("select period from memberinfo where id = '" + id + "'" );
 				
@@ -332,7 +333,8 @@ public class dbOpen {
 				period = result.getInt("period");
 			}
 			addPeriod += period;
-			
+			add = addPeriod-period;
+			System.out.println(add);
 			result = statement.executeQuery("select enddate from memberinfo where id = '" + id + "'" );
 
 			if(result.next()) {
@@ -345,7 +347,7 @@ public class dbOpen {
 				Date day = format.parse(date);
 				Calendar cal = Calendar.getInstance();
 				cal.setTime(day);
-				cal.add(Calendar.DATE, addPeriod);
+				cal.add(Calendar.DATE, add);
 				endDate = format.format(cal.getTime());
 				Date finish = format.parse(endDate);
 				diffDay =  ((finish.getTime() - startDate.getTime()) / (24*60*60*1000)); 
