@@ -91,7 +91,7 @@ public class PsCheckFrame extends JFrame implements MouseListener, ActionListene
 		tfHint = new JTextField("비밀번호 재설정 힌트 답변(4-16자)");
 		tfHint.setFont(mainFont);
 		tfHint.setBorder(BorderFactory.createEmptyBorder());
-		tfHint.setBounds(33, 139, 250, 30);
+		tfHint.setBounds(33, 138, 250, 28);
 		tfHint.addActionListener(this);
 		tfHint.addMouseListener(this);
 		panelCenter.add(tfHint);
@@ -134,8 +134,9 @@ public class PsCheckFrame extends JFrame implements MouseListener, ActionListene
 	public void actionPerformed(ActionEvent e) {
 		Object obj = e.getSource();
 		if(obj == btnCancel) {
-			this.dispose();
 			Login lg = new Login();
+			lg.setLocationRelativeTo(this);
+			this.dispose();
 			
 		} else if(obj == btnIdSearch) {
 			if(JOptionPane.showConfirmDialog(this, 
@@ -143,13 +144,13 @@ public class PsCheckFrame extends JFrame implements MouseListener, ActionListene
 					"아이디 찾기",
 					JOptionPane.YES_NO_OPTION
 					) == JOptionPane.YES_OPTION) {
-				JOptionPane.showMessageDialog(this, "032-258-2365");
+				JOptionPane.showMessageDialog(this, "032-777-7777");
 			}
 		} else if(obj == btnCheck || obj == tfId || obj == tfHint) { 
 			try {
 				dbOpen temp = new dbOpen();
 				temp.resetPW(this, tfId.getText(), tfHint.getText());
-				Login lg = new Login();
+//				Login lg = new Login();
 			} catch (Exception e2) {
 				e2.printStackTrace();
 				}

@@ -236,6 +236,7 @@ public class MainFrame extends JFrame implements Runnable, ActionListener, Windo
 	private void setMenu() {
 		panelSouth = new JPanel();
 		panelSouth.setLayout(null);
+		panelSouth.setBackground(Color.WHITE);
 		panelSouth.setPreferredSize(new DimensionUIResource(100, 100));
 		
 		//백그라운드 이미지 크기 및 위치 지정
@@ -338,40 +339,46 @@ public class MainFrame extends JFrame implements Runnable, ActionListener, Windo
 		//2022-05-19 윤선호 이용권 구매 버튼을 누르면 이용권 구매 화면이 뜬다.
 		if(obj == btn_buy) {
 			Ticket tk = new Ticket(this, id);
+			tk.setLocationRelativeTo(this);
 			this.dispose(); //이용권 구매 프레임 호출시 메인프레임 종료
 		}
 		else if(obj == btn_board1) {
 			// 5/31 전우진 자유게시판 생성시 메인 꺼짐
 			//2022-05-19 윤선호 자유게시판과 메인프레임 연결
 			Board bd = new Board(id, name);
+			bd.setLocationRelativeTo(this);
 			this.dispose();
 		}
 		else if(obj == btn_board2) {
 			// 5/31 전우진 자유게시판 생성시 메인 꺼짐
 			//2022-05-19 윤선호 PT 게시판과 메인프레임 연결
 			Board2_PT pt = new Board2_PT(this, id);
+			pt.setLocationRelativeTo(this);
 			this.dispose();
 			
 		}else if(obj == btn_cal) {
 			// 5/31 전우진 자유게시판 생성시 메인 꺼짐
 			Calendarmain cm = new Calendarmain(this, id);
+			cm.setLocationRelativeTo(this);
 			this.dispose();
 			
 		}else if(obj == btn_modify) {
 			// 5/31 전우진 자유게시판 생성시 메인 꺼짐
 			ChangeInfo ci = new ChangeInfo(this, id);
+			ci.setLocationRelativeTo(this);
 			this.dispose();
 			
 		}else if(obj == btn_logout) {
 			Login login = new Login();
+			login.setLocationRelativeTo(this);
 			this.dispose();
 		} else if(obj == btn_record) {
 			Record rc = new Record("기록", id, name);
-			rc.setLocationRelativeTo(null); // 프레임 정가운데 출력
+			rc.setLocationRelativeTo(this); // 프레임 정가운데 출력
 			this.dispose();
 		} else if(obj == btn_read) {
 			MyRoutine mrt = new MyRoutine(id, name);
-			mrt.setLocationRelativeTo(null); // 프레임 정가운데 출력
+			mrt.setLocationRelativeTo(this); // 프레임 정가운데 출력
 			this.dispose();
 		}
 

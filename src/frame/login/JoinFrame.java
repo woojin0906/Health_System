@@ -277,13 +277,15 @@ public class JoinFrame extends JFrame implements MouseListener, ActionListener, 
 	public void actionPerformed(ActionEvent e) {
 		Object obj = e.getSource();
 		if(obj == btnCancel) {
-			this.dispose();
 			Login login = new Login();
+			login.setLocationRelativeTo(this);
+			this.dispose();
 		} else if(obj == agreeCheck) {
 			if(agreeCheck.isSelected() == false) {
 				JOptionPane.showMessageDialog(this, "약관을 읽어주세요.", "이용약관 동의 안내", JOptionPane.INFORMATION_MESSAGE);
-				this.dispose();
 				af = new AgreeFrame("이용약관");
+				af.setLocationRelativeTo(this);
+				this.dispose();
 			}
 		} else if(obj == btnNext || obj == tfId || obj == tfPassword || obj == tfPsCheck || obj == tfHint || obj == tfPhone || obj == tfAddress) {
 			id = tfId.getText();
@@ -340,6 +342,7 @@ public class JoinFrame extends JFrame implements MouseListener, ActionListener, 
 										db.infoInsert(tfId.getText(), tfName.getText(), tfPhone.getText(), tfAddress.getText(), tfPassword.getText(), tfHint.getText());
 										JOptionPane.showMessageDialog(this, "회원가입이 완료 되었습니다");
 										Login lg = new Login();
+										lg.setLocationRelativeTo(this);
 										this.dispose();
 									} else {
 										JOptionPane.showMessageDialog(this, "이름은 5자이내로 작성해주세요.");
@@ -372,7 +375,7 @@ public class JoinFrame extends JFrame implements MouseListener, ActionListener, 
 		Object obj = e.getSource();
 			if(obj == tfId) {
 				IdCheckFrame idCheckFrame = new IdCheckFrame("아이디 중복 확인", this);
-				idCheckFrame.setLocationRelativeTo(null); // 프레임 정가운데 출력
+				idCheckFrame.setLocationRelativeTo(this); // 프레임 정가운데 출력
 				this.dispose();
 			} else if(obj == tfPassword) {
 				tfPassword.setText("");

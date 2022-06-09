@@ -197,6 +197,7 @@ class Calendarmain extends JFrame implements ActionListener, MouseListener, Wind
 	@Override
 	public void windowClosing(WindowEvent e) {
 		MainFrame mf = new MainFrame(id);
+		mf.setLocationRelativeTo(this);
 		this.dispose();
 	}
 

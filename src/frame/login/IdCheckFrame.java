@@ -165,7 +165,7 @@ public class IdCheckFrame extends JFrame implements WindowListener, ActionListen
 	public void windowClosing(WindowEvent e) {
 		//setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);	
 		jf = new JoinFrame("회원가입");
-		jf.setLocationRelativeTo(null);
+		jf.setLocationRelativeTo(this);
 		JCheckBox ch = jf.getAgreeCheck();
 		ch.setSelected(true);
 	}

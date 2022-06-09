@@ -321,7 +321,9 @@ public class ChangeInfo extends JFrame implements ActionListener, WindowListener
 			
 			if(result.equals(result2)) {
 				QuestionPW pw = new QuestionPW(this, 2, ID); //수정 버튼 클릭시 비밀번호 확인 프레임 호출
-				this.dispose();
+				pw.setLocationRelativeTo(this);
+				this.setEnabled(false);
+				//모달창 대신 비활성화로 처리
 			}
 			else
 				JOptionPane.showMessageDialog(this, "입력한 비밀번호가 일치하지 않습니다.", "알림",
@@ -338,8 +340,9 @@ public class ChangeInfo extends JFrame implements ActionListener, WindowListener
 // 전우진 윈도우 취소 버튼 누르면 메인 생성
 	@Override
 	public void windowClosing(WindowEvent e) {
-		this.dispose();
 		mf = new MainFrame(ID);
+		mf.setLocationRelativeTo(this);
+		this.dispose();
 	}
 
 	@Override

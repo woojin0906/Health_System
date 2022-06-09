@@ -110,6 +110,7 @@ public class dbOpen {
 					//입력한 비밀번호와 DB에 저장된 비밀번호가 일치하는지 검증
 					if(pw.equals(inputPw)) {
 						mainFrame = new MainFrame(id, name, enddate);
+						mainFrame.setLocationRelativeTo(frame);
 						frame.dispose();
 					} else {
 						JOptionPane.showMessageDialog(frame, "입력 정보를 다시 확인해주세요.", "정보 오류", JOptionPane.ERROR_MESSAGE);
@@ -151,6 +152,8 @@ public class dbOpen {
 				String sqlUpdate = "update memberinfo set password = '0000' where id = '" + id + "'";
 				statement.executeUpdate(sqlUpdate);
 				JOptionPane.showMessageDialog(pf, "힌트가 일치합니다. 비밀번호는 0000으로 초기화 됩니다.", "비밀번호 변경", JOptionPane.INFORMATION_MESSAGE);
+				Login lg = new Login();
+				lg.setLocationRelativeTo(pf);
 				pf.dispose();
 			}
 			else {
@@ -161,9 +164,7 @@ public class dbOpen {
 						JOptionPane.YES_NO_OPTION
 						) == JOptionPane.YES_OPTION) {
 					JOptionPane.showMessageDialog(pf, "고객센터 전화번호는 032-256-3652 입니다.", "고객센테 안내", JOptionPane.INFORMATION_MESSAGE);
-					} else {
-						
-					}
+					} 
 			} 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -402,12 +403,12 @@ public class dbOpen {
 				tf.setText("");
 			}else {
 				JOptionPane.showMessageDialog(idCheckFrame, "사용 가능한 아이디 입니다.");
-				idCheckFrame.dispose();
 				JoinFrame jf = new JoinFrame("회원가입");
-				jf.setLocationRelativeTo(null);
+				jf.setLocationRelativeTo(idCheckFrame);
 				JCheckBox ch = jf.getAgreeCheck();
 				ch.setSelected(true);
 				JTextField jfid = jf.getTfId();
+				idCheckFrame.dispose();
 				
 				jfid.setText(idInput);
 			}

@@ -342,12 +342,14 @@ public class Record extends JFrame implements ActionListener, WindowListener{
 		Object obj = e.getSource();
 		if(obj == btnAdd) {
 			ExAddFrame exadd = new ExAddFrame("운동 등록", this, id, name);
-			exadd.setLocationRelativeTo(null); // 프레임 정가운데 출력
+			exadd.setLocationRelativeTo(this); // 프레임 정가운데 출력
+			//0609 김지웅 프레임 모달창처리
+			this.setEnabled(false);
 			
 		}else if(obj == btnCancel) {
-			this.dispose();
 			MainFrame mf = new MainFrame(id);
-			mf.setLocationRelativeTo(null); 
+			mf.setLocationRelativeTo(this); 
+			this.dispose();
 		}else if(obj == btnCheck) {
 			if(comboEx.getSelectedIndex() == 0) {
 				JOptionPane.showMessageDialog(this, "운동 기구를 선택해주세요.");
@@ -370,7 +372,7 @@ public class Record extends JFrame implements ActionListener, WindowListener{
 			DB db = new DB(null, null);
 			db.EXInsert(id, name, ex_date, ex_name, ex_weight, ex_times, ex_reps, ex_set);
 			MyRoutine mrt = new MyRoutine(id, name);
-			mrt.setLocationRelativeTo(null); // 프레임 정가운데 출력
+			mrt.setLocationRelativeTo(this); // 프레임 정가운데 출력
 			// 전우진 기록지 보여주면서 해당 창 종료
 			this.dispose();
 			db.EXRefresh(mrt, id);

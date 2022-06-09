@@ -225,6 +225,9 @@ public class MyRoutine extends JFrame implements WindowListener, ActionListener{
 
 	@Override
 	public void windowClosing(WindowEvent e) {
+		//0609 김지웅 메인프레임 연결
+		MainFrame mf = new MainFrame(id);
+		mf.setLocationRelativeTo(this);
 		this.dispose();
 	}
 

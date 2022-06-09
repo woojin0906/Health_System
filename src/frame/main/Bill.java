@@ -25,7 +25,7 @@ public class Bill extends JFrame implements WindowListener{
 	private Font mainFont;
 	private Font mainFont2;
 	private Font subFont;
-	private String storeName = "건강해GYM 용현점";
+	private String storeName = "건강해GYM";
 	private int i;
 	private int total;
 	private DecimalFormat priceFormat;
@@ -38,7 +38,6 @@ public class Bill extends JFrame implements WindowListener{
 		total = TK.getTotal();
 		setBounds(100, 100, 300, 310);
 		setResizable(false); //창 크기 조절 불가능하게 만들기
-		setLocationRelativeTo(TK); //이용권 구매 프레임 정가운데 출력
 		setLayout(new BorderLayout());
 		priceFormat = new DecimalFormat("###,###"); //데이터 포맷 설정하는 객체 생성 및 양식 지정
 		
@@ -104,7 +103,7 @@ public class Bill extends JFrame implements WindowListener{
 		
 		//라벨에 출력될 텍스트를 문자열 배열로 생성
 		String[] text = {"승인일시", "거래유형", "할부", "공급가액", 
-				"부가세", "가맹점명"};
+				"부가세", "센터명"};
 		JLabel[] textInfo = new JLabel[6]; // J라벨 객체 배열 생성
 		int y = 0; //y 좌표값 변수 선언 및 초기화
 		
@@ -140,7 +139,6 @@ public class Bill extends JFrame implements WindowListener{
 			rightPanel.add(value[i]);
 		}
 	}
-
 	@Override
 	public void windowOpened(WindowEvent e) {
 		// TODO Auto-generated method stub
@@ -150,6 +148,7 @@ public class Bill extends JFrame implements WindowListener{
 	@Override
 	public void windowClosing(WindowEvent e) {
 		MainFrame mf = new MainFrame(ID);
+		mf.setLocationRelativeTo(this);
 		TK.dispose();
 	}
 

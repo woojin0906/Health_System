@@ -37,7 +37,7 @@ public class Ticket extends JFrame implements ActionListener, ItemListener, Wind
 	private JLabel Select;
 	private JLabel PriceMonitor;
 	private JButton payment;
-	private JButton cancle;
+	private JButton cancleBtn;
 	private JComboBox<String> priceList;
 	private DecimalFormat priceFormat;
 	private MainFrame mf;
@@ -54,7 +54,6 @@ public class Ticket extends JFrame implements ActionListener, ItemListener, Wind
 		setTitle("이용권 구매하기");
 		setBounds(95, 100, 350, 350);
 		setResizable(false); //창 크기 조절 불가능하게 만들기
-		setLocationRelativeTo(null); //정가운데 출력
 		setLayout(new BorderLayout());
 		
 		priceFormat = new DecimalFormat("###,###"); //데이터 포맷 설정하는 객체 생성 및 양식 지정
@@ -162,13 +161,13 @@ public class Ticket extends JFrame implements ActionListener, ItemListener, Wind
 		payment.addActionListener(this);
 		
 		//취소버튼 추가하기
-		cancle = new JButton();
-		cancle.setBounds(240, 180, 55, 55);
-		cancle.setBorderPainted(false);
-		cancle.setContentAreaFilled(false);
-		cancle.setFocusPainted(false);
-		CenterPanel.add(cancle);
-		cancle.addActionListener(this);
+		cancleBtn = new JButton();
+		cancleBtn.setBounds(240, 180, 55, 55);
+		cancleBtn.setBorderPainted(false);
+		cancleBtn.setContentAreaFilled(false);
+		cancleBtn.setFocusPainted(false);
+		CenterPanel.add(cancleBtn);
+		cancleBtn.addActionListener(this);
 		
 		//윈도우 리스너 추가
 		this.addWindowListener(this);
@@ -178,10 +177,11 @@ public class Ticket extends JFrame implements ActionListener, ItemListener, Wind
 	public void actionPerformed(ActionEvent e) {
 		Object obj = e.getSource(); //액션이 발생한 컴포넌트를 받아옴
 		
-		if(obj == cancle) {
+		if(obj == cancleBtn) {
 			JOptionPane.showMessageDialog(this, "이용권 결제를 취소합니다.", "알림",
 					JOptionPane.CANCEL_OPTION); //취소 버튼이 눌렸다면 다이얼로그 출력
 			MainFrame mf = new MainFrame(ID);
+			mf.setLocationRelativeTo(this);
 			this.dispose(); //해당 프레임만 종료시킴
 		}
 	
@@ -189,8 +189,9 @@ public class Ticket extends JFrame implements ActionListener, ItemListener, Wind
 				if(total > 0) {
 					QuestionPW password = new QuestionPW(this, 1, ID, period);
 					//이용권을 선택하고 결제버튼 누르면 비밀번호 확인 프레임 호출
-					this.setEnabled(false); 
-//					모달창 대신 비활성화로 처리
+					password.setLocationRelativeTo(this);
+					this.setEnabled(false);
+					//모달창 대신 비활성화로 처리
 				}else {
 					JOptionPane.showMessageDialog(this, "이용권을 선택해주세요!",
 						"경고", JOptionPane.WARNING_MESSAGE);
@@ -259,6 +260,7 @@ public class Ticket extends JFrame implements ActionListener, ItemListener, Wind
 		JOptionPane.showMessageDialog(this, "이용권 결제를 취소합니다.", "알림",
 				JOptionPane.CANCEL_OPTION);
 		MainFrame mf = new MainFrame(ID);
+		mf.setLocationRelativeTo(this);
 		this.dispose();		
 	}
 	@Override

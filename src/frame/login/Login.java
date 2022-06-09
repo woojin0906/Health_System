@@ -212,16 +212,16 @@ public class Login extends JFrame implements ActionListener, MouseListener, Wind
 		Object obj = e.getSource();
 	
 		if(obj == btnCall) {
-			JOptionPane.showMessageDialog(this, "고객센터 전화번호는 032-256-3652 입니다.", "고객센터 안내", JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(this, "고객센터 전화번호는 032-777-7777 입니다.", "고객센터 안내", JOptionPane.INFORMATION_MESSAGE);
 		} else if(obj == btnJoin) {
 			af = new AgreeFrame("이용약관");
-			af.setLocationRelativeTo(null);
+			af.setLocationRelativeTo(this);
 			this.dispose();
 		//	joinFrame = new JoinFrame("회원가입");
 			
 		} else if(obj == btnSearch) {
 			ps = new PsCheckFrame("비밀번호 찾기");
-			ps.setLocationRelativeTo(null);
+			ps.setLocationRelativeTo(this);
 			this.dispose();
 		} else if(obj == btnLogin || obj == tfId || obj == tfpw) {
 			try {

@@ -65,7 +65,6 @@ public class QuestionPW extends JFrame implements ActionListener, WindowListener
 		this.CI = CI; //정보 수정 프레임 주소 저장
 		this.ctrIndex = ctrIndex; //구분자 값 저장
 		this.ID = ID;
-		
 		// 전우진 윈도우 취소 버튼
 		addWindowListener(this);
 		setPanel(); //메인 패널 설정 생정자 호출
@@ -99,7 +98,6 @@ public class QuestionPW extends JFrame implements ActionListener, WindowListener
 		setTitle("확인");
 		setBounds(100, 100, 230, 130);
 		setResizable(false); //창 크기 조절 불가능하게 만들기		
-		setLocationRelativeTo(TK); //이용권 구매 프레임의 정가운데 출력
 		setLayout(new BorderLayout());
 		
 		mainFont = new Font("210 맨발의청춘 L", 0, 14); // 메인 및 서브 컬러 RGB값 담는 객체 생성
@@ -180,12 +178,13 @@ public class QuestionPW extends JFrame implements ActionListener, WindowListener
 				db_pw = db.checkPW(ID);
 			
 				if(result.equals(db_pw)){ //비밀번호와 입력받은 비밀번호가 일치한다면 
-					this.dispose(); //해당 서브프레임만 닫기
 					if(ctrIndex == 1) { 
 						dbOpen db2 = new dbOpen();
 						db2.plusPeriod(ID, period, enddate);
 						
 						Bill bill = new Bill(TK, ID); 
+						bill.setLocationRelativeTo(this);
+						this.dispose();
 						//생성자 매개변수로부터 전해받은 구분자를 통해 각기 다른 프로세스 실행
 						//구분자가 1일 경우, 영수증 프레임을 출력해야 하기 때문에 영수증 프레임 생성자 호출
 						//구분자가 2일 경우, 정보 수정만 마치면 되기에 다이얼로그 출력
@@ -194,9 +193,11 @@ public class QuestionPW extends JFrame implements ActionListener, WindowListener
 								JOptionPane.INFORMATION_MESSAGE);
 						dbOpen db2 = new dbOpen();
 						db2.chMemberInfo(ID, CI.getPwField(), CI.getPhoneField(), CI.getAddressField());
-						CI.dispose();
 						// 전우진 5/31 확인 누르면 메인 프레임 생성
 						MainFrame mf = new MainFrame(ID);
+						mf.setLocationRelativeTo(CI);
+						CI.dispose();
+						this.dispose();
 					}
 				}else {
 					JOptionPane.showMessageDialog(this, "비밀번호가 틀립니다.",
@@ -217,12 +218,21 @@ public class QuestionPW extends JFrame implements ActionListener, WindowListener
 	// 전우진 5/31 윈도우 취소 버튼 메인프레인 생성
 	@Override
 	public void windowClosing(WindowEvent e) {
+		//0609 김지웅 기능 재구현
 		this.dispose();
-		if(ctrIndex == 1 || ctrIndex == 2) {
-			JOptionPane.showMessageDialog(this, "이용권 결제를 취소합니다.", "알림",
+		if(ctrIndex == 1) {
+			JOptionPane.showMessageDialog(TK, "이용권 결제를 취소합니다.", "알림",
 					JOptionPane.CANCEL_OPTION);
-			TK.dispose();
-			MainFrame mf = new MainFrame(ID);
+			TK.setEnabled(true);
+			TK.setVisible(true);
+			this.dispose();
+		}
+		else if(ctrIndex == 2) {
+			JOptionPane.showMessageDialog(CI, "정보 수정을 취소합니다.", "알림",
+					JOptionPane.CANCEL_OPTION);
+			CI.setEnabled(true);
+			CI.setVisible(true);
+			this.dispose();
 		}
 	}
 

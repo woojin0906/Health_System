@@ -127,11 +127,16 @@ public class ExAddFrame extends JFrame implements ActionListener, MouseListener 
 	public void actionPerformed(ActionEvent e) {
 		Object obj = e.getSource();
 		if(obj == btnCancel) {
+			//0609 김지웅 모달창처리 해제
+			record.setEnabled(true);
+			record.setVisible(true);
 			this.dispose();
 		}else if(obj == tfName || obj == btnAdd) {
 			if(tfName.getText().equals("")) {
 				JOptionPane.showMessageDialog(this, "운동 이름을 작성해주세요.");
 			}else {
+				record.setEnabled(true);
+				record.setVisible(true);
 				this.dispose();
 				//record = new Record("운동기록", id, name);
 				//record.setLocationRelativeTo(null); // 프레임 정가운데 출력

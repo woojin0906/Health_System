@@ -71,6 +71,8 @@ public class MemoFrame extends JFrame implements ActionListener {
 		setLocation(250, 150);
 		setSize(300, 300);
 		setLayout(new BorderLayout());
+		setLocationRelativeTo(calendarmain);
+		setResizable(false);
 		System.out.println(btn_num);
 		
 		setNorth();

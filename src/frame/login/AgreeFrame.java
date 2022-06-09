@@ -192,8 +192,9 @@ public class AgreeFrame extends JFrame implements ActionListener, WindowListener
 	public void actionPerformed(ActionEvent e) {
 		Object obj = e.getSource();
 		if(obj == btnCancel) {
-			this.dispose();
 			Login lg = new Login();
+			lg.setLocationRelativeTo(this);
+			this.dispose();
 		} 
 		if(obj == btnAgree) {
 			if(JOptionPane.showConfirmDialog(this, 
@@ -203,7 +204,7 @@ public class AgreeFrame extends JFrame implements ActionListener, WindowListener
 					) == JOptionPane.YES_OPTION) {
 				JOptionPane.showMessageDialog(this, "동의 되었습니다.", "이용약관 동의 안내", JOptionPane.INFORMATION_MESSAGE);
 				joinFrame = new JoinFrame("회원가입");
-				joinFrame.setLocationRelativeTo(null);
+				joinFrame.setLocationRelativeTo(this);
 				JCheckBox ch = joinFrame.getAgreeCheck();
 				ch.setSelected(true);
 				this.dispose();
