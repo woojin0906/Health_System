@@ -44,8 +44,6 @@ public class dbOpen {
 	private long diffDay;  // 종료 - 현재 = 만료일
 	private SimpleDateFormat format;  // 날짜 형식
 	private String enddate;  // 이용권 종료날짜
-	private int add;
-	private int day;
 	
 	public dbOpen() {
 			try {
@@ -217,34 +215,30 @@ public class dbOpen {
 				if(result.next()) {
 					date = result.getString("enddate");
 				}
-				Date now = new Date();
-				format = new SimpleDateFormat("yyyyMMdd");
-				
-				if(date == null || date.equals("0")) {
-					Calendar cal = Calendar.getInstance(); 
-					cal.setTime(now);
-					endDate = format.format(cal.getTime());
+				Date startDate = new Date();
+				format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
+				System.out.println(startDate);
+				int dd = Integer.parseInt(period.getText());
+				if(dd < 0 || date.equals("0") || date == null ) {
+					
+					endDate = format.format(startDate);
 					diffDay = 0;
 					String lbl = Long.toString(diffDay);
 					period.setText(lbl);
 					String sqlUpdate = "update memberinfo set enddate = '" + endDate + "', period = '" +  period.getText() + "' where id = '" + id + "'";
 					statement.executeUpdate(sqlUpdate);
+					System.out.println(endDate);
 					
 				} else {
-					Calendar cal = Calendar.getInstance(); 
-					cal.setTime(now);
-					startDate = format.format(cal.getTime());
-					//startDate = "20220604";
+
 					Date finish = format.parse(endDate);
-					Date start = format.parse(startDate);
 					
-					diffDay =  ((finish.getTime() - start.getTime()) / (24*60*60*1000)); 
+					diffDay =  ((finish.getTime() - startDate.getTime()) / (24*60*60*1000)); 
 					
 					String lblday = Long.toString(diffDay);
 					period.setText(lblday);
-					
 					endDate = format.format(finish);
-					
+					System.out.println(endDate);
 					String sqlUpdate = "update memberinfo set enddate = '" + endDate + "', period = '" +  period.getText() + "' where id = '" + id + "'";
 					statement.executeUpdate(sqlUpdate);
 					
@@ -338,53 +332,26 @@ public class dbOpen {
 				period = result.getInt("period");
 			}
 			addPeriod += period;
-			add = addPeriod - period;
-		
 			
 			result = statement.executeQuery("select enddate from memberinfo where id = '" + id + "'" );
 
 			if(result.next()) {
 				date = result.getString("enddate");
 			}
-			
-			SimpleDateFormat format = new SimpleDateFormat("yyyymmdd");
+			Date startDate = new Date();
+			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
 			try {
+				
 				Date day = format.parse(date);
 				Calendar cal = Calendar.getInstance();
 				cal.setTime(day);
-				switch(add) {
-				case 365:
-					//int year = 1;
-					int year = add / 365;
-					cal.add(Calendar.YEAR, year);
-					break;
-				case 180:
-				case 90:
-				case 30:
-					//int month = add/30;
-					int m = cal.get(Calendar.MONTH);
-					cal.add(Calendar.MONTH, 1);
-					break;
-				case 7:
-				case 1:
-					int dd = add % 30;
-					cal.add(Calendar.DATE, dd);
-					break;
-				}
-//				int year = add / 365;
-//				int month = add / 30;
-//				int dd = add % 30;
-//				cal.add(Calendar.YEAR, year);
-//				cal.add(Calendar.MONTH, month);
-//				cal.add(Calendar.DATE, dd);
+				cal.add(Calendar.DATE, addPeriod);
 				endDate = format.format(cal.getTime());
-
-				
-				//System.out.println(Calendar.DAY_OF_MONTH);
-				System.out.println(endDate);
-
-				String sqlUpdate = "update memberinfo set enddate = '" + endDate + "', period = '" +  addPeriod + "' where id = '" + id + "'";
+				Date finish = format.parse(endDate);
+				diffDay =  ((finish.getTime() - startDate.getTime()) / (24*60*60*1000)); 
+				String sqlUpdate = "update memberinfo set enddate = '" + endDate + "', period = '" +  diffDay + "' where id = '" + id + "'";
 				statement.executeUpdate(sqlUpdate);
+				
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}

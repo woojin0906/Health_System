@@ -353,7 +353,7 @@ public class Record extends JFrame implements ActionListener {
 		if(obj == btn) {
 			ExAddFrame exadd = new ExAddFrame("운동 등록", this, id, name);
 			exadd.setLocationRelativeTo(null); // 프레임 정가운데 출력
-			//this.dispose();
+			
 		}else if(obj == btnCancel) {
 			this.dispose();
 		}else if(obj == btnAdd) {
@@ -380,7 +380,7 @@ public class Record extends JFrame implements ActionListener {
 			MyRoutine mrt = new MyRoutine(id, name);
 			mrt.setLocationRelativeTo(null); // 프레임 정가운데 출력
 			// 전우진 기록지 보여주면서 해당 창 종료
-			//this.dispose();
+			this.dispose();
 			db.EXRefresh(mrt, id);
 			}
 		} else if(obj == btnDel) {
