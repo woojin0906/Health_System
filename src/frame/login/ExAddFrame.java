@@ -22,6 +22,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import frame.db.DB;
 import frame.db.dbOpen;
 
 public class ExAddFrame extends JFrame implements ActionListener, MouseListener {
@@ -35,6 +36,7 @@ public class ExAddFrame extends JFrame implements ActionListener, MouseListener 
 	private JButton btnAdd;
 	private Record record;
 	private String id, name;
+	private DB db = new DB(null, null);
 	
 	public ExAddFrame(String title, Record record, String id, String name) {
 		this.record = record;
@@ -137,11 +139,12 @@ public class ExAddFrame extends JFrame implements ActionListener, MouseListener 
 			}else {
 				record.setEnabled(true);
 				record.setVisible(true);
+				db.AddMyRt(record, id, tfName.getText());
+				System.out.println(tfName.getText());
 				this.dispose();
 				//record = new Record("운동기록", id, name);
 				//record.setLocationRelativeTo(null); // 프레임 정가운데 출력
-				record.getVecCombo().add(tfName.getText());
-				System.out.println(tfName.getText());
+				//record.getVecCombo().add(tfName.getText());
 			}
 		}
 	}

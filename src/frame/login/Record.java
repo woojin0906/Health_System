@@ -105,6 +105,7 @@ public class Record extends JFrame implements ActionListener, WindowListener{
 	    comboEx.setBorder(BorderFactory.createEmptyBorder(-2, -2, -2, -2));
 	    comboEx.setBounds(150, 20, 170, 30);
 	    comboEx.setBackground(Color.white);
+	    db.MyCombo(this, id);
 	    panel2.add(comboEx);
 	    
 	    // 비밀번호 확인 취소 버튼 출력
@@ -373,9 +374,9 @@ public class Record extends JFrame implements ActionListener, WindowListener{
 			db.EXInsert(id, name, ex_date, ex_name, ex_weight, ex_times, ex_reps, ex_set);
 			MyRoutine mrt = new MyRoutine(id, name);
 			mrt.setLocationRelativeTo(this); // 프레임 정가운데 출력
+			db.EXRefresh(mrt, id);
 			// 전우진 기록지 보여주면서 해당 창 종료
 			this.dispose();
-			db.EXRefresh(mrt, id);
 			}
 		} else if(obj == btnDel) {
 			if(comboEx.getSelectedIndex() == 0) {

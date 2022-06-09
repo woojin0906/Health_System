@@ -95,7 +95,4 @@ public class StoreInfo extends JFrame {
 		InfoPanel.add(QR);
 	}
 
-	public static void main(String[] args) {
-		StoreInfo test = new StoreInfo();
-	}
 }

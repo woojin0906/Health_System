@@ -12,6 +12,7 @@ import frame.board.Board;
 import frame.board.BoardEdit;
 import frame.login.MyRoutine;
 import frame.main.MemoFrame; 
+import frame.login.Record;
 
 public class DB {
 	//윤선호 자유게시판 관련 DB 추가
@@ -495,6 +496,49 @@ public class DB {
 				}
 			}
 		}
-		
-		
+		//0609 윤선호 운동 목록 저장
+		public void AddMyRt(Record record, String id, String myex) {
+			try {
+				stmt = conn.createStatement();
+				result = stmt.executeQuery("insert into MY_EX (ID, MY_EXNAME) VALUES('" + id + "', '" + myex +"')");
+				//result = stmt.executeQuery("select MY_EXNAME FROM MY_EX where ID = '" + id +"'");
+				//while(result.next()) {
+					//String mine = result.getString("MY_EXNAME");
+					//record.getVecCombo().add(mine);
+				//}
+				System.out.println("운동명 디비 잘 추가");
+			}catch (Exception e) {
+				System.out.println("운동명 디비 안됨");
+				e.printStackTrace();
+			}finally {
+				try {
+					result.close();
+					stmt.close();
+				}catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		//0609 윤선호 운동목록 콤박에 추가
+		public void MyCombo(Record record, String id) {
+			try {
+				stmt = conn.createStatement();
+				result = stmt.executeQuery("select MY_EXNAME FROM MY_EX where ID = '" + id +"'");
+				while(result.next()) {
+					String mycombo = result.getString("MY_EXNAME");
+					record.getVecCombo().add(mycombo);
+				}
+				System.out.println("콤박 잘됨");
+			}catch (Exception e) {
+				System.out.println("콤박 잘 안됨");
+				e.printStackTrace();
+			}finally {
+				try {
+					result.close();
+					stmt.close();
+				}catch (Exception e) {
+				e.printStackTrace();
+				}
+			}
+		}
 }
