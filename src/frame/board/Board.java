@@ -159,8 +159,8 @@ public class Board extends JFrame implements ActionListener, MouseListener, Wind
 		JLabel lbltfsearch = new JLabel(imgtfsearch);
 		lbltfsearch.setBounds(150, 2, 350, 25);
 		
-		panelUPDown.add(lbltfsearch);
 		panelUPDown.add(tfsearch);
+		panelUPDown.add(lbltfsearch);
 		
 		
 		//검색 버튼 출력
