@@ -166,7 +166,7 @@ public class QuestionPW extends JFrame implements ActionListener, WindowListener
 				result += ""+ch+"";
 			} //문자를 문자열로 변환
 			
-			if(ctrIndex == 3) {
+			if(ctrIndex == 3) { 
 				String bdpw;
 				dbOpen db = new dbOpen();
 				bdpw = db.chBoardPW(bdID);

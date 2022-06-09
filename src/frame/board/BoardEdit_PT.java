@@ -262,6 +262,7 @@ public class BoardEdit_PT extends JFrame implements ActionListener, WindowListen
 		
 	}else if (btnedit == obj) {
 		BoardWrite_PT2 bw2 = new BoardWrite_PT2(alpt, ID,namept,bdpt);
+		dispose();
 		
 	}else if (btnDelete == obj) //삭제 기능 - 확인하는 메세지창
 	{
