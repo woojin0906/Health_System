@@ -7,6 +7,8 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
@@ -25,6 +27,7 @@ import javax.swing.AbstractCellEditor;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -48,7 +51,7 @@ import frame.db.DB;
 import frame.main.MainFrame;
 
 
-public class Board extends JFrame implements ActionListener, MouseListener, WindowListener{
+public class Board extends JFrame implements ActionListener, MouseListener, WindowListener, ItemListener{
 	private JButton btn_Insert, btn_Delete, btn_Exit;
 	private String[] title = {"글번호", "제목", "작성자", "작성날짜", "내용", "분류"};
 	private String[][]datas = new String[0][5];
@@ -73,6 +76,7 @@ public class Board extends JFrame implements ActionListener, MouseListener, Wind
 	private String pre_i, id , name;
 	private DB db = new DB(null, null);
 	private JScrollPane ScrollPane;
+	private JCheckBox my_board;
 
 	public DefaultTableModel getModel() {
 		return model;
@@ -116,6 +120,7 @@ public class Board extends JFrame implements ActionListener, MouseListener, Wind
 		lblTilte.setSize(150, 30);
 		panelUPUP.add(lblTilte);
 		
+		
 		//글쓰기 버튼 출력
 		btnWrite = new JButton(new ImageIcon("imges/pencil1.png"));
 		//btnWrite.setFont(new Font("210 맨발의청춘 L", Font.BOLD, 10));
@@ -135,16 +140,24 @@ public class Board extends JFrame implements ActionListener, MouseListener, Wind
 		panelUPDown.setPreferredSize(new DimensionUIResource(100,50));
 		panelUPDown.setBackground(skyblue);
 		
+		my_board = new JCheckBox("내 게시물", false);
+		my_board.setBounds(15, 4, 80, 30);
+		//my_board.setLocation(200, 15);
+		//m/y_board.setSize(150, 30);
+		my_board.setBackground(skyblue);
+		my_board.addItemListener(this);
+		panelUPDown.add(my_board);
+		
 		//검색 텍스트 필드 출력
-		tfsearch = new JTextField(30);
-		tfsearch.setBounds(25, 10, 450, 25);
+		tfsearch = new JTextField("내용을 검색하세요.");
+		tfsearch.setBounds(150, 10, 350, 25);
 		tfsearch.setBorder(BorderFactory.createEmptyBorder());
 		tfsearch.setFont(new Font("210 맨발의청춘 L", Font.PLAIN, 12));
 		tfsearch.addActionListener(this);
 		
 		ImageIcon imgtfsearch = new ImageIcon("imges/tfsearch.png");
 		JLabel lbltfsearch = new JLabel(imgtfsearch);
-		lbltfsearch.setBounds(8, 2, 500, 40);
+		lbltfsearch.setBounds(150, 2, 350, 25);
 		
 		panelUPDown.add(lbltfsearch);
 		panelUPDown.add(tfsearch);
@@ -210,12 +223,12 @@ public class Board extends JFrame implements ActionListener, MouseListener, Wind
 		Boardwrite be = new Boardwrite("글쓰기", id, name, this);
 		
 		//게시물 검색 기능
-		}else if(obj == tfsearch || obj == btnsearch) {}
+		}else if(obj == tfsearch || obj == btnsearch) {
 		String src = tfsearch.getText();
 		System.out.println(src);
 		
 		db.scDisplay(this, src);
-		
+		}
 	}
 
 	@Override
@@ -326,5 +339,16 @@ public class Board extends JFrame implements ActionListener, MouseListener, Wind
 	public void windowDeactivated(WindowEvent e) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public void itemStateChanged(ItemEvent e) {
+		//0609 윤선호 체크박스 선택하면 내글만 보임
+		if(e.getStateChange() == ItemEvent.SELECTED) {
+			//체크되면 내 글만 보이기
+			db.MyBoard(this, id);
+		}else if(e.getStateChange() == ItemEvent.DESELECTED) {
+			db.displayData(this);
+		}
 	}
 }

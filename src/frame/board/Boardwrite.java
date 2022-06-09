@@ -243,7 +243,7 @@ public class Boardwrite extends JFrame implements ActionListener, WindowListener
 		if(obj == btnSend) {
 			DB db = new DB(null, null);
 			//게시물 하나씩 추가할때 마다 글 하나씩 추가
-			db.BDInsert(tftitle.getText(), tfWriteday.getText(), tfWriter.getText(), comboselection.getSelectedItem().toString(), ta.getText());
+			db.BDInsert(tftitle.getText(), tfWriteday.getText(), tfWriter.getText(), comboselection.getSelectedItem().toString(), ta.getText(), id);
 			db.TableRefresh(bd);
 			this.dispose();
 		}

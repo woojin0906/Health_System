@@ -49,7 +49,7 @@ public class DB {
 	}
 
 	//2022-05-26 윤선호 자유게시판 글 작성 DB
-	public void BDInsert(String title, String writeday, String writer, String category, String bd_contents) {
+	public void BDInsert(String title, String writeday, String writer, String category, String bd_contents, String id) {
 		System.out.println("입력할 데이터 : ");
 		System.out.println(title);
 		System.out.println(writeday);
@@ -58,7 +58,7 @@ public class DB {
 		System.out.println(bd_contents);
 		
 	try {
-		String sqlInsert = "insert into FREETALK (BD_ID, BD_TITLE, WRITE_DAY, BD_WRITER, category, bd_content) values(emp_seq.NEXTVAL, '" + title + "', '" + writeday + "', '" + writer + "', '" + category +"', '" + bd_contents +"')";
+		String sqlInsert = "insert into FREETALK (BD_ID, BD_TITLE, WRITE_DAY, BD_WRITER, category, bd_content, ID) values(emp_seq.NEXTVAL, '" + title + "', '" + writeday + "', '" + writer + "', '" + category +"', '" + bd_contents +"', '" + id + "')";
 		stmt.executeUpdate(sqlInsert);
 		
 		System.out.println("입력 성공");
@@ -150,8 +150,10 @@ public class DB {
 }
 	//2022-05-26 윤선호 자유게시판 댓글 보여주기
 	public void DisplayCMT(String id) {
+		Statement stmt = null;
+		ResultSet result = null;
 		try {
-			
+			stmt = conn.createStatement();
 			result = stmt.executeQuery("select \"CMT_WRITER\", \"COMMENT\" FROM FR_COMMENT where BD_ID = '" + Integer.parseInt(id) + "'");	
 			
 			while(result.next()) {
@@ -439,4 +441,60 @@ public class DB {
 			}
 			
 		}
+		//0609 윤선호 내 글만 보이기
+		public void MyBoard(Board bd, String id) {
+			bd.getModel().setNumRows(0);
+			try {
+				stmt = conn.createStatement();
+				result = stmt.executeQuery("select * from freetalk where ID = '" + id +"' order by BD_ID desc ");
+				
+				while(result.next()) {
+					String[] imsi = {result.getString("BD_ID"), result.getString("BD_TITLE"), result.getString("BD_WRITER"), result.getString("WRITE_DAY"), result.getString("BD_CONTENT"),result.getString("CATEGORY")};
+					bd.getModel().addRow(imsi);
+				}
+				
+			} catch(SQLException e) {
+				System.out.println("예외발생 : 접속 정보 확인 필요");
+				e.printStackTrace();
+				
+			}finally {
+				try {
+					if(result != null)
+						result.close();
+					if(stmt != null)
+						stmt.close();
+					//if(conn != null)
+						//conn.close();
+				}catch(Exception e) {
+					e.printStackTrace();
+				}
+			}
+			
+		}
+		//0609 윤선호 운동기록열람 날짜 별로 보여주기
+		public void ExDate(MyRoutine mr, String id, String date) {
+			mr.getModel().setNumRows(0);
+			try {
+				stmt = conn.createStatement();
+				result = stmt.executeQuery("select EX_DATE, EX_NAME, EX_WEIGHT, EX_TIMES, EX_REPS, EX_SET from EX where ID = '"+ id + "' AND EX_DATE = '" + date + "' ");
+				while(result.next()) {
+					String[] ex = {result.getString("EX_DATE"), result.getString("EX_NAME"),result.getString("EX_WEIGHT"), result.getString("EX_TIMES"),
+							result.getString("EX_REPS"), result.getString("EX_SET")};
+					mr.getModel().addRow(ex);
+					}
+				System.out.println("날짜별 운동기록을 잘 보여줍니다");
+				}catch (Exception e) {
+					System.out.println("날짜별 운동기록 보여주기 실패");
+					e.printStackTrace();
+				}finally {
+					try {
+						result.close();
+						stmt.close();
+				}catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		
+		
 }

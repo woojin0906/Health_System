@@ -45,11 +45,16 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
 
+import frame.board.BoardEdit;
 import frame.db.DB;
 import frame.main.MainFrame;
+import net.sourceforge.jdatepicker.JDatePanel;
+import net.sourceforge.jdatepicker.impl.JDatePanelImpl;
+import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
+import net.sourceforge.jdatepicker.impl.UtilDateModel;
 
 
-public class MyRoutine extends JFrame implements WindowListener{
+public class MyRoutine extends JFrame implements WindowListener, ActionListener{
 	private JButton btn_Insert, btn_Delete, btn_Exit;
 	private String[] title = {"운동 날짜", "운동이름", "무게", "운동시간", "횟수", "세트수"};
 	private String[][]datas = new String[0][5];
@@ -62,12 +67,19 @@ public class MyRoutine extends JFrame implements WindowListener{
 	private JButton btnsearch, btnWrite;
 	private Color skyblue;
 
+	private MainFrame mf;
 	private JPanel bdpanel;
 	private ArrayList<String> mr_al;
 	private TableModel data;
+	private BoardEdit be;
 	private String pre_i, id , name;
 	private DB db = new DB(null, null);
 	private JScrollPane sc;
+	private JDatePickerImpl datePicker;
+	private JButton datebtn;
+	private JDatePanelImpl datePanel;
+	private UtilDateModel model;
+	private JButton all_btn;
 
 	public DefaultTableModel getModel() {
 		return mr_model;
@@ -83,10 +95,9 @@ public class MyRoutine extends JFrame implements WindowListener{
 		skyblue = new Color(189, 215, 238);
 		
 		setTitle("내가 한 운동");
-		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocation(300, 300);
 		setSize(600, 560);
-		setResizable(false); // 사이즈 조절 못하게함
+		setResizable(false);
 		setLayout(new BorderLayout());
 		
 		addWindowListener(this);
@@ -94,7 +105,6 @@ public class MyRoutine extends JFrame implements WindowListener{
 		PanelDowm();
 		
 		db.EXdisplay(this, id);
-		//db.EXRefresh(this, id);
 		setVisible(true);
 	}
 
@@ -119,27 +129,50 @@ public class MyRoutine extends JFrame implements WindowListener{
 		panelUPDown.setPreferredSize(new DimensionUIResource(100,50));
 		panelUPDown.setBackground(skyblue);
 		
-		String random[] = {"오늘 들 무게를 내일로 미루지 마라.", "일어나 하체 해야지", "이거 못들면 죽는거야", 
-				"복근 없으면 치팅데이는 없다", "바다갈 준비 안할거야?", "Light Weight", 
-				"너도 3대 500 될 수 있어", "너가 먹은 치킨이 불쌍하지 않아?", "가벼운 무게도 무겁게"};
+		//String random[] = {"오늘 들 무게를 내일로 미루지 마라.", "일어나 하체 해야지", "이거 못들면 죽는거야", 
+				//"복근 없으면 치팅데이는 없다", "바다갈 준비 안할거야?", "Light Weight", 
+				//"너도 3대 500 될 수 있어", "너가 먹은 치킨이 불쌍하지 않아?", "가벼운 무게도 무겁게"};
 		
-		Random rd = new Random();
+		//Random rd = new Random();
 		//검색 텍스트 필드 출력
-		tfrand = new JTextField(random[rd.nextInt(8)]);
-		tfrand.setBounds(25, 10, 450, 25);
-		tfrand.setEditable(false);
-		tfrand.setBorder(BorderFactory.createEmptyBorder());
-		tfrand.setFont(new Font("210 맨발의청춘 L", Font.PLAIN, 20));
-		tfrand.setHorizontalAlignment((int) CENTER_ALIGNMENT);
+		//tfrand = new JTextField(random[rd.nextInt(8)]);
+		
+		model = new UtilDateModel();
+		datePanel = new JDatePanelImpl(model);
+		
+		
+		datePicker = new JDatePickerImpl(datePanel, new DateLabelFormatter());
+		datePicker.setBounds(25, 10, 200, 25);
+		datePicker.setBackground(skyblue);
+		datePicker.addActionListener(this);
+		
+		datebtn = new JButton("날짜");
+		datebtn.setBounds(250, 10, 85, 25);
+		datebtn.addActionListener(this);
+		
+		all_btn = new JButton("모든기록");
+		all_btn.setBounds(350, 10, 85, 25);
+		all_btn.addActionListener(this);
+		
+		panelUPDown.add(datePicker);
+		panelUPDown.add(datebtn);
+		panelUPDown.add(all_btn);
+		
+		//tfrand = new JTextField();
+		//tfrand.setBounds(25, 10, 450, 25);
+		//tfrand.setEditable(false);
+		//tfrand.setBorder(BorderFactory.createEmptyBorder());
+		//tfrand.setFont(new Font("210 맨발의청춘 L", Font.PLAIN, 20));
+		//tfrand.setHorizontalAlignment((int) CENTER_ALIGNMENT);
 		
 		//tfrand.addActionListener(this);
 		
-		ImageIcon imgtfrand = new ImageIcon("imges/tfrand.png");
-		JLabel lbltfrand = new JLabel();
-		lbltfrand.setBounds(8, 2, 500, 40);
+		//ImageIcon imgtfrand = new ImageIcon("imges/tfrand.png");
+		//JLabel lbltfrand = new JLabel();
+		//lbltfrand.setBounds(8, 2, 500, 40);
 		
-		panelUPDown.add(lbltfrand);
-		panelUPDown.add(tfrand);
+		//panelUPDown.add(lbltfrand);
+		//panelUPDown.add(tfrand);
 		panelUP.add(panelUPDown);
 		
 		add(panelUP,BorderLayout.NORTH);
@@ -193,8 +226,6 @@ public class MyRoutine extends JFrame implements WindowListener{
 	@Override
 	public void windowClosing(WindowEvent e) {
 		this.dispose();
-		MainFrame mf = new MainFrame(id);
-		mf.setLocationRelativeTo(null); // 프레임 정가운데 출력
 	}
 
 	@Override
@@ -225,5 +256,19 @@ public class MyRoutine extends JFrame implements WindowListener{
 	public void windowDeactivated(WindowEvent e) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		Object obj = e.getSource();
+		if(obj == datebtn) {
+			System.out.println(datePicker.getJFormattedTextField().getText());
+			String date = datePicker.getJFormattedTextField().getText();
+			db.ExDate(this, id, date);
+			
+		}else if(obj == all_btn) {
+			db.EXdisplay(this, id);
+			
+		}
 	}
 }
