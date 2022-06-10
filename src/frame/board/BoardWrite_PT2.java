@@ -19,6 +19,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -38,6 +39,8 @@ public class BoardWrite_PT2 extends JFrame implements ActionListener, WindowList
 	private String ID, namept;
 	private JLabel lbl1, lbl2, lbl3, lbl4;
 	private Board2_PT bdpt;
+	private JLabel lblpw;
+	private JPasswordField pw;
 	
 	public BoardWrite_PT2(ArrayList<String> alpt, String ID, String namept, Board2_PT bdpt) {
 		this.alpt = alpt;
@@ -74,9 +77,9 @@ public class BoardWrite_PT2 extends JFrame implements ActionListener, WindowList
 	      NorthPanel.setLayout(null);
 	      NorthPanel.setBackground(skyblue);
 	      
-	      String[] name = {"제목", "작성일자", "작성자", "비밀번호"}; 
+	      String[] name = {"제목", "작성일자", "작성자"}; 
 	      
-	      JLabel[] TxValue = new JLabel[4];
+	      JLabel[] TxValue = new JLabel[3];
 	   
 	      int x = 20;
 	      int y = 10;
@@ -89,7 +92,12 @@ public class BoardWrite_PT2 extends JFrame implements ActionListener, WindowList
 	      }
 	      
 	      
-	       TxField = new JTextField[4];
+	       TxField = new JTextField[3];
+	       
+	       lblpw = new JLabel("비밀번호");
+		      lblpw.setBounds(x, 130, 100, 25);
+		      lblpw.setFont(new Font("210 맨발의청춘 L", Font.PLAIN, 15));
+		      NorthPanel.add(lblpw);
 	      
 	      x = 100;
 	      y = 10;
@@ -112,6 +120,11 @@ public class BoardWrite_PT2 extends JFrame implements ActionListener, WindowList
 	      TxField[2].setBackground(Color.white);
 	      TxField[2].setText(alpt.get(2));
 	     // TxField[3].setText(al.get(2));
+	      
+	      pw = new JPasswordField(10);
+	      pw.setBounds(x, 130, 310, 20);
+	      pw.setBorder(BorderFactory.createEmptyBorder());
+	      NorthPanel.add(pw);
 	      
 	      ImageIcon img1 = new ImageIcon("imges/textimage_edit.png");
 			lbl1 = new JLabel(img1);
@@ -170,24 +183,29 @@ public class BoardWrite_PT2 extends JFrame implements ActionListener, WindowList
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object obj = e.getSource();
-		// 수정 버튼 이벤트
-		if(obj == btnsend) {
-
-			if(TxField[3].getText().equals("")){
-				JOptionPane.showMessageDialog(null, "비밀번호를 입력해주세요");
-				TxField[3].requestFocus();	
-			}else if(TxField[3].getText().length()>4){
-				JOptionPane.showMessageDialog(null,"비밀번호는 4글자입니다." ,"알림", JOptionPane.WARNING_MESSAGE);
-			}else {
+		// 수정 버튼 이벤트	
+			if (obj == pw || obj == btnsend) {
+				char[] temp = pw.getPassword();
+				String result = "";
+				
+				for(char ch	: temp) {
+					Character.toString(ch);
+					result += ""+ch+"";
+				} 
+				if(pw.getPassword().equals("")){
+					JOptionPane.showMessageDialog(null, "비밀번호를 입력해주세요");
+					pw.requestFocus();	}
+				else if(pw.getPassword().length > 4){
+						JOptionPane.showMessageDialog(null,"비밀번호는 4글자입니다." ,"알림", JOptionPane.WARNING_MESSAGE);
+						}
+				
 				DBPT dbpt = new DBPT(null);
-				dbpt.BDUpdate(alpt.get(0),TxField[0].getText(), TxField[2].getText(), TxField[1].getText(), TxField[3].getText(), ta.getText());
+				dbpt.BDUpdate(alpt.get(0),TxField[0].getText(), TxField[2].getText(), TxField[1].getText(), result, ta.getText());
 				dbpt.PtRefresh(bdpt);
 				dispose();
 			}
-		}
-		
-}
 
+		}		
 
 	@Override
 	public void windowOpened(WindowEvent e) {

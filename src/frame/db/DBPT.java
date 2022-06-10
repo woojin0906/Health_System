@@ -44,19 +44,19 @@ public class DBPT {
 	}
 	
 	//허유진 DB insert 
-	public void PtInsert(String pttitle, String ptwriteday, String password, String ptcontent, String ptwriter, String id) {
+	public void PtInsert(String pttitle, String ptwriteday, String pw, String ptcontent, String ptwriter, String id) {
 		System.out.println("입력할 데이터 : ");
 		//System.out.println(i);
 		System.out.println(pttitle);
 		System.out.println(ptwriteday);
-		System.out.println(password);
+		System.out.println(pw);
 		System.out.println(ptcontent);
 		System.out.println(ptwriter);
 		
 		
 		try {
 			String sqlInsert = "insert into PTTALK (PT_ID, PT_TITLE, PT_WRITEDAY, PT_WRITER, PASSWORD, PT_CONTENT, ID) "
-					+ "values(emp_seq.NEXTVAL, '" + pttitle + "', '" + ptwriteday + "', '" + ptwriter + "', '" + password +"', '" + ptcontent+"', '" + id+"')";
+					+ "values(emp_seq.NEXTVAL, '" + pttitle + "', '" + ptwriteday + "', '" + ptwriter + "', '" + pw +"', '" + ptcontent+"', '" + id+"')";
 			stmt.executeUpdate(sqlInsert);
 			
 			System.out.println("입력 성공");
@@ -95,9 +95,9 @@ public class DBPT {
 		}
 		
 		//pt게시판 글 수정-BoardWirtept2
-		public void BDUpdate(String id, String pttitle, String ptwriter, String ptwriteday, String password, String ptcontent ) {
+		public void BDUpdate(String id, String pttitle, String ptwriter, String ptwriteday, String pw, String ptcontent ) {
 			try {
-				String sqlUpdate = "update pttalk SET PT_TITLE = '" + pttitle +"', PT_WRITER = '" + ptwriter + "', PT_WRITEDAY = '" + ptwriteday + "', PASSWORD = '" + password + "', PT_CONTENT = '" + ptcontent + "' where PT_ID = '" + Integer.parseInt(id) +"'";
+				String sqlUpdate = "update pttalk SET PT_TITLE = '" + pttitle +"', PT_WRITER = '" + ptwriter + "', PT_WRITEDAY = '" + ptwriteday + "', PASSWORD = '" + pw + "', PT_CONTENT = '" + ptcontent + "' where PT_ID = '" + Integer.parseInt(id) +"'";
 				stmt.executeUpdate(sqlUpdate);
 				
 				System.out.println("수정 성공!");

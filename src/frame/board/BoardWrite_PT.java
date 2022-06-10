@@ -9,6 +9,8 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.text.SimpleDateFormat;
@@ -21,6 +23,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -39,6 +42,9 @@ public class BoardWrite_PT extends JFrame implements ActionListener, WindowListe
 	private String ID;
 	private String namept;
 	private Board2_PT bdpt;
+	private JPasswordField pw;
+	private JLabel lblpw;
+	private JPanel   NorthPanel;
 
 	
 	public BoardWrite_PT(String title, String ID, String namept, Board2_PT bdpt) {
@@ -65,14 +71,14 @@ public class BoardWrite_PT extends JFrame implements ActionListener, WindowListe
 
 
 	private void setNorth() {
-		JPanel NorthPanel = new JPanel();
-	      NorthPanel.setPreferredSize(new Dimension(300, 170));
+		  NorthPanel = new JPanel();
+	      NorthPanel.setPreferredSize(new Dimension(300, 160));
 	      NorthPanel.setLayout(null);
 	      NorthPanel.setBackground(skyblue);
 	      
-	      String[] name = {"제목", "작성일자", "작성자", "비밀번호"}; 
+	      String[] name = {"제목", "작성일자", "작성자"}; 
 	      
-	      JLabel[] TxValue = new JLabel[4];
+	      JLabel[] TxValue = new JLabel[3];
 	   
 	      int x = 20;
 	      int y = 10;
@@ -84,8 +90,12 @@ public class BoardWrite_PT extends JFrame implements ActionListener, WindowListe
 	         NorthPanel.add(TxValue[i]);
 	      }
 	      
+	      lblpw = new JLabel("비밀번호");
+	      lblpw.setBounds(x, 130, 100, 25);
+	      lblpw.setFont(new Font("210 맨발의청춘 L", Font.PLAIN, 15));
+	      NorthPanel.add(lblpw);
 	      
-	     TxField = new JTextField[4];
+	     TxField = new JTextField[3];
 	      
 	      x = 100;
 	      y = 10;
@@ -97,6 +107,13 @@ public class BoardWrite_PT extends JFrame implements ActionListener, WindowListe
 	         TxField[i].setFont(new Font("210 맨발의청춘 L", Font.PLAIN, 12));
 	         NorthPanel.add(TxField[i]);
 	      }
+	      
+	      pw = new JPasswordField(10);
+	      pw.setBounds(x, 130, 310, 20);
+	      pw.setBorder(BorderFactory.createEmptyBorder());
+	      pw.addActionListener(this);
+	      NorthPanel.add(pw);
+	      
 	      //작성하는 날짜 넣기
 	      SimpleDateFormat temp = new SimpleDateFormat("yyyy-MM-dd");
 	      Date now = new Date(); 
@@ -168,24 +185,29 @@ public class BoardWrite_PT extends JFrame implements ActionListener, WindowListe
 	public void actionPerformed(ActionEvent e) {
 		Object obj =  e.getSource();
 		
-		//올리기 버튼 누르면 디비에 정보 전송하기
-		if (obj == btnupload) {
-			if(TxField[3].getText().equals("")){
-			JOptionPane.showMessageDialog(null, "비밀번호를 입력해주세요");
-			TxField[3].requestFocus();	
+		if (obj == pw || obj == btnupload) {
+			char[] temp = pw.getPassword();
+			String result = "";
 			
-			}else if(TxField[3].getText().length()>4){
-				JOptionPane.showMessageDialog(null,"비밀번호는 4글자입니다." ,"알림", JOptionPane.WARNING_MESSAGE);
-			}
-			else
-			{
+			for(char ch	: temp) {
+				Character.toString(ch);
+				result += ""+ch+"";
+			} 
+			if(pw.getPassword().equals("")){
+				JOptionPane.showMessageDialog(null, "비밀번호를 입력해주세요");
+				pw.requestFocus();	}
+			else if(pw.getPassword().length > 4){
+					JOptionPane.showMessageDialog(null,"비밀번호는 4글자입니다." ,"알림", JOptionPane.WARNING_MESSAGE);
+					}
+			
 			DBPT dbpt = new DBPT(null);
-			dbpt.PtInsert(TxField[0].getText(),TxField[1].getText(),TxField[3].getText(),ta.getText(),TxField[2].getText(),ID);
+			dbpt.PtInsert(TxField[0].getText(),TxField[1].getText(),result,ta.getText(),TxField[2].getText(),ID);
 			dbpt.PtRefresh(bdpt);
 			dispose();
-			}
 		}
+
 	}
+
 
 
 	@Override
@@ -235,4 +257,5 @@ public class BoardWrite_PT extends JFrame implements ActionListener, WindowListe
 		// TODO Auto-generated method stub
 		
 	}
+	
 }
