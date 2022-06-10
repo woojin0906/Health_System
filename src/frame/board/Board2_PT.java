@@ -6,6 +6,8 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
@@ -20,6 +22,7 @@ import java.util.ArrayList;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -39,16 +42,14 @@ import frame.db.DBPT;
 import frame.login.QuestionPW;
 import frame.main.MainFrame;
 
-public class Board2_PT extends JFrame implements ActionListener, MouseListener, WindowListener{
+public class Board2_PT extends JFrame implements ActionListener, MouseListener, WindowListener, ItemListener{
 	
 	private String[][]datas = new String[0][7];
 	private String[] title = {"글번호", "제목", "작성자", "작성날짜", "내용"};
 	private DefaultTableModel model = new DefaultTableModel(datas, title);
 	private JTable table = new JTable(model);
 	
-	private Connection conn;
-	private Statement stmt;
-	private ResultSet rs;
+
 	private DBPT dbpt = new DBPT(null);
 	private JPanel panelUP, panelUPUP, panelUPDown, bdpanel;
 	private JLabel lblTilte;
@@ -59,7 +60,7 @@ public class Board2_PT extends JFrame implements ActionListener, MouseListener, 
 	private TableModel data;
 	private String pre_ipt, pre_titlept, pre_writerpt,pre_writedaypt,pre_contentpt,ID, bd_ID ,namept;
 	private ArrayList<String> alpt;
-	private JButton btnRefresh;
+	private JCheckBox myboardPt;
 
 	public Board2_PT(MainFrame mf ,String namept) {//수정||삭제 -> pt게시판
 		this.namept = namept;
@@ -132,7 +133,7 @@ public class Board2_PT extends JFrame implements ActionListener, MouseListener, 
 		btnWrite.setBorderPainted(false);
 		btnWrite.setContentAreaFilled(false);
 		btnWrite.setFocusPainted(false);
-		btnWrite.setLocation(355, 20);
+		btnWrite.setLocation(360, 20);
 		btnWrite.setSize(130, 24);
 		
 		btnWrite.addActionListener(this);
@@ -145,25 +146,32 @@ public class Board2_PT extends JFrame implements ActionListener, MouseListener, 
 		panelUPDown.setPreferredSize(new DimensionUIResource(100,50));
 		panelUPDown.setBackground(skyblue);
 		
+		myboardPt = new JCheckBox("내 게시물", false);
+		myboardPt.setFont(new Font("210 맨발의청춘 L", Font.PLAIN, 12));
+		myboardPt.setBounds(17,8,80,30);
+		myboardPt.setBackground(skyblue);
+		myboardPt.addItemListener(this);
+		panelUPDown.add(myboardPt);
+		
 		//검색필드
-		tfsearch = new JTextField("제목을입력하세요",30);
-		tfsearch.setBounds(25, 10, 335, 25);
+		tfsearch = new JTextField("제목을입력하세요",20);
+		tfsearch.setBounds(100, 13, 275, 20);
 		tfsearch.setBorder(BorderFactory.createEmptyBorder());
 		tfsearch.addActionListener(this);
 		tfsearch.addMouseListener(this);
-		tfsearch.setFont(new Font("210 맨발의청춘 L", Font.PLAIN, 12));
+		tfsearch.setFont(new Font("210 맨발의청춘 L", Font.PLAIN, 11));
 
 		
-		ImageIcon imgtfsearch = new ImageIcon("imges/Testsearch.png");
+		ImageIcon imgtfsearch = new ImageIcon("imges/tfsearch2.png");
 		JLabel lbltfsearch = new JLabel(imgtfsearch);
-		lbltfsearch.setBounds(10, 2, 370, 40);
+		lbltfsearch.setBounds(88, 2, 300, 40);
 		
 		panelUPDown.add(tfsearch);
 		panelUPDown.add(lbltfsearch);
 		
 		//검색버튼
 		btnsearch = new JButton(new ImageIcon("imges/btnsearch2.png"));
-		btnsearch.setBounds(375, 10, 70, 25);
+		btnsearch.setBounds(380, 12, 70, 25);
 		btnsearch.setBorderPainted(false);
 		btnsearch.setContentAreaFilled(false);
 		btnsearch.setFocusPainted(false);
@@ -222,7 +230,7 @@ public class Board2_PT extends JFrame implements ActionListener, MouseListener, 
 		
 		//글쓰기 버튼 누를 시 pt게시판 글쓰기 창이 뜬다.
 		if(obj == btnWrite) {
-		BoardWrite_PT be2 = new BoardWrite_PT("글쓰기", ID,namept,this);
+		BoardWrite_PT be2 = new BoardWrite_PT("글쓰기", ID, namept, this);
 		this.dispose();
 		}
 		else if(obj == tfsearch || obj == btnsearch) {
@@ -245,8 +253,8 @@ public class Board2_PT extends JFrame implements ActionListener, MouseListener, 
 			pre_ipt = (String)data.getValueAt(row, 0);
 			//System.out.println(pre_i);
 			pre_titlept = (String)data.getValueAt(row, 1);
-			pre_writedaypt = (String)data.getValueAt(row,3);
-			pre_writerpt = (String)data.getValueAt(row, 2);
+			pre_writedaypt = (String)data.getValueAt(row,2);
+			pre_writerpt = (String)data.getValueAt(row, 3);
 			//pre_passwordpt = (String)data.getValueAt(row, 5);
 			pre_contentpt = (String)data.getValueAt(row,4);
 			
@@ -356,6 +364,18 @@ public class Board2_PT extends JFrame implements ActionListener, MouseListener, 
 
 	public ArrayList<String> getAlpt() {
 		return alpt;
+	}
+
+	
+	//체크 박스 기능
+	@Override
+	public void itemStateChanged(ItemEvent e) {
+		if (e.getStateChange() == ItemEvent.SELECTED) {
+			dbpt.MyCommentPt(this, ID);
+		}else if (e.getStateChange() == ItemEvent.DESELECTED) {
+			dbpt.displayData(this);
+		}
+		
 	}
 	
 }

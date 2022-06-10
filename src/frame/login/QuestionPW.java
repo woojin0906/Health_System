@@ -23,6 +23,7 @@ import javax.swing.JPasswordField;
 import frame.board.Board2_PT;
 import frame.board.BoardEdit;
 import frame.board.BoardEdit_PT;
+import frame.db.DBPT;
 import frame.db.dbOpen;
 import frame.main.Bill;
 import frame.main.MainFrame;
@@ -173,6 +174,8 @@ public class QuestionPW extends JFrame implements ActionListener, WindowListener
 				
 				if(bdpw.equals(result)) {
 					BoardEdit_PT bep = new BoardEdit_PT(PT.getAlpt(), ID, namept, bdpt);
+					DBPT dbpt = new DBPT(bep);
+					dbpt.DisplayCMT(alpt.get(0));
 					this.dispose();
 				}else {
 					JOptionPane.showMessageDialog(this, "비밀번호가 틀립니다.",

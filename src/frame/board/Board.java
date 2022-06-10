@@ -52,15 +52,11 @@ import frame.main.MainFrame;
 
 
 public class Board extends JFrame implements ActionListener, MouseListener, WindowListener, ItemListener{
-	private JButton btn_Insert, btn_Delete, btn_Exit;
 	private String[] title = {"글번호", "제목", "작성자", "작성날짜", "내용", "분류"};
 	private String[][]datas = new String[0][5];
 	private DefaultTableModel model = new DefaultTableModel(datas, title);
 	private JTable table = new JTable(model);
 	
-	private Connection conn;
-	private Statement stmt;
-	private ResultSet rs;
 	
 	private JPanel panelUP,panelUPUP , panelUPDown;
 	private JLabel lblTilte;
@@ -68,11 +64,9 @@ public class Board extends JFrame implements ActionListener, MouseListener, Wind
 	private JButton btnsearch, btnWrite;
 	private Color skyblue;
 
-	private MainFrame mf;
 	private JPanel bdpanel;
 	private ArrayList<String> al;
 	private TableModel data;
-	private BoardEdit be;
 	private String pre_i, id , name;
 	private DB db = new DB(null, null);
 	private JScrollPane ScrollPane;
@@ -127,7 +121,7 @@ public class Board extends JFrame implements ActionListener, MouseListener, Wind
 		btnWrite.setBorderPainted(false);
 		btnWrite.setContentAreaFilled(false);
 		btnWrite.setFocusPainted(false);
-		btnWrite.setLocation(470,20);
+		btnWrite.setLocation(490,20);
 		btnWrite.setSize(130, 30);
 		
 		btnWrite.addActionListener(this);
@@ -141,23 +135,23 @@ public class Board extends JFrame implements ActionListener, MouseListener, Wind
 		panelUPDown.setBackground(skyblue);
 		
 		my_board = new JCheckBox("내 게시물", false);
-		my_board.setBounds(15, 4, 80, 30);
-		//my_board.setLocation(200, 15);
-		//m/y_board.setSize(150, 30);
+		my_board.setFont(new Font("210 맨발의청춘 L", Font.PLAIN, 12));
+		my_board.setBounds(15, 9, 80, 30);
 		my_board.setBackground(skyblue);
 		my_board.addItemListener(this);
 		panelUPDown.add(my_board);
 		
 		//검색 텍스트 필드 출력
-		tfsearch = new JTextField("내용을 검색하세요.");
-		tfsearch.setBounds(150, 10, 350, 25);
+		tfsearch = new JTextField("내용을 검색하세요.",20);
+		tfsearch.setBounds(105, 13, 400, 20);
 		tfsearch.setBorder(BorderFactory.createEmptyBorder());
 		tfsearch.setFont(new Font("210 맨발의청춘 L", Font.PLAIN, 12));
+		tfsearch.addMouseListener(this);
 		tfsearch.addActionListener(this);
 		
 		ImageIcon imgtfsearch = new ImageIcon("imges/tfsearch.png");
 		JLabel lbltfsearch = new JLabel(imgtfsearch);
-		lbltfsearch.setBounds(150, 2, 350, 25);
+		lbltfsearch.setBounds(100,8, 410, 30);
 		
 		panelUPDown.add(tfsearch);
 		panelUPDown.add(lbltfsearch);
@@ -165,11 +159,11 @@ public class Board extends JFrame implements ActionListener, MouseListener, Wind
 		
 		//검색 버튼 출력
 		btnsearch = new JButton(new ImageIcon("imges/btnsearch2.png"));
-		btnsearch.setBounds(490, 10, 70, 25);
+		btnsearch.setBounds(510, 10, 70, 30);
 		btnsearch.setBorderPainted(false);
 		btnsearch.setContentAreaFilled(false);
 		btnsearch.setFocusPainted(false);
-		btnsearch.setFont(new Font("210 맨발의청춘 L", Font.BOLD, 10));
+		//btnsearch.setFont(new Font("210 맨발의청춘 L", Font.BOLD, 10));
 		btnsearch.addActionListener(this);
 		
 		panelUPDown.add(btnsearch);
@@ -239,6 +233,15 @@ public class Board extends JFrame implements ActionListener, MouseListener, Wind
 	//2022-05-26 201945012 윤선호 게시물 클릭시 게시물 내용 보여줌
 	@Override
 	public void mousePressed(MouseEvent e) {
+		Object obj =e.getSource();
+		if (obj == tfsearch) {
+			tfsearch.setText("");
+		}else {
+		RunBoard();
+		}
+	}
+
+	private void RunBoard() {
 		//게시물 누르면 이거 다 긁어옴
 		//BoardEdit를 실행
 		int row = table.getSelectedRow();

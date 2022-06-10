@@ -78,7 +78,7 @@ public class BoardEdit_PT extends JFrame implements ActionListener, WindowListen
 	      NorthPanel.setPreferredSize(new DimensionUIResource(100,160));
 	      NorthPanel.setBackground(skyblue);
 	      
-	      String[] name = {"제목", "작성일자", "작성자"}; 
+	      String[] name = {"제목", "작성자", "작성일자"}; 
 	      
 	      JLabel[] TxValue = new JLabel[3];
 	   

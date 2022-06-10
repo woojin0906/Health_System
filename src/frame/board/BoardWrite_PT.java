@@ -174,11 +174,13 @@ public class BoardWrite_PT extends JFrame implements ActionListener, WindowListe
 			JOptionPane.showMessageDialog(null, "비밀번호를 입력해주세요");
 			TxField[3].requestFocus();	
 			
-			
-			}else 
+			}else if(TxField[3].getText().length()>4){
+				JOptionPane.showMessageDialog(null,"비밀번호는 4글자입니다." ,"알림", JOptionPane.WARNING_MESSAGE);
+			}
+			else
 			{
 			DBPT dbpt = new DBPT(null);
-			dbpt.PtInsert(TxField[0].getText(),TxField[1].getText(),TxField[3].getText(),ta.getText(),TxField[2].getText());
+			dbpt.PtInsert(TxField[0].getText(),TxField[1].getText(),TxField[3].getText(),ta.getText(),TxField[2].getText(),ID);
 			dbpt.PtRefresh(bdpt);
 			dispose();
 			}

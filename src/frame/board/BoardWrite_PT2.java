@@ -74,7 +74,7 @@ public class BoardWrite_PT2 extends JFrame implements ActionListener, WindowList
 	      NorthPanel.setLayout(null);
 	      NorthPanel.setBackground(skyblue);
 	      
-	      String[] name = {"제목", "작성자", "작성일자", "비밀번호"}; 
+	      String[] name = {"제목", "작성일자", "작성자", "비밀번호"}; 
 	      
 	      JLabel[] TxValue = new JLabel[4];
 	   
@@ -176,6 +176,8 @@ public class BoardWrite_PT2 extends JFrame implements ActionListener, WindowList
 			if(TxField[3].getText().equals("")){
 				JOptionPane.showMessageDialog(null, "비밀번호를 입력해주세요");
 				TxField[3].requestFocus();	
+			}else if(TxField[3].getText().length()>4){
+				JOptionPane.showMessageDialog(null,"비밀번호는 4글자입니다." ,"알림", JOptionPane.WARNING_MESSAGE);
 			}else {
 				DBPT dbpt = new DBPT(null);
 				dbpt.BDUpdate(alpt.get(0),TxField[0].getText(), TxField[2].getText(), TxField[1].getText(), TxField[3].getText(), ta.getText());

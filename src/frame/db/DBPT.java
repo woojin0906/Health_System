@@ -44,7 +44,7 @@ public class DBPT {
 	}
 	
 	//허유진 DB insert 
-	public void PtInsert(String pttitle, String ptwriteday, String password, String ptcontent, String ptwriter) {
+	public void PtInsert(String pttitle, String ptwriteday, String password, String ptcontent, String ptwriter, String id) {
 		System.out.println("입력할 데이터 : ");
 		//System.out.println(i);
 		System.out.println(pttitle);
@@ -55,8 +55,8 @@ public class DBPT {
 		
 		
 		try {
-			String sqlInsert = "insert into PTTALK (PT_ID, PT_TITLE, PT_WRITEDAY, PT_WRITER, PASSWORD, PT_CONTENT) "
-					+ "values(emp_seq.NEXTVAL, '" + pttitle + "', '" + ptwriteday + "', '" + ptwriter + "', '" + password +"', '" + ptcontent +"')";
+			String sqlInsert = "insert into PTTALK (PT_ID, PT_TITLE, PT_WRITEDAY, PT_WRITER, PASSWORD, PT_CONTENT, ID) "
+					+ "values(emp_seq.NEXTVAL, '" + pttitle + "', '" + ptwriteday + "', '" + ptwriter + "', '" + password +"', '" + ptcontent+"', '" + id+"')";
 			stmt.executeUpdate(sqlInsert);
 			
 			System.out.println("입력 성공");
@@ -312,5 +312,38 @@ public class DBPT {
 			}
 			
 		}
+		
+		//내글보기 - Board2_PT
+		public void MyCommentPt(Board2_PT bdpt, String ID) {
+			bdpt.getModel().setNumRows(0);
+			try {
+				stmt = conn.createStatement();
+				result = stmt.executeQuery("select * from pttalk where ID = '"+ ID +"' order by PT_ID desc ");
+				System.out.println("내글보기 출력");
+				
+				while(result.next()) {
+					String[] imsi = {result.getString("PT_ID"), result.getString("PT_TITLE"), result.getString("PT_WRITER"), result.getString("PT_WRITEDAY"), result.getString("PT_CONTENT")};
+					bdpt.getModel().addRow(imsi);
+				}
+				
+			} catch (SQLException e) {
+				System.out.println("내글보기 오류");
+				e.printStackTrace();
+			}
+//			finally {
+//				try {
+//					if(result != null)
+//						result.close();
+//					if(stmt != null)
+//						stmt.close();
+//					//if(conn != null)
+//						//conn.close();
+//				}catch(Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+		}
+		
+}
 
-	}
+
