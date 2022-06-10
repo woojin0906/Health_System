@@ -140,6 +140,7 @@ public class ExAddFrame extends JFrame implements ActionListener, MouseListener 
 				record.setEnabled(true);
 				record.setVisible(true);
 				db.AddMyRt(record, id, tfName.getText());
+				db.MyCombo(record, id);
 				System.out.println(tfName.getText());
 				this.dispose();
 				//record = new Record("운동기록", id, name);
