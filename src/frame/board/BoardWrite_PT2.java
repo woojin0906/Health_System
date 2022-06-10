@@ -37,9 +37,8 @@ public class BoardWrite_PT2 extends JFrame implements ActionListener, WindowList
 	private ArrayList<String> alpt;
 	private JTextField[] TxField;
 	private String ID, namept;
-	private JLabel lbl1, lbl2, lbl3, lbl4;
+	private JLabel lbl1, lbl2, lbl3, lbl4, lblpw;
 	private Board2_PT bdpt;
-	private JLabel lblpw;
 	private JPasswordField pw;
 	
 	public BoardWrite_PT2(ArrayList<String> alpt, String ID, String namept, Board2_PT bdpt) {
@@ -192,17 +191,18 @@ public class BoardWrite_PT2 extends JFrame implements ActionListener, WindowList
 					Character.toString(ch);
 					result += ""+ch+"";
 				} 
-				if(pw.getPassword().equals("")){
+				if(result.equals("")){
 					JOptionPane.showMessageDialog(null, "비밀번호를 입력해주세요");
 					pw.requestFocus();	}
-				else if(pw.getPassword().length > 4){
+				else if(result.length() > 4|| result.length() == 3||result.length() ==2||result.length()==1){
 						JOptionPane.showMessageDialog(null,"비밀번호는 4글자입니다." ,"알림", JOptionPane.WARNING_MESSAGE);
-						}
+						}else {
 				
-				DBPT dbpt = new DBPT(null);
-				dbpt.BDUpdate(alpt.get(0),TxField[0].getText(), TxField[2].getText(), TxField[1].getText(), result, ta.getText());
-				dbpt.PtRefresh(bdpt);
-				dispose();
+							DBPT dbpt = new DBPT(null);
+							dbpt.BDUpdate(alpt.get(0),TxField[0].getText(), TxField[2].getText(), TxField[1].getText(), result, ta.getText());
+							dbpt.PtRefresh(bdpt);
+							dispose();
+						}
 			}
 
 		}		
@@ -224,7 +224,7 @@ public class BoardWrite_PT2 extends JFrame implements ActionListener, WindowList
 
 	@Override
 	public void windowClosed(WindowEvent e) {
-		//Board2_PT bdpt = new Board2_PT(null, namept);
+	
 		
 	}
 

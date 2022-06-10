@@ -231,7 +231,6 @@ public class Board2_PT extends JFrame implements ActionListener, MouseListener, 
 		//글쓰기 버튼 누를 시 pt게시판 글쓰기 창이 뜬다.
 		if(obj == btnWrite) {
 		BoardWrite_PT be2 = new BoardWrite_PT("글쓰기", ID, namept, this);
-		this.dispose();
 		}
 		else if(obj == tfsearch || obj == btnsearch) {
 	      String src = tfsearch.getText();
@@ -328,14 +327,14 @@ public class Board2_PT extends JFrame implements ActionListener, MouseListener, 
 
 	@Override
 	public void windowClosing(WindowEvent e) {
-		dispose();
+		MainFrame mf = new MainFrame(ID,namept, null);
 		
 	}
 
 	@Override
 	public void windowClosed(WindowEvent e) {
-		
-		
+		 
+		 
 	}
 
 	@Override

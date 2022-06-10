@@ -79,12 +79,10 @@ public class DBPT {
 		//pt게시판 id DB에서 불러오기
 		public int GetBDID() {
 			try {
-				//int id;
 				result = stmt.executeQuery("select PT_ID from PTTALK");
 				if(result.next()) {
 					String max = String.valueOf(result.getInt(1));
 					id = Integer.parseInt(max);
-					//System.out.println("마지막 값 : " + id);
 				}
 			}catch(SQLException e) {
 				System.out.println("select Query Error!");
@@ -150,18 +148,11 @@ public class DBPT {
 			try {
 				stmt = conn.createStatement();
 				
-//				String sqlcom "select \"CMPT_WRITER\", \"COMMENTPT\" FROM PT_COMMENT where PT_ID= '"+ Integer.parseInt(id)+"'";
-//				System.out.println(sqlcom);
-//				result = stmt.executeQuery(sqlcom);
 				result = stmt.executeQuery("select  \"CMPT_WRITER\", \"COMMENTPT\" FROM PT_COMMENT where PT_ID= '"+ Integer.parseInt(id)+"'");
-//				result = stmt.executeQuery("select CMPT_WRITER, COMMENTPT FROM PT_COMMENT where PT_ID = '" + Integer.parseInt(id) + "'");		
 				System.out.println("================================");
 				
 				while(result.next()) {
 					System.out.println("vvvvvvvvvvvvvvvvvvvvvvvvvvvv");
-//					String test = result.getString(1);
-//					be2.getTa2().append(test + "\n");
-//					System.out.println(result.getString(1));
 					
 					String[] cmt = {result.getString("CMPT_WRITER"), result.getString("COMMENTPT")};
 					System.out.println(cmt[0]);
