@@ -66,7 +66,7 @@ public class ExAddFrame extends JFrame implements ActionListener, MouseListener,
         lblAdd.setBounds(60, 61, 120, 30);
 		panelCenter.add(lblAdd);
 		
-        // 비밀번호 확인 텍스트 필드(아이디) 출력
+        // 운동 이름 추가 프레임 텍스트 필드(운동이름) 출력
         tfName = new JTextField("운동 이름");
 		tfName.setFont(mainFont);
 		tfName.setBounds(145, 62, 195, 30);
@@ -76,47 +76,45 @@ public class ExAddFrame extends JFrame implements ActionListener, MouseListener,
 		tfName.addActionListener(this);
 		panelCenter.add(tfName);
 		
-		// 비밀번호 확인 취소 버튼 출력
+		// 운동 이름 추가 프레임 추가 버튼 출력
 		btnAdd = new JButton("추가");
 		btnAdd.setFont(new Font("210 맨발의청춘 L", Font.PLAIN, 13));
 		btnAdd.setContentAreaFilled(false);
 		btnAdd.setBorderPainted(false);
-		//btnAdd.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
 		btnAdd.setBounds(105, 120, 70, 30);
 		btnAdd.setForeground(Color.WHITE);
 		btnAdd.addActionListener(this);
 		panelCenter.add(btnAdd);
 		
-		// 비밀번호 확인 취소 버튼 출력
+		// 운동 이름 추가 프레임 취소 버튼 출력
 		btnCancel = new JButton("취소");
 		btnCancel.setFont(new Font("210 맨발의청춘 L", Font.PLAIN, 13));
 		btnCancel.setContentAreaFilled(false);
 		btnCancel.setBorderPainted(false);
-		//btnCancel.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
 		btnCancel.setBounds(205, 120, 70, 30);
 		btnCancel.setForeground(Color.WHITE);
 		btnCancel.addActionListener(this);
 		panelCenter.add(btnCancel);
 		
-		// 비밀번호 확인 텍스트 필드 배경 이미지 출력
+		// 운동 이름 추가 프레임 텍스트 필드 배경 이미지 출력
 		ImageIcon imgId = new ImageIcon("imges/ExAdd.png");
 		JLabel lblId = new JLabel(imgId);
 		lblId.setBounds(140, 58, 205, 35);
 		panelCenter.add(lblId);
 		
-		// 비밀번호 확인 텍스트 필드 배경 이미지 출력
+		// 운동 이름 추가 프레임 버튼 배경 이미지 출력
 		ImageIcon imgAdd = new ImageIcon("imges/btnadd.png");
 		JLabel lblAdd = new JLabel(imgAdd);
 		lblAdd.setBounds(100, 120, 80, 30);
 		panelCenter.add(lblAdd);
 		
-		// 비밀번호 확인 텍스트 필드 배경 이미지 출력
+		// 운동 이름 추가 프레임 버튼 배경 이미지 출력
 		ImageIcon imgCancel = new ImageIcon("imges/btnadd.png");
 		JLabel lblCancel = new JLabel(imgCancel);
 		lblCancel.setBounds(200, 120, 80, 30);
 		panelCenter.add(lblCancel);
 		
-        // 비밀번호 확인 백그라운드 이미지 붙이기
+        // 운동 이름 추가 프레임 백그라운드 이미지 붙이기
 		ImageIcon background_img = new ImageIcon("imges/idcheck_back.png");
         JLabel background = new JLabel(background_img);
         background.setBounds(-8, -35, 400, 230);
@@ -144,9 +142,6 @@ public class ExAddFrame extends JFrame implements ActionListener, MouseListener,
 				db.MyCombo(record, id);
 				System.out.println(tfName.getText());
 				this.dispose();
-				//record = new Record("운동기록", id, name);
-				//record.setLocationRelativeTo(null); // 프레임 정가운데 출력
-				//record.getVecCombo().add(tfName.getText());
 			}
 		}
 	}

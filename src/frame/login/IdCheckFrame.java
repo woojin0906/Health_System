@@ -56,28 +56,6 @@ public class IdCheckFrame extends JFrame implements WindowListener, ActionListen
 		panelCenter = new JPanel();
 		panelCenter.setLayout(null);
 		
-		// 비밀번호 확인 취소 버튼 출력
-//		btnCancel = new JButton("취소");
-//		btnCancel.setFont(mainFont);
-//		btnCancel.setContentAreaFilled(false);
-//		btnCancel.setBorderPainted(false);
-//		btnCancel.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
-//		btnCancel.setBounds(0, 5, 40, 30);
-//		btnCancel.addActionListener(this);
-				
-//		panelCenter.add(btnCancel);
-		        
-//		// 아이디 확인 버튼 출력
-//		btnCheck = new JButton("확인");
-//		btnCheck.setFont(mainFont);
-//		btnCheck.setContentAreaFilled(false);
-//		btnCheck.setBorderPainted(false);
-//		btnCheck.setBounds(135, 73, 70, 30);
-//				
-//		btnCheck.addActionListener(this);
-//				
-//		panelCenter.add(btnCheck);
-				
 		// 아이디 확인 텍스트 필드(아이디) 출력
 		tfId = new JTextField("아이디");
 		tfId.setFont(mainFont);
@@ -85,7 +63,6 @@ public class IdCheckFrame extends JFrame implements WindowListener, ActionListen
 		tfId.setBorder(BorderFactory.createEmptyBorder());
 		tfId.addActionListener(this);
 		tfId.addMouseListener(this);
-				
 		panelCenter.add(tfId);
 		        
 		// 아이디 확인 텍스트 필드 배경 이미지 출력
@@ -103,14 +80,12 @@ public class IdCheckFrame extends JFrame implements WindowListener, ActionListen
 		btnOver.setFont(mainFont);
 		btnOver.setBorder(BorderFactory.createEmptyBorder(-5, -5, -5, -5));
 		btnOver.addActionListener(this);
-		
 		panelCenter.add(btnOver);
 
 		// 아이디 화면 아이디 중복 배경 이미지 출력
 		ImageIcon imgover = new ImageIcon("imges/overlap.png");
 		JLabel lblover = new JLabel(imgover);
 		lblover.setBounds(200, 25, 110, 35);
-		
 		panelCenter.add(lblover);
 	
 		// 아이디 확인 백그라운드 이미지 붙이기
@@ -127,16 +102,6 @@ public class IdCheckFrame extends JFrame implements WindowListener, ActionListen
 		Object obj = e.getSource();
 		if(obj == btnCancel) {
 			this.dispose();
-//		}else if(obj == btnCheck) {
-//			id = tfId.getText();
-//			if(id.equals("") || id.equals("아이디")) {
-//				JOptionPane.showMessageDialog(this, "아이디를 입력해주세요.");
-//			} else {
-//				JTextField jfid = joinFrame.getTfId();
-//				jfid.setText(id);
-//				this.dispose();
-//			}
-			
 		} else if(obj == btnOver || obj == tfId) {
 			id = tfId.getText();
 			if(id.equals("") || id.equals("아이디")) {
@@ -145,8 +110,6 @@ public class IdCheckFrame extends JFrame implements WindowListener, ActionListen
 				if(id.length() >= 4 && id.length() <= 16) {
 					db = new dbOpen();
 					db.checkID(this, id, tfId);
-					
-					
 				} else {
 					JOptionPane.showMessageDialog(this, "아이디는 4자리 이상 16자리 이하로 작성해주세요.");
 				} 
@@ -163,7 +126,6 @@ public class IdCheckFrame extends JFrame implements WindowListener, ActionListen
 
 	@Override
 	public void windowClosing(WindowEvent e) {
-		//setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);	
 		jf = new JoinFrame("회원가입");
 		jf.setLocationRelativeTo(this);
 		JCheckBox ch = jf.getAgreeCheck();

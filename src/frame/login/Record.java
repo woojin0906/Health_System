@@ -30,18 +30,18 @@ import frame.main.MainFrame;
 
 public class Record extends JFrame implements ActionListener, WindowListener{
 
-	private JLabel lblDate;
+	private JPanel panelCenter, panelSouth, panelDate, panelName, panelWeight, panelTime, panelNum, panelSet;
+	private JLabel lblDate, lblKg, lblTimes, lblNum, lblName, lblWeight, lblTime, lblSet, lblNums, lblSets;
 	private JButton btnCheck, btnCancel, btnAdd, btnDel;
+	private JTextField tfWeight, tfDate, tfTime, tfSet;
 	private Vector<String> vecCombo;
 	private JComboBox<String> comboEx;
-	private JTextField tfWeight, tfDate, tfTime, tfSet;
 	private Color skyblue;
-	private JLabel lblKg, lblTimes, lblNum, lblName, lblWeight, lblTime, lblSet, lblNums, lblSets;
 	private JTextField tfNum;
 	private ArrayList<String> rcal;
 	private String id, name;
 	private DB db = new DB(null, null);
-	
+
 	public Vector<String> getVecCombo() {
 		return vecCombo;
 	}
@@ -58,7 +58,6 @@ public class Record extends JFrame implements ActionListener, WindowListener{
 		addWindowListener(this);
 		skyblue = new Color(189, 215, 238);
 		
-		
 	    setCenter();
 	    setSouth();
 	    
@@ -66,14 +65,15 @@ public class Record extends JFrame implements ActionListener, WindowListener{
 	}
 	
 	private void setCenter() {
-		JPanel panelCenter = new JPanel(new GridLayout(6, 1));
-		JPanel panel1 = new JPanel();
-		panel1.setLayout(null);
+		panelCenter = new JPanel(new GridLayout(6, 1));
+		panelDate = new JPanel();
+		panelDate.setLayout(null);
 		
+		// 운동 등록 날짜 라벨
 		lblDate = new JLabel("현재 날짜");
 		lblDate.setFont(new Font("210 맨발의청춘 L", Font.BOLD, 15));
 		lblDate.setBounds(30, 25, 120, 30);
-		panel1.add(lblDate);
+		panelDate.add(lblDate);
 		
 		//현재 날짜 구하기 윤선호
 		LocalDate now = LocalDate.now();
@@ -85,17 +85,17 @@ public class Record extends JFrame implements ActionListener, WindowListener{
 		tfDate.setBorder(BorderFactory.createEmptyBorder());
 		tfDate.setFont(new Font("210 맨발의청춘 L", Font.PLAIN, 14));
 		tfDate.setEnabled(false);	  // 날짜 텍스트필드 활성화 막음	
-		//tfDate.setForeground(Color.WHITE);
-		panel1.add(tfDate);
-		panelCenter.add(panel1);
+		panelDate.add(tfDate);
+		panelCenter.add(panelDate);
 		
-		JPanel panel2 = new JPanel();
-		panel2.setLayout(null);
+		panelName = new JPanel();
+		panelName.setLayout(null);
 		
+		// 운동 등록 이름 라벨
 		lblName = new JLabel("운동 이름");
 		lblName.setFont(new Font("210 맨발의청춘 L", Font.BOLD, 15));
 		lblName.setBounds(30, 20, 120, 30);
-		panel2.add(lblName);
+		panelName.add(lblName);
 		
 		vecCombo = new Vector<String>();
 	    vecCombo.add("기구를 선택해주세요");
@@ -106,9 +106,9 @@ public class Record extends JFrame implements ActionListener, WindowListener{
 	    comboEx.setBounds(150, 20, 170, 30);
 	    comboEx.setBackground(Color.white);
 	    db.MyCombo(this, id);
-	    panel2.add(comboEx);
+	    panelName.add(comboEx);
 	    
-	    // 비밀번호 확인 취소 버튼 출력
+	    // 운동 등록 추가 버튼 출력
 	    btnAdd = new JButton("추가");
 	    btnAdd.setFont(new Font("210 맨발의청춘 L", Font.PLAIN, 13));
 	    btnAdd.setContentAreaFilled(false);
@@ -116,9 +116,9 @@ public class Record extends JFrame implements ActionListener, WindowListener{
 	    btnAdd.setBounds(340, 20, 65, 30);
 	    btnAdd.setForeground(Color.WHITE);
 	    btnAdd.addActionListener(this);
-	    panel2.add(btnAdd);
+	    panelName.add(btnAdd);
 	 		
-	 	// 비밀번호 확인 취소 버튼 출력
+	 	// 비밀번호 확인 삭제 버튼 출력
 	 	btnDel = new JButton("삭제");
 	 	btnDel.setFont(new Font("210 맨발의청춘 L", Font.PLAIN, 13));
 	 	btnDel.setContentAreaFilled(false);
@@ -126,176 +126,177 @@ public class Record extends JFrame implements ActionListener, WindowListener{
 	 	btnDel.setBounds(415, 20, 65, 30);
 	 	btnDel.setForeground(Color.WHITE);
 	 	btnDel.addActionListener(this);
-	 	panel2.add(btnDel);
-		panelCenter.add(panel2);
+	 	panelName.add(btnDel);
+		panelCenter.add(panelName);
 		
-		JPanel panel3 = new JPanel();
-		panel3.setLayout(null);
+		panelWeight = new JPanel();
+		panelWeight.setLayout(null);
 		
+		// 운동 등록 무게 라벨
 		lblWeight = new JLabel("무게");
 		lblWeight.setFont(new Font("210 맨발의청춘 L", Font.BOLD, 15));
 		lblWeight.setBounds(30, 20, 120, 30);
-		panel3.add(lblWeight);
+		panelWeight.add(lblWeight);
 		
 		tfWeight = new JTextField();
 		tfWeight.setBounds(150, 19, 140, 30);
 		tfWeight.setBorder(BorderFactory.createEmptyBorder());
 		tfWeight.setFont(new Font("210 맨발의청춘 L", Font.PLAIN, 14));
-		panel3.add(tfWeight);
+		panelWeight.add(tfWeight);
 		
+		// 운동 등록 kg 라벨
 		lblKg = new JLabel("kg");
 		lblKg.setFont(new Font("210 맨발의청춘 L", Font.BOLD, 15));
 		lblKg.setBounds(300, 20, 50, 30);
-		panel3.add(lblKg);
-		panelCenter.add(panel3);
+		panelWeight.add(lblKg);
+		panelCenter.add(panelWeight);
 		
-		JPanel panel4 = new JPanel();
-		panel4.setLayout(null);
+		panelTime = new JPanel();
+		panelTime.setLayout(null);
 		
+		// 운동 등록 시간 라벨
 		lblTime = new JLabel("운동 시간");
 		lblTime.setFont(new Font("210 맨발의청춘 L", Font.BOLD, 15));
 		lblTime.setBounds(30, 20, 120, 30);
-		panel4.add(lblTime);
+		panelTime.add(lblTime);
 		
 		tfTime = new JTextField();
 		tfTime.setBounds(150, 19, 140, 30);
 		tfTime.setBorder(BorderFactory.createEmptyBorder());
 		tfTime.setFont(new Font("210 맨발의청춘 L", Font.PLAIN, 14));
-		panel4.add(tfTime);
+		panelTime.add(tfTime);
 		
+		// 운동 등록 Times 라벨
 		lblTimes = new JLabel("times");
 		lblTimes.setFont(new Font("210 맨발의청춘 L", Font.BOLD, 15));
 		lblTimes.setBounds(300, 20, 50, 30);
-		panel4.add(lblTimes);
-		panelCenter.add(panel4);
+		panelTime.add(lblTimes);
+		panelCenter.add(panelTime);
 		
-		JPanel panel5 = new JPanel();
-		panel5.setLayout(null);
+		panelNum = new JPanel();
+		panelNum.setLayout(null);
 		
+		// 운동 등록 횟수 라벨
 		lblNum = new JLabel("횟수");
 		lblNum.setFont(new Font("210 맨발의청춘 L", Font.BOLD, 15));
 		lblNum.setBounds(30, 20, 120, 30);
-		panel5.add(lblNum);
+		panelNum.add(lblNum);
 		
 		tfNum = new JTextField();
 		tfNum.setBounds(150, 16, 140, 30);
 		tfNum.setBorder(BorderFactory.createEmptyBorder());
 		tfNum.setFont(new Font("210 맨발의청춘 L", Font.PLAIN, 14));
-		panel5.add(tfNum);
+		panelNum.add(tfNum);
 		
+		// 운동 등록 reps 라벨
 		lblNums = new JLabel("reps");
 		lblNums.setFont(new Font("210 맨발의청춘 L", Font.BOLD, 15));
 		lblNums.setBounds(300, 20, 50, 30);
-		panel5.add(lblNums);
-		panelCenter.add(panel5);
+		panelNum.add(lblNums);
+		panelCenter.add(panelNum);
 		
-		JPanel panel6 = new JPanel();
-		panel6.setLayout(null);
+		panelSet = new JPanel();
+		panelSet.setLayout(null);
 		
+		// 운동 등록 세트 수 라벨
 		lblSet = new JLabel("세트 수");
 		lblSet.setFont(new Font("210 맨발의청춘 L", Font.BOLD, 15));
 		lblSet.setBounds(30, 20, 120, 30);
-		panel6.add(lblSet);
+		panelSet.add(lblSet);
 		
 		tfSet = new JTextField();
 		tfSet.setBounds(150, 16, 140, 30);
 		tfSet.setBorder(BorderFactory.createEmptyBorder());
 		tfSet.setFont(new Font("210 맨발의청춘 L", Font.PLAIN, 14));
-		panel6.add(tfSet);
+		panelSet.add(tfSet);
 		
+		// 운동 등록 set 라벨
 		lblSets = new JLabel("set");
 		lblSets.setFont(new Font("210 맨발의청춘 L", Font.BOLD, 15));
 		lblSets.setBounds(300, 20, 50, 30);
-		panel6.add(lblSets);
-		panelCenter.add(panel6);
+		panelSet.add(lblSets);
+		panelCenter.add(panelSet);
 		
 		add(panelCenter, BorderLayout.CENTER);
 		
-		// 비밀번호 확인 텍스트 필드 배경 이미지 출력
+		// 운동 등록 배경 이미지 출력
 		ImageIcon imgAdd = new ImageIcon("imges/btnCancel.png");
 		JLabel lblAdd = new JLabel(imgAdd);
 		lblAdd.setBounds(340, 20, 65, 30);
-		panel2.add(lblAdd);
+		panelName.add(lblAdd);
 				
-		// 비밀번호 확인 텍스트 필드 배경 이미지 출력
+		// 운동 등록 배경 이미지 출력
 		ImageIcon imgCancel = new ImageIcon("imges/btnCancel.png");
 		JLabel lblCancel = new JLabel(imgCancel);
 		lblCancel.setBounds(415, 20, 65, 30);
-		panel2.add(lblCancel);
+		panelName.add(lblCancel);
 				
-		
 		ImageIcon imgDate = new ImageIcon("imges/record_img.png");
 		JLabel lblDateImg = new JLabel(imgDate);
 		lblDateImg.setBounds(145, 20, 150, 35);
-		panel1.add(lblDateImg);
+		panelDate.add(lblDateImg);
 		
 		ImageIcon imgCombo = new ImageIcon("imges/record_combo.png");
 		JLabel lblCombo = new JLabel(imgCombo);
 		lblCombo.setBounds(144, 16, 180, 35);
-		panel2.add(lblCombo);
+		panelName.add(lblCombo);
 		
 		ImageIcon imgWeight = new ImageIcon("imges/record_img.png");
 		JLabel lblWeightImg = new JLabel(imgWeight);
 		lblWeightImg.setBounds(145, 16, 150, 35);
-		panel3.add(lblWeightImg);
+		panelWeight.add(lblWeightImg);
 		
 		ImageIcon imgTime = new ImageIcon("imges/record_img.png");
 		JLabel lblTimeImg = new JLabel(imgTime);
 		lblTimeImg.setBounds(145, 16, 150, 35);
-		panel4.add(lblTimeImg);
+		panelTime.add(lblTimeImg);
 		
 		ImageIcon imgNum = new ImageIcon("imges/record_img.png");
 		JLabel lbNumImg = new JLabel(imgNum);
 		lbNumImg.setBounds(145, 14, 150, 35);
-		panel5.add(lbNumImg);
+		panelNum.add(lbNumImg);
 		
 		ImageIcon imgSet = new ImageIcon("imges/record_img.png");
 		JLabel lblSetImg = new JLabel(imgSet);
 		lblSetImg.setBounds(145, 14, 150, 35);
-		panel6.add(lblSetImg);
+		panelSet.add(lblSetImg);
 		
-		ImageIcon imgPanel1 = new ImageIcon("imges/centerBackImg.png");
-		JLabel lblPanel1 = new JLabel(imgPanel1);
-		lblPanel1.setBounds(0, 0, 510, 62);
-		panel1.add(lblPanel1);
+		ImageIcon imgPanelDate = new ImageIcon("imges/centerBackImg.png");
+		JLabel lblPanelDate = new JLabel(imgPanelDate);
+		lblPanelDate.setBounds(0, 0, 510, 62);
+		panelDate.add(lblPanelDate);
 		
-		ImageIcon imgPanel2 = new ImageIcon("imges/centerBackImg.png");
-		JLabel lblPanel2 = new JLabel(imgPanel2);
-		lblPanel2.setBounds(0, 0, 510, 62);
-		panel2.add(lblPanel2);
+		ImageIcon imgPanelName = new ImageIcon("imges/centerBackImg.png");
+		JLabel lblPanelName = new JLabel(imgPanelName);
+		lblPanelName.setBounds(0, 0, 510, 62);
+		panelName.add(lblPanelName);
 		
-		ImageIcon imgPanel3 = new ImageIcon("imges/centerBackImg.png");
-		JLabel lblPanel3 = new JLabel(imgPanel3);
-		lblPanel3.setBounds(0, 0, 510, 62);
-		panel3.add(lblPanel3);
+		ImageIcon imgPanelWeight = new ImageIcon("imges/centerBackImg.png");
+		JLabel lblPanelWeight = new JLabel(imgPanelWeight);
+		lblPanelWeight.setBounds(0, 0, 510, 62);
+		panelWeight.add(lblPanelWeight);
 		
-		ImageIcon imgPanel4 = new ImageIcon("imges/centerBackImg.png");
-		JLabel lblPanel4 = new JLabel(imgPanel4);
-		lblPanel4.setBounds(0, 0, 510, 62);
-		panel4.add(lblPanel4);
+		ImageIcon imgPanelTime = new ImageIcon("imges/centerBackImg.png");
+		JLabel lblPanelTime = new JLabel(imgPanelTime);
+		lblPanelTime.setBounds(0, 0, 510, 62);
+		panelTime.add(lblPanelTime);
 		
-		ImageIcon imgPanel5 = new ImageIcon("imges/centerBackImg.png");
-		JLabel lblPanel5 = new JLabel(imgPanel5);
-		lblPanel5.setBounds(0, 0, 510, 62);
-		panel5.add(lblPanel5);
+		ImageIcon imgPanelNum = new ImageIcon("imges/centerBackImg.png");
+		JLabel lblPanelNum = new JLabel(imgPanelNum);
+		lblPanelNum.setBounds(0, 0, 510, 62);
+		panelNum.add(lblPanelNum);
 		
-		ImageIcon imgPanel6 = new ImageIcon("imges/centerBackImg.png");
-		JLabel lblPanel6 = new JLabel(imgPanel6);
-		lblPanel6.setBounds(0, 0, 510, 62);
-		panel6.add(lblPanel6);
-		
-//		ImageIcon imgPanelCenter = new ImageIcon("imges/centerBackImg.png");
-//		JLabel lblPanelCenter = new JLabel(imgPanelCenter);
-//		lblPanelCenter.setBounds(0, 0, 510, 62);
-//		panelCenter.add(lblPanelCenter);
+		ImageIcon imgPanelSet = new ImageIcon("imges/centerBackImg.png");
+		JLabel lblPanelSet = new JLabel(imgPanelSet);
+		lblPanelSet.setBounds(0, 0, 510, 62);
+		panelSet.add(lblPanelSet);
 		
 	}
 
 	private void setSouth() {
-		JPanel panelSouth = new JPanel();
+		panelSouth = new JPanel();
 		panelSouth.setLayout(null);
 		panelSouth.setPreferredSize(new Dimension(0, 60));
-		//panelSouth.setBackground(skyblue);
 		
 		// 운동 등록 버튼 출력
 		btnCheck = new JButton("등록");
@@ -307,7 +308,7 @@ public class Record extends JFrame implements ActionListener, WindowListener{
 		btnCheck.addActionListener(this);
 		panelSouth.add(btnCheck);
 				
-		// 비밀번호 확인 취소 버튼 출력
+		// 운동 등록 취소 버튼 출력
 		btnCancel = new JButton("취소");
 		btnCancel.setFont(new Font("210 맨발의청춘 L", Font.PLAIN, 13));
 		btnCancel.setContentAreaFilled(false);

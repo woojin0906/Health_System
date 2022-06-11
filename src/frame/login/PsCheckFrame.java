@@ -106,7 +106,6 @@ public class PsCheckFrame extends JFrame implements MouseListener, ActionListene
 		btnIdSearch.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
 		btnIdSearch.setBounds(180, 170, 140, 30);
 		btnIdSearch.addActionListener(this);
-		
 		panelCenter.add(btnIdSearch);
 		
 		// 비밀번호 확인 텍스트 필드 배경 이미지 출력
@@ -150,7 +149,6 @@ public class PsCheckFrame extends JFrame implements MouseListener, ActionListene
 			try {
 				dbOpen temp = new dbOpen();
 				temp.resetPW(this, tfId.getText(), tfHint.getText());
-//				Login lg = new Login();
 			} catch (Exception e2) {
 				e2.printStackTrace();
 				}

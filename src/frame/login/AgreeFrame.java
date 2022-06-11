@@ -28,21 +28,22 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.WindowConstants;
 public class AgreeFrame extends JFrame implements ActionListener, WindowListener {
-		private JPanel panelNorth, panelCenter, panelOne, panelTwo, panelThree, panelO, panelT, panelR;
-	private JButton btnCancel, btnAgree;
-	private JLabel lblAgree, lblOne, lblTwo, lblThree;
-	private Color a;
-	private JTextArea taOne, taTwo, taThree;
-	private JScrollPane sp;
+	private JPanel panelNorth, panelCenter, panelUp, panelMiddle, panelDown, panelupup, panelmdmd, paneldwdw;
+	private JLabel lblAgree, lblFirst, lblSecond, lblThird;
+	private JTextArea taFirst, taSecond, taThird;
 	private Font mainFont, subFont, lblInfoFont;
+	private JButton btnCancel, btnAgree;
+	private Color a;
+	private JScrollPane sp;
 	private JoinFrame joinFrame;
+	
 	public AgreeFrame(String title) {
 		setTitle(title);
 		setSize(350, 500);
 		setResizable(false);
 		setLayout(new BorderLayout());
 		addWindowListener(this);
-			mainFont = new Font("210 맨발의청춘 L", Font.BOLD, 20); // 메인 제목
+		mainFont = new Font("210 맨발의청춘 L", Font.BOLD, 20); // 메인 제목
 	    subFont = new Font("210 맨발의청춘 L", Font.PLAIN, 13); 
 	    lblInfoFont = new Font("210 맨발의청춘 L", Font.BOLD, 13); // 각 장의 제목
 	    
@@ -64,13 +65,13 @@ public class AgreeFrame extends JFrame implements ActionListener, WindowListener
 		btnCancel.setContentAreaFilled(false);
 		btnCancel.setBorderPainted(false);
 		btnCancel.setBounds(0, 10, 70, 30);
-		
 		btnCancel.addActionListener(this);
 		
 		// 이용약관 화면 라벨(이용약관) 출력
 		lblAgree = new JLabel("이용약관");
 		lblAgree.setBounds(130, 15, 100, 20);
 		lblAgree.setFont(mainFont);  // 글씨 크기
+		
 		// 이용약관 화면 확인 버튼
 		btnAgree = new JButton("확인");
 		btnAgree.setFont(subFont);
@@ -78,12 +79,12 @@ public class AgreeFrame extends JFrame implements ActionListener, WindowListener
 		btnAgree.setBorderPainted(false);
 		btnAgree.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
 		btnAgree.setBounds(280, 10, 40, 30);
-		
 		btnAgree.addActionListener(this);
 				
 		panelNorth.add(btnCancel);
 		panelNorth.add(lblAgree);
 		panelNorth.add(btnAgree);
+		
 		add(panelNorth, BorderLayout.NORTH);
 	}
 	private void setCenter() {
@@ -91,103 +92,109 @@ public class AgreeFrame extends JFrame implements ActionListener, WindowListener
 		panelCenter.setBackground(Color.WHITE);
 		
 		// 이용약관 화면 그리드 첫번째 패널
-		panelOne = new JPanel();
-		panelOne.setLayout(null);
-		panelOne.setBackground(Color.WHITE);
-		panelOne.setBounds(0, 0, 330, 150);
+		panelUp = new JPanel();
+		panelUp.setLayout(null);
+		panelUp.setBackground(Color.WHITE);
+		panelUp.setBounds(0, 0, 330, 150);
 		
 		// 이용약관 화면 제 1장 라벨 출력
-		lblOne = new JLabel("제 1장 서비스 이용약관");
-		lblOne.setBounds(10, 10, 130, 20);
-		lblOne.setFont(lblInfoFont);
-		panelOne.add(lblOne);
+		lblFirst = new JLabel("제 1장 서비스 이용약관");
+		lblFirst.setBounds(10, 10, 130, 20);
+		lblFirst.setFont(lblInfoFont);
+		panelUp.add(lblFirst);
+		
 		// 이용약관 화면 첫번째 패널 안에 패널
-		panelO = new JPanel();
-		panelO.setBackground(Color.WHITE);
-		panelO.setBounds(4, 28, 330, 150);
-		taOne = new JTextArea(
+		panelupup = new JPanel();
+		panelupup.setBackground(Color.WHITE);
+		panelupup.setBounds(4, 28, 330, 150);
+		taFirst = new JTextArea(
 				"제 1조 본 약관은 (주)건강해GYM를 통해 제공하는 가맹점의 매장 내 각종 서비스 제공 "
 				+ "및 서비스 이용에 필요한 모바일 애플리케이션, 홈페이지를 운영함에 있어 회사와 회원간의 권리, "
 				+ "의무 및 책임사항과 절차 등을 정하기 위해 만들어졌습니다." + "\n"
 				+ "회원으로 가입하여 서비스의 이용을 희망하는 자는 약관의 내용을 숙지한 후 동의함을 표시하고, "
 				+ "회사가 제시하는 소정의 회원가입 양식에 관련사항을 기재하여 회원가입을 신청하여야 합니다.", 5, 33);
-		taOne.setLineWrap(true);
-		taOne.setEditable(false);
+		taFirst.setLineWrap(true);
+		taFirst.setEditable(false);
 		
 		// 이용약관 화면 스크롤팬 출력
-		sp = new JScrollPane(taOne, 
+		sp = new JScrollPane(taFirst, 
 				JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, 
 				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		
-		panelO.add(sp);
-		panelOne.add(panelO);
+		panelupup.add(sp);
+		panelUp.add(panelupup);
 		
 		// 이용약관 화면 그리드 두번째 패널
-		panelTwo = new JPanel();
-		panelTwo.setLayout(null);
-		panelTwo.setBackground(Color.WHITE);
-		panelTwo.setBounds(0, 0, 330, 150);
+		panelMiddle = new JPanel();
+		panelMiddle.setLayout(null);
+		panelMiddle.setBackground(Color.WHITE);
+		panelMiddle.setBounds(0, 0, 330, 150);
 		
 		// 이용약관 화면 제 2장 라벨 출력
-		lblTwo = new JLabel("제 2장 개인정보 이용약관");
-		lblTwo.setBounds(10, 10, 200, 20);
-		lblTwo.setFont(lblInfoFont);
-		panelTwo.add(lblTwo);
+		lblSecond = new JLabel("제 2장 개인정보 이용약관");
+		lblSecond.setBounds(10, 10, 200, 20);
+		lblSecond.setFont(lblInfoFont);
+		panelMiddle.add(lblSecond);
 				
 		// 이용약관 화면 두번째 패널 안에 패널
-		panelT = new JPanel();
-		panelT.setBackground(Color.WHITE);
-		panelT.setBounds(4, 28, 330, 150);
-		taTwo = new JTextArea(
+		panelmdmd = new JPanel();
+		panelmdmd.setBackground(Color.WHITE);
+		panelmdmd.setBounds(4, 28, 330, 150);
+		taSecond = new JTextArea(
 				"가. 회사는 회원가입, 상담을 위해 아래와 같이 최소한의 개인정보를 수집하고 있습니다. " + "\n"
 				+ "- 필수항목 : 이름, 전화번호, 주소 " +"\n"
 				+ "나.서비스 이용과정에서 아래와 같은 정보들이 생성되어 수집될 수 있습니다. " +"\n"
 				+ "-사용 기록 : 회원의 서비스 이용에 대한 통계 " +"\n"
 				+ "다. 개인정보의 처리 및 보유기간은 다음과 같습니다. " + "\n"
 				+ "- 기간 : 이용계약에 따른 회원자격이 유지되는 기간동안", 5, 33);
-		taTwo.setLineWrap(true);
-		taTwo.setEditable(false);
-			// 이용약관 화면 스크롤팬 출력
-		sp = new JScrollPane(taTwo, 
-				JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, 
-				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-			panelT.add(sp);
-		panelTwo.add(panelT);
-			// 이용약관 화면 그리드 세번째 패널
-		panelThree = new JPanel();
-		panelThree.setLayout(null);
-		panelThree.setBackground(Color.WHITE);
-		panelThree.setBounds(0, 0, 330, 150);
-		
-		lblThree = new JLabel("제 3장 전자금융거래 이용약관");
-		lblThree.setBounds(10, 10, 200, 20);
-		lblThree.setFont(lblInfoFont);
-		panelThree.add(lblThree);
-		// 이용약관 화면 두번째 패널 안에 패널
-		panelR = new JPanel();
-		panelR.setBackground(Color.WHITE);
-		panelR.setBounds(4, 28, 330, 150);
-		taThree = new JTextArea(
-				"1. 이 전자금융 이용 약관은 서비스의 제공자인 건강해GYM과 "
-				+ "이용자인 고객간에 전자금융 이용에 관한 제반 사항을 정함을 목적으로 합니다.", 5, 33);
-		taThree.setLineWrap(true);
-		taThree.setEditable(false);
+		taSecond.setLineWrap(true);
+		taSecond.setEditable(false);
 		
 		// 이용약관 화면 스크롤팬 출력
-		sp = new JScrollPane(taThree, 
+		sp = new JScrollPane(taSecond, 
+				JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, 
+				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		panelmdmd.add(sp);
+		panelMiddle.add(panelmdmd);
+		
+		// 이용약관 화면 그리드 세번째 패널
+		panelDown = new JPanel();
+		panelDown.setLayout(null);
+		panelDown.setBackground(Color.WHITE);
+		panelDown.setBounds(0, 0, 330, 150);
+		
+		// 이용약관 화면 제 3장 라벨 출력
+		lblThird = new JLabel("제 3장 전자금융거래 이용약관");
+		lblThird.setBounds(10, 10, 200, 20);
+		lblThird.setFont(lblInfoFont);
+		panelDown.add(lblThird);
+		
+		// 이용약관 화면 세번째 패널 안에 패널
+		paneldwdw = new JPanel();
+		paneldwdw.setBackground(Color.WHITE);
+		paneldwdw.setBounds(4, 28, 330, 150);
+		taThird = new JTextArea(
+				"1. 이 전자금융 이용 약관은 서비스의 제공자인 건강해GYM과 건강해GYM이 제공하는 전자금융서비스를 이용하고자 하는 "
+				+ "이용자인 고객간에 전자금융서비스 이용에 관한 제반 사항을 정함을 목적으로 합니다."
+				+ "이 약관에서 정하지 아니한 사항은 전자금융거래법 및 관계법령, 전자금융거래 기본약관, 기타 관련 약관 및 규약을 적용합니다.", 5, 33);
+		taThird.setLineWrap(true);
+		taThird.setEditable(false);
+		
+		// 이용약관 화면 스크롤팬 출력
+		sp = new JScrollPane(taThird, 
 				JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, 
 				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		
-		panelR.add(sp);
-		panelThree.add(panelR);
+		paneldwdw.add(sp);
+		panelDown.add(paneldwdw);
 		
-		
-		panelCenter.add(panelOne);
-		panelCenter.add(panelTwo);
-		panelCenter.add(panelThree);
+		panelCenter.add(panelUp);
+		panelCenter.add(panelMiddle);
+		panelCenter.add(panelDown);
 		
 		add(panelCenter, BorderLayout.CENTER);
 	}
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object obj = e.getSource();

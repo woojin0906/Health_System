@@ -67,7 +67,6 @@ public class ChangeInfo extends JFrame implements ActionListener, WindowListener
 	public String getImgfile() {
 		return imgfile;
 	}
-	
 
 	//201945012 MainFrame 연결
 	public ChangeInfo(MainFrame mf, String ID) {
@@ -125,18 +124,14 @@ public class ChangeInfo extends JFrame implements ActionListener, WindowListener
 		
 	
 		// 전우진 5/28 이미지 경로 변경
-		//이미지 붙은 버튼 추가하기
-		//profileImg = new ImageIcon("imges/Person.png");
-		profileImg = new ImageIcon("imges/"+ID+".png");
-		//System.out.println("imges/"+ID+".png");
-		Image img = profileImg.getImage();
-		Image changeImg = img.getScaledInstance(100, 97, Image.SCALE_SMOOTH);
+		// 회원정보 수정 프레임 이미지 붙은 버튼 추가하기
+		profileImg = new ImageIcon("imges/" + ID + ".png"); // 기본 이미지 경로
+		Image img = profileImg.getImage(); 
+		Image changeImg = img.getScaledInstance(100, 97, Image.SCALE_SMOOTH); // 이미지 크기 조절
 		ImageIcon changeimgicon = new ImageIcon(changeImg);
 			
 		profile = new JButton(changeimgicon);
 		profile.setContentAreaFilled(false); //버튼 영역 배경 표시 설정
-		//profile.setBorderPainted(false); //버튼 테두리 표시 설정
-		//profile.setFocusPainted(false); //포커스 표시 설정
 		profile.setBounds(125, 50, 100, 100);
 		profile.addActionListener(this);
 		NorthPanel.add(profile);
@@ -274,20 +269,20 @@ public class ChangeInfo extends JFrame implements ActionListener, WindowListener
 			try {
 			profile.setText(fc.getSelectedFile().getAbsolutePath());
 			
-			File selfile = fc.getSelectedFile();  																
-			String path = selfile.getAbsolutePath(); 
+			File selfile = fc.getSelectedFile();  	 // 이미지 파일 가져오기															
+			String path = selfile.getAbsolutePath(); // 절대 경로
 			 	
 			profileImg2 = new ImageIcon(path);
 			Image img = profileImg2.getImage();
-			Image changeImg = img.getScaledInstance(115, 102, Image.SCALE_SMOOTH);
+			Image changeImg = img.getScaledInstance(115, 102, Image.SCALE_SMOOTH); // 이미지 크기 조절
 			
-			profile.setIcon(new ImageIcon(changeImg));
+			profile.setIcon(new ImageIcon(changeImg)); // 이미지 선택 후 화면에 보이기
 			
-			imgfile = selfile.getName();
+			imgfile = selfile.getName(); // 이미지 이름만 추출
 			File dirfile = new File(profile.getText());  															
 				
-			File srcfile = new File("imges/"+ID+".png");  		
-			Files.copy(dirfile.toPath(), srcfile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+			File srcfile = new File("imges/"+ID+".png"); // 현재 아이디로 이미지 이름 변경 		
+			Files.copy(dirfile.toPath(), srcfile.toPath(), StandardCopyOption.REPLACE_EXISTING); // 이미지 복사
 			
 			} catch (NullPointerException e1) {
 				JOptionPane.showMessageDialog(this, "이미지를 선택하지 않았습니다.");
@@ -337,6 +332,7 @@ public class ChangeInfo extends JFrame implements ActionListener, WindowListener
 		
 		
 	}
+	
 // 전우진 윈도우 취소 버튼 누르면 메인 생성
 	@Override
 	public void windowClosing(WindowEvent e) {

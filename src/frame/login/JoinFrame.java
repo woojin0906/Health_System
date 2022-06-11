@@ -41,20 +41,22 @@ import javax.swing.colorchooser.ColorChooserComponentFactory;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import frame.db.dbOpen;
 public class JoinFrame extends JFrame implements MouseListener, ActionListener, WindowListener, KeyListener{
-		private JPanel panelCenter, panelSouth, panelOne, panelTwo, panelThree;
-	private JButton btnCancel, btnNext, btnOver;
-	private JLabel lblLoginInfo, lblAdmin, lblJoin, lblImg;
+	
+	private JPanel panelCenter, panelSouth, panelUP, panelMiddle, panelDown;
 	private JTextField tfId, tfHint, tfName, tfPhone, tfAddress;
+	private JLabel lblLoginInfo, lblAdmin, lblJoin, lblImg;
+	private String id, inputImg, phone, hint, address;
 	private JPasswordField tfPassword, tfPsCheck;
+	private JButton btnCancel, btnNext, btnOver;
+	private String path, img, name;
+	private Font mainFont, subFont;
 	private JCheckBox agreeCheck;
+	private ImageIcon profileImg;
 	private Color skyblue;
 	private AgreeFrame af;
-	private Font mainFont, subFont;
-	private String path, img, name;
-	private ImageIcon profileImg;
 	private Login login;
-	private String id, inputImg, phone, hint, address;
 	private dbOpen db;
+	
 	public JoinFrame(String title) {
 		setTitle(title);
 		setResizable(false); //창 크기 조절 불가능하게 만들기
@@ -76,9 +78,9 @@ public class JoinFrame extends JFrame implements MouseListener, ActionListener, 
 		skyblue = new Color(189, 215, 238);
 		
 		// 회원가입 화면 첫번째 패널
-		panelOne = new JPanel();
-		panelOne.setLayout(null);
-		panelOne.setBackground(skyblue);
+		panelUP = new JPanel();
+		panelUP.setLayout(null);
+		panelUP.setBackground(skyblue);
 		
 		// 회원가입 화면 취소 버튼
 		btnCancel = new JButton("취소");
@@ -88,33 +90,31 @@ public class JoinFrame extends JFrame implements MouseListener, ActionListener, 
 		btnCancel.setBounds(10, 10, 35, 25);
 		btnCancel.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
 		btnCancel.addActionListener(this);
-		
-		panelOne.add(btnCancel);
+		panelUP.add(btnCancel);
 		
 		// 회원가입 화면 제목 출력
 		lblJoin = new JLabel("회원가입");
 		lblJoin.setBounds(120, 15, 100, 20);
 		lblJoin.setFont(new Font("210 맨발의청춘 L", Font.BOLD, 20)); 
-		panelOne.add(lblJoin);
+		panelUP.add(lblJoin);
 		
 		// 회원가입 프로필 이미지 버튼
 		img = "imges/Person.png";
 		profileImg = new ImageIcon(img);
 		lblImg = new JLabel(profileImg);
 		lblImg.setBounds(110, 50, 100, 100);
-		
-		panelOne.add(lblImg);
+		panelUP.add(lblImg);
 		
 		// 회원가입 화면 두번째 패널
-		panelTwo = new JPanel();
-		panelTwo.setLayout(null);
-		panelTwo.setBackground(skyblue);
+		panelMiddle = new JPanel();
+		panelMiddle.setLayout(null);
+		panelMiddle.setBackground(skyblue);
 		
 		// 회원가입 화면 로그인 정보 라벨 출력
 		lblLoginInfo = new JLabel("로그인 정보");
 		lblLoginInfo.setFont(mainFont);
 		lblLoginInfo.setBounds(15, 0, 150, 35);
-		panelTwo.add(lblLoginInfo);
+		panelMiddle.add(lblLoginInfo);
 		
 		// 회원가입 화면 텍스트 필드(아이디) 출력
 		tfId = new JTextField("아이디");
@@ -125,7 +125,7 @@ public class JoinFrame extends JFrame implements MouseListener, ActionListener, 
 		tfId.addActionListener(this);
 		tfId.addMouseListener(this);
 		tfId.addKeyListener(this);
-		panelTwo.add(tfId);
+		panelMiddle.add(tfId);
 		
 		// 회원가입 화면 텍스트 필드(비밀번호) 출력
 		tfPassword = new JPasswordField("1111");
@@ -136,7 +136,7 @@ public class JoinFrame extends JFrame implements MouseListener, ActionListener, 
 		tfPassword.addActionListener(this);
 		tfPassword.addMouseListener(this);
 		tfPassword.addKeyListener(this);
-		panelTwo.add(tfPassword);
+		panelMiddle.add(tfPassword);
 		
 		// 회원가입 화면 텍스트 필드(비밀번호 확인) 출력
 		tfPsCheck = new JPasswordField("1111");
@@ -147,7 +147,7 @@ public class JoinFrame extends JFrame implements MouseListener, ActionListener, 
 		tfPsCheck.addActionListener(this);
 		tfPsCheck.addMouseListener(this);
 		tfPsCheck.addKeyListener(this);
-		panelTwo.add(tfPsCheck);
+		panelMiddle.add(tfPsCheck);
 		
 		// 회원가입 화면 비밀번호 힌트 출력
 		tfHint = new JTextField("비밀번호 재설정 힌트 답변(4-16자)");
@@ -158,38 +158,39 @@ public class JoinFrame extends JFrame implements MouseListener, ActionListener, 
 		tfHint.addActionListener(this);
 		tfHint.addMouseListener(this);
 		tfHint.addKeyListener(this);
-		panelTwo.add(tfHint);
+		panelMiddle.add(tfHint);
 		
 		// 회원가입 화면 텍스트 필드 배경 이미지 출력
 		ImageIcon imgId = new ImageIcon("imges/background_id.png");
 		JLabel lblId = new JLabel(imgId);
 		lblId.setBounds(13, 35, 148, 35);
-		panelTwo.add(lblId);
+		panelMiddle.add(lblId);
 		
 		ImageIcon imgPw = new ImageIcon("imges/background_id.png");
 		JLabel lblPw = new JLabel(imgPw);
 		lblPw.setBounds(13, 75, 148, 35);
-		panelTwo.add(lblPw);
+		panelMiddle.add(lblPw);
 		
 		ImageIcon imgPwCh = new ImageIcon("imges/background_id.png");
 		JLabel lblPwCh = new JLabel(imgPwCh);
 		lblPwCh.setBounds(166, 75, 148, 35);
-		panelTwo.add(lblPwCh);
+		panelMiddle.add(lblPwCh);
+		
 		ImageIcon imgHint = new ImageIcon("imges/background_address.png");
 		JLabel lblHint = new JLabel(imgHint);
 		lblHint.setBounds(13, 115, 300, 35);
-		panelTwo.add(lblHint);
+		panelMiddle.add(lblHint);
 		
 		// 회원가입 화면 세번째 패널
-		panelThree = new JPanel();
-		panelThree.setLayout(null);
-		panelThree.setBackground(Color.WHITE);
+		panelDown = new JPanel();
+		panelDown.setLayout(null);
+		panelDown.setBackground(Color.WHITE);
 		
 		// 회원가입 화면 개인정보 라벨 출력
 		lblAdmin = new JLabel("개인 정보");
 		lblAdmin.setFont(mainFont);
 		lblAdmin.setBounds(15, 0, 150, 35);
-		panelThree.add(lblAdmin);
+		panelDown.add(lblAdmin);
 		
 		// 회원가입 화면 텍스트 필드(이름) 출력
 		tfName = new JTextField("이름");
@@ -200,7 +201,8 @@ public class JoinFrame extends JFrame implements MouseListener, ActionListener, 
 		tfName.addActionListener(this);
 		tfName.addMouseListener(this);
 		tfName.addKeyListener(this);
-		panelThree.add(tfName);
+		panelDown.add(tfName);
+		
 		// 회원가입 화면 텍스트 필드(이름) 출력
 		tfPhone = new JTextField("전화번호");
 		tfPhone.setBounds(20, 78, 130, 29);
@@ -210,7 +212,7 @@ public class JoinFrame extends JFrame implements MouseListener, ActionListener, 
 		tfPhone.addActionListener(this);
 		tfPhone.addMouseListener(this);
 		tfPhone.addKeyListener(this);
-		panelThree.add(tfPhone);
+		panelDown.add(tfPhone);
 		
 		// 회원가입 화면 텍스트 필드(주소) 출력
 		tfAddress = new JTextField("주소");
@@ -221,11 +223,11 @@ public class JoinFrame extends JFrame implements MouseListener, ActionListener, 
 		tfAddress.addActionListener(this);
 		tfAddress.addMouseListener(this);
 		tfAddress.addKeyListener(this);
-		panelThree.add(tfAddress);
+		panelDown.add(tfAddress);
 		
-		panelCenter.add(panelOne);
-		panelCenter.add(panelTwo);
-		panelCenter.add(panelThree);
+		panelCenter.add(panelUP);
+		panelCenter.add(panelMiddle);
+		panelCenter.add(panelDown);
 		
 		add(panelCenter);
 		
@@ -233,17 +235,17 @@ public class JoinFrame extends JFrame implements MouseListener, ActionListener, 
 		ImageIcon imgName = new ImageIcon("imges/background_id.png");
 		JLabel lblName = new JLabel(imgName);
 		lblName.setBounds(13, 35, 150, 35);
-		panelThree.add(lblName);
+		panelDown.add(lblName);
 		
 		ImageIcon imgPhone = new ImageIcon("imges/background_id.png");
 		JLabel lblPhone = new JLabel(imgPhone);
 		lblPhone.setBounds(13, 75, 150, 35);
-		panelThree.add(lblPhone);
+		panelDown.add(lblPhone);
 		
 		ImageIcon imgAddress = new ImageIcon("imges/background_address.png");
 		JLabel lblAddress = new JLabel(imgAddress);
 		lblAddress.setBounds(15, 115, 300, 35);
-		panelThree.add(lblAddress);
+		panelDown.add(lblAddress);
 		
 	}
 	private void setSouth() {
@@ -258,7 +260,6 @@ public class JoinFrame extends JFrame implements MouseListener, ActionListener, 
 		agreeCheck.setBounds(5, 10, 170, 30);
 		agreeCheck.setBackground(Color.WHITE);
 		agreeCheck.addActionListener(this);
-		
 		panelSouth.add(agreeCheck);
 		
 		// 회원가입 화면 다음 버튼 이미지 출력
@@ -268,11 +269,11 @@ public class JoinFrame extends JFrame implements MouseListener, ActionListener, 
 		btnNext.setBorderPainted(false);
 		btnNext.setBounds(250, 0, 70, 50);
 		btnNext.addActionListener(this);
-		
 		panelSouth.add(btnNext);
 		
 		add(panelSouth, BorderLayout.SOUTH);
 	}
+	
 		@Override
 	public void actionPerformed(ActionEvent e) {
 		Object obj = e.getSource();
@@ -328,11 +329,11 @@ public class JoinFrame extends JFrame implements MouseListener, ActionListener, 
 								if(hint.length() >= 4 && hint.length() <= 16) {
 									if(name.length() <= 5) {
 										try {
-											File file = new File(img);
-											file.getName();
-											File srcfile = new File("imges/" + tfId.getText() + ".png");
+											File file = new File(img); // 현재 이미지 파일
+											file.getName(); // 파일 이름만 추출
+											File srcfile = new File("imges/" + tfId.getText() + ".png"); // 현재 아이디로 이미지 이름 변경
 											
-											Files.copy(file.toPath(), srcfile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+											Files.copy(file.toPath(), srcfile.toPath(), StandardCopyOption.REPLACE_EXISTING); // 이미지 복사
 											
 										} catch (IOException e1) {
 											e1.printStackTrace();
