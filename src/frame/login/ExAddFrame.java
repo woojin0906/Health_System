@@ -25,7 +25,7 @@ import javax.swing.JTextField;
 import frame.db.DB;
 import frame.db.dbOpen;
 
-public class ExAddFrame extends JFrame implements ActionListener, MouseListener {
+public class ExAddFrame extends JFrame implements ActionListener, MouseListener, WindowListener {
 	
 	private JPanel panelCenter;
 	private JButton btnCancel, btnCheck, btnIdSearch;
@@ -48,6 +48,7 @@ public class ExAddFrame extends JFrame implements ActionListener, MouseListener 
 		setSize(400, 230);
 		setLayout(new BorderLayout());
 		setResizable(false);
+		addWindowListener(this);
 		
 		mainFont = new Font("210 맨발의청춘 L", Font.PLAIN, 16); 
 	    
@@ -175,6 +176,47 @@ public class ExAddFrame extends JFrame implements ActionListener, MouseListener 
 
 	@Override
 	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowOpened(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowClosing(WindowEvent e) {
+		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);		
+	}
+
+	@Override
+	public void windowClosed(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowIconified(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowDeiconified(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowActivated(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowDeactivated(WindowEvent e) {
 		// TODO Auto-generated method stub
 		
 	}
