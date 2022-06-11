@@ -1,6 +1,6 @@
 package frame.main;
 //2022-05-20 201945012 윤선호 디자인 변경 및 WindowListener 추가
-//22.06.11 김지웅 setInfo,setMenu 메소드 전체 수정. 디자인 엎음
+//22.06.11 김지웅 setInfo, setMenu 메소드 전체 수정. 디자인 변경
 
 import javax.swing.*;
 import javax.swing.plaf.DimensionUIResource;
@@ -133,7 +133,7 @@ public class MainFrame extends JFrame implements Runnable, ActionListener, Windo
 		panelTime.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		panelRight.add(panelTime, BorderLayout.NORTH);
 		
-		//시간이 흐르는 시계를 사용하기 위한 Thread
+		//윤선호 시계를 사용하기 위한 Thread
 		Thread thread = new Thread(this);
 		thread.start(); // start를 하면 run()메소드에서 스레드 실행 시작
 		
@@ -209,11 +209,13 @@ public class MainFrame extends JFrame implements Runnable, ActionListener, Windo
 		Random rd = new Random();
 		JLabel ta = new JLabel(random[rd.nextInt(8)]);
 		Font font_ta = new Font("210 맨발의청춘 L", Font.ROMAN_BASELINE, 28);
+		
 		ta.setFont(font_ta);
 		ta.setForeground(Color.RED);
 		ta.setBounds(20, 110, 400, 170);
 		ta.setOpaque(true); // 라벨은 투명해서 불투명도를 true로 설정
 		ta.setHorizontalAlignment(JLabel.CENTER);
+		
 		panelPhrase.add(ta);
 	}
 	
@@ -230,11 +232,13 @@ public class MainFrame extends JFrame implements Runnable, ActionListener, Windo
 		//센터정보 아이콘 및 버튼
 		JLabel storeIcon = new JLabel(new ImageIcon("imges/storeinfoImg.png"));
 		storeIcon.setBounds(75, 40, 80, 80);
+		
 		btn_storeInfo = new JButton();
 		btn_storeInfo.setContentAreaFilled(false);
 		btn_storeInfo.setBorderPainted(false);
 		btn_storeInfo.setBounds(75, 40, 80, 80);
 		btn_storeInfo.addActionListener(this);
+		
 		JLabel storeTxLbl = new JLabel("센터 정보");
 		storeTxLbl.setBounds(85, 100, 80, 80);
 		storeTxLbl.setFont(mainFont);
@@ -242,35 +246,41 @@ public class MainFrame extends JFrame implements Runnable, ActionListener, Windo
 		//자유게시판 이동 이미지버튼
 		JLabel comm_label = new JLabel(new ImageIcon("imges/comm_community.png"));
 		comm_label.setBounds(225, 40, 80, 80);
+		
 		btn_board1 = new JButton();
 		btn_board1.setContentAreaFilled(false);
 		btn_board1.setBorderPainted(false);
 		btn_board1.setBounds(225, 40, 80, 80);
 		btn_board1.addActionListener(this);
-		JLabel comuTxLbl = new JLabel("자유/운동게시판");
+		
+		JLabel comuTxLbl = new JLabel("자유 게시판");
 		comuTxLbl.setBounds(210, 100, 130, 80);
 		comuTxLbl.setFont(mainFont);
 		
 		//PT 게시판 이동 이미지버튼
 		JLabel pt_label = new JLabel(new ImageIcon("imges/health_community.png"));
 		pt_label.setBounds(385, 40, 80, 80);
+		
 		btn_board2 = new JButton();
 		btn_board2.setContentAreaFilled(false);
 		btn_board2.setBorderPainted(false);
 		btn_board2.setBounds(385, 40, 80, 80);
 		btn_board2.addActionListener(this);
-		JLabel ptComuTxLbl = new JLabel("PT상담 게시판");
+		
+		JLabel ptComuTxLbl = new JLabel("PT 게시판");
 		ptComuTxLbl.setBounds(375, 100, 130, 80);
 		ptComuTxLbl.setFont(mainFont);
 		
 		//회원정보 수정 이미지 버튼
 		JLabel edit_label = new JLabel(new ImageIcon("imges/edit_info.png"));
 		edit_label.setBounds(550, 40, 80, 80);
+		
 		btn_modify = new JButton();
 		btn_modify.setContentAreaFilled(false);
 		btn_modify.setBorderPainted(false);
 		btn_modify.setBounds(550, 40, 80, 80);
 		btn_modify.addActionListener(this);
+		
 		JLabel memInfoTxLbl = new JLabel("회원정보 수정");
 		memInfoTxLbl.setBounds(545, 100, 100, 80);
 		memInfoTxLbl.setFont(mainFont);
@@ -278,11 +288,13 @@ public class MainFrame extends JFrame implements Runnable, ActionListener, Windo
 		//이용권 구매 이미지버튼
 		JLabel buy_label = new JLabel(new ImageIcon("imges/buy_ticket.png"));
 		buy_label.setBounds(75, 180, 80, 80);
+		
 		btn_buy = new JButton();
 		btn_buy.setContentAreaFilled(false);
 		btn_buy.setBorderPainted(false);
 		btn_buy.setBounds(75, 180, 80, 80);
 		btn_buy.addActionListener(this);
+		
 		JLabel ticketTxLbl = new JLabel("이용권 구매");
 		ticketTxLbl.setBounds(75, 240, 80, 80);
 		ticketTxLbl.setFont(mainFont);
@@ -290,23 +302,27 @@ public class MainFrame extends JFrame implements Runnable, ActionListener, Windo
 		//운동 기록 작성 프레임 바로가기 이미지 및 버튼
 		JLabel writeRecord_lbl = new JLabel(new ImageIcon("imges/writeRecord.png"));
 		writeRecord_lbl.setBounds(225, 180, 80, 80);
+		
 		btn_record = new JButton();
 		btn_record.setContentAreaFilled(false);
 		btn_record.setBorderPainted(false);
 		btn_record.setBounds(225, 180, 80, 80);
 		btn_record.addActionListener(this);
-		JLabel wrRecordTxLbl = new JLabel("운동기록");
+		
+		JLabel wrRecordTxLbl = new JLabel("운동 기록");
 		wrRecordTxLbl.setBounds(235, 240, 80, 80);
 		wrRecordTxLbl.setFont(mainFont);
 		
 		//운동 기록 보기 프레임 바로가기 이미지 및 버튼
 		JLabel record_label = new JLabel(new ImageIcon("imges/readRecord.png"));
 		record_label.setBounds(385, 180, 80, 80);
+		
 		btn_read = new JButton("");
 		btn_read.setContentAreaFilled(false);
 		btn_read.setBorderPainted(false);
 		btn_read.setBounds(385, 180, 80, 80);
 		btn_read.addActionListener(this);
+		
 		JLabel rdRecordTxLbl = new JLabel("운동 기록지");
 		rdRecordTxLbl.setBounds(388, 240, 80, 80);
 		rdRecordTxLbl.setFont(mainFont);
@@ -314,11 +330,13 @@ public class MainFrame extends JFrame implements Runnable, ActionListener, Windo
 		//달력 화면 이동 이미지버튼
 		JLabel cal_label = new JLabel(new ImageIcon("imges/calender.png"));
 		cal_label.setBounds(550, 180, 80, 80);
+		
 		btn_cal = new JButton();
 		btn_cal.setContentAreaFilled(false);
 		btn_cal.setBorderPainted(false);
 		btn_cal.setBounds(550, 180, 80, 80);
 		btn_cal.addActionListener(this);
+		
 		JLabel calTxLbl = new JLabel("캘린더/메모");
 		calTxLbl.setBounds(550, 240, 100, 80);
 		calTxLbl.setFont(mainFont);
