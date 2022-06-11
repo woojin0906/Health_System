@@ -6,6 +6,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -14,7 +16,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
-public class StoreInfo extends JFrame {
+public class StoreInfo extends JFrame implements WindowListener {
 	
 	private Color mainColor;
 	private Color subColor;
@@ -22,12 +24,14 @@ public class StoreInfo extends JFrame {
 	private Font infoFont;
 	private JLabel[] titleLbl;
 	private JLabel[] infoLbl;
+	private String ID;
 
-	public StoreInfo(){
+	public StoreInfo(String ID){
+		this.ID = ID;
+		
 		setTitle("센터 정보");
 		setBounds(95, 100, 350, 500);
 		setResizable(false); //창 크기 조절 불가능하게 만들기
-		setLocationRelativeTo(null); //정가운데 출력
 		setLayout(new BorderLayout());
 		mainColor = new Color(189,215,238);
 		subColor = new Color(189, 189, 189);
@@ -36,6 +40,8 @@ public class StoreInfo extends JFrame {
 		
 		setNorthPanel();
 		setCenterPanel();
+		
+		this.addWindowListener(this);
 		
 		setVisible(true);
 	}
@@ -79,8 +85,8 @@ public class StoreInfo extends JFrame {
 		InfoPanel.setBorder(new LineBorder(subColor));
 		CenterPanel.add(InfoPanel, BorderLayout.CENTER);
 		
-		String[] infoText = {"건강해GYM", "월~일요일 00:00 ~ 24:00",
-				"인천 미추홀구 인하로 777길 2층", "032-256-3652"};
+		String[] infoText = {"건강해GYM", "월~일요일 00:00 ~ 24:00 ",
+				"인천 미추홀구 인하로 777길 2층", "032-777-7777"};
 		infoLbl = new JLabel[4];
 		
 		for(int i = 0; i < infoText.length; i++) {
@@ -93,6 +99,49 @@ public class StoreInfo extends JFrame {
 		JLabel QR = new JLabel(new ImageIcon("imges/chatQr.jpg"));
 		QR.setBorder(BorderFactory.createEmptyBorder(10, 5, 0, 0));
 		InfoPanel.add(QR);
+	}
+
+	@Override
+	public void windowOpened(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowClosing(WindowEvent e) {
+		MainFrame mf = new MainFrame(ID);
+		mf.setLocationRelativeTo(this);
+		this.dispose();
+	}
+
+	@Override
+	public void windowClosed(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowIconified(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowDeiconified(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowActivated(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowDeactivated(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

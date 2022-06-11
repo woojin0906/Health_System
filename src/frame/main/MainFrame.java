@@ -1,5 +1,6 @@
 package frame.main;
 //2022-05-20 201945012 윤선호 디자인 변경 및 WindowListener 추가
+//22.06.11 김지웅 setInfo,setMenu 메소드 전체 수정. 디자인 엎음
 
 import javax.swing.*;
 import javax.swing.plaf.DimensionUIResource;
@@ -45,10 +46,15 @@ public class MainFrame extends JFrame implements Runnable, ActionListener, Windo
 
 	// 전우진 5/29 db
 	private dbOpen db;
-	private Font mainFont;
 	private String enddate;
 	private JButton btn_record;
 	private JButton btn_read;
+	private JPanel panelTime;
+	private JPanel panelInfo;
+	private JPanel panelPhrase;
+	private Font mainFont = new Font("210 맨발의청춘 L", Font.BOLD, 16);
+	private Color mainColor = new Color(189, 215, 238);
+	private JButton btn_storeInfo;
 	
 	public MainFrame(String id) {
 		this.id = id;
@@ -56,9 +62,9 @@ public class MainFrame extends JFrame implements Runnable, ActionListener, Windo
 		setTitle("메인 화면");
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setLocation(300,200);
-		setSize(800, 550);
+		setSize(720, 650);
 		setLayout(new BorderLayout());
-
+		
 		setInfo();
 		setMenu();
 		
@@ -84,9 +90,8 @@ public class MainFrame extends JFrame implements Runnable, ActionListener, Windo
 		setTitle("메인 화면");
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setLocation(300,200);
-		setSize(800, 550);
+		setSize(720, 650);
 		setLayout(new BorderLayout());
-		//setUndecorated(true);
 		
 		setInfo();
 		setMenu();
@@ -108,26 +113,36 @@ public class MainFrame extends JFrame implements Runnable, ActionListener, Windo
 	
 	private void setInfo() {
 		panelNorth = new JPanel();
-		panelNorth.setLayout(null);
+		panelNorth.setPreferredSize(new Dimension(800, 290));
+		panelNorth.setLayout(new BorderLayout());
+		add(panelNorth, BorderLayout.NORTH);
+		
+		JPanel panelLeft = new JPanel();
+		panelLeft.setBackground(new Color(189, 215, 238));
+		panelLeft.setPreferredSize(new Dimension(280, 290));
+		panelNorth.add(panelLeft, BorderLayout.WEST);
 		
 		// 전우진 5/31
+		// 김지웅 프로필 이미지 가져오기
 		ImageIcon icn = new ImageIcon("imges/" + id + ".png");
 		Image img = icn.getImage();
 		Image changeImg = img.getScaledInstance(250, 250, Image.SCALE_SMOOTH);
 		ImageIcon changeimgicon = new ImageIcon(changeImg);
 		
-		panelWest = new JPanel();
-		panelWest.setLayout(new FlowLayout());
 		lbl_icon = new JLabel(changeimgicon);
 		lbl_icon.setPreferredSize(new Dimension(300, 300));
+		panelLeft.add(lbl_icon);
 
-		panelWest.add(lbl_icon);
+		JPanel panelRight = new JPanel();
+		panelRight.setBackground(mainColor);
+		panelRight.setLayout(new BorderLayout());
+		panelRight.setPreferredSize(new Dimension(520, 290));
+		panelNorth.add(panelRight, BorderLayout.CENTER);
 		
-		panelWest.setBackground(new Color(189, 215, 238));
-		
-		panelEast = new JPanel();
-		panelEast.setLayout(new FlowLayout(FlowLayout.RIGHT));
-		panelEast.setBackground(new Color(189, 215, 238));
+		panelTime = new JPanel();
+		panelTime.setBackground(mainColor);
+		panelTime.setLayout(new FlowLayout(FlowLayout.RIGHT));
+		panelRight.add(panelTime, BorderLayout.NORTH);
 		
 		//시간이 흐르는 시계를 사용하기 위한 Thread
 		Thread thread = new Thread(this);
@@ -142,25 +157,25 @@ public class MainFrame extends JFrame implements Runnable, ActionListener, Windo
 		lblDay = new JLabel(formattedDate);
 		Font font3 = new Font("210 맨발의청춘 L", Font.BOLD, 16);
 		lblDay.setFont(font3);
-		panelEast.add(lblDay);
+		panelTime.add(lblDay);
 		
 		lblTime = new JLabel("12:35:05");
 		lblTime.setFont(font3);
-		
-		paTime = new JPanel();
-		paTime.setBackground(new Color(189, 215, 238));
-		paTime.setLayout(new FlowLayout());
-		paTime.add(lblTime);
-		panelEast.add(paTime);
+		panelTime.add(lblTime);
 		
 		//로그아웃 버튼
 		ImageIcon logoutimg = new ImageIcon("imges/outbutton.png");
 		btn_logout = new JButton(logoutimg);
 		btn_logout.setPreferredSize(new Dimension(40, 40));
-		//btn_logout.setBorderPainted(false);
+		btn_logout.setBorderPainted(false);
 		btn_logout.setContentAreaFilled(false);
 		btn_logout.addActionListener(this);
-		panelEast.add(btn_logout);
+		panelTime.add(btn_logout);
+		
+		panelInfo = new JPanel();
+		panelInfo.setBackground(mainColor);
+		panelInfo.setLayout(new FlowLayout(FlowLayout.LEFT));
+		panelRight.add(panelInfo, BorderLayout.CENTER);
 		
 		// 전우진 5/29 1:48 라벨 분리
 		// 회원님!
@@ -168,15 +183,14 @@ public class MainFrame extends JFrame implements Runnable, ActionListener, Windo
 		lbl_member.setFont(new Font("210 맨발의청춘 L", Font.BOLD, 30));
 		lbl_member.setBounds(20, 30, 300, 40);
 		lbl_member.setHorizontalAlignment(JLabel.LEFT);
-		panelNorth.add(lbl_member);
+		lbl_member.setBorder(BorderFactory.createEmptyBorder(20, 0, 0, 265));
+		panelInfo.add(lbl_member);
 		
 		// 전우진 5/29 1:48 라벨 분리
 		// 님 만료일까지
 		lbl_lastday = new JLabel("만료일까지 ");
 		lbl_lastday.setFont(new Font("210 맨발의청춘 L", Font.BOLD, 22));
-		lbl_lastday.setBounds(20, 70, 150, 40);
-		lbl_member.setHorizontalAlignment(JLabel.LEFT);
-		panelNorth.add(lbl_lastday);
+		panelInfo.add(lbl_lastday);
 		
 		// 전우진 5/29 1:48 라벨 분리
 		// 로그인한 회원의 만료일 수
@@ -185,31 +199,20 @@ public class MainFrame extends JFrame implements Runnable, ActionListener, Windo
 		lbl_day.setBounds(130, 70, 60, 40);
 		lbl_day.setOpaque(true);
 		lbl_day.setForeground(Color.RED);
-		lbl_day.setBackground(new Color(189, 215, 238));
-		lbl_day.setHorizontalAlignment(JLabel.CENTER);
-		panelNorth.add(lbl_day);
+		lbl_day.setBackground(mainColor);
+		panelInfo.add(lbl_day);
 		
 		// 전우진 5/29 1:48 라벨 분리
 		lbl_coment = new JLabel("일 남았습니다.");
 		lbl_coment.setFont(new Font("210 맨발의청춘 L", Font.BOLD, 22));
 		lbl_coment.setBounds(210, 70, 150, 40);
-		panelNorth.add(lbl_coment);
+		panelInfo.add(lbl_coment);
 		
-		btn_record = new JButton("운동 기록");
-		btn_record.setBounds(85, 300, 120, 40);
-		btn_record.setBackground(Color.WHITE);
-		btn_record.setBorder(BorderFactory.createEmptyBorder());
-		btn_record.setFont(new Font("210 맨발의청춘 L", Font.BOLD, 15));
-		btn_record.addActionListener(this);
-		panelNorth.add(btn_record);
-		
-		btn_read = new JButton("운동 기록지");
-		btn_read.setBounds(230, 300, 120, 40);
-		btn_read.setBackground(Color.WHITE);
-		btn_read.setBorder(BorderFactory.createEmptyBorder());
-		btn_read.setFont(new Font("210 맨발의청춘 L", Font.BOLD, 15));
-		btn_read.addActionListener(this);
-		panelNorth.add(btn_read);
+		panelPhrase = new JPanel();
+		panelPhrase.setBackground(mainColor);
+		panelPhrase.setPreferredSize(new Dimension(520, 100));
+		panelPhrase.setLayout(new FlowLayout(FlowLayout.CENTER));
+		panelRight.add(panelPhrase, BorderLayout.SOUTH);
 		
 		String random[] = {"오늘 들 무게를 내일로 미루지 마라.", "일어나 하체 해야지", "이거 못들면 죽는거야", 
 							"복근 없으면 치팅데이는 없다", "바다갈 준비 안할거야?", "Light Weight", 
@@ -218,101 +221,149 @@ public class MainFrame extends JFrame implements Runnable, ActionListener, Windo
 		JLabel ta = new JLabel(random[rd.nextInt(8)]);
 		Font font_ta = new Font("210 맨발의청춘 L", Font.ROMAN_BASELINE, 28);
 		ta.setFont(font_ta);
-		ta.setForeground(Color.WHITE);
+		ta.setForeground(Color.RED);
 		ta.setBounds(20, 110, 400, 170);
-		ta.setBackground(Color.LIGHT_GRAY);
 		ta.setOpaque(true); // 라벨은 투명해서 불투명도를 true로 설정
 		ta.setHorizontalAlignment(JLabel.CENTER);
-		panelNorth.add(ta);
-		
-		
-		panelNorth.setBackground(new Color(189, 215, 238)); // 패널 백그라운드 색상 지정
-		add(panelWest, BorderLayout.WEST);
-		add(panelNorth, BorderLayout.CENTER);
-		add(panelEast, BorderLayout.NORTH);
-		
+		panelPhrase.add(ta);
 	}
-
+	
 	private void setMenu() {
 		panelSouth = new JPanel();
 		panelSouth.setLayout(null);
-		panelSouth.setBackground(Color.WHITE);
+		panelSouth.setBackground(mainColor);
 		panelSouth.setPreferredSize(new DimensionUIResource(100, 100));
 		
 		//백그라운드 이미지 크기 및 위치 지정
 		ImageIcon bg_img = new ImageIcon("imges/icon_tray.png");
 		JLabel bg_label = new JLabel(new ImageIcon("imges/icon_tray.png"));
-		bg_label.setBounds(5, 25, 800, 80);
+		bg_label.setBounds(30, 20, 650, 282);
 		
-		//달력 화면 이동 이미지버튼
-		ImageIcon cal_icon = new ImageIcon("imges/calender.png");
-		JLabel cal_label = new JLabel(cal_icon);
-		cal_label.setBounds(70, 0, 140, 80);
-		btn_cal = new JButton();
-		btn_cal.setContentAreaFilled(false);
-		btn_cal.setBorderPainted(false);
-		btn_cal.setBounds(90, 10, 105, 65);
-		btn_cal.setPreferredSize(new Dimension(140, 40));
-		btn_cal.addActionListener(this);
-		
-		//이용권 구매 이미지버튼
-		ImageIcon ticket_icon = new ImageIcon("imges/buy_ticket.png");
-		JLabel buy_label = new JLabel(ticket_icon);
-		buy_label.setBounds(170, 9, 200, 80);
-		btn_buy = new JButton();
-		btn_buy.setContentAreaFilled(false);
-		btn_buy.setBorderPainted(false);
-		btn_buy.setBounds(237, 25, 70, 50);
-		btn_buy.setPreferredSize(new Dimension(140, 40)); //버튼 크기 설정
-		btn_buy.addActionListener(this);
+		//센터정보 아이콘 및 버튼
+		JLabel storeIcon = new JLabel(new ImageIcon("imges/storeinfoImg.png"));
+		storeIcon.setBounds(75, 40, 80, 80);
+		btn_storeInfo = new JButton();
+		btn_storeInfo.setContentAreaFilled(false);
+		btn_storeInfo.setBorderPainted(false);
+		btn_storeInfo.setBounds(75, 40, 80, 80);
+		btn_storeInfo.addActionListener(this);
+		JLabel storeTxLbl = new JLabel("센터 정보");
+		storeTxLbl.setBounds(85, 100, 80, 80);
+		storeTxLbl.setFont(mainFont);
 		
 		//자유게시판 이동 이미지버튼
-		ImageIcon frcm_icon = new ImageIcon("imges/comm_community.png");
-		JLabel comm_label = new JLabel(frcm_icon);
-		comm_label.setBounds(360, 15, 100, 80);
+		JLabel comm_label = new JLabel(new ImageIcon("imges/comm_community.png"));
+		comm_label.setBounds(225, 40, 80, 80);
 		btn_board1 = new JButton();
 		btn_board1.setContentAreaFilled(false);
 		btn_board1.setBorderPainted(false);
-		btn_board1.setBounds(372, 26, 75, 60);
-		btn_board1.setPreferredSize(new Dimension(140, 40)); // 버튼 크기 설정
+		btn_board1.setBounds(225, 40, 80, 80);
 		btn_board1.addActionListener(this);
+		JLabel comuTxLbl = new JLabel("자유/운동게시판");
+		comuTxLbl.setBounds(210, 100, 130, 80);
+		comuTxLbl.setFont(mainFont);
 		
 		//PT 게시판 이동 이미지버튼
-		ImageIcon PT_icon = new ImageIcon("imges/health_community.png");
-		JLabel pt_label = new JLabel(PT_icon);
-		pt_label.setBounds(500, 8, 100, 80);
+		JLabel pt_label = new JLabel(new ImageIcon("imges/health_community.png"));
+		pt_label.setBounds(385, 40, 80, 80);
 		btn_board2 = new JButton();
 		btn_board2.setContentAreaFilled(false);
 		btn_board2.setBorderPainted(false);
-		btn_board2.setBounds(514, 23, 75, 60);
-		btn_board2.setPreferredSize(new Dimension(140, 40)); // 버튼 크기 설정
+		btn_board2.setBounds(385, 40, 80, 80);
 		btn_board2.addActionListener(this);
+		JLabel ptComuTxLbl = new JLabel("PT상담 게시판");
+		ptComuTxLbl.setBounds(375, 100, 130, 80);
+		ptComuTxLbl.setFont(mainFont);
 		
 		//회원정보 수정 이미지 버튼
-		ImageIcon my_icon = new ImageIcon("imges/edit_info.png");
-		JLabel edit_label = new JLabel(my_icon);
-		edit_label.setBounds(615, -6, 120, 80);
+		JLabel edit_label = new JLabel(new ImageIcon("imges/edit_info.png"));
+		edit_label.setBounds(550, 40, 80, 80);
 		btn_modify = new JButton();
 		btn_modify.setContentAreaFilled(false);
 		btn_modify.setBorderPainted(false);
-		btn_modify.setBounds(625, 2, 95, 70);
+		btn_modify.setBounds(550, 40, 80, 80);
 		btn_modify.addActionListener(this);
-		btn_modify.setPreferredSize(new Dimension(140, 100)); // 버튼 크기 설정
+		JLabel memInfoTxLbl = new JLabel("회원정보 수정");
+		memInfoTxLbl.setBounds(545, 100, 100, 80);
+		memInfoTxLbl.setFont(mainFont);
 		
+		//이용권 구매 이미지버튼
+		JLabel buy_label = new JLabel(new ImageIcon("imges/buy_ticket.png"));
+		buy_label.setBounds(75, 180, 80, 80);
+		btn_buy = new JButton();
+		btn_buy.setContentAreaFilled(false);
+		btn_buy.setBorderPainted(false);
+		btn_buy.setBounds(75, 180, 80, 80);
+		btn_buy.addActionListener(this);
+		JLabel ticketTxLbl = new JLabel("이용권 구매");
+		ticketTxLbl.setBounds(75, 240, 80, 80);
+		ticketTxLbl.setFont(mainFont);
+		
+		//운동 기록 작성 프레임 바로가기 이미지 및 버튼
+		JLabel writeRecord_lbl = new JLabel(new ImageIcon("imges/writeRecord.png"));
+		writeRecord_lbl.setBounds(225, 180, 80, 80);
+		btn_record = new JButton();
+		btn_record.setContentAreaFilled(false);
+		btn_record.setBorderPainted(false);
+		btn_record.setBounds(225, 180, 80, 80);
+		btn_record.addActionListener(this);
+		JLabel wrRecordTxLbl = new JLabel("운동기록");
+		wrRecordTxLbl.setBounds(235, 240, 80, 80);
+		wrRecordTxLbl.setFont(mainFont);
+		
+		//운동 기록 보기 프레임 바로가기 이미지 및 버튼
+		JLabel record_label = new JLabel(new ImageIcon("imges/readRecord.png"));
+		record_label.setBounds(385, 180, 80, 80);
+		btn_read = new JButton("");
+		btn_read.setContentAreaFilled(false);
+		btn_read.setBorderPainted(false);
+		btn_read.setBounds(385, 180, 80, 80);
+		btn_read.addActionListener(this);
+		JLabel rdRecordTxLbl = new JLabel("운동 기록지");
+		rdRecordTxLbl.setBounds(388, 240, 80, 80);
+		rdRecordTxLbl.setFont(mainFont);
+		
+		//달력 화면 이동 이미지버튼
+		JLabel cal_label = new JLabel(new ImageIcon("imges/calender.png"));
+		cal_label.setBounds(550, 180, 80, 80);
+		btn_cal = new JButton();
+		btn_cal.setContentAreaFilled(false);
+		btn_cal.setBorderPainted(false);
+		btn_cal.setBounds(550, 180, 80, 80);
+		btn_cal.addActionListener(this);
+		JLabel calTxLbl = new JLabel("캘린더/메모");
+		calTxLbl.setBounds(550, 240, 100, 80);
+		calTxLbl.setFont(mainFont);
+		
+		panelSouth.add(storeIcon);
 		panelSouth.add(edit_label);
 		panelSouth.add(buy_label);
 		panelSouth.add(comm_label);
 		panelSouth.add(pt_label);
+		panelSouth.add(writeRecord_lbl);
+		panelSouth.add(record_label);
 		panelSouth.add(cal_label);
 		
+		panelSouth.add(btn_storeInfo);
 		panelSouth.add(btn_modify);
 		panelSouth.add(btn_buy);
 		panelSouth.add(btn_board1);
 		panelSouth.add(btn_board2);
+		panelSouth.add(btn_record);
+		panelSouth.add(btn_read);
 		panelSouth.add(btn_cal);
 		
+		panelSouth.add(storeTxLbl);
+		panelSouth.add(comuTxLbl);
+		panelSouth.add(ptComuTxLbl);
+		panelSouth.add(memInfoTxLbl);
+		panelSouth.add(ticketTxLbl);
+		panelSouth.add(wrRecordTxLbl);
+		panelSouth.add(rdRecordTxLbl);
+		panelSouth.add(calTxLbl);
+
 		panelSouth.add(bg_label);
-		add(panelSouth, BorderLayout.SOUTH);
+		add(panelSouth, BorderLayout.CENTER);
 	}
 
 	@Override
@@ -342,6 +393,13 @@ public class MainFrame extends JFrame implements Runnable, ActionListener, Windo
 			tk.setLocationRelativeTo(this);
 			this.dispose(); //이용권 구매 프레임 호출시 메인프레임 종료
 		}
+		else if(obj == btn_storeInfo) {
+			//0611 김지웅 센터정보 프레임 생성 및 호출 버튼 생성
+			StoreInfo si = new StoreInfo(id);
+			si.setLocationRelativeTo(this);
+			this.dispose();
+		}
+		
 		else if(obj == btn_board1) {
 			// 5/31 전우진 자유게시판 생성시 메인 꺼짐
 			//2022-05-19 윤선호 자유게시판과 메인프레임 연결
@@ -382,7 +440,6 @@ public class MainFrame extends JFrame implements Runnable, ActionListener, Windo
 			mrt.setLocationRelativeTo(this); // 프레임 정가운데 출력
 			this.dispose();
 		}
-
 	}
 
 	@Override
