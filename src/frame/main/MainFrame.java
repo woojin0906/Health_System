@@ -4,42 +4,31 @@ package frame.main;
 
 import javax.swing.*;
 import javax.swing.plaf.DimensionUIResource;
-import javax.swing.plaf.basic.DefaultMenuLayout;
 
 import frame.board.Board;
 import frame.board.Board2_PT;
 import frame.db.dbOpen;
 import frame.login.ChangeInfo;
-import frame.login.ExAddFrame;
 import frame.login.Login;
 import frame.login.MyRoutine;
 import frame.login.Record;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Image;
-import java.awt.TextArea;
 import java.awt.event.*;
-import java.io.File;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import javax.swing.filechooser.*;
 
 public class MainFrame extends JFrame implements Runnable, ActionListener, WindowListener {
 
-	private JPanel panelNorth, panelSouth, panelWest, panelEast, paTime;
-	private JTextArea ta;
+	private JPanel panelNorth, panelSouth;
 	private JLabel lbl_icon, lbl_member, lbl_lastday, lblDay, lblTime, lbl_day, lbl_coment;
 	private JButton btn_logout, btn_modify, btn_buy, btn_board1, btn_board2, btn_cal;
 	private String id, name; //로그인 한 계정의 id, name을 받아옴.
@@ -235,7 +224,6 @@ public class MainFrame extends JFrame implements Runnable, ActionListener, Windo
 		panelSouth.setPreferredSize(new DimensionUIResource(100, 100));
 		
 		//백그라운드 이미지 크기 및 위치 지정
-		ImageIcon bg_img = new ImageIcon("imges/icon_tray.png");
 		JLabel bg_label = new JLabel(new ImageIcon("imges/icon_tray.png"));
 		bg_label.setBounds(30, 20, 650, 282);
 		
