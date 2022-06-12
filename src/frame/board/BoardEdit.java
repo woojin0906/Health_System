@@ -31,7 +31,6 @@ import frame.login.QuestionPW;
 public class BoardEdit extends JFrame implements ActionListener, WindowListener{
 	private Font mainFont;
 	private Color skyblue;
-	
 	private JTextArea ta_write, ta_comment;
 	private JScrollPane write_sp,comment_sp;
 	private JPanel panel_write,panel_button,panel_cmtlabel,panel_comment,panel_commnet;
@@ -45,10 +44,8 @@ public class BoardEdit extends JFrame implements ActionListener, WindowListener{
 	private String id,name;
 	private JTextField[] TxField;
 	private ImageIcon img1;
-	private JLabel lbl1;
-	private JLabel lbl2;
-	private JLabel lbl3;
-	private JLabel lbl4;
+	private JLabel lbl1,lbl2,lbl3,lbl4;//이미지 붙이는거라 1,2,3,4로 지정
+
 	
 	public BoardEdit(ArrayList<String> al, String id, String name, Board bd) {
 		this.al = al;
@@ -254,7 +251,6 @@ public class BoardEdit extends JFrame implements ActionListener, WindowListener{
 			System.out.println(bdi);
 		
 			DB db = new DB(this, null);
-			//int in = Integer.parseInt(bd.getAl().get(0));
 			System.out.println(al.get(1));
 			
 			
@@ -273,6 +269,7 @@ public class BoardEdit extends JFrame implements ActionListener, WindowListener{
 			}else if(name.equals(al.get(2))) {
 				System.out.println("이름이 같음");
 				bw2 = new Boardwrite2(al, id, name, bd);
+				bw2.setLocationRelativeTo(this);
 				this.dispose();
 			}
 			

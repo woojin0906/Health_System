@@ -56,14 +56,11 @@ public class Board extends JFrame implements ActionListener, MouseListener, Wind
 	private String[][]datas = new String[0][5];
 	private DefaultTableModel model = new DefaultTableModel(datas, title);
 	private JTable table = new JTable(model);
-	
-	private JPanel panelUP,panelUPUP , panelUPDown;
+	private JPanel panelUP,panelUPUP , panelUPDown,bdpanel;
 	private JLabel lblTilte;
 	private JTextField tfsearch;
 	private JButton btnsearch, btnWrite;
 	private Color skyblue;
-
-	private JPanel bdpanel;
 	private ArrayList<String> al;
 	private TableModel data;
 	private String pre_i, id , name;
@@ -71,6 +68,9 @@ public class Board extends JFrame implements ActionListener, MouseListener, Wind
 	private JScrollPane ScrollPane;
 	private JCheckBox my_board;
 	private Color Blue;
+	private MainFrame mf;
+	private BoardEdit be;
+	private Boardwrite be2;
 
 	public DefaultTableModel getModel() {
 		return model;
@@ -223,7 +223,8 @@ public class Board extends JFrame implements ActionListener, MouseListener, Wind
 		
 		//글쓰기 버튼 누를 시 자유게시판 글쓰기 창이 뜬다.
 		if(obj == btnWrite) {
-		Boardwrite be = new Boardwrite("글쓰기", id, name, this);
+		be2 = new Boardwrite("글쓰기", id, name, this);
+		be2.setLocationRelativeTo(this);
 		
 		//게시물 검색 기능
 		}else if(obj == tfsearch || obj == btnsearch) {
@@ -274,7 +275,8 @@ public class Board extends JFrame implements ActionListener, MouseListener, Wind
 		al.add(pre_category);
 		al.add(pre_content);
 		
-		BoardEdit be = new BoardEdit(al, id, name, this);
+		be = new BoardEdit(al, id, name, this);
+		be.setLocationRelativeTo(this);
 		
 		DB db = new DB(be, null);
 		db.DisplayCMT(pre_i);
@@ -315,13 +317,14 @@ public class Board extends JFrame implements ActionListener, MouseListener, Wind
 
 	@Override
 	public void windowClosing(WindowEvent e) {
-		// TODO Auto-generated method stub
+		mf = new MainFrame(id,name, null);
+		mf.setLocationRelativeTo(this);
 		
 	}
 
 	@Override
 	public void windowClosed(WindowEvent e) {
-		// TODO Auto-generated method stub
+		
 		
 	}
 

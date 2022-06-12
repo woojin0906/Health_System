@@ -30,8 +30,8 @@ import frame.db.DBPT;
 //비밀 번호 창이 널이면 메서지 창 뜨게 하기
 public class BoardWrite_PT2 extends JFrame implements ActionListener, WindowListener{
 	private Font mainFont;
-	private JTextArea ta;
-	private JScrollPane sp;
+	private JTextArea tacomment;
+	private JScrollPane spcomment;
 	private JButton btnsend;
 	private Color skyblue;
 	private ArrayList<String> alpt;
@@ -149,14 +149,14 @@ public class BoardWrite_PT2 extends JFrame implements ActionListener, WindowList
 		JPanel TextPanel = new JPanel();
 		TextPanel.setBackground(skyblue);
 	      
-		ta =new  JTextArea(16,30);
-		ta.setLineWrap(true);
-		ta.setText(alpt.get(4));
-		ta.setFont(new Font("210 맨발의청춘 L", Font.PLAIN, 13));
-		sp = new JScrollPane(ta, 
+		tacomment =new  JTextArea(16,30);
+		tacomment.setLineWrap(true);
+		tacomment.setText(alpt.get(4));
+		tacomment.setFont(new Font("210 맨발의청춘 L", Font.PLAIN, 13));
+		spcomment = new JScrollPane(tacomment, 
 				JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, 
 				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		TextPanel.add(sp);
+		TextPanel.add(spcomment);
 		
 	      add(TextPanel, BorderLayout.CENTER);
 		
@@ -199,7 +199,7 @@ public class BoardWrite_PT2 extends JFrame implements ActionListener, WindowList
 						}else {
 				
 							DBPT dbpt = new DBPT(null);
-							dbpt.BDUpdate(alpt.get(0),TxField[0].getText(), TxField[2].getText(), TxField[1].getText(), result, ta.getText());
+							dbpt.BDUpdate(alpt.get(0),TxField[0].getText(), TxField[2].getText(), TxField[1].getText(), result, tacomment.getText());
 							dbpt.PtRefresh(bdpt);
 							dispose();
 						}

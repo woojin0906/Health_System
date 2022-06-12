@@ -32,17 +32,16 @@ import frame.db.DBPT;
 
 public class BoardWrite_PT extends JFrame implements ActionListener, WindowListener{
 	private Font mainFont;
-	private JTextArea ta;
-	private JScrollPane sp;
+	private JTextArea tacomment;
+	private JScrollPane spcomment;
 	private JButton btnupload;
 	private Color skyblue;
 	private JTextField[] TxField;
-	private Date today;
 	private String ID, namept;
 	private Board2_PT bdpt;
 	private JPasswordField pw;
 	private JLabel lblpw;
-	private JPanel   NorthPanel;
+	private JPanel NorthPanel;
 
 	
 	public BoardWrite_PT(String title, String ID, String namept, Board2_PT bdpt) {
@@ -150,13 +149,13 @@ public class BoardWrite_PT extends JFrame implements ActionListener, WindowListe
 		JPanel TextPanel = new JPanel();
 		TextPanel.setBackground(skyblue);
 	      
-		ta =new  JTextArea(16,30);
-		ta.setLineWrap(true);
-		ta.setFont(new Font("210 맨발의청춘 L", Font.PLAIN, 13));
-		sp = new JScrollPane(ta, 
+		tacomment =new  JTextArea(16,30);
+		tacomment.setLineWrap(true);
+		tacomment.setFont(new Font("210 맨발의청춘 L", Font.PLAIN, 13));
+		spcomment = new JScrollPane(tacomment, 
 				JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, 
 				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		TextPanel.add(sp);
+		TextPanel.add(spcomment);
 		
 	      add(TextPanel, BorderLayout.CENTER);
 		
@@ -200,7 +199,7 @@ public class BoardWrite_PT extends JFrame implements ActionListener, WindowListe
 					}
 			else {
 					DBPT dbpt = new DBPT(null);
-					dbpt.PtInsert(TxField[0].getText(),TxField[1].getText(),result,ta.getText(),TxField[2].getText(),ID);
+					dbpt.PtInsert(TxField[0].getText(),TxField[1].getText(),result,tacomment.getText(),TxField[2].getText(),ID);
 					dbpt.PtRefresh(bdpt);
 					dispose();
 				}

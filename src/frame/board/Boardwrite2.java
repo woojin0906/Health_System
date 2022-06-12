@@ -44,7 +44,7 @@ public class Boardwrite2 extends JFrame implements ActionListener, WindowListene
 	private JComboBox<String> comboselection;
 	private JScrollPane spcomment;
 	private ArrayList<String> al;
-	private String id,name;
+	private String id, name;
 	private Board bd;
 	
 	public Boardwrite2(ArrayList<String> al, String id, String name, Board bd) {

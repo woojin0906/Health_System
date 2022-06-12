@@ -61,6 +61,9 @@ public class Board2_PT extends JFrame implements ActionListener, MouseListener, 
 	private ArrayList<String> alpt;
 	private JCheckBox myboardPt;
 	private Color Blue;
+	private QuestionPW pwCheck;
+	private MainFrame mf;
+	private BoardWrite_PT be2;
 
 	public Board2_PT(MainFrame mf ,String namept) {//수정||삭제 -> pt게시판
 		this.namept = namept;
@@ -243,7 +246,8 @@ public class Board2_PT extends JFrame implements ActionListener, MouseListener, 
 		
 		//글쓰기 버튼 누를 시 pt게시판 글쓰기 창이 뜬다.
 		if(obj == btnWrite) {
-		BoardWrite_PT be2 = new BoardWrite_PT("글쓰기", ID, namept, this);
+		be2 = new BoardWrite_PT("글쓰기", ID, namept, this);
+		be2.setLocationRelativeTo(this);
 		}
 		else if(obj == tfsearch || obj == btnsearch) {
 	      String src = tfsearch.getText();
@@ -279,9 +283,6 @@ public class Board2_PT extends JFrame implements ActionListener, MouseListener, 
 			alpt.add(pre_contentpt);
 			bd_ID = alpt.get(0);
 			
-//			BoardEdit_PT be2 = new BoardEdit_PT(alpt, ID);
-//			DBPT dbpt = new DBPT(be2);
-//			dbpt.DisplayCMT(pre_ipt);
 			
 			//JTable 값 -> boardEdit_PT
 		}
@@ -302,7 +303,9 @@ public class Board2_PT extends JFrame implements ActionListener, MouseListener, 
 			
 			runBoard();
 			// 김지웅 비밀번호 검증 기능 추가
-			QuestionPW pwCheck = new QuestionPW(this, 3, bd_ID, namept,alpt,this);
+			pwCheck = new QuestionPW(this, 3, bd_ID, namept,alpt,this);
+			//06-13 허유진 창 수정
+			pwCheck.setLocationRelativeTo(this);
 		}
 	}
 
@@ -341,7 +344,8 @@ public class Board2_PT extends JFrame implements ActionListener, MouseListener, 
 
 	@Override
 	public void windowClosing(WindowEvent e) {
-		MainFrame mf = new MainFrame(ID,namept, null);
+		mf = new MainFrame(ID,namept, null);
+		mf.setLocationRelativeTo(this);
 		
 	}
 

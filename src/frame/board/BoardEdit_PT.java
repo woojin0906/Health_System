@@ -31,7 +31,7 @@ import frame.db.DBPT;
 public class BoardEdit_PT extends JFrame implements ActionListener, WindowListener{
 	private Font mainFont;
 	private JTextArea taboard, tacomment;
-	private JScrollPane sp,spcomment;
+	private JScrollPane spboard,spcomment;
 	private Color skyblue;
 	private JButton btnedit, btnDelete, btnSend;
 	private JPanel panelCup, panelCN, panelS1, panelStacomment, panelS_Comment, TextPanel, SouthPanel, NorthPanel;
@@ -43,6 +43,7 @@ public class BoardEdit_PT extends JFrame implements ActionListener, WindowListen
 	private String namept, ID;
 	private ImageIcon img1,imgcomment;
 	private Board2_PT bdpt;
+	private BoardWrite_PT2 bw2;
 	
 	
 	public BoardEdit_PT(ArrayList<String> alpt, String ID, String namept,Board2_PT bdpt) {
@@ -52,7 +53,6 @@ public class BoardEdit_PT extends JFrame implements ActionListener, WindowListen
 		this.bdpt = bdpt;
 		
 		setTitle("게시물 댓글 및 삭제");
-		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocation(200, 200);
 		setSize(450, 643);
 		setLayout(new BorderLayout());
@@ -142,10 +142,10 @@ public class BoardEdit_PT extends JFrame implements ActionListener, WindowListen
 		taboard.setEditable(false);//변경불가
 		taboard.setFont(new Font("210 맨발의청춘 L", Font.PLAIN, 13));
 		taboard.setLineWrap(true);
-		sp = new JScrollPane(taboard, 
+		spboard = new JScrollPane(taboard, 
 				JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, 
 				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		panelCup.add(sp);
+		panelCup.add(spboard);
 		TextPanel.add(panelCup,BorderLayout.CENTER);
 		
 		
@@ -239,7 +239,6 @@ public class BoardEdit_PT extends JFrame implements ActionListener, WindowListen
 		Object obj = e.getSource();
 		//Boardwrite2 bw2 = new Boardwrite2(null);
 		if(obj == tfcomment || obj == btnSend) {
-			//tacomment.append(tfcomment.getText() + "\n");
 			tacomment.setText("");
 			
 			//현재 선택한 게시물의 글번호를 가져옴
@@ -247,7 +246,6 @@ public class BoardEdit_PT extends JFrame implements ActionListener, WindowListen
 			System.out.println(bdi);
 		
 			DBPT dbpt = new DBPT(this);
-			//int in = Integer.parseInt(bd.getAl().get(0));
 			System.out.println(alpt.get(1));
 			
 			dbpt.BDCMT(alpt.get(0), tfcomment.getText(), namept);
@@ -256,11 +254,12 @@ public class BoardEdit_PT extends JFrame implements ActionListener, WindowListen
 			tfcomment.setText("");
 			System.out.println(alpt.get(0));
 			dbpt.DisplayCMT(alpt.get(0));
-//			dbpt.BDCMT(alpt.get(0), tfcomment.getText(), namept);
 			
 		
 	}else if (btnedit == obj) {
-		BoardWrite_PT2 bw2 = new BoardWrite_PT2(alpt, ID,namept,bdpt);
+		bw2 = new BoardWrite_PT2(alpt, ID,namept, bdpt);
+		bw2.setLocationRelativeTo(this);
+		
 		dispose();
 		
 	}else if (btnDelete == obj) //삭제 기능 - 확인하는 메세지창

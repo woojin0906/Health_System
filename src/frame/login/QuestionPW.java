@@ -48,6 +48,7 @@ public class QuestionPW extends JFrame implements ActionListener, WindowListener
 	private String enddate;// 전우진 만료일 date
 	private String namept;
 	private Board2_PT bdpt;
+	private BoardEdit_PT bep;
 	
 	//이용권 구매 프레임의 주소와 구분자를 받아오는 생성자
 	public QuestionPW(Ticket TK, int ctrIndex, String ID, int period) {
@@ -169,7 +170,8 @@ public class QuestionPW extends JFrame implements ActionListener, WindowListener
 				bdpw = db.chBoardPW(bdID);
 				
 				if(bdpw.equals(result)) {
-					BoardEdit_PT bep = new BoardEdit_PT(PT.getAlpt(), ID, namept, bdpt);
+					bep = new BoardEdit_PT(PT.getAlpt(), ID, namept, bdpt);
+					bep.setLocationRelativeTo(this);
 					DBPT dbpt = new DBPT(bep);
 					dbpt.DisplayCMT(alpt.get(0));
 					this.dispose();

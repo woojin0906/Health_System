@@ -46,9 +46,6 @@ public class Boardwrite extends JFrame implements ActionListener, WindowListener
 	private JScrollPane spcomment;
 	private String id, name;
 	private Board bd;
-	private Connection conn;
-	private Statement stmt;
-	private ResultSet rs;
 	private ImageIcon imgwriter;
 	
 	public Boardwrite(String title, String id, String name, Board bd) {
