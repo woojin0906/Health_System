@@ -70,6 +70,7 @@ public class Board extends JFrame implements ActionListener, MouseListener, Wind
 	private DB db = new DB(null, null);
 	private JScrollPane ScrollPane;
 	private JCheckBox my_board;
+	private Color Blue;
 
 	public DefaultTableModel getModel() {
 		return model;
@@ -181,7 +182,7 @@ public class Board extends JFrame implements ActionListener, MouseListener, Wind
 		table.getColumnModel().getColumn(5).setPreferredWidth(50);
 		
 		//table.setEnabled(true);
-		
+		Blue = new Color(70, 96, 147);
 		ScrollPane = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 												JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); // 단일 선택
@@ -189,8 +190,14 @@ public class Board extends JFrame implements ActionListener, MouseListener, Wind
 		
 		//2022-06-12 윤선호 테이블 색상변경
 		table.getTableHeader().setOpaque(false);
-		table.getTableHeader().setBackground(Color.YELLOW);
-		table.getTableHeader().setFont(new Font("210 맨발의청춘 L", Font.PLAIN, 14));
+		table.getTableHeader().setBackground(Blue);
+		table.getTableHeader().setForeground(Color.WHITE);
+		table.getTableHeader().setFont(new Font("210 맨발의청춘 L", Font.PLAIN, 13));
+		
+		table.setFont(new Font("210 맨발의청춘 L", Font.PLAIN, 12));
+		//테이블 행간 조절
+		table.setRowHeight(25);
+		ScrollPane.setBackground(skyblue);
 		bdpanel.add(ScrollPane);
 		
 		//테이블 가운데 정렬

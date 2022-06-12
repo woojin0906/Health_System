@@ -35,36 +35,16 @@ import frame.db.DB;
 public class Boardwrite2 extends JFrame implements ActionListener, WindowListener{
 	
 	private Color skyblue;
-	private JTextArea ta;
-	private JPanel PanelUp;
-	private JPanel PanelDown;
-	private JPanel PanelCenter;
-	
+	private JTextArea tacomment;
+	private JPanel PanelUp,PanelDown,PanelCenter,panel_title,panel_titleUP,panel_titleCenter,panel_titleDown,panel_combo;
 	private JButton btnSend;
-	private JLabel lblboardname;
-	private JLabel lbltitle;
-	private JLabel lblWriter;
-	private JLabel lblWriteday;
-	private JLabel lblselection;
-	
-	private JTextField tftitle;
-	private JTextField tfWriter;
-	private JTextField tfWriteday;
-	
-	private JPanel panel_title;
-	private JPanel panel_titleUP;
-	private JPanel panel_titleCenter;
-	private JPanel panel_titleDown;
-	private JPanel panel_combo;
-	
+	private JLabel lbltitle,lblWriter,lblWriteday,lblselection;
+	private JTextField tftitle,tfWriter,tfWriteday;
 	private Vector<String> vecCombo;
 	private JComboBox<String> comboselection;
-	
-	private JScrollPane sp;
-	private Board user;
+	private JScrollPane spcomment;
 	private ArrayList<String> al;
-	private String id;
-	private String name;
+	private String id,name;
 	private Board bd;
 	
 	public Boardwrite2(ArrayList<String> al, String id, String name, Board bd) {
@@ -114,7 +94,6 @@ public class Boardwrite2 extends JFrame implements ActionListener, WindowListene
 		tftitle.setLocation(110, 20);
 		tftitle.setSize(280, 20);
 		tftitle.setText(al.get(1));
-		//System.out.println(al.get(1));
 		tftitle.setBorder(BorderFactory.createEmptyBorder());
 		tftitle.setFont(new Font("210 맨발의청춘 L", Font.PLAIN, 14));
 		
@@ -147,6 +126,8 @@ public class Boardwrite2 extends JFrame implements ActionListener, WindowListene
 		tfWriteday = new JTextField(formatedNow);
 		tfWriteday.setLocation(110, 20);
 		tfWriteday.setSize(280, 20);
+		tfWriteday.setBackground(Color.white);
+		tfWriteday.setEditable(false);
 		//tfWriteday.setText(al.get(3));
 		tfWriteday.setBorder(BorderFactory.createEmptyBorder());
 		tfWriteday.setFont(new Font("210 맨발의청춘 L", Font.PLAIN, 14));
@@ -174,6 +155,8 @@ public class Boardwrite2 extends JFrame implements ActionListener, WindowListene
 		tfWriter.setLocation(110, 20);
 		tfWriter.setSize(280, 20);
 		tfWriter.setText(al.get(2));
+		tfWriter.setBackground(Color.white);
+		tfWriter.setEditable(false);
 		tfWriter.setBorder(BorderFactory.createEmptyBorder());
 		tfWriter.setFont(new Font("210 맨발의청춘 L", Font.PLAIN, 14));
 		panel_titleDown.add(tfWriter);
@@ -211,17 +194,17 @@ public class Boardwrite2 extends JFrame implements ActionListener, WindowListene
 		
 		PanelCenter = new JPanel();
 		PanelCenter.setBackground(skyblue);
-		ta = new JTextArea(16,30);
-		ta.setFont(new Font("210 맨발의청춘 L", Font.PLAIN, 13));
-		ta.setLineWrap(true);
+		tacomment = new JTextArea(16,30);
+		tacomment.setFont(new Font("210 맨발의청춘 L", Font.PLAIN, 13));
+		tacomment.setLineWrap(true);
 		
-		sp = new JScrollPane(ta, 
+		spcomment = new JScrollPane(tacomment, 
 				JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, 
 				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		
-		ta.setText(al.get(5));
+		tacomment.setText(al.get(5));
 		
-		PanelCenter.add(sp);
+		PanelCenter.add(spcomment);
 		add(PanelCenter, BorderLayout.CENTER);
 	}
 	
@@ -246,7 +229,7 @@ public class Boardwrite2 extends JFrame implements ActionListener, WindowListene
 		//2022-05-27 윤선호 수정 버튼 이벤트
 		if(obj == btnSend) {
 			DB db = new DB(null, null);
-			db.BDUpdate(al.get(0),tftitle.getText(), tfWriteday.getText(), tfWriter.getText(), comboselection.getSelectedItem().toString(), ta.getText());
+			db.BDUpdate(al.get(0),tftitle.getText(), tfWriteday.getText(), tfWriter.getText(), comboselection.getSelectedItem().toString(), tacomment.getText());
 			db.TableRefresh(bd);
 			dispose();
 		}

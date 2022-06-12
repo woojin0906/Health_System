@@ -35,39 +35,21 @@ import frame.db.DB;
 
 public class Boardwrite extends JFrame implements ActionListener, WindowListener{
 
-	private JPanel PanelUp;
-	private JPanel PanelDown;
-	private JPanel PanelCenter;
-	private JTextArea ta;
-	
+	private JPanel PanelUp, PanelDown,PanelCenter,panel1,panel2,panel1UP,panel1Center,panel1Down;
+	private JTextArea tacomment;	
 	private JButton btnSend;
-	private JLabel lblboardname;
-	private JLabel lbltitle;
-	private JLabel lblWriteday;
-	private JLabel lblselection;
-	private JLabel lblWriter;
-	
-	private JTextField tftitle;
-	private JTextField tfWriter;
-	private JTextField tfWriteday;
-	
-	private JPanel panel1;
-	private JPanel panel2;
-	
-	private JPanel panel1UP;
-	private JPanel panel1Center;
-	private JPanel panel1Down;
-	
+	private JLabel lbltitle,lblWriteday,lblselection,lblWriter,lblwriter;
+	private JTextField tftitle,tfWriter,tfWriteday;	
 	private Vector<String> vecCombo;
 	private JComboBox<String> comboselection;
 	private Color skyblue;
-	private JScrollPane sp;
-	private String id;
-	private String name;
+	private JScrollPane spcomment;
+	private String id, name;
 	private Board bd;
 	private Connection conn;
 	private Statement stmt;
 	private ResultSet rs;
+	private ImageIcon imgwriter;
 	
 	public Boardwrite(String title, String id, String name, Board bd) {
 		this.id = id;
@@ -144,6 +126,8 @@ public class Boardwrite extends JFrame implements ActionListener, WindowListener
 		tfWriteday = new JTextField(formatedNow);
 		tfWriteday.setLocation(110, 20);
 		tfWriteday.setSize(280, 20);
+		tfWriteday.setBackground(Color.white);
+		tfWriteday.setEditable(false);
 		tfWriteday.setBorder(BorderFactory.createEmptyBorder());
 		tfWriteday.setFont(new Font("210 맨발의청춘 L", Font.PLAIN, 14));
 		panel1Center.add(tfWriteday);
@@ -170,12 +154,14 @@ public class Boardwrite extends JFrame implements ActionListener, WindowListener
 		tfWriter = new JTextField(name);
 		tfWriter.setLocation(110, 20);
 		tfWriter.setSize(280, 20);
+		tfWriter.setBackground(Color.white);
+		tfWriter.setEditable(false);
 		tfWriter.setBorder(BorderFactory.createEmptyBorder());
 		tfWriter.setFont(new Font("210 맨발의청춘 L", Font.PLAIN, 14));
 		panel1Down.add(tfWriter);
 		
-		ImageIcon imgwriter = new ImageIcon("imges/writefield.png");
-		JLabel lblwriter = new JLabel(imgwriter);
+		imgwriter = new ImageIcon("imges/writefield.png");
+		lblwriter = new JLabel(imgwriter);
 		lblwriter.setBounds(98, 15, 330, 30);
 		panel1Down.add(lblwriter);
 		
@@ -207,15 +193,15 @@ public class Boardwrite extends JFrame implements ActionListener, WindowListener
 		PanelCenter = new JPanel();
 		PanelCenter.setBackground(skyblue);
 		
-		ta = new JTextArea(12,30);
-		ta.setLineWrap(true);
-		ta.setFont(new Font("210 맨발의청춘 L", Font.PLAIN, 13));
+		tacomment = new JTextArea(12,30);
+		tacomment.setLineWrap(true);
+		tacomment.setFont(new Font("210 맨발의청춘 L", Font.PLAIN, 13));
 		
-		sp = new JScrollPane(ta, 
+		spcomment = new JScrollPane(tacomment, 
 				JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, 
 				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		
-		PanelCenter.add(sp);
+		PanelCenter.add(spcomment);
 		add(PanelCenter, BorderLayout.CENTER);
 	}
 	
@@ -242,7 +228,7 @@ public class Boardwrite extends JFrame implements ActionListener, WindowListener
 		if(obj == btnSend) {
 			DB db = new DB(null, null);
 			//게시물 하나씩 추가할때 마다 글 하나씩 추가
-			db.BDInsert(tftitle.getText(), tfWriteday.getText(), tfWriter.getText(), comboselection.getSelectedItem().toString(), ta.getText(), id);
+			db.BDInsert(tftitle.getText(), tfWriteday.getText(), tfWriter.getText(), comboselection.getSelectedItem().toString(), tacomment.getText(), id);
 			db.TableRefresh(bd);
 			this.dispose();
 		}

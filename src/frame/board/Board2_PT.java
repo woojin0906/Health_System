@@ -60,6 +60,7 @@ public class Board2_PT extends JFrame implements ActionListener, MouseListener, 
 	private String pre_ipt, pre_titlept, pre_writerpt,pre_writedaypt,pre_contentpt,ID, bd_ID ,namept;
 	private ArrayList<String> alpt;
 	private JCheckBox myboardPt;
+	private Color Blue;
 
 	public Board2_PT(MainFrame mf ,String namept) {//수정||삭제 -> pt게시판
 		this.namept = namept;
@@ -190,6 +191,18 @@ public class Board2_PT extends JFrame implements ActionListener, MouseListener, 
 		bdpanel = new JPanel();
 		add(bdpanel, BorderLayout.CENTER);
 		
+		Blue = new Color(70, 96, 147);
+		table.getTableHeader().setOpaque(false);
+		table.getTableHeader().setBackground(Blue);
+		table.getTableHeader().setForeground(Color.WHITE);
+		table.getTableHeader().setFont(new Font("210 맨발의청춘 L", Font.PLAIN, 13));
+		
+		//글자폰트 조절
+		table.setFont(new Font("210 맨발의청춘 L", Font.PLAIN, 12) );
+		
+		//테이블 행간 조절
+		table.setRowHeight(25);
+		
 		//테이블 크기 조절
 		table.getColumnModel().getColumn(0).setPreferredWidth(30);
 		table.getColumnModel().getColumn(1).setPreferredWidth(100);
@@ -197,9 +210,10 @@ public class Board2_PT extends JFrame implements ActionListener, MouseListener, 
 	    table.getColumnModel().getColumn(3).setPreferredWidth(70);
 	    table.getColumnModel().getColumn(4).setPreferredWidth(120);
 
+
 		sptable = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 												JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-
+		sptable.setBackground(skyblue);
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); // 단일 선택
 		
 		//DafaultTableCellHeaderRenderer 생성 (가운데 정렬을 위한)

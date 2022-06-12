@@ -31,34 +31,24 @@ import frame.login.QuestionPW;
 public class BoardEdit extends JFrame implements ActionListener, WindowListener{
 	private Font mainFont;
 	private Color skyblue;
-	private Color skyblue2;
 	
-	private JTextArea ta_write;
-	private JTextArea ta_comment;
-	
-	private JScrollPane write_sp;
-	private JScrollPane comment_sp;
-	
-	private JPanel panel_write;
-	private JPanel panel_button;
-	private JPanel panel_cmtlabel;
-	private JPanel panel_comment;
-	private JPanel panel_commnet;
-	
-	private JButton btnsend;
-	private JButton btn_edit;
-	private JButton btn_delete;
-	private JButton btn_comment;
-	
+	private JTextArea ta_write, ta_comment;
+	private JScrollPane write_sp,comment_sp;
+	private JPanel panel_write,panel_button,panel_cmtlabel,panel_comment,panel_commnet;
+	private JButton btn_edit,btn_delete,btn_comment;
 	private JLabel lblcomment;
 	private JTextField tfcomment;
 	private ArrayList<String> al;
-	
 	private int bdi;
 	private Board bd;
 	private Boardwrite2 bw2;
-	private String id;
-	private String name;
+	private String id,name;
+	private JTextField[] TxField;
+	private ImageIcon img1;
+	private JLabel lbl1;
+	private JLabel lbl2;
+	private JLabel lbl3;
+	private JLabel lbl4;
 	
 	public BoardEdit(ArrayList<String> al, String id, String name, Board bd) {
 		this.al = al;
@@ -105,7 +95,7 @@ public class BoardEdit extends JFrame implements ActionListener, WindowListener{
 	      }
 	      
   
-	      JTextField[] TxField = new JTextField[4];//tf 텍스트
+	      TxField = new JTextField[4];//tf 텍스트
 	      
 	      x = 100;
 	      y = 10;
@@ -115,17 +105,18 @@ public class BoardEdit extends JFrame implements ActionListener, WindowListener{
 	         TxField[i].setBounds(x, y, 310, 20);
 	         TxField[i].setBorder(BorderFactory.createEmptyBorder());
 	         TxField[i].setText(al.get(i+1));
+	         TxField[i].setBackground(Color.white);
 	         //0602 윤선호 편집 textfield 편집 불가
 	         TxField[i].setEditable(false);
 	         TxField[i].setFont(new Font("210 맨발의청춘 L", Font.PLAIN, 12));
 	         NorthPanel.add(TxField[i]);
 	      }
 	      
-	    ImageIcon img1 = new ImageIcon("imges/textimage_edit.png");
-		JLabel lbl1 = new JLabel(img1);
-		JLabel lbl2 = new JLabel(img1);
-		JLabel lbl3 = new JLabel(img1);
-		JLabel lbl4 = new JLabel(img1);
+	    img1 = new ImageIcon("imges/textimage_edit.png");
+		lbl1 = new JLabel(img1);
+		lbl2 = new JLabel(img1);
+		lbl3 = new JLabel(img1);
+		lbl4 = new JLabel(img1);
 	      
 	    JLabel[] lblimg  ={lbl1 , lbl2 , lbl3, lbl4};
 	      
@@ -254,7 +245,6 @@ public class BoardEdit extends JFrame implements ActionListener, WindowListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object obj = e.getSource();
-		//Boardwrite2 bw2 = new Boardwrite2(null);
 		if(obj == tfcomment || obj == btn_comment) {
 			ta_comment.append(tfcomment.getText() + "\n");
 			ta_comment.setText("");
@@ -284,7 +274,6 @@ public class BoardEdit extends JFrame implements ActionListener, WindowListener{
 				System.out.println("이름이 같음");
 				bw2 = new Boardwrite2(al, id, name, bd);
 				this.dispose();
-				//System.out.println(al.get(4));
 			}
 			
 		//2022-05-28 20:50 윤선호 게시물 삭제기능
@@ -312,36 +301,30 @@ public class BoardEdit extends JFrame implements ActionListener, WindowListener{
 	@Override
 	public void windowClosing(WindowEvent e) {
 		this.dispose();
-		//Board bd = new Board(id, name);
 	}
 
 	@Override
 	public void windowClosed(WindowEvent e) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void windowIconified(WindowEvent e) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void windowDeiconified(WindowEvent e) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void windowActivated(WindowEvent e) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void windowDeactivated(WindowEvent e) {
-		// TODO Auto-generated method stub
 		
 	}
 
