@@ -28,6 +28,7 @@ import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -117,7 +118,6 @@ public class Board extends JFrame implements ActionListener, MouseListener, Wind
 		
 		//글쓰기 버튼 출력
 		btnWrite = new JButton(new ImageIcon("imges/pencil1.png"));
-		//btnWrite.setFont(new Font("210 맨발의청춘 L", Font.BOLD, 10));
 		btnWrite.setBorderPainted(false);
 		btnWrite.setContentAreaFilled(false);
 		btnWrite.setFocusPainted(false);
@@ -163,7 +163,6 @@ public class Board extends JFrame implements ActionListener, MouseListener, Wind
 		btnsearch.setBorderPainted(false);
 		btnsearch.setContentAreaFilled(false);
 		btnsearch.setFocusPainted(false);
-		//btnsearch.setFont(new Font("210 맨발의청춘 L", Font.BOLD, 10));
 		btnsearch.addActionListener(this);
 		
 		panelUPDown.add(btnsearch);
@@ -190,18 +189,23 @@ public class Board extends JFrame implements ActionListener, MouseListener, Wind
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); // 단일 선택
 		table.addMouseListener(this);
 		
+		//2022-06-12 윤선호 테이블 색상변경
+		table.getTableHeader().setOpaque(false);
+		table.getTableHeader().setBackground(Color.YELLOW);
+		table.getTableHeader().setFont(new Font("210 맨발의청춘 L", Font.PLAIN, 14));
 		bdpanel.add(ScrollPane);
 		
 		//테이블 가운데 정렬
-		DefaultTableCellRenderer tscheduleCellRenderer = new DefaultTableCellRenderer();
-		tscheduleCellRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+		DefaultTableCellRenderer dtc = new DefaultTableCellRenderer();
+		dtc.setHorizontalAlignment(SwingConstants.CENTER);
+		
 		
 		//테이블의 columnmodel을 가져옴
 		TableColumnModel tcmSchedule = table.getColumnModel();
 		
 		//테이블을 가운데 정렬로 지정
 		for(int i = 0; i < tcmSchedule.getColumnCount(); i++) {
-			tcmSchedule.getColumn(i).setCellRenderer(tscheduleCellRenderer);
+			tcmSchedule.getColumn(i).setCellRenderer(dtc);
 		}
 		
 		add(bdpanel, BorderLayout.CENTER);
@@ -252,10 +256,6 @@ public class Board extends JFrame implements ActionListener, MouseListener, Wind
 		pre_i = (String)data.getValueAt(row, 0);
 		
 		String pre_title = (String)data.getValueAt(row, 1);
-		//0603 윤선호 여기 수정
-		//이렇게 하면 안됨
-		//String pre_writer = name;
-		//System.out.println(pre_writer);
 		String pre_writer = (String)data.getValueAt(row, 2);
 		String pre_writeday = (String)data.getValueAt(row, 3);
 		String pre_category = (String)data.getValueAt(row, 5);

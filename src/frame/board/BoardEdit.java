@@ -257,7 +257,7 @@ public class BoardEdit extends JFrame implements ActionListener, WindowListener{
 		//Boardwrite2 bw2 = new Boardwrite2(null);
 		if(obj == tfcomment || obj == btn_comment) {
 			ta_comment.append(tfcomment.getText() + "\n");
-			//tfcomment.setText("");
+			ta_comment.setText("");
 			
 			//현재 선택한 게시물의 글번호를 가져옴
 			bdi = Integer.parseInt(al.get(0).toString());
