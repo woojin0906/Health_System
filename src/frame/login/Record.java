@@ -1,5 +1,5 @@
 package frame.login;
-
+//운동기록 전우진, 기타 기능 : (78, 358줄) 윤선호, (348줄) 김지웅
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -356,6 +356,7 @@ public class Record extends JFrame implements ActionListener, WindowListener{
 			if(comboEx.getSelectedIndex() == 0) {
 				JOptionPane.showMessageDialog(this, "운동 기구를 선택해주세요.");
 			} else {
+			// 윤선호 운동기록 DB연결
 			rcal = new ArrayList<String>();
 			String ex_date = tfDate.getText();
 			String ex_name = comboEx.getSelectedItem().toString();
@@ -376,7 +377,6 @@ public class Record extends JFrame implements ActionListener, WindowListener{
 			MyRoutine mrt = new MyRoutine(id, name);
 			mrt.setLocationRelativeTo(this); // 프레임 정가운데 출력
 			db.EXRefresh(mrt, id);
-			// 전우진 기록지 보여주면서 해당 창 종료
 			this.dispose();
 			}
 		} else if(obj == btnDel) {

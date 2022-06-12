@@ -1,5 +1,5 @@
 package frame.login;
-
+// 나중에 지우기
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;

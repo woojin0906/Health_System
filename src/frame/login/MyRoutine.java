@@ -1,5 +1,5 @@
 package frame.login;
-
+//운동기록지 윤선호, 기타 기능 : (228줄) 김지웅
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;

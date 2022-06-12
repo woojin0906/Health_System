@@ -1,5 +1,5 @@
 package frame.main;
-
+// 메모장 디자인 : 윤선호 + 전우진, 기능 : 윤선호
 import java.awt.BorderLayout;
 import java.awt.FileDialog;
 import java.awt.event.ActionEvent;
@@ -23,8 +23,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 import frame.db.DB;
-// 메모창 전우진
-//2022-05-31 윤선호 메모장에 선택한 달력 날짜 출력
+
 public class MemoFrame extends JFrame implements ActionListener {
 
 	private JPanel panelNorth;

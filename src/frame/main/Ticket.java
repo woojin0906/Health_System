@@ -1,7 +1,5 @@
-// 작성자: 김지웅
-// 이용권 구매 프레임
 package frame.main;
-
+// 이용권 구매 김지웅, 기타 기능 : (48줄) 윤선호
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;

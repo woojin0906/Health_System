@@ -1,5 +1,5 @@
 package frame.board;
-//PT게시판 수정하는 폼
+//PT게시판 글쓰기 수정 디자인 : 허유진, 기능 : 허유진 + 윤선호
 
 import java.awt.BorderLayout;
 import java.awt.Color;

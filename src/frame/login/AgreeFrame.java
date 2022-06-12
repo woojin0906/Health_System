@@ -1,6 +1,6 @@
 package frame.login;
-// 202145022 전우진
-// 이용약관 프레임
+//이용약관 전우진
+
 import java.awt.BorderLayout;
 import java.awt.Checkbox;
 import java.awt.Color;

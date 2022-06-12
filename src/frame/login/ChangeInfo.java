@@ -1,7 +1,5 @@
-// 작성자: 김지웅
-// 개인정보 수정 프레임
 package frame.login;
-
+//개인정보수정 김지웅, 기타 기능 : (123, 257줄) 전우진
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -34,7 +32,6 @@ import frame.main.MainFrame;
 public class ChangeInfo extends JFrame implements ActionListener, WindowListener{
 	private Font mainFont;
 	private Font subFont;
-	//DB연결 전 임시 데이터 저장
 	private JButton profile;
 	private Color def;
 	private JButton edit;

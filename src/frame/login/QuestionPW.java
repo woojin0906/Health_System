@@ -1,7 +1,6 @@
-// 작성자: 김지웅
 // 비밀번호 확인폼
 package frame.login;
-
+//운동기구추가 김지웅, 기타 기능 : (202줄) 전우진
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -32,7 +31,6 @@ import frame.main.Ticket;
 public class QuestionPW extends JFrame implements ActionListener, WindowListener{
 	
 	private JButton submit;
-	// 전우진 5/28 23:36
 	// 회원정보 수정 가능한지 확인차 id 디비에 있는 것으로 변경
 	private String ID;
 	private JPasswordField InputPW;
@@ -50,6 +48,7 @@ public class QuestionPW extends JFrame implements ActionListener, WindowListener
 	private String enddate;// 전우진 만료일 date
 	private String namept;
 	private Board2_PT bdpt;
+	
 	//이용권 구매 프레임의 주소와 구분자를 받아오는 생성자
 	public QuestionPW(Ticket TK, int ctrIndex, String ID, int period) {
 		this.TK = TK; //이용권 구매 프레임 주소 저장
@@ -68,7 +67,6 @@ public class QuestionPW extends JFrame implements ActionListener, WindowListener
 		this.CI = CI; //정보 수정 프레임 주소 저장
 		this.ctrIndex = ctrIndex; //구분자 값 저장
 		this.ID = ID;
-		// 전우진 윈도우 취소 버튼
 		addWindowListener(this);
 		setPanel(); //메인 패널 설정 생정자 호출
 		setVisible(true);
@@ -84,7 +82,6 @@ public class QuestionPW extends JFrame implements ActionListener, WindowListener
 		this.alpt = alpt;
 		this.bdpt = bdpt;
 		
-		// 전우진 윈도우 취소 버튼
 		addWindowListener(this);
 		setPanel(); //메인 패널 설정 생정자 호출
 		setVisible(true);
@@ -95,7 +92,6 @@ public class QuestionPW extends JFrame implements ActionListener, WindowListener
 		this.period = period;
 		this.enddate = enddate;
 		
-		// 전우진 윈도우 취소 버튼
 		addWindowListener(this);
 		setPanel(); //메인 패널 설정 생성자 호출
 		setVisible(true);
@@ -224,7 +220,6 @@ public class QuestionPW extends JFrame implements ActionListener, WindowListener
 		
 	}
 
-	// 전우진 5/31 윈도우 취소 버튼 메인프레인 생성
 	@Override
 	public void windowClosing(WindowEvent e) {
 		//0609 김지웅 기능 재구현

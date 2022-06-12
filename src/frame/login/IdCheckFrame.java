@@ -1,5 +1,5 @@
 package frame.login;
-
+//아이디 중복확인 전우진, 기타 기능 : (111줄) 김지웅
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
@@ -108,6 +108,7 @@ public class IdCheckFrame extends JFrame implements WindowListener, ActionListen
 				JOptionPane.showMessageDialog(this, "아이디를 입력해주세요.");
 			} else {
 				if(id.length() >= 4 && id.length() <= 16) {
+					// 김지웅 아이디 중복 DB연결
 					db = new dbOpen();
 					db.checkID(this, id, tfId);
 				} else {

@@ -1,6 +1,5 @@
 package frame.board;
-
-//PT게시판 글쓰기(올리기 버튼있는 프레임)
+//PT게시판 글쓰기 디자인 : 허유진, 기능 : 허유진 + 윤선호
 
 import java.awt.BorderLayout;
 import java.awt.Color;

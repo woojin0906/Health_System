@@ -1,10 +1,9 @@
 package frame.main;
-
+//달력 윤선호
 import java.awt.Color;
 import java.util.Calendar;
 
 import javax.swing.JButton;
-//2022-05-26 201945012 윤선호 달력
 public class CalendarFunction {
 	JButton[] buttons;
 	Calendar cal = Calendar.getInstance();

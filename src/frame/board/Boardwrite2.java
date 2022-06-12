@@ -1,5 +1,5 @@
 package frame.board;
-
+//자유게시판 수정 디자인 : 허유진, 기능 : 윤선호
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -31,7 +31,7 @@ import javax.swing.JTextField;
 import javax.swing.plaf.DimensionUIResource;
 
 import frame.db.DB;
-//허유진 글쓰기 변형해서 수정하는 폼
+
 public class Boardwrite2 extends JFrame implements ActionListener, WindowListener{
 	
 	private Color skyblue;

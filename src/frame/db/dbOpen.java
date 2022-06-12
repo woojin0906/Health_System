@@ -1,7 +1,5 @@
-//작성자: 김지웅
-//DB 연결 및 기타 메소드
 package frame.db;
-
+//DB연결 김지웅 + 전우진
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;

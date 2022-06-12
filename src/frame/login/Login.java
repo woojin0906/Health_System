@@ -1,5 +1,5 @@
 package frame.login;
-//202145022 전우진
+//로그인 디자인 : 전우진 + 김지웅 + 허유진, 기능 : 전우진, 기타 기능 : (47, 235줄) 김지웅, (331줄) 윤선호
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -231,6 +231,7 @@ public class Login extends JFrame implements ActionListener, MouseListener, Wind
 					result += ""+ch+"";
 				}
 				
+				// 김지웅 로그인 DB연결
 				dbconn = new dbOpen();
 				dbconn.loginSelect(this, tfId.getText(), result);
 

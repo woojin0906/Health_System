@@ -1,6 +1,5 @@
 package frame.login;
-//202145022 전우진
-// 조인프레임 오류 수정
+// 비밀번호재설정 전우진, 기타 기능 : (149줄) 김지웅
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -147,6 +146,7 @@ public class PsCheckFrame extends JFrame implements MouseListener, ActionListene
 			}
 		} else if(obj == btnCheck || obj == tfId || obj == tfHint) { 
 			try {
+				// 김지웅 비밀번호재설정 DB연결
 				dbOpen temp = new dbOpen();
 				temp.resetPW(this, tfId.getText(), tfHint.getText());
 			} catch (Exception e2) {

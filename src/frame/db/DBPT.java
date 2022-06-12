@@ -1,5 +1,5 @@
 package frame.db;
-
+//DB연결 허유진
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;

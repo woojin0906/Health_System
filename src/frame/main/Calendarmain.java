@@ -1,5 +1,5 @@
 package frame.main;
-
+//달력(달력에 날짜 누르면 메모장에 그 날짜 출력) 윤선호
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
@@ -24,7 +24,6 @@ import javax.swing.JPanel;
 
 import frame.db.DB;
 
-//2022-05-26 201945012 윤선호 달력에 날짜 누르면 메모장에 그 날짜 출력
 class Calendarmain extends JFrame implements ActionListener, MouseListener, WindowListener{
 	
 	Container container = getContentPane();

@@ -1,5 +1,5 @@
 package frame.board;
-//PT게시판 댓글 - 202045016 허유진
+//PT게시판 댓글 디자인 : 허유진, 기능 : 허유진 + 윤선호
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -27,7 +27,6 @@ import javax.swing.plaf.DimensionUIResource;
 
 import frame.db.DB;
 import frame.db.DBPT;
-
 
 public class BoardEdit_PT extends JFrame implements ActionListener, WindowListener{
 	private Font mainFont;

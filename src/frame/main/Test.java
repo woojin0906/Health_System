@@ -1,5 +1,5 @@
 //package frame.main;
-//
+// 나중에 지우기
 //import frame.login.Login;
 //
 //public class Test {

@@ -1,6 +1,5 @@
-//작성자: 김지웅
 package frame.main;
-
+// 센터 정보 김지웅
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;

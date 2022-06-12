@@ -1,5 +1,5 @@
 package frame.board;
-//자유게시판 댓글 - 202045016 허유진
+//자유게시판 댓글 디자인 : 허유진, 기능 : 윤선호
 
 import java.awt.BorderLayout;
 import java.awt.Color;

@@ -1,5 +1,5 @@
 package frame.login;
-// 202145022 전우진
+// 회원가입 디자인 : 전우진 + 김지웅, 기능 : 전우진, 기타 기능 : (341줄) 김지웅
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
@@ -338,7 +338,7 @@ public class JoinFrame extends JFrame implements MouseListener, ActionListener, 
 										} catch (IOException e1) {
 											e1.printStackTrace();
 										}
-										// DB 연결
+										// 김지웅 회원가입 DB 연결
 										db = new dbOpen();
 										db.infoInsert(tfId.getText(), tfName.getText(), tfPhone.getText(), tfAddress.getText(), tfPassword.getText(), tfHint.getText());
 										JOptionPane.showMessageDialog(this, "회원가입이 완료 되었습니다");

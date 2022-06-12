@@ -1,11 +1,10 @@
 package frame.login;
-
+// 운동기록 날짜 라이브러리 윤선호
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import javax.swing.JFormattedTextField.AbstractFormatter;
-
 
 public class DateLabelFormatter extends AbstractFormatter {
 

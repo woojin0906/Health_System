@@ -1,7 +1,5 @@
 package frame.main;
-//2022-05-20 201945012 윤선호 디자인 변경 및 WindowListener 추가
-//22.06.11 김지웅 setInfo,setMenu 메소드 전체 수정. 디자인 엎음
-
+// 메인프레임 디자인 : 윤선호 + 전우진 + 김지웅, 기능 : 윤선호 + 전우진
 import javax.swing.*;
 import javax.swing.plaf.DimensionUIResource;
 

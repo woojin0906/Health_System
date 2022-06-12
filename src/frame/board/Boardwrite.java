@@ -1,6 +1,5 @@
 package frame.board;
-
-
+//자유게시판 글쓰기 디자인 : 허유진, 기능 : 윤선호
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;

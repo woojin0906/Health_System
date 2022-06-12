@@ -1,5 +1,5 @@
 package frame.board;
-
+// 자유게시판 디자인 : 허유진, 기능 : 윤선호 
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -51,13 +51,11 @@ import javax.swing.table.TableModel;
 import frame.db.DB;
 import frame.main.MainFrame;
 
-
 public class Board extends JFrame implements ActionListener, MouseListener, WindowListener, ItemListener{
 	private String[] title = {"글번호", "제목", "작성자", "작성날짜", "내용", "분류"};
 	private String[][]datas = new String[0][5];
 	private DefaultTableModel model = new DefaultTableModel(datas, title);
 	private JTable table = new JTable(model);
-	
 	
 	private JPanel panelUP,panelUPUP , panelUPDown;
 	private JLabel lblTilte;

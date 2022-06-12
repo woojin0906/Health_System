@@ -1,5 +1,5 @@
 package frame.board;
-
+//PT게시판 디자인 : 허유진, 기능 : 허유진 + 윤선호, 기타 기능 : (291줄) 김지웅
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
@@ -49,7 +49,6 @@ public class Board2_PT extends JFrame implements ActionListener, MouseListener, 
 	private DefaultTableModel model = new DefaultTableModel(datas, title);
 	private JTable table = new JTable(model);
 	
-
 	private DBPT dbpt = new DBPT(null);
 	private JPanel panelUP, panelUPUP, panelUPDown, bdpanel;
 	private JLabel lblTilte;
@@ -288,6 +287,7 @@ public class Board2_PT extends JFrame implements ActionListener, MouseListener, 
 		} else {
 			
 			runBoard();
+			// 김지웅 비밀번호 검증 기능 추가
 			QuestionPW pwCheck = new QuestionPW(this, 3, bd_ID, namept,alpt,this);
 		}
 	}

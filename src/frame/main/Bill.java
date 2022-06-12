@@ -1,7 +1,5 @@
-// 작성자: 김지웅
-// 영수증 출력 프레임
 package frame.main;
-
+//영수증 김지웅
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
