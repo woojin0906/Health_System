@@ -192,10 +192,10 @@ public class BoardWrite_PT2 extends JFrame implements ActionListener, WindowList
 					result += ""+ch+"";
 				} 
 				if(result.equals("")){
-					JOptionPane.showMessageDialog(null, "비밀번호를 입력해주세요");
+					JOptionPane.showMessageDialog(this, "비밀번호를 입력해주세요");
 					pw.requestFocus();	}
 				else if(result.length() > 4|| result.length() == 3||result.length() ==2||result.length()==1){
-						JOptionPane.showMessageDialog(null,"비밀번호는 4글자입니다." ,"알림", JOptionPane.WARNING_MESSAGE);
+						JOptionPane.showMessageDialog(this,"비밀번호는 4글자입니다." ,"알림", JOptionPane.WARNING_MESSAGE);
 						}else {
 				
 							DBPT dbpt = new DBPT(null);

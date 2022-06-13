@@ -1,7 +1,9 @@
 package frame.main;
-// 메모장 디자인 : 윤선호 + 전우진, 기능 : 윤선호
+// 메모장 디자인 : 윤선호 + 전우진, 기능 : 윤선호 ,기타: 허유진(디자인 약간 수정)
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.FileDialog;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -21,6 +23,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.plaf.DimensionUIResource;
 
 import frame.db.DB;
 
@@ -54,6 +57,8 @@ public class MemoFrame extends JFrame implements ActionListener {
 	private String memo_date = null;
 	private String memo_data = null;
 	private String today_date = null;
+	private Color skyblue;
+	private Color Blue;
 	
 	public String getToday_date() {
 		return today_date;
@@ -73,27 +78,36 @@ public class MemoFrame extends JFrame implements ActionListener {
 		setLocationRelativeTo(calendarmain);
 		setResizable(false);
 		System.out.println(btn_num);
+		skyblue = new Color(189, 215, 238);
+		Blue = new Color(70, 96, 147);
 		
 		setNorth();
 		setCenter();
 		setSouth();
 		db.showMemo(id, day, this);
-		
 		setVisible(true);
 	}
 
 	private void setNorth() {
 		//각 날짜별로 메모장에 날짜 출력 2022-05-26 윤선호
-		today_date = calendarmain.getLabel_year().getText() + calendarmain.getLabel_month().getText() + calendarmain.getStr() +"일";		
+		today_date = calendarmain.getLabel_year().getText() + calendarmain.getLabel_month().getText() + calendarmain.getStr() +"일";	
 		todayLab = new JLabel(calendarmain.getLabel_year().getText() + calendarmain.getLabel_month().getText() + calendarmain.getStr() +"일");
+		todayLab.setFont(new Font("210 맨발의청춘 L", Font.BOLD, 15));
 		panelNorth = new JPanel();
+		panelNorth.setLayout(null);
+		panelNorth.setPreferredSize(new DimensionUIResource(50,35));
+		panelNorth.setBackground(skyblue);
+		todayLab.setBounds(65, 11, 200, 20);
 		panelNorth.add(todayLab);
 		add(panelNorth, BorderLayout.NORTH);
 	}
 
 	private void setCenter() {
 		panelCenter = new JPanel();
-		taMemo = new JTextArea(12, 29);
+		panelCenter.setBackground(skyblue);
+		taMemo = new JTextArea(11, 20);
+		taMemo.setLineWrap(true);
+		taMemo.setFont(new Font("210 맨발의청춘 L", Font.PLAIN, 13));
 		panelCenter.add(taMemo);
 		
 		sp = new JScrollPane(taMemo, 
@@ -106,13 +120,24 @@ public class MemoFrame extends JFrame implements ActionListener {
 
 	private void setSouth() {
 		panelSouth = new JPanel();
+		panelSouth.setBackground(skyblue);
+		
 		btnSave = new JButton("Save");
+		btnSave.setBackground(Blue);
+		btnSave.setForeground(Color.white);
+		btnSave.setFont(new Font("210 맨발의청춘 L", Font.BOLD, 11));
 		btnSave.addActionListener(this);
 		
 		btnClear = new JButton("Clear");
+		btnClear.setBackground(Blue);
+		btnClear.setForeground(Color.white);
+		btnClear.setFont(new Font("210 맨발의청춘 L", Font.BOLD, 11));
 		btnClear.addActionListener(this);
 		
 		btnExit = new JButton("Exit");
+		btnExit.setBackground(Blue);
+		btnExit.setForeground(Color.white);
+		btnExit.setFont(new Font("210 맨발의청춘 L", Font.BOLD, 11));
 		btnExit.addActionListener(this);
 		
 		panelSouth.add(btnSave);

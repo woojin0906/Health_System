@@ -56,7 +56,9 @@ public class BoardEdit extends JFrame implements ActionListener, WindowListener{
 		setTitle("게시물 댓글 및 삭제");
 		setLocation(200, 200);
 		setSize(450, 643);
+		
 		setLayout(new BorderLayout());
+		
 		skyblue = new Color(189, 215, 238);
 		mainFont = new Font("210 맨발의청춘 L", 0, 16);
 		
@@ -65,7 +67,7 @@ public class BoardEdit extends JFrame implements ActionListener, WindowListener{
 		setCenter();
 		
 		setSouth();
-		
+		setResizable(false); 
 		setVisible(true);
 	}
 
@@ -264,7 +266,7 @@ public class BoardEdit extends JFrame implements ActionListener, WindowListener{
 			//로그인 한 사람의 id와 이 글을 작성한 사람의 아이디가 다르면 수정, 삭제 불가
 			if(!name.equals(al.get(2))) {
 				System.out.println(al.get(2) + "이름 다름");
-				JOptionPane.showMessageDialog(null, "게시물 수정 불가", "경고 메시지", JOptionPane.WARNING_MESSAGE);
+				JOptionPane.showMessageDialog(this, "게시물 수정 불가", "경고 메시지", JOptionPane.WARNING_MESSAGE);
 				
 			}else if(name.equals(al.get(2))) {
 				System.out.println("이름이 같음");
@@ -276,7 +278,7 @@ public class BoardEdit extends JFrame implements ActionListener, WindowListener{
 		//2022-05-28 20:50 윤선호 게시물 삭제기능
 		}else if(obj == btn_delete) {
 			if(!name.equals(al.get(2))) {
-				JOptionPane.showMessageDialog(null, "게시물 삭제 불가", "경고 메시지", JOptionPane.WARNING_MESSAGE);
+				JOptionPane.showMessageDialog(this, "게시물 삭제 불가", "경고 메시지", JOptionPane.WARNING_MESSAGE);
 			}else if(name.equals(al.get(2))) {
 					DB db = new DB(null, null);
 					

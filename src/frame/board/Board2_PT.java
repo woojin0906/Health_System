@@ -126,7 +126,7 @@ public class Board2_PT extends JFrame implements ActionListener, MouseListener, 
 		panelUPUP.setBackground(skyblue);
 		lblTilte = new JLabel("PT게시판");
 		lblTilte.setFont(new Font("210 맨발의청춘 L", Font.BOLD, 25));
-		lblTilte.setLocation(20, 20);
+		lblTilte.setLocation(10, 20);
 		lblTilte.setSize(150, 30);
 		panelUPUP.add(lblTilte);
 		
@@ -150,31 +150,31 @@ public class Board2_PT extends JFrame implements ActionListener, MouseListener, 
 		panelUPDown.setBackground(skyblue);
 		
 		myboardPt = new JCheckBox("내 게시물", false);
-		myboardPt.setFont(new Font("210 맨발의청춘 L", Font.PLAIN, 12));
-		myboardPt.setBounds(17,8,80,30);
+		myboardPt.setFont(new Font("210 맨발의청춘 L", Font.PLAIN, 13));
+		myboardPt.setBounds(10,6,80,40);
 		myboardPt.setBackground(skyblue);
 		myboardPt.addItemListener(this);
 		panelUPDown.add(myboardPt);
 		
 		//검색필드
-		tfsearch = new JTextField("제목을입력하세요",20);
-		tfsearch.setBounds(100, 13, 275, 20);
+		tfsearch = new JTextField("제목을입력하세요...",20);
+		tfsearch.setBounds(100, 16, 275, 20);
 		tfsearch.setBorder(BorderFactory.createEmptyBorder());
 		tfsearch.addActionListener(this);
 		tfsearch.addMouseListener(this);
-		tfsearch.setFont(new Font("210 맨발의청춘 L", Font.PLAIN, 11));
+		tfsearch.setFont(new Font("210 맨발의청춘 L", Font.PLAIN, 12));
 
 		
 		ImageIcon imgtfsearch = new ImageIcon("imges/tfsearch2.png");
 		JLabel lbltfsearch = new JLabel(imgtfsearch);
-		lbltfsearch.setBounds(88, 2, 300, 40);
+		lbltfsearch.setBounds(88, 5, 300, 40);
 		
 		panelUPDown.add(tfsearch);
 		panelUPDown.add(lbltfsearch);
 		
 		//검색버튼
 		btnsearch = new JButton(new ImageIcon("imges/btnsearch2.png"));
-		btnsearch.setBounds(380, 12, 70, 25);
+		btnsearch.setBounds(380, 15, 70, 25);
 		btnsearch.setBorderPainted(false);
 		btnsearch.setContentAreaFilled(false);
 		btnsearch.setFocusPainted(false);
