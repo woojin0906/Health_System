@@ -9,7 +9,6 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-import javax.swing.ImageIcon;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -27,14 +26,9 @@ public class dbOpen {
 	private java.sql.Statement statement;
 	private ResultSet result;
 	private Connection conn;
-	private String pw; //로그인 시 비밀번호 검증용 변수
-	private String hint;
+	private String pw, hint, db_pw, name;
 	private MainFrame mainFrame;
-	private IdCheckFrame idch;
 	private int period;
-	private String db_pw;
-	private String db_id;
-	private String name;
 	
 	//전우진
 	private String date;

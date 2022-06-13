@@ -32,21 +32,15 @@ public class QuestionPW extends JFrame implements ActionListener, WindowListener
 	
 	private JButton submit;
 	// 회원정보 수정 가능한지 확인차 id 디비에 있는 것으로 변경
-	private String ID;
+	private String ID, enddate, namept, db_pw, bdID;
 	private JPasswordField InputPW;
 	private Ticket TK;
 	private ChangeInfo CI;
-	private Font mainFont;
-	private Font pwFont;
-	private Color def;
-	private int ctrIndex;
-	private int period; // 이용권 증가시킬 기간 저장
-	private String db_pw;
+	private Font mainFont, pwFont;
+	private Color mainColor;
+	private int ctrIndex, period;
 	private Board2_PT PT;
-	private String bdID;
 	private ArrayList<String> alpt;
-	private String enddate;// 전우진 만료일 date
-	private String namept;
 	private Board2_PT bdpt;
 	private BoardEdit_PT bep;
 	
@@ -106,12 +100,12 @@ public class QuestionPW extends JFrame implements ActionListener, WindowListener
 		
 		mainFont = new Font("210 맨발의청춘 L", 0, 14); // 메인 및 서브 컬러 RGB값 담는 객체 생성
 		pwFont = new Font("돋움", 0, 24);
-		def = new Color(189, 215, 238); //별도로 사용할 글꼴의 세부사항 설정
+		mainColor = new Color(189, 215, 238); //별도로 사용할 글꼴의 세부사항 설정
 		
 		JPanel mainPanel = new JPanel();
 		add(mainPanel, BorderLayout.CENTER);
 		mainPanel.setPreferredSize(new Dimension(230, 130)); //메인 패널 크기 230*130 지정
-		mainPanel.setBackground(def);
+		mainPanel.setBackground(mainColor);
 		mainPanel.setLayout(null);
 		
 		//안내말 텍스트라벨 붙이기

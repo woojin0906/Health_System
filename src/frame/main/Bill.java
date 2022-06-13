@@ -20,14 +20,10 @@ import javax.swing.JPanel;
 public class Bill extends JFrame implements WindowListener{
 	
 	private Ticket TK;
-	private Font mainFont;
-	private Font mainFont2;
-	private Font subFont;
-	private String storeName = "건강해GYM";
-	private int i;
-	private int total;
+	private Font mainFont, mainFont2, subFont;
+	private String ID, storeName = "건강해GYM";
+	private int i, total;
 	private DecimalFormat priceFormat;
-	private String ID;
 	
 	public Bill(Ticket TK, String ID) {
 		this.ID = ID;

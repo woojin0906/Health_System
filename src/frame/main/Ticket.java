@@ -25,21 +25,14 @@ import frame.login.QuestionPW;
 
 public class Ticket extends JFrame implements ActionListener, ItemListener, WindowListener {
 
-	private Font mainFont;
-	private Font subFont;
-	private Font TicketFont;
-	private Font priceFont;
-	private Color def;
-	private Color def2;
-	private int total;
-	private JLabel Select;
-	private JLabel PriceMonitor;
-	private JButton payment;
-	private JButton cancleBtn;
+	private Font mainFont, subFont, TicketFont, priceFont;
+	private Color def, def2;
+	private int total, period;
+	private JLabel Select, PriceMonitor;
+	private JButton payment, cancleBtn;
 	private JComboBox<String> priceList;
 	private DecimalFormat priceFormat;
 	private MainFrame mf;
-	private int period;
 	private String ID;
 
 	public int getTotal() {

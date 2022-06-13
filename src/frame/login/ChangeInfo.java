@@ -30,24 +30,16 @@ import frame.db.dbOpen;
 import frame.main.MainFrame;
 
 public class ChangeInfo extends JFrame implements ActionListener, WindowListener{
-	private Font mainFont;
-	private Font subFont;
-	private JButton profile;
+	private Font mainFont, subFont;
+	private JButton profile, edit, pwEdit;
 	private Color def;
-	private JButton edit;
 	private Object obj;
 	private MainFrame mf;
 	private dbOpen db;
-	private JTextField nameField;
-	private JPasswordField pwField;
-	private JPasswordField pwCheckField;
-	private JTextField phoneField;
-	private JTextField addressField;
-	private JButton pwEdit;
-	private String imgfile;
-	private ImageIcon profileImg;
-	private ImageIcon profileImg2;
-	private String ID;
+	private JTextField nameField, phoneField, addressField;
+	private JPasswordField pwField, pwCheckField;
+	private String imgfile, ID;
+	private ImageIcon profileImg, profileImg2;
 
 	public JPasswordField getPwField() {
 		return pwField;

@@ -17,12 +17,9 @@ import javax.swing.border.LineBorder;
 
 public class StoreInfo extends JFrame implements WindowListener {
 	
-	private Color mainColor;
-	private Color subColor;
-	private Font titleFont;
-	private Font infoFont;
-	private JLabel[] titleLbl;
-	private JLabel[] infoLbl;
+	private Color mainColor, subColor;
+	private Font titleFont, infoFont;
+	private JLabel[] titleLbl, infoLbl;
 	private String ID;
 
 	public StoreInfo(String ID){
