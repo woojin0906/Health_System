@@ -136,6 +136,7 @@ public class ExAddFrame extends JFrame implements ActionListener, MouseListener,
 			if(tfName.getText().equals("")) {
 				JOptionPane.showMessageDialog(this, "운동 이름을 작성해주세요.");
 			}else {
+				record.getVecCombo().removeAllElements();
 				record.setEnabled(true);
 				record.setVisible(true);
 				db.AddMyRt(record, id, tfName.getText());

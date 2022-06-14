@@ -9,6 +9,9 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Random;
 
+import javax.swing.JDialog;
+import javax.swing.JOptionPane;
+
 import frame.board.Board;
 import frame.board.BoardEdit;
 import frame.login.MyRoutine;
@@ -52,13 +55,6 @@ public class DB {
 
 	//2022-05-26 윤선호 자유게시판 글 작성 DB
 	public void BDInsert(String title, String writeday, String writer, String category, String bd_contents, String id) {
-		System.out.println("입력할 데이터 : ");
-		System.out.println(title);
-		System.out.println(writeday);
-		System.out.println(writer);
-		System.out.println(category);
-		System.out.println(bd_contents);
-		
 	try {
 		String sqlInsert = "insert into FREETALK (BD_ID, BD_TITLE, WRITE_DAY, BD_WRITER, category, bd_content, ID) values(emp_seq.NEXTVAL, '" + title + "', '" + writeday + "', '" + writer + "', '" + category +"', '" + bd_contents +"', '" + id + "')";
 		stmt.executeUpdate(sqlInsert);
@@ -100,7 +96,6 @@ public class DB {
 	//2022-05-27 윤선호 자유게시판 글 수정
 	public void BDUpdate(String id, String title, String writeday, String writer, String category, String bd_contents ) {
 		try {
-			//String sqlInsert = "update FREETALK (BD_ID, BD_TITLE, WRITE_DAY, BD_WRITER, category, bd_content) values('" + i + "', '" + title + "', '" + writeday + "', '" + writer + "', '" + category +"', '" + bd_contents +"')";
 			String sqlUpdate = "update FREETALK SET BD_TITLE = '" + title +"', WRITE_DAY = '" + writeday + "', BD_WRITER = '" + writer + "', CATEGORY = '" + category + "', BD_CONTENT = '" + bd_contents + "' where BD_ID = '" + Integer.parseInt(id) +"'";
 			stmt.executeUpdate(sqlUpdate);
 			
@@ -126,10 +121,7 @@ public class DB {
 		try {
 			Random rnd = new Random();
 			//글번호의 최대값보다 큰 수부터 랜덤값 가져오게 바꾸자
-			System.out.println(rnd.nextInt(99999 -10000 + 1) + 10000);
-			System.out.println(id);
 			String cmt = bd_contents;
-			//System.out.println(i);
 			System.out.println(cmt);
 		String sqlInsert = "insert into FR_COMMENT values('" + rnd.nextInt(99999 - 10000 + 1) + 10000 + "', '" + bd_contents + "', '" + id + "', '" + name + "')";
 		stmt.executeUpdate(sqlInsert);
@@ -159,11 +151,6 @@ public class DB {
 			result = stmt.executeQuery("select \"CMT_WRITER\", \"COMMENT\" FROM FR_COMMENT where BD_ID = '" + Integer.parseInt(id) + "'");	
 			
 			while(result.next()) {
-				//String cmt_writer = result.getString(0);
-				//System.out.println(cmt_writer);
-				//String test = result.getString(1);
-				//be.getta_comment().append(cmt_writer + " : " + test + "\n");
-				//System.out.println(result.getString(1));
 				String[] cmt = {result.getString("CMT_WRITER"), result.getString("COMMENT")};
 				System.out.println(cmt[0]);
 				System.out.println(cmt[1]);
@@ -207,10 +194,6 @@ public class DB {
 	}
 	//2022-05-29 윤선호 메모장 데베 저장
 	public void InsertMemo(String memo_date, String memo_data, String id) {
-		System.out.println(memo_date);
-		System.out.println(memo_data);
-		System.out.println(id);
-		
 		try {
 			String sqlInsert = "insert into MEMO (MEMO_ID, MEMO_CONTENT, ID, MEMO_DATE) values(memo_seq.NEXTVAL, '" + memo_data + "', '" + id +"', '" + memo_date +"')";
 			stmt.executeUpdate(sqlInsert);
@@ -332,7 +315,6 @@ public class DB {
 				stmt = conn.createStatement();
 				sql = "select * FROM MEMO WHERE ID = '" + id +"' AND MEMO_DATE = '" + date +"'";
 				result = stmt.executeQuery(sql);
-				//System.out.println(sql1);
 				
 				if(result.next()) {
 					String my_memo = result.getString(2);
@@ -362,14 +344,6 @@ public class DB {
 		}
 		//2022-06-05 윤선호 운동기록 디비저장
 		public void EXInsert(String id, String name, String ex_date, String ex_name, String ex_weight, String ex_times, String ex_reps, String ex_set) {
-			System.out.println(id);
-			System.out.println(name);
-			System.out.println(ex_date);
-			System.out.println(ex_name);
-			System.out.println(ex_weight);
-			System.out.println(ex_times);
-			System.out.println(ex_reps);
-			System.out.println(ex_set);
 			try {
 				String sqlInsert = "insert into EX (ID, NAME, EX_DATE, EX_NAME, EX_WEIGHT, EX_TIMES, EX_REPS, EX_SET) "
 						+ "values('" + id + "', '" + name + "', '" + ex_date + "', '" + ex_name + "', '" + ex_weight + "', '" + ex_times + "', '" + ex_reps + "', '" + ex_set + "') ";
@@ -497,16 +471,16 @@ public class DB {
 				}
 			}
 		}
-		//0609 윤선호 운동 목록 저장
+		//0609 윤선호 운동 목록 저장, 0614 윤선호 같은 운동 저장 안되게 추가
 		public void AddMyRt(Record record, String id, String myex) {
 			try {
 				stmt = conn.createStatement();
+				result = stmt.executeQuery("select MY_EXNAME FROM MY_EX where MY_EXNAME = '" + myex +"'");
+				if(result.next()) {
+					JOptionPane.showMessageDialog(record, "이미 있습니다.", "경고", JOptionPane.WARNING_MESSAGE);
+				}else {
 				result = stmt.executeQuery("insert into MY_EX (ID, MY_EXNAME) VALUES('" + id + "', '" + myex +"')");
-				//result = stmt.executeQuery("select MY_EXNAME FROM MY_EX where ID = '" + id +"'");
-				//while(result.next()) {
-					//String mine = result.getString("MY_EXNAME");
-					//record.getVecCombo().add(mine);
-				//}
+				}
 				System.out.println("운동명 디비 잘 추가");
 			}catch (Exception e) {
 				System.out.println("운동명 디비 안됨");
