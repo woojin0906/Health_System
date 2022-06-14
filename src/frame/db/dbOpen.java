@@ -211,9 +211,8 @@ public class dbOpen {
 				}
 				Date startDate = new Date();
 				format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
-				System.out.println(startDate);
 				int dd = Integer.parseInt(period.getText());
-				if(dd < 0 || date.equals("0") || date == null ) {
+				if(dd < 0 || period.equals(null) || date.equals("0") || date == null ) { // 만료일이 0일 이하이거나 종료 날짜가 널 값 혹은 0인 경우
 					
 					endDate = format.format(startDate);
 					diffDay = 0;
@@ -221,7 +220,6 @@ public class dbOpen {
 					period.setText(lbl);
 					String sqlUpdate = "update memberinfo set enddate = '" + endDate + "', period = '" +  period.getText() + "' where id = '" + id + "'";
 					statement.executeUpdate(sqlUpdate);
-					System.out.println(endDate);
 					
 				} else {
 
@@ -232,7 +230,6 @@ public class dbOpen {
 					String lblday = Long.toString(diffDay);
 					period.setText(lblday);
 					endDate = format.format(finish);
-					System.out.println(endDate);
 					String sqlUpdate = "update memberinfo set enddate = '" + endDate + "', period = '" +  period.getText() + "' where id = '" + id + "'";
 					statement.executeUpdate(sqlUpdate);
 					
@@ -327,7 +324,6 @@ public class dbOpen {
 			}
 			addPeriod += period;
 			add = addPeriod-period;
-			System.out.println(add);
 			result = statement.executeQuery("select enddate from memberinfo where id = '" + id + "'" );
 
 			if(result.next()) {

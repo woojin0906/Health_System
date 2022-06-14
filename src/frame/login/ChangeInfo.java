@@ -1,5 +1,5 @@
 package frame.login;
-//개인정보수정 김지웅, 기타 기능 : (123, 257줄) 전우진
+//개인정보수정 김지웅, 기타 기능 : (117, 249, 325줄) 전우진
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -146,7 +146,6 @@ public class ChangeInfo extends JFrame implements ActionListener, WindowListener
 			textlb[i].setBounds(20, y, 100, 30);
 			CenterPanel.add(textlb[i]);
 		}
-		
 		
 		//아이디 텍스트 필드 붙이기
 		JTextField idField = new JTextField(ID, 11);

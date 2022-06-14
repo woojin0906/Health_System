@@ -1,5 +1,5 @@
 package frame.login;
-// 운동기구추가 디자인 : 전우진, 기능 : 윤선호, 기타 기능 : (131줄) 김지웅
+// 운동기구추가 디자인 : 전우진, 기능 : 윤선호, 기타 기능 : (132줄) 김지웅
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;

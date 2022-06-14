@@ -43,6 +43,7 @@ public class AgreeFrame extends JFrame implements ActionListener, WindowListener
 		setResizable(false);
 		setLayout(new BorderLayout());
 		addWindowListener(this);
+		
 		mainFont = new Font("210 맨발의청춘 L", Font.BOLD, 20); // 메인 제목
 	    subFont = new Font("210 맨발의청춘 L", Font.PLAIN, 13); 
 	    lblInfoFont = new Font("210 맨발의청춘 L", Font.BOLD, 13); // 각 장의 제목

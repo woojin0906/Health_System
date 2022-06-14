@@ -1,5 +1,5 @@
 package frame.login;
-//아이디 중복확인 전우진, 기타 기능 : (111줄) 김지웅
+//아이디 중복확인 전우진, 기타 기능 : (112줄) 김지웅
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;

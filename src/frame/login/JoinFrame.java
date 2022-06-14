@@ -1,5 +1,5 @@
 package frame.login;
-// 회원가입 디자인 : 전우진 + 김지웅, 기능 : 전우진, 기타 기능 : (341줄) 김지웅
+// 회원가입 디자인 : 전우진 + 김지웅, 기능 : 전우진, 기타 기능 : (342줄) 김지웅
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;

@@ -1,6 +1,6 @@
 // 비밀번호 확인폼
 package frame.login;
-//운동기구추가 김지웅, 기타 기능 : (202줄) 전우진
+//운동기구추가 김지웅, 기타 기능 : (197줄) 전우진
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
