@@ -31,7 +31,6 @@ public class MainFrame extends JFrame implements Runnable, ActionListener, Windo
 	private JButton btn_logout, btn_modify, btn_buy, btn_board1, btn_board2, btn_cal;
 	private String id, name; //로그인 한 계정의 id, name을 받아옴.
 
-	// 전우진 5/29 db
 	private dbOpen db;
 	private String enddate;
 	private JButton btn_record;
@@ -54,12 +53,10 @@ public class MainFrame extends JFrame implements Runnable, ActionListener, Windo
 		
 		setInfo();
 		setMenu();
-		
-		// 전우진 5/29 12:34 db 연결
+
 		db = new dbOpen();
 		db.pullInfoMain(id, lbl_member);
-		
-		// 전우진 만료일 db 6/3
+
 		db = new dbOpen();
 		db.plusPeriodDate(id, lbl_day, enddate);
 		
@@ -82,12 +79,10 @@ public class MainFrame extends JFrame implements Runnable, ActionListener, Windo
 		
 		setInfo();
 		setMenu();
-		
-		// 전우진 5/29 12:34 db 연결
+
 		db = new dbOpen();
 		db.pullInfoMain(id, lbl_member);
-		
-		// 전우진 만료일 db 6/3
+
 		db = new dbOpen();
 		db.plusPeriodDate(id, lbl_day, enddate);
 		
@@ -108,9 +103,8 @@ public class MainFrame extends JFrame implements Runnable, ActionListener, Windo
 		panelLeft.setBackground(new Color(189, 215, 238));
 		panelLeft.setPreferredSize(new Dimension(280, 290));
 		panelNorth.add(panelLeft, BorderLayout.WEST);
-		
-		// 전우진 5/31
-		// 김지웅 프로필 이미지 가져오기
+
+		// 프로필 이미지
 		ImageIcon icn = new ImageIcon("imges/" + id + ".png");
 		Image img = icn.getImage();
 		Image changeImg = img.getScaledInstance(250, 250, Image.SCALE_SMOOTH);
@@ -131,7 +125,7 @@ public class MainFrame extends JFrame implements Runnable, ActionListener, Windo
 		panelTime.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		panelRight.add(panelTime, BorderLayout.NORTH);
 		
-		//시간이 흐르는 시계를 사용하기 위한 Thread
+		//윤선호 시간이 흐르는 시계를 사용하기 위한 Thread
 		Thread thread = new Thread(this);
 		thread.start(); // start를 하면 run()메소드에서 스레드 실행 시작
 		
@@ -163,8 +157,7 @@ public class MainFrame extends JFrame implements Runnable, ActionListener, Windo
 		panelInfo.setBackground(mainColor);
 		panelInfo.setLayout(new FlowLayout(FlowLayout.LEFT));
 		panelRight.add(panelInfo, BorderLayout.CENTER);
-		
-		// 전우진 5/29 1:48 라벨 분리
+
 		// 회원님!
 		lbl_member = new JLabel(name + " 회원님!");
 		lbl_member.setFont(new Font("210 맨발의청춘 L", Font.BOLD, 30));
@@ -172,14 +165,12 @@ public class MainFrame extends JFrame implements Runnable, ActionListener, Windo
 		lbl_member.setHorizontalAlignment(JLabel.LEFT);
 		lbl_member.setBorder(BorderFactory.createEmptyBorder(20, 0, 0, 265));
 		panelInfo.add(lbl_member);
-		
-		// 전우진 5/29 1:48 라벨 분리
+
 		// 님 만료일까지
 		lbl_lastday = new JLabel("만료일까지 ");
 		lbl_lastday.setFont(new Font("210 맨발의청춘 L", Font.BOLD, 22));
 		panelInfo.add(lbl_lastday);
 		
-		// 전우진 5/29 1:48 라벨 분리
 		// 로그인한 회원의 만료일 수
 		lbl_day = new JLabel();
 		lbl_day.setFont(new Font("210 맨발의청춘 L", Font.BOLD, 22));
@@ -188,8 +179,7 @@ public class MainFrame extends JFrame implements Runnable, ActionListener, Windo
 		lbl_day.setForeground(Color.RED);
 		lbl_day.setBackground(mainColor);
 		panelInfo.add(lbl_day);
-		
-		// 전우진 5/29 1:48 라벨 분리
+
 		lbl_coment = new JLabel("일 남았습니다.");
 		lbl_coment.setFont(new Font("210 맨발의청춘 L", Font.BOLD, 22));
 		lbl_coment.setBounds(210, 70, 150, 40);
@@ -374,42 +364,41 @@ public class MainFrame extends JFrame implements Runnable, ActionListener, Windo
 	public void actionPerformed(ActionEvent e) {
 		Object obj = e.getSource();
 		
-		//2022-05-19 윤선호 이용권 구매 버튼을 누르면 이용권 구매 화면이 뜬다.
+		//윤선호 이용권 구매 버튼을 누르면 이용권 구매 화면이 뜬다.
 		if(obj == btn_buy) {
 			Ticket tk = new Ticket(this, id);
 			tk.setLocationRelativeTo(this);
 			this.dispose(); //이용권 구매 프레임 호출시 메인프레임 종료
 		}
 		else if(obj == btn_storeInfo) {
-			//0611 김지웅 센터정보 프레임 생성 및 호출 버튼 생성
+			//김지웅 센터정보 프레임 생성 및 호출 버튼 생성
 			StoreInfo si = new StoreInfo(id);
 			si.setLocationRelativeTo(this);
 			this.dispose();
 		}
 		
 		else if(obj == btn_board1) {
-			// 5/31 전우진 자유게시판 생성시 메인 꺼짐
-			//2022-05-19 윤선호 자유게시판과 메인프레임 연결
+			// 전우진 자유게시판 생성시 메인 꺼짐
+			//윤선호 자유게시판과 메인프레임 연결
 			Board bd = new Board(id, name);
 			bd.setLocationRelativeTo(this);
 			this.dispose();
 		}
 		else if(obj == btn_board2) {
-			// 5/31 전우진 자유게시판 생성시 메인 꺼짐
-			//2022-05-19 윤선호 PT 게시판과 메인프레임 연결
-			//06/10 허유진 이름 연결
+			//윤선호 PT 게시판과 메인프레임 연결
+			//허유진 이름 연결
 			Board2_PT pt = new Board2_PT(this, id,name);
 			pt.setLocationRelativeTo(this);
 			this.dispose();
 			
 		}else if(obj == btn_cal) {
-			// 5/31 전우진 자유게시판 생성시 메인 꺼짐
+			//전우진 자유게시판 생성시 메인 꺼짐
 			Calendarmain cm = new Calendarmain(this, id);
 			cm.setLocationRelativeTo(this);
 			this.dispose();
 			
 		}else if(obj == btn_modify) {
-			// 5/31 전우진 자유게시판 생성시 메인 꺼짐
+			//전우진 자유게시판 생성시 메인 꺼짐
 			ChangeInfo ci = new ChangeInfo(this, id);
 			ci.setLocationRelativeTo(this);
 			this.dispose();

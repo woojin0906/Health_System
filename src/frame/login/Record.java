@@ -1,5 +1,5 @@
 package frame.login;
-//운동기록 전우진, 기타 기능 : (78, 358줄) 윤선호, (348줄) 김지웅
+//운동기록 전우진, 기타 기능 : (78, 340줄) 윤선호, (329줄) 김지웅
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -32,7 +32,7 @@ public class Record extends JFrame implements ActionListener, WindowListener{
 
 	private JPanel panelCenter, panelSouth, panelDate, panelName, panelWeight, panelTime, panelNum, panelSet;
 	private JLabel lblDate, lblKg, lblTimes, lblNum, lblName, lblWeight, lblTime, lblSet, lblNums, lblSets;
-	private JButton btnCheck, btnCancel, btnAdd, btnDel;
+	private JButton btnCheck, btnCancel, btnAdd;
 	private JTextField tfWeight, tfDate, tfTime, tfSet;
 	private Vector<String> vecCombo;
 	private JComboBox<String> comboEx;
@@ -118,15 +118,6 @@ public class Record extends JFrame implements ActionListener, WindowListener{
 	    btnAdd.addActionListener(this);
 	    panelName.add(btnAdd);
 	 		
-	 	// 비밀번호 확인 삭제 버튼 출력
-	 	btnDel = new JButton("삭제");
-	 	btnDel.setFont(new Font("210 맨발의청춘 L", Font.PLAIN, 13));
-	 	btnDel.setContentAreaFilled(false);
-	 	btnDel.setBorderPainted(false);
-	 	btnDel.setBounds(415, 20, 65, 30);
-	 	btnDel.setForeground(Color.WHITE);
-	 	btnDel.addActionListener(this);
-	 	panelName.add(btnDel);
 		panelCenter.add(panelName);
 		
 		panelWeight = new JPanel();
@@ -369,13 +360,6 @@ public class Record extends JFrame implements ActionListener, WindowListener{
 			db.EXRefresh(mrt, id);
 			this.dispose();
 			}
-		} else if(obj == btnDel) {
-			if(comboEx.getSelectedIndex() == 0) {
-				JOptionPane.showMessageDialog(this, "추가한 운동을 지워주세요.");
-			} else {
-				vecCombo.remove(comboEx.getSelectedIndex());
-			}
-			
 		}
 	}
 
