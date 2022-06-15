@@ -56,7 +56,7 @@ public class DBPT {
 		
 		try {
 			String sqlInsert = "insert into PTTALK (PT_ID, PT_TITLE, PT_WRITEDAY, PT_WRITER, PASSWORD, PT_CONTENT, ID) "
-					+ "values(emp_seq.NEXTVAL, '" + pttitle + "', '" + ptwriteday + "', '" + ptwriter + "', '" + pw +"', '" + ptcontent+"', '" + id+"')";
+					+ "values(PKID_SEQ.NEXTVAL, '" + pttitle + "', '" + ptwriteday + "', '" + ptwriter + "', '" + pw +"', '" + ptcontent+"', '" + id+"')";
 			stmt.executeUpdate(sqlInsert);
 			
 			System.out.println("입력 성공");
@@ -88,7 +88,6 @@ public class DBPT {
 				System.out.println("select Query Error!");
 				e.printStackTrace();
 			}
-			System.out.println(id + "======================");
 			return id ;
 		}
 		
@@ -149,10 +148,8 @@ public class DBPT {
 				stmt = conn.createStatement();
 				
 				result = stmt.executeQuery("select  \"CMPT_WRITER\", \"COMMENTPT\" FROM PT_COMMENT where PT_ID= '"+ Integer.parseInt(id)+"'");
-				System.out.println("================================");
 				
 				while(result.next()) {
-					System.out.println("vvvvvvvvvvvvvvvvvvvvvvvvvvvv");
 					
 					String[] cmt = {result.getString("CMPT_WRITER"), result.getString("COMMENTPT")};
 					System.out.println(cmt[0]);
@@ -209,12 +206,12 @@ public class DBPT {
 		
 		
 		//Jtable에 모든 값을 보여줌-Board2_pt
-		public void displayData(Board2_PT bdpt) {
+		public void displayData(Board2_PT bdpt, String ID) {
 			bdpt.getModel().setNumRows(0);//테이블 초기화 
 			try {
 				
 				stmt = conn.createStatement();
-				result = stmt.executeQuery("select * from PTTALK order by PT_ID desc");
+				result = stmt.executeQuery("select * from PTTALK where ID = '" + ID +"' order by PT_ID desc");
 				int count = 0;
 				
 				while(result.next()) {//"글번호", "제목", "작성자", "작성날짜", "내용"

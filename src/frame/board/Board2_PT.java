@@ -79,7 +79,7 @@ public class Board2_PT extends JFrame implements ActionListener, MouseListener, 
 		PanelUP();                                      
 		PanelDowm();
 		addWindowListener(this);
-		dbpt.displayData(this);
+		dbpt.displayData(this, ID);
 		setVisible(true);
 	}
 	
@@ -98,7 +98,7 @@ public class Board2_PT extends JFrame implements ActionListener, MouseListener, 
 		PanelDowm();
 		addWindowListener(this);
 		
-		dbpt.displayData(this);
+		dbpt.displayData(this, ID);
 		setVisible(true);
 	}
 	
@@ -136,7 +136,7 @@ public class Board2_PT extends JFrame implements ActionListener, MouseListener, 
 		btnWrite.setBorderPainted(false);
 		btnWrite.setContentAreaFilled(false);
 		btnWrite.setFocusPainted(false);
-		btnWrite.setLocation(360, 20);
+		btnWrite.setLocation(350, 20);
 		btnWrite.setSize(130, 24);
 		
 		btnWrite.addActionListener(this);
@@ -149,16 +149,16 @@ public class Board2_PT extends JFrame implements ActionListener, MouseListener, 
 		panelUPDown.setPreferredSize(new DimensionUIResource(100,50));
 		panelUPDown.setBackground(skyblue);
 		
-		myboardPt = new JCheckBox("내 게시물", false);
-		myboardPt.setFont(new Font("210 맨발의청춘 L", Font.PLAIN, 13));
-		myboardPt.setBounds(10,6,80,40);
-		myboardPt.setBackground(skyblue);
-		myboardPt.addItemListener(this);
-		panelUPDown.add(myboardPt);
+		//myboardPt = new JCheckBox("내 게시물", false);
+		//myboardPt.setFont(new Font("210 맨발의청춘 L", Font.PLAIN, 13));
+		//myboardPt.setBounds(10,6,80,40);
+		//myboardPt.setBackground(skyblue);
+		//myboardPt.addItemListener(this);
+		//panelUPDown.add(myboardPt);
 		
 		//검색필드
 		tfsearch = new JTextField("제목을입력하세요...",20);
-		tfsearch.setBounds(100, 16, 275, 20);
+		tfsearch.setBounds(20, 16, 345, 20);
 		tfsearch.setBorder(BorderFactory.createEmptyBorder());
 		tfsearch.addActionListener(this);
 		tfsearch.addMouseListener(this);
@@ -167,14 +167,14 @@ public class Board2_PT extends JFrame implements ActionListener, MouseListener, 
 		
 		ImageIcon imgtfsearch = new ImageIcon("imges/tfsearch2.png");
 		JLabel lbltfsearch = new JLabel(imgtfsearch);
-		lbltfsearch.setBounds(88, 5, 300, 40);
+		lbltfsearch.setBounds(3, 5, 380, 40);
 		
 		panelUPDown.add(tfsearch);
 		panelUPDown.add(lbltfsearch);
 		
 		//검색버튼
 		btnsearch = new JButton(new ImageIcon("imges/btnsearch2.png"));
-		btnsearch.setBounds(380, 15, 70, 25);
+		btnsearch.setBounds(370, 15, 70, 25);
 		btnsearch.setBorderPainted(false);
 		btnsearch.setContentAreaFilled(false);
 		btnsearch.setFocusPainted(false);
@@ -390,7 +390,7 @@ public class Board2_PT extends JFrame implements ActionListener, MouseListener, 
 		if (e.getStateChange() == ItemEvent.SELECTED) {
 			dbpt.MyCommentPt(this, ID);
 		}else if (e.getStateChange() == ItemEvent.DESELECTED) {
-			dbpt.displayData(this);
+			dbpt.displayData(this, ID);
 		}
 		
 	}

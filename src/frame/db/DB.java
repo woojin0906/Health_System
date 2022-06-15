@@ -56,7 +56,7 @@ public class DB {
 	//2022-05-26 윤선호 자유게시판 글 작성 DB
 	public void BDInsert(String title, String writeday, String writer, String category, String bd_contents, String id) {
 	try {
-		String sqlInsert = "insert into FREETALK (BD_ID, BD_TITLE, WRITE_DAY, BD_WRITER, category, bd_content, ID) values(emp_seq.NEXTVAL, '" + title + "', '" + writeday + "', '" + writer + "', '" + category +"', '" + bd_contents +"', '" + id + "')";
+		String sqlInsert = "insert into FREETALK (BD_ID, BD_TITLE, WRITE_DAY, BD_WRITER, category, bd_content, ID) values(FKID_SEQ.NEXTVAL, '" + title + "', '" + writeday + "', '" + writer + "', '" + category +"', '" + bd_contents +"', '" + id + "')";
 		stmt.executeUpdate(sqlInsert);
 		
 		System.out.println("입력 성공");
@@ -195,7 +195,7 @@ public class DB {
 	//2022-05-29 윤선호 메모장 데베 저장
 	public void InsertMemo(String memo_date, String memo_data, String id) {
 		try {
-			String sqlInsert = "insert into MEMO (MEMO_ID, MEMO_CONTENT, ID, MEMO_DATE) values(memo_seq.NEXTVAL, '" + memo_data + "', '" + id +"', '" + memo_date +"')";
+			String sqlInsert = "insert into MEMO (MEMO_ID, MEMO_CONTENT, ID, MEMO_DATE) values(MEMO_SEQ.NEXTVAL, '" + memo_data + "', '" + id +"', '" + memo_date +"')";
 			stmt.executeUpdate(sqlInsert);
 			
 			System.out.println("메모 저장 성공");
