@@ -220,74 +220,64 @@ public class Record extends JFrame implements ActionListener, WindowListener{
 		add(panelCenter, BorderLayout.CENTER);
 		
 		// 운동 등록 배경 이미지 출력
-		ImageIcon imgAdd = new ImageIcon("imges/btnCancel.png");
-		JLabel lblAdd = new JLabel(imgAdd);
+		ImageIcon imgBtn = new ImageIcon("imges/btnCancel.png");
+		ImageIcon img = new ImageIcon("imges/record_img.png");
+		ImageIcon imgCombo = new ImageIcon("imges/record_combo.png");
+		ImageIcon imgCenter = new ImageIcon("imges/centerBackImg.png");
+		
+		JLabel lblAdd = new JLabel(imgBtn);
 		lblAdd.setBounds(340, 20, 65, 30);
 		panelName.add(lblAdd);
-				
-		// 운동 등록 배경 이미지 출력
-		ImageIcon imgCancel = new ImageIcon("imges/btnCancel.png");
-		JLabel lblCancel = new JLabel(imgCancel);
+
+		JLabel lblCancel = new JLabel(imgBtn);
 		lblCancel.setBounds(415, 20, 65, 30);
 		panelName.add(lblCancel);
 				
-		ImageIcon imgDate = new ImageIcon("imges/record_img.png");
-		JLabel lblDateImg = new JLabel(imgDate);
+		JLabel lblDateImg = new JLabel(img);
 		lblDateImg.setBounds(145, 20, 150, 35);
 		panelDate.add(lblDateImg);
 		
-		ImageIcon imgCombo = new ImageIcon("imges/record_combo.png");
 		JLabel lblCombo = new JLabel(imgCombo);
 		lblCombo.setBounds(144, 16, 180, 35);
 		panelName.add(lblCombo);
 		
-		ImageIcon imgWeight = new ImageIcon("imges/record_img.png");
-		JLabel lblWeightImg = new JLabel(imgWeight);
+		JLabel lblWeightImg = new JLabel(img);
 		lblWeightImg.setBounds(145, 16, 150, 35);
 		panelWeight.add(lblWeightImg);
 		
-		ImageIcon imgTime = new ImageIcon("imges/record_img.png");
-		JLabel lblTimeImg = new JLabel(imgTime);
+		JLabel lblTimeImg = new JLabel(img);
 		lblTimeImg.setBounds(145, 16, 150, 35);
 		panelTime.add(lblTimeImg);
 		
-		ImageIcon imgNum = new ImageIcon("imges/record_img.png");
-		JLabel lbNumImg = new JLabel(imgNum);
+		JLabel lbNumImg = new JLabel(img);
 		lbNumImg.setBounds(145, 14, 150, 35);
 		panelNum.add(lbNumImg);
 		
-		ImageIcon imgSet = new ImageIcon("imges/record_img.png");
-		JLabel lblSetImg = new JLabel(imgSet);
+		JLabel lblSetImg = new JLabel(img);
 		lblSetImg.setBounds(145, 14, 150, 35);
 		panelSet.add(lblSetImg);
 		
-		ImageIcon imgPanelDate = new ImageIcon("imges/centerBackImg.png");
-		JLabel lblPanelDate = new JLabel(imgPanelDate);
+		JLabel lblPanelDate = new JLabel(imgCenter);
 		lblPanelDate.setBounds(0, 0, 510, 62);
 		panelDate.add(lblPanelDate);
 		
-		ImageIcon imgPanelName = new ImageIcon("imges/centerBackImg.png");
-		JLabel lblPanelName = new JLabel(imgPanelName);
+		JLabel lblPanelName = new JLabel(imgCenter);
 		lblPanelName.setBounds(0, 0, 510, 62);
 		panelName.add(lblPanelName);
 		
-		ImageIcon imgPanelWeight = new ImageIcon("imges/centerBackImg.png");
-		JLabel lblPanelWeight = new JLabel(imgPanelWeight);
+		JLabel lblPanelWeight = new JLabel(imgCenter);
 		lblPanelWeight.setBounds(0, 0, 510, 62);
 		panelWeight.add(lblPanelWeight);
 		
-		ImageIcon imgPanelTime = new ImageIcon("imges/centerBackImg.png");
-		JLabel lblPanelTime = new JLabel(imgPanelTime);
+		JLabel lblPanelTime = new JLabel(imgCenter);
 		lblPanelTime.setBounds(0, 0, 510, 62);
 		panelTime.add(lblPanelTime);
 		
-		ImageIcon imgPanelNum = new ImageIcon("imges/centerBackImg.png");
-		JLabel lblPanelNum = new JLabel(imgPanelNum);
+		JLabel lblPanelNum = new JLabel(imgCenter);
 		lblPanelNum.setBounds(0, 0, 510, 62);
 		panelNum.add(lblPanelNum);
 		
-		ImageIcon imgPanelSet = new ImageIcon("imges/centerBackImg.png");
-		JLabel lblPanelSet = new JLabel(imgPanelSet);
+		JLabel lblPanelSet = new JLabel(imgCenter);
 		lblPanelSet.setBounds(0, 0, 510, 62);
 		panelSet.add(lblPanelSet);
 		
