@@ -66,6 +66,7 @@ public class MyRoutine extends JFrame implements WindowListener, ActionListener{
 	private JTextField tfrand;
 	private JButton btnsearch, btnWrite;
 	private Color skyblue;
+	private Color blue = new Color(70, 96, 147);
 
 	private MainFrame mf;
 	private JPanel bdpanel;
@@ -129,52 +130,34 @@ public class MyRoutine extends JFrame implements WindowListener, ActionListener{
 		panelUPDown.setPreferredSize(new DimensionUIResource(100,50));
 		panelUPDown.setBackground(skyblue);
 		
-		//String random[] = {"오늘 들 무게를 내일로 미루지 마라.", "일어나 하체 해야지", "이거 못들면 죽는거야", 
-				//"복근 없으면 치팅데이는 없다", "바다갈 준비 안할거야?", "Light Weight", 
-				//"너도 3대 500 될 수 있어", "너가 먹은 치킨이 불쌍하지 않아?", "가벼운 무게도 무겁게"};
-		
-		//Random rd = new Random();
-		//검색 텍스트 필드 출력
-		//tfrand = new JTextField(random[rd.nextInt(8)]);
-		
 		model = new UtilDateModel();
 		datePanel = new JDatePanelImpl(model);
 		
-		
 		datePicker = new JDatePickerImpl(datePanel, new DateLabelFormatter());
-		datePicker.setBounds(25, 10, 200, 25);
+		datePicker.setBounds(20, 10, 200, 25);
 		datePicker.setBackground(skyblue);
 		datePicker.addActionListener(this);
 		
 		datebtn = new JButton("날짜");
 		datebtn.setBounds(250, 10, 85, 25);
+		datebtn.setFont(new Font("210 맨발의청춘 L", Font.PLAIN, 13));
+		datebtn.setBackground(blue);
+		datebtn.setForeground(Color.white);
 		datebtn.addActionListener(this);
 		
 		all_btn = new JButton("모든기록");
 		all_btn.setBounds(350, 10, 85, 25);
+		all_btn.setBackground(blue);
+		all_btn.setForeground(Color.white);
+		all_btn.setFont(new Font("210 맨발의청춘 L", Font.PLAIN, 13));
 		all_btn.addActionListener(this);
 		
 		panelUPDown.add(datePicker);
 		panelUPDown.add(datebtn);
 		panelUPDown.add(all_btn);
 		
-		//tfrand = new JTextField();
-		//tfrand.setBounds(25, 10, 450, 25);
-		//tfrand.setEditable(false);
-		//tfrand.setBorder(BorderFactory.createEmptyBorder());
-		//tfrand.setFont(new Font("210 맨발의청춘 L", Font.PLAIN, 20));
-		//tfrand.setHorizontalAlignment((int) CENTER_ALIGNMENT);
 		
-		//tfrand.addActionListener(this);
-		
-		//ImageIcon imgtfrand = new ImageIcon("imges/tfrand.png");
-		//JLabel lbltfrand = new JLabel();
-		//lbltfrand.setBounds(8, 2, 500, 40);
-		
-		//panelUPDown.add(lbltfrand);
-		//panelUPDown.add(tfrand);
 		panelUP.add(panelUPDown);
-		
 		add(panelUP,BorderLayout.NORTH);
 	}
 
@@ -193,8 +176,14 @@ public class MyRoutine extends JFrame implements WindowListener, ActionListener{
 		
 		sc = new JScrollPane(ex_table, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 												JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		sc.setBackground(skyblue);
 		ex_table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); // 단일 선택
 		ex_table.setEnabled(false);
+		ex_table.getTableHeader().setBackground(blue);
+		ex_table.getTableHeader().setForeground(Color.white);
+		ex_table.getTableHeader().setFont(new Font("210 맨발의청춘 L", Font.PLAIN, 13));
+		ex_table.setRowHeight(25);
+		ex_table.setFont(new Font("210 맨발의청춘 L", Font.PLAIN, 12));
 		
 		bdpanel.add(sc);
 		
