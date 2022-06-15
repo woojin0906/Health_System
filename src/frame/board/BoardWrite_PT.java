@@ -50,7 +50,6 @@ public class BoardWrite_PT extends JFrame implements ActionListener, WindowListe
 		this.bdpt = bdpt;
 		
 		setTitle(title);
-		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocation(300, 200);
 		setSize(450, 535);
 		setLayout(new BorderLayout());
@@ -226,7 +225,6 @@ public class BoardWrite_PT extends JFrame implements ActionListener, WindowListe
 
 	@Override
 	public void windowClosed(WindowEvent e) {
-		//Board2_PT bdpt = new Board2_PT(null,namept);
 		
 	}
 
