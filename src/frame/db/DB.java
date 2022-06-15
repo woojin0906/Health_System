@@ -192,12 +192,18 @@ public class DB {
 			}
 		}
 	}
-	//2022-05-29 윤선호 메모장 데베 저장
+	//2022-06-15 윤선호 메모장 데베 저장 수정
 	public void InsertMemo(String memo_date, String memo_data, String id) {
 		try {
+			stmt = conn.createStatement();
+			result = stmt.executeQuery("select MEMO_CONTENT FROM MEMO WHERE MEMO_DATE = '" + memo_date + "' and ID = '" + id + "'");
+			
+			if(result.next()) {
+				result = stmt.executeQuery("Update MEMO SET MEMO_CONTENT = '" + memo_data + "' ");
+			}else {
 			String sqlInsert = "insert into MEMO (MEMO_ID, MEMO_CONTENT, ID, MEMO_DATE) values(MEMO_SEQ.NEXTVAL, '" + memo_data + "', '" + id +"', '" + memo_date +"')";
 			stmt.executeUpdate(sqlInsert);
-			
+			}
 			System.out.println("메모 저장 성공");
 			
 		}catch(SQLException e){
@@ -212,6 +218,25 @@ public class DB {
 				e.printStackTrace();
 			}
 			
+		}
+	}
+	
+	//2022-06-15 윤선호 메모 삭제
+	public void DelMemo(String memo_date, String id) {
+		try {
+			stmt = conn.createStatement();
+			result = stmt.executeQuery("delete from MEMO WHERE ID = '" + id +"' and MEMO_DATE = '" + memo_date + "' ");
+		}catch (Exception e) {
+			System.out.println("메모삭제 실패");
+			e.printStackTrace();
+		}finally {
+			try {
+				result.close();
+				conn.close();
+				stmt.close();
+			}catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 	}
 	

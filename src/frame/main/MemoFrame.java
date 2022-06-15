@@ -153,6 +153,9 @@ public class MemoFrame extends JFrame implements ActionListener {
 		//내용 삭제
 		if(obj == btnClear) {
 			taMemo.setText("");
+			memo_date = calendarmain.getLabel_year().getText() + calendarmain.getLabel_month().getText() + calendarmain.getStr() +"일";
+			db = new DB(null, this);
+			db.DelMemo(memo_date, id);
 		} 
 		//종료버튼
 		else if(obj == btnExit) {
