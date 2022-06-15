@@ -240,12 +240,12 @@ public class DBPT {
 		
 		
 		//검색하면 보여줌-Board2_pt
-		public void scDisplay(Board2_PT dbpt, String src) {
+		public void scDisplay(Board2_PT dbpt, String src, String ID) {
 		      dbpt.getModel().setNumRows(0);
 		      try {
 		        
 		         stmt = conn.createStatement();
-		         result = stmt.executeQuery("select * from pttalk where PT_TITLE LIKE '%' || '" +  src + "' || '%' order by PT_ID desc");
+		         result = stmt.executeQuery("select * from pttalk where PT_TITLE LIKE '%' || '" +  src + "' || '%'  and ID = '" + ID +"' order by PT_ID desc");
 		         
 		         while(result.next()) {
 		            String[] sch = {result.getString("PT_ID"), result.getString("PT_TITLE"), result.getString("PT_WRITER"), result.getString("PT_WRITEDAY"), result.getString("PT_CONTENT")};

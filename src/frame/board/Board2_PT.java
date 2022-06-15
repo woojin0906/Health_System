@@ -42,7 +42,7 @@ import frame.db.DBPT;
 import frame.login.QuestionPW;
 import frame.main.MainFrame;
 
-public class Board2_PT extends JFrame implements ActionListener, MouseListener, WindowListener, ItemListener{
+public class Board2_PT extends JFrame implements ActionListener, MouseListener, WindowListener{
 	
 	private String[][]datas = new String[0][7];
 	private String[] title = {"글번호", "제목", "작성자", "작성날짜", "내용"};
@@ -252,7 +252,7 @@ public class Board2_PT extends JFrame implements ActionListener, MouseListener, 
 		else if(obj == tfsearch || obj == btnsearch) {
 	      String src = tfsearch.getText();
 	      System.out.println(src);
-	      dbpt.scDisplay(this, src);
+	      dbpt.scDisplay(this, src,ID);
 		}
 		
 
@@ -384,15 +384,15 @@ public class Board2_PT extends JFrame implements ActionListener, MouseListener, 
 	}
 
 	
-	//체크 박스 기능
-	@Override
-	public void itemStateChanged(ItemEvent e) {
-		if (e.getStateChange() == ItemEvent.SELECTED) {
-			dbpt.MyCommentPt(this, ID);
-		}else if (e.getStateChange() == ItemEvent.DESELECTED) {
-			dbpt.displayData(this, ID);
-		}
-		
-	}
+//	//체크 박스 기능
+//	@Override
+//	public void itemStateChanged(ItemEvent e) {
+//		if (e.getStateChange() == ItemEvent.SELECTED) {
+//			dbpt.MyCommentPt(this, ID);
+//		}else if (e.getStateChange() == ItemEvent.DESELECTED) {
+//			dbpt.displayData(this, ID);
+//		}
+//		
+//	}
 	
 }
