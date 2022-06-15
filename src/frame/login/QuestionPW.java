@@ -69,13 +69,14 @@ public class QuestionPW extends JFrame implements ActionListener, WindowListener
 	
 	//PT 게시판의 게시물 정보 출력 전 비밀번호 확인
 	// 06/10 허유진 pt board 연결
-	public QuestionPW(Board2_PT PT, int ctrIndex, String bdID,String namept, ArrayList<String> alpt,Board2_PT bdpt) {
+	public QuestionPW(Board2_PT PT, int ctrIndex, String bdID,String namept, ArrayList<String> alpt, Board2_PT bdpt, String ID) {
 		this.PT = PT; //정보 수정 프레임 주소 저장
 		this.ctrIndex = ctrIndex; //구분자 값 저장
 		this.bdID = bdID;
 		this.namept = namept;
 		this.alpt = alpt;
 		this.bdpt = bdpt;
+		this.ID = ID;
 		
 		addWindowListener(this);
 		setPanel(); //메인 패널 설정 생정자 호출

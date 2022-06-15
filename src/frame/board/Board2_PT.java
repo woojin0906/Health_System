@@ -149,12 +149,12 @@ public class Board2_PT extends JFrame implements ActionListener, MouseListener, 
 		panelUPDown.setPreferredSize(new DimensionUIResource(100,50));
 		panelUPDown.setBackground(skyblue);
 		
-		//myboardPt = new JCheckBox("내 게시물", false);
-		//myboardPt.setFont(new Font("210 맨발의청춘 L", Font.PLAIN, 13));
-		//myboardPt.setBounds(10,6,80,40);
-		//myboardPt.setBackground(skyblue);
-		//myboardPt.addItemListener(this);
-		//panelUPDown.add(myboardPt);
+//		myboardPt = new JCheckBox("내 게시물", false);
+//		myboardPt.setFont(new Font("210 맨발의청춘 L", Font.PLAIN, 13));
+//		myboardPt.setBounds(10,6,80,40);
+//		myboardPt.setBackground(skyblue);
+//		myboardPt.addItemListener(this);
+//		panelUPDown.add(myboardPt);
 		
 		//검색필드
 		tfsearch = new JTextField("제목을입력하세요...",20);
@@ -303,7 +303,7 @@ public class Board2_PT extends JFrame implements ActionListener, MouseListener, 
 			
 			runBoard();
 			// 김지웅 비밀번호 검증 기능 추가
-			pwCheck = new QuestionPW(this, 3, bd_ID, namept,alpt,this);
+			pwCheck = new QuestionPW(this, 3, bd_ID, namept,alpt,this,ID);
 			//06-13 허유진 창 수정
 			pwCheck.setLocationRelativeTo(this);
 		}

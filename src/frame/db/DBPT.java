@@ -270,14 +270,14 @@ public class DBPT {
 		   }
 		
 		//리프레시하기
-		public void PtRefresh(Board2_PT bdpt) {
+		public void PtRefresh(Board2_PT bdpt, String ID) {
 			int rowCount = bdpt.getModel().getRowCount();
 			for (int i = rowCount -1; i >= 0; i--) {
 				bdpt.getModel().removeRow(i);
 			}
 			try {
 				stmt = conn.createStatement();
-				result = stmt.executeQuery("select * from pttalk order by PT_ID desc");
+				result = stmt.executeQuery("select * from pttalk  where ID = '" + ID + "'  order by PT_ID desc");
 				
 				while (result.next()) {
 					String[] imsi = {result.getString("PT_ID"), result.getString("PT_TITLE"), result.getString("PT_WRITER"), result.getString("PT_WRITEDAY"), result.getString("PT_CONTENT")};

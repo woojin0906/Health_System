@@ -200,7 +200,7 @@ public class BoardWrite_PT2 extends JFrame implements ActionListener, WindowList
 				
 							DBPT dbpt = new DBPT(null);
 							dbpt.BDUpdate(alpt.get(0),TxField[0].getText(), TxField[2].getText(), TxField[1].getText(), result, tacomment.getText());
-							dbpt.PtRefresh(bdpt);
+							dbpt.PtRefresh(bdpt,ID);
 							dispose();
 						}
 			}

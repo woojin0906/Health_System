@@ -272,6 +272,7 @@ public class BoardEdit_PT extends JFrame implements ActionListener, WindowListen
 			
 			DBPT dbpt = new DBPT(null);
 			dbpt.PT_DELETE(alpt.get(0));
+			dbpt.PtRefresh(bdpt, ID);
 			this.dispose();
 		}
 		

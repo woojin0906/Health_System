@@ -200,7 +200,7 @@ public class BoardWrite_PT extends JFrame implements ActionListener, WindowListe
 			else {
 					DBPT dbpt = new DBPT(null);
 					dbpt.PtInsert(TxField[0].getText(),TxField[1].getText(),result,tacomment.getText(),TxField[2].getText(),ID);
-					dbpt.PtRefresh(bdpt);
+					dbpt.PtRefresh(bdpt,ID);
 					dispose();
 				}
 			
