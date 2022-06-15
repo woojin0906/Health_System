@@ -118,15 +118,6 @@ public class Record extends JFrame implements ActionListener, WindowListener{
 	    btnAdd.addActionListener(this);
 	    panelName.add(btnAdd);
 	 		
-	 	// 비밀번호 확인 삭제 버튼 출력
-	 	btnDel = new JButton("삭제");
-	 	btnDel.setFont(new Font("210 맨발의청춘 L", Font.PLAIN, 13));
-	 	btnDel.setContentAreaFilled(false);
-	 	btnDel.setBorderPainted(false);
-	 	btnDel.setBounds(415, 20, 65, 30);
-	 	btnDel.setForeground(Color.WHITE);
-	 	btnDel.addActionListener(this);
-	 	panelName.add(btnDel);
 		panelCenter.add(panelName);
 		
 		panelWeight = new JPanel();
@@ -229,10 +220,6 @@ public class Record extends JFrame implements ActionListener, WindowListener{
 		lblAdd.setBounds(340, 20, 65, 30);
 		panelName.add(lblAdd);
 
-		JLabel lblCancel = new JLabel(imgBtn);
-		lblCancel.setBounds(415, 20, 65, 30);
-		panelName.add(lblCancel);
-				
 		JLabel lblDateImg = new JLabel(img);
 		lblDateImg.setBounds(145, 20, 150, 35);
 		panelDate.add(lblDateImg);
