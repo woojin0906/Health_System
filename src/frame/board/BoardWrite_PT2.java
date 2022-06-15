@@ -118,7 +118,6 @@ public class BoardWrite_PT2 extends JFrame implements ActionListener, WindowList
 	      TxField[2].setEditable(false);
 	      TxField[2].setBackground(Color.white);
 	      TxField[2].setText(alpt.get(2));
-	     // TxField[3].setText(al.get(2));
 	      
 	      pw = new JPasswordField(10);
 	      pw.setBounds(x, 130, 310, 20);

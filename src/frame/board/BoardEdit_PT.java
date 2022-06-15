@@ -237,7 +237,6 @@ public class BoardEdit_PT extends JFrame implements ActionListener, WindowListen
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object obj = e.getSource();
-		//Boardwrite2 bw2 = new Boardwrite2(null);
 		if(obj == tfcomment || obj == btnSend) {
 			tacomment.setText("");
 			
@@ -295,7 +294,6 @@ public class BoardEdit_PT extends JFrame implements ActionListener, WindowListen
 
 	@Override
 	public void windowClosed(WindowEvent e) {
-		//Board2_PT bd = new Board2_PT(null, namept);
 		
 	}
 

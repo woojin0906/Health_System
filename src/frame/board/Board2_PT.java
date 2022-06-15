@@ -59,7 +59,6 @@ public class Board2_PT extends JFrame implements ActionListener, MouseListener, 
 	private TableModel data;
 	private String pre_ipt, pre_titlept, pre_writerpt,pre_writedaypt,pre_contentpt,ID, bd_ID ,namept;
 	private ArrayList<String> alpt;
-	private JCheckBox myboardPt;
 	private Color Blue;
 	private QuestionPW pwCheck;
 	private MainFrame mf;
@@ -89,7 +88,6 @@ public class Board2_PT extends JFrame implements ActionListener, MouseListener, 
 		skyblue = new Color(189, 215, 238);
 		setTitle("PT 게시판");
 		setResizable(false); 
-		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocation(300, 300);
 		setSize(470, 560);
 		setLayout(new BorderLayout());
@@ -132,7 +130,6 @@ public class Board2_PT extends JFrame implements ActionListener, MouseListener, 
 		
 		//글쓰기 버튼
 		btnWrite = new JButton(new ImageIcon("imges/pencil1.png"));
-		//btnWrite.setFont(new Font("210 맨발의청춘 L", Font.BOLD, 10));
 		btnWrite.setBorderPainted(false);
 		btnWrite.setContentAreaFilled(false);
 		btnWrite.setFocusPainted(false);
@@ -148,13 +145,6 @@ public class Board2_PT extends JFrame implements ActionListener, MouseListener, 
 		panelUPDown.setLayout(null);
 		panelUPDown.setPreferredSize(new DimensionUIResource(100,50));
 		panelUPDown.setBackground(skyblue);
-		
-//		myboardPt = new JCheckBox("내 게시물", false);
-//		myboardPt.setFont(new Font("210 맨발의청춘 L", Font.PLAIN, 13));
-//		myboardPt.setBounds(10,6,80,40);
-//		myboardPt.setBackground(skyblue);
-//		myboardPt.addItemListener(this);
-//		panelUPDown.add(myboardPt);
 		
 		//검색필드
 		tfsearch = new JTextField("제목을입력하세요...",20);
@@ -267,11 +257,9 @@ public class Board2_PT extends JFrame implements ActionListener, MouseListener, 
 			data = table.getModel();
 			
 			pre_ipt = (String)data.getValueAt(row, 0);
-			//System.out.println(pre_i);
 			pre_titlept = (String)data.getValueAt(row, 1);
 			pre_writedaypt = (String)data.getValueAt(row,2);
 			pre_writerpt = (String)data.getValueAt(row, 3);
-			//pre_passwordpt = (String)data.getValueAt(row, 5);
 			pre_contentpt = (String)data.getValueAt(row,4);
 			
 			alpt = new ArrayList<String>();
@@ -279,10 +267,8 @@ public class Board2_PT extends JFrame implements ActionListener, MouseListener, 
 			alpt.add(pre_titlept);
 			alpt.add(pre_writedaypt);
 			alpt.add(pre_writerpt);
-			//alpt.add(pre_passwordpt);
 			alpt.add(pre_contentpt);
 			bd_ID = alpt.get(0);
-			
 			
 			//JTable 값 -> boardEdit_PT
 		}
@@ -383,16 +369,5 @@ public class Board2_PT extends JFrame implements ActionListener, MouseListener, 
 		return alpt;
 	}
 
-	
-//	//체크 박스 기능
-//	@Override
-//	public void itemStateChanged(ItemEvent e) {
-//		if (e.getStateChange() == ItemEvent.SELECTED) {
-//			dbpt.MyCommentPt(this, ID);
-//		}else if (e.getStateChange() == ItemEvent.DESELECTED) {
-//			dbpt.displayData(this, ID);
-//		}
-//		
-//	}
 	
 }

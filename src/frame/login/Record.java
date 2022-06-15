@@ -220,10 +220,6 @@ public class Record extends JFrame implements ActionListener, WindowListener{
 		lblAdd.setBounds(340, 20, 65, 30);
 		panelName.add(lblAdd);
 
-		JLabel lblCancel = new JLabel(imgBtn);
-		lblCancel.setBounds(415, 20, 65, 30);
-		panelName.add(lblCancel);
-				
 		JLabel lblDateImg = new JLabel(img);
 		lblDateImg.setBounds(145, 20, 150, 35);
 		panelDate.add(lblDateImg);
