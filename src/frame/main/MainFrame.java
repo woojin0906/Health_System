@@ -29,7 +29,8 @@ public class MainFrame extends JFrame implements Runnable, ActionListener, Windo
 	private JPanel panelNorth, panelSouth;
 	private JLabel lbl_icon, lbl_member, lbl_lastday, lblDay, lblTime, lbl_day, lbl_coment;
 	private JButton btn_logout, btn_modify, btn_buy, btn_board1, btn_board2, btn_cal;
-	private String id, name; //로그인 한 계정의 id, name을 받아옴.
+	private String id; //로그인 한 계정의 id, name을 받아옴.
+	private static String name;
 
 	private dbOpen db;
 	private String enddate;
@@ -381,6 +382,7 @@ public class MainFrame extends JFrame implements Runnable, ActionListener, Windo
 			// 전우진 자유게시판 생성시 메인 꺼짐
 			//윤선호 자유게시판과 메인프레임 연결
 			Board bd = new Board(id, name);
+			System.out.println(name);
 			bd.setLocationRelativeTo(this);
 			this.dispose();
 		}
