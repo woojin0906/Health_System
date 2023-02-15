@@ -13,13 +13,14 @@ Project Notion Address : https://www.notion.so/JAVA-2-1-d043411407e341a594e8e469
 주제 : 헬스장 회원관리 & 게시판
 
 ## Contributer
-<table>
+<table align="center" width=400>
 <!-- 전우진 -->
   <tr>
     <td><h4><a href="https://github.com/woojin0906">@woojin0906</a></h4></td>
     <td>
         <ul>
-          <li>로그인, 회원가입, 메인, 운동기록지, 달력, 메모 화면 UI 구현</li>
+          <li>로그인 프레임 >> 회원가입, 비밀번호 초기화, 회원탈퇴 기능</li>
+          <li>메인 프레임 >> 회원정보 출력, 프로필 이미지 출력, 랜덤 문구 기능</li>
         </ul>
     </td>
   </tr>
@@ -28,7 +29,9 @@ Project Notion Address : https://www.notion.so/JAVA-2-1-d043411407e341a594e8e469
     <td><h4><a href="https://github.com/gomwoong1">@gomwoong1</a></h4></td>
     <td>
         <ul>
-          <li>결제</li>
+          <li>센터 정보 >> 피트니스 센터 정보 안내</li>
+          <li>회원정보 수정 >> 비밀번호 수정, 주소 수정, 전화번호 수정 기능</li>
+          <li>이용권 구매 >> 이용권 선택, 이용권 구매, 비밀번호 검증, 영수증 출력 기능</li>
         </ul>
     </td>
   </tr>
@@ -37,7 +40,9 @@ Project Notion Address : https://www.notion.so/JAVA-2-1-d043411407e341a594e8e469
     <td><h4><a href="https://github.com/sunho0506">@sunho0506</a></h4></td>
     <td>
         <ul>
-          <li>게시판</li>
+          <li>자유 게시판 >> 게시글 작성, 수정/삭제, 검색, 댓글 기능</li>
+          <li>운동 기록 & 운동 기록지 >> 운동 작성, 운동 기록 기능</li>
+          <li>캘린더 & 메모 >> 달력, 메모 기능</li>
         </ul>
     </td>
   </tr>
@@ -46,11 +51,14 @@ Project Notion Address : https://www.notion.so/JAVA-2-1-d043411407e341a594e8e469
     <td><h4><a href="https://github.com/ujjjin2">@ujjjin2</a></h4></td>
     <td>
         <ul>
-          <li>자유게시판</li>
+          <li>PT 상담 게시판 >> 게시글 작성, 수정/삭제, 검색, 댓글, 비밀번호 검증 기능</li>
         </ul>
     </td>
   </tr>
 </table>
+
+## DB
+<img src = "https://user-images.githubusercontent.com/100831211/219032330-30208f11-e8af-466f-b35f-8728a86b0237.png" width="50%" height="50%">
 
 ## Preview
 **[로그인 & 회원가입]**
